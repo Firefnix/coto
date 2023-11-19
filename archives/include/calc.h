@@ -36,6 +36,7 @@ public:
     /* TESTING methods (z, ==, >=, <=, >, <) */
     virtual bool isZero() const;
     virtual bool operator==(const Number &other) const;
+    bool operator!=(const Number &other) const;
     bool operator>=(const Number &other) const;
     bool operator<=(const Number &other) const;
     bool operator>(const Number &other) const;
@@ -65,7 +66,7 @@ public:
     /* TYPING methods (type, toInteger, toRational) */
     NT type() const override;
     Integer toInteger() const override;
-    Rational toRational() const override { return *this; };
+    Rational toRational() const override;
 
     /* OPERATING methods (gcd, isZero, simple) */
     bool isZero() const override;

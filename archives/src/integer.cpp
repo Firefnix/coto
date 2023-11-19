@@ -31,7 +31,7 @@ Number Integer::operator+(const Number &other) const
     switch (other.type())
     {
     case NT::Integer:
-        std::cout << "Still In" << std::endl;
+        std::cout << "Still In ~ " << (n + other.toInteger().n) << std::endl;
         return Integer(n + other.toInteger().n);
     case NT::Rational:
         return this->toRational() + other;

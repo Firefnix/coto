@@ -98,6 +98,11 @@ bool Number::operator==(const Number &other) const
     throw NumberNotImplemented("operator==");
 }
 
+bool Number::operator!=(const Number &other) const
+{
+    return not(*this == other);
+}
+
 bool Number::operator>=(const Number &other) const
 {
     return (*this - other).sign() == 1;
