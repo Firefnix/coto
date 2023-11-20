@@ -33,23 +33,33 @@ TEST(AmplitudeTest, TestRational)
     EXPECT_EQ(x / z, Rational::fromInt(3));
 }
 
-TEST(AmplitudeTest, TestRPR)
+TEST(AmplitudeTest, TestRPRConstructors)
 {
-    RPR one = RPR(true, one_rational, one_rational);
-    RPR another_one = rpr_int(1);
-    RPR a_third_one = rpr_int(1);
-    RPR mone = rpr_int(-1);
+    RPR one = RPR(true, one_rational, 1);
+    RPR another_one = RPR::fromInt(1);
+    RPR a_third_one = RPR::fromRational(one_rational);
+    RPR mone = RPR::fromInt(-1);
     EXPECT_EQ(one, another_one);
     EXPECT_EQ(one, a_third_one);
     EXPECT_EQ(another_one, a_third_one);
     EXPECT_NE(one, mone);
-    EXPECT_EQ(one.opposite(), mone);
+    EXPECT_EQ(-one, mone);
+    RPR one_from_rational = RPR(true, one_rational, one_rational);
+    EXPECT_EQ(one_from_rational, one);
+}
+
+TEST(AmplitudeTest, TestRPROperations)
+{
+    auto product = sqrt2_rpr * sqrt2_rpr;
+    auto two = RPR::fromInt(2);
+    EXPECT_EQ(product, two);
+    EXPECT_FALSE((-sqrt2_rpr).isNonNegative());
 }
 
 TEST(AmplitudeTest, TestMain)
 {
-    Amplitude i = Amplitude(rpr_int(2), rpr_int(1));
-    Amplitude mi = Amplitude(rpr_int(2), rpr_int(-1));
+    Amplitude i = Amplitude(RPR::fromInt(2), RPR::fromInt(1));
+    Amplitude mi = Amplitude(RPR::fromInt(2), RPR::fromInt(-1));
     Amplitude k = i.conj();
     EXPECT_NE(i, k);
     EXPECT_EQ(k, mi);
