@@ -33,7 +33,8 @@ namespace qdd
         children right;
     };
 
-    Node u = Node({}, {}); // unity
+    static Node u = Node({}, {}); // unity
+    static Node *const uptr = &u;
 
     template <std::size_t N>
     struct status_vector
@@ -44,7 +45,7 @@ namespace qdd
 
     /**
      * An additive quantum decision diagram
-    */
+     */
     class QDD
     {
     public:
@@ -81,7 +82,7 @@ namespace qdd
     {
         if (end - begin < 2)
         {
-            return Node{(children){(struct child){sv.values[begin], &qdd::u}}, {(struct child){sv.values[begin + 1], &qdd::u}}};
+            return Node{(children){(struct child){sv.values[begin], uptr}}, {(struct child){sv.values[begin + 1], uptr}}};
         }
         std::size_t t = begin + (end - begin - 1) / 2;
         auto sub = _fromStatusVectorRec(sv, begin, t);

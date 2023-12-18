@@ -74,3 +74,4 @@ static ampl::Amplitude _getAt(unsigned address, unsigned level, Node n)
 {
     return ampl::zero;
 }
+ 

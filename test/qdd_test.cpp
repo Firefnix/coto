@@ -27,34 +27,27 @@ private:
     QDD createTestDiagram()
     {
         auto p = QDD();
-        p.root = Node({{{6}, &u}, {{0, 2}, &u}, {{2, -1}, &u}},
-                      {{{8}, &u}});
+        p.root = Node({{{6}, uptr}, {{0, 2}, uptr}, {{2, -1}, uptr}},
+                      {{{8}, uptr}});
         return p;
     }
 };
 
-// TEST_F(QDDTest, FromStatusVector)
-// {
-//     auto d = QDD::fromStatusVector(a);
-//     // auto e = QDD::fromStatusVector(b);
-//     for (unsigned i = 0; i < 8; i++)
-//     {
-//         // EXPECT_EQ(d.getAt(i), a.values[i]);
-//     }
-//     EXPECT_EQ(d.depth(), 1);
-//     // EXPECT_EQ(e.depth(), 3);
-// }
+TEST_F(QDDTest, FromStatusVector)
+{
+    auto d = QDD::fromStatusVector(a);
+    auto e = QDD::fromStatusVector(b);
+    for (unsigned i = 0; i < 8; i++)
+    {
+        // EXPECT_EQ(d.getAt(i), a.values[i]);
+    }
+    EXPECT_EQ(d.depth(), 0);
+    // EXPECT_EQ(e.depth(), 2);
+}
 
-// TEST_F(QDDTest, Sizes)
+// TEST_F(QDDTest, MainTest)
 // {
-//     EXPECT_TRUE(true);
-//     // EXPECT_EQ(sizeof(child), 200);
-//     // EXPECT_EQ(Node::unity().size(), );
+//     QDD d = QDD();
+//     EXPECT_TRUE(d.root.is_unity());
+//     EXPECT_EQ(d.depth(), 0);
 // }
-
-// // TEST_F(QDDTest, MainTest)
-// // {
-// //     QDD d = QDD();
-// //     EXPECT_TRUE(d.root.is_unity());
-// //     EXPECT_EQ(d.depth(), 0);
-// // }
