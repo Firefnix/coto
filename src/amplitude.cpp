@@ -2,6 +2,9 @@
 #include <amplitude.h>
 #include <cmath>
 #include <numeric>
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
 
 using namespace ampl;
 
@@ -10,7 +13,7 @@ Rational::Rational(const int pp, const int pq)
     int a = pp, b = pq;
     if (b == 0)
     {
-        throw std::domain_error(DIVISION_BY_ZERO);
+        throw std::domain_error(DIVISION_BY_ZERO + " (constructor)");
     }
     if (b < 0)
     {
@@ -43,6 +46,11 @@ bool Rational::operator!=(const Rational &other) const
     return !(*this == other);
 }
 
+bool Rational::operator<(const Rational &other) const
+{
+    return (p * other.q) < (other.p * q);
+}
+
 bool Rational::isNonNegative() const
 {
     return p >= 0;
@@ -56,6 +64,16 @@ Rational Rational::operator+(const Rational &other) const
 Rational Rational::operator*(const Rational &other) const
 {
     return Rational(p * other.p, q * other.q);
+}
+
+Rational Rational::operator*(const int &other) const
+{
+    return Rational(p * other, q);
+}
+
+Rational Rational::operator^(const int &other) const
+{
+    return Rational(pow(p, other), pow(q, other));
 }
 
 Rational Rational::operator-() const
@@ -75,7 +93,10 @@ Rational Rational::abs() const
 
 Rational Rational::inverse() const
 {
-    return Rational(q, p);
+    std::cout << "inverse " << p << "/" << q << std::endl;
+    auto g = Rational(q, p);
+    std::cout << "outverse" << std::endl;
+    return g;
 }
 
 Rational Rational::operator/(const Rational &other) const
@@ -94,25 +115,8 @@ RPR::RPR(const bool s, const Rational base, const unsigned pp)
         throw std::domain_error("Negative RPR base");
     }
     sigma = s;
-    // x = base;
+    Rational x{base.p, base.q};
     p = pp;
-}
-
-RPR::RPR(const bool s, const Rational base, const Rational power)
-{
-    if (not base.isNonNegative())
-    {
-        throw std::domain_error("Negative RPR base");
-    }
-    sigma = s;
-    auto mp = power;
-    if (not power.isNonNegative())
-    {
-        x = base.inverse();
-        mp = -power;
-    }
-    Rational x(std::pow(base.p, mp.p), std::pow(base.q, mp.p));
-    p = mp.q;
 }
 
 RPR ampl::RPR::fromInt(const int i)
@@ -126,8 +130,7 @@ RPR ampl::RPR::fromInt(const int i)
 
 RPR ampl::RPR::fromRational(const Rational r)
 {
-
-    return RPR();
+    return RPR(r.isNonNegative(), r.abs(), 1);
 }
 
 RPR RPR::operator=(const RPR &tmp) const
@@ -143,14 +146,30 @@ bool RPR::operator==(const RPR &other) const
 
 bool RPR::operator!=(const RPR &other) const { return !(*this == other); }
 
+bool RPR::operator<(const RPR &other) const
+{
+    if (sigma != other.sigma)
+    {
+        return other.sigma;
+    }
+    auto d = *this / other;
+    return sigma ? d.x < one_rational : one_rational < d.x;
+}
+
+bool RPR::operator<=(const RPR &other) const
+{
+    return ((*this) < other) || (*this == other);
+}
+
 bool RPR::isNonNegative() const { return sigma; }
 
 RPR RPR::operator+(const RPR &other) const
 {
-    if (*this == -other)
-    {
-        return zero_rpr;
-    }
+    std::cout << "zizsxinwz" << std::endl;
+    // if (*this == -other)
+    // {
+    //     return zero_rpr;
+    // }
     if (*this == zero_rpr)
     {
         return other;
@@ -162,31 +181,51 @@ RPR RPR::operator+(const RPR &other) const
     auto a = other / *this; // can throw a std::domain_error
     if (a.isRational())
     {
-        return (one_rpr + a) * (*this);
+        auto r = a.toRational();
+        std::cout << "*******************" << std::endl;
+        auto p = RPR::fromRational(one_rational + r);
+        return p * (*this);
     }
     throw std::logic_error("Should be unreachable");
 }
 
 RPR RPR::operator*(const RPR &other) const
 {
+    // TODO: not correct if zero
     bool s = (sigma == other.sigma); // sign of the product
+    std::cout << "$$$$$$$$$$$$$$$$$$$$$$$$$$$" << std::endl;
+    if (other == one_rpr)
+    {
+        return *this;
+    }
+    if (*this == one_rpr)
+    {
+        return *this;
+    }
+    if (other == zero_rpr || *this == zero_rpr)
+    {
+        return zero_rpr;
+    }
     if (x == other.x)
     {
-        return RPR(s, x, power + other.power);
+        auto r = Rational(1, p) + Rational(1, other.p);
+        return RPR(s, x ^ r.p, r.q);
     }
     if (x == other.x.inverse())
     {
-        return RPR(s, x, power + other.power);
+        auto r = Rational(1, p) - Rational(1, other.p);
+        return RPR(s, x ^ r.p, r.q);
     }
-    if (power == other.power)
+    if (p == other.p)
     {
-        return RPR(s, x * other.x, power);
-    }
-    if (power == other.power)
-    {
-        return RPR(s, x * other.x, power);
+        return RPR(s, x * other.x, p);
     }
     throw std::domain_error("RPRs unable to be multiplied");
+}
+
+RPR RPR::operator*(const int &other) const
+{
+    return *this * RPR::fromInt(other);
 }
 
 RPR RPR::operator-(const RPR &other) const
@@ -199,8 +238,14 @@ RPR RPR::operator-() const
     return RPR(not sigma, x, p);
 }
 
+RPR RPR::abs() const
+{
+    return RPR(true, x, p);
+}
+
 RPR RPR::inverse() const
 {
+    std::cout << x.p << " " << x.q << std::endl;
     return RPR(sigma, x.inverse(), p);
 }
 
@@ -214,14 +259,43 @@ bool RPR::isRational() const
     return p == 1;
 }
 
-Amplitude ampl::Amplitude::fromInt(const int i)
+Rational ampl::RPR::toRational() const
 {
-    return Amplitude(RPR::fromInt(i), zero_rpr);
+    if (not isRational())
+    {
+        throw std::domain_error("RPR is not rational");
+    }
+    return sigma ? x : -x;
 }
 
-Amplitude ampl::Amplitude::fromInts(const int i, const int j)
+real ampl::absReal(const real x)
 {
-    return Amplitude(RPR::fromInt(i), RPR::fromInt(j));
+    if (x < 0)
+    {
+        return -x;
+    }
+    return x;
+}
+
+real ampl::realFromInt(const int i)
+{
+    return static_cast<float>(i);
+}
+
+float ampl::realFromRational(const Rational r)
+{
+    return static_cast<float>(r.p) / static_cast<float>(r.q);
+}
+
+float ampl::realFromRPR(const RPR rpr)
+{
+    float f = pow(static_cast<float>(rpr.x.p) / static_cast<float>(rpr.x.q),
+                  1. / static_cast<float>(rpr.p) / static_cast<float>(rpr.p));
+    if (rpr.isNonNegative())
+    {
+        return f;
+    }
+    return -f;
 }
 
 bool Amplitude::operator==(const Amplitude &other) const
@@ -241,6 +315,16 @@ Amplitude Amplitude::operator*(const Amplitude &other) const
     return Amplitude(re * other.re - im * other.im, re * other.im + im * other.re);
 }
 
+Amplitude Amplitude::operator*(const real &other) const
+{
+    return Amplitude(re * other, im * other);
+}
+
+Amplitude Amplitude::operator*(const int &other) const
+{
+    return *this * Amplitude(other);
+}
+
 Amplitude Amplitude::operator-(const Amplitude &other) const
 {
     return Amplitude(re - other.re, im - other.im);
@@ -256,14 +340,21 @@ Amplitude Amplitude::conj() const
     return Amplitude(re, -im);
 }
 
-RPR Amplitude::square_module() const
+real Amplitude::square_module() const
 {
-    return zero_rpr;
+    return (re * re) + (im * im);
 }
 
-Amplitude ampl::ampl_int(const int i)
+real Amplitude::surface() const
 {
-    return Amplitude(RPR::fromInt(i), zero_rpr);
+    return absReal(re) * absReal(im);
+}
+
+Amplitude ampl::Amplitude::random()
+{
+    float r = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
+    float i = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
+    return Amplitude();
 }
 
 std::size_t ampl::pow2(std::size_t n)
