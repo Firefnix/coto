@@ -7,7 +7,13 @@
 namespace ampl
 {
     /// @brief A class used to compute on real numbers
-    typedef float real;
+    typedef double real;
+
+    /// @brief A real value of zero
+    const double zero_real = 0.;
+
+    /// @brief A real value of zero
+    const double one_real = 1.;
 
     /** @brief A general-purpose complex amplitude
      *
@@ -33,10 +39,14 @@ namespace ampl
     /// @brief The complex number, square root of two
     const Amplitude sqrt2{std::sqrt(2), 0.};
 
+    /// @brief The imaginary number i
+    const Amplitude i{0., 1.};
+
     /// @brief A fast-exponentiation function
     /// @param n The exponent
     /// @return 2 to the power of n
-    std::size_t pow2(std::size_t n);
+    std::size_t
+    pow2(std::size_t n);
 }
 
 #endif

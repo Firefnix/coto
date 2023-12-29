@@ -12,8 +12,8 @@ public:
 
 TEST_F(AbsiTest, Surface)
 {
-    EXPECT_EQ(a.surface(), ampl::zero_real);
-    EXPECT_EQ(b.surface(), ampl::one_real);
+    EXPECT_EQ(a.norm(), ampl::zero_real);
+    EXPECT_EQ(b.norm(), ampl::sqrt2);
 }
 
 TEST_F(AbsiTest, Contains)
@@ -21,5 +21,5 @@ TEST_F(AbsiTest, Contains)
     EXPECT_TRUE(a.contains(ampl::one));
     EXPECT_FALSE(a.contains(ampl::i));
     EXPECT_TRUE(b.contains(ampl::i));
-    EXPECT_FALSE(b.contains(ampl::i * 3));
+    EXPECT_FALSE(b.contains(ampl::i * 3.));
 }

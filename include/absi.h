@@ -15,18 +15,18 @@ namespace absi
         AbstractElement(ampl::Amplitude z)
             : bottomLeft(z),
               topRight(z),
-              reals({z.re, z.re}),
-              imaginaries({z.im, z.im}){};
+              reals{z.real(), z.real()},
+              imaginaries{z.imag(), z.imag()} {};
         AbstractElement(ampl::Amplitude u, ampl::Amplitude v)
             : bottomLeft(u),
               topRight(v),
-              reals({u.re, v.re}),
-              imaginaries({u.im, v.im}){};
+              reals{u.real(), v.real()},
+              imaginaries{u.imag(), v.imag()} {};
         AbstractElement(ampl::real a, ampl::real b, ampl::real c, ampl::real d)
             : bottomLeft(ampl::Amplitude(a, b)),
               topRight(ampl::Amplitude(c, d)),
-              reals({a, c}),
-              imaginaries({b, d}){};
+              reals{a, c},
+              imaginaries{b, d} {};
         AbstractElement operator-() const;
         AbstractElement operator||(const AbstractElement &other) const; // union
         AbstractElement operator+(const AbstractElement &other) const;
@@ -36,7 +36,7 @@ namespace absi
         bool contains(ampl::Amplitude) const;
         ampl::real includeCost(ampl::Amplitude) const;
         void include(ampl::Amplitude);
-        ampl::real surface() const;
+        ampl::real norm() const;
 
     protected:
         ampl::Amplitude bottomLeft, topRight;
