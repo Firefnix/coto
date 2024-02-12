@@ -27,74 +27,56 @@
 
 \subsection{Abstract states}
 
-The purpose of quantum decision diagrams is to provide a more efficient way to store and manipulate quantum states of a finite number of qubits. A $n$-qubit state is indeed traditionally represented as an element of $\mathbb{C}^{2^n}$ (with norm 1), which takes exponential space as $n$ grows. Abstract states will be in this part defined similarly, but with
-
+The purpose of quantum decision diagrams is to provide a more efficient way to store and manipulate quantum states of a finite number of qubits. A $n$-qubit state is indeed traditionally represented as an element of $\mathbb{C}^{2^n}$ (with norm 1), which takes exponential space as $n$ grows. Abstract states will be in this part defined similarly, but with complex intervals instead of complex numbers.
 
 The standard definition of real intervals is:
 
 $$\forall a, b \in \mathbb{R}, [a, b]
 = \{x \in \mathbb{R} / \min(a, b) \le x \le \max(a, b)\}$$
 
-Those can be generalised to complex intervals, commonly using the cartesian notation. On that definiton, we can define sums and products:
+Those can be generalised to complex intervals, commonly using the cartesian notation.
 
 $$\forall x, y \in \mathbb{C}, [x, y]
 = \{a + ib ; a \in [\Re(x), \Re(y)], b \in [\Im(x), \Im(y)]\}$$
 
-Now let $\mathcal{A}_0 = \{[x, y] ; x, y \in \mathbb{C}\}$, we can now define basic operations.
+Now let $\mathcal{A}_0 = \{[x, y] ; x, y \in \mathbb{C}\}$, we can now define basic operations: sum, product, and join. We note that these definition do not depend on the type of complex interval chosen.
 $$\forall \alpha, \beta \in \mathcal{A}_0, \alpha + \beta = \{a + b ; a \in \alpha, b \in \beta\}$$
 $$\forall \alpha, \beta \in \mathcal{A}_0, \alpha * \beta = \{a * b ; a \in \alpha, b \in \beta\}$$
+$$\forall \alpha, \beta \in \mathcal{A}_0, \alpha \sqcup \beta = \bigcap_{\alpha \subset \gamma~\text{and}~\beta \subset \gamma} \gamma$$
 
 We now have intervals, \textit{abstract elements} of $\mathbb{C}$ represented in $\mathcal{A}_0$. Our abstract elements for a $n$-qubit quantum state would be in $\mathcal{A}_n = {\mathcal{A}_0}^{2^n}$ for all $n \in \mathbb{N}$. Defining a sum in $\mathcal{A}_n$, and an external product $\alpha * A$ for
 $\alpha \in \mathcal{A}_0$ and $A \in \mathcal{A}_n$, comes easily.
 
 \subsection{Decision diagrams}
 
-We inductively define abstract additive quantum decision diagrams, starting from zero-depth decision. The only kind of zero-depth decision diagram is:
+We inductively define abstract additive quantum decision diagrams, starting from zero-depth decision. The only zero-depth diagram is $\boxed{1}$. Let for every set $E$ be the set of finite subsets of $E$: $\mathscr{P}_f(E) = \{ A \subset E / |A| < \infty \}$. If the set $\mathcal{D}_n$ of diagrams of depth $n$ is defined, $n+1$-depth diagrams can have a finite number of left children in $\mathcal{D}_n$ and a finite number of right children in $\mathcal{D}_n$, each being associated with an abstract amplitude in $\mathcal{A}_0$.
 
 \begin{center}
-    % https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZABgBpiBdUkANwEMAbAVxiRBAF9T1Nd9CUZAIxVajFmwA6kgEYQAHjCjAhHTqKUBzeEVAAzAE4QAtkjIgcEJEOr1mrRCGTTGaABZ1SAAmkyYOOgp1DiA
+    % https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZAZgBoAGAXVJADcBDAGwFcYkQAREAX1PU1z5CKAEykAjNTpNW7KAH1gYALTjuPPiAzY8BIgBYJUhizaIQAc3niN-HUKIA2IzROzzV4AFtV63ncE9FHIXaVM5eXJbLQFdYWRxULczEAA6dOjtQPiAViSZFPTUnikYKAt4IlAAMwAnCC8kEJAcCCREsPcQAB1upjQAC3pFFTUQGkZ6ACMYRgAFWIdzRhhqnGi6hqaaVqQxTpTemZxhqInp2YX7IJBarAsB9f8QTcbEZt3EMgP2I5gTxQ+MbPV7bFptRCGH7mXr9IaRcYgSYzeaLG53B5PSjcIA
     \begin{tikzcd}
-    {} \arrow[d, "{[x, x]} \in \mathcal{A}_0"] \\
-    \boxed{1}
+        &     &         & D \arrow[ld, "\alpha_{n-1}"] \arrow[rd, "\beta_0"'] \arrow[rrrd, "\beta_{m-1}"] \arrow[llld, "\alpha_0"'] &     &     &         \\
+    d_0 & ... & d_{n-1} &                                                                                                           & g_1 & ... & g_{m-1}
     \end{tikzcd}
 \end{center}
 
-Hence, we can define the set of zero-depth decision diagrams $\mathcal{D}_0 = \mathcal{A}_0$. Based on this, we can define inductively higher-depth decision diagrams. Let for every set $E$ be the set of finite subsets of $E$: $\mathscr{P}_f(E) = \{ A \subset E / |A| < \infty \}$. An AAQDD of depth $n+1$ is defined by:
-\begin{itemize}
-    \item An incoming abstract amplitude, an element of $\mathcal{A}_0$
-    \item A finite number of left children (diagrams of depth $n$), an element of $\mathscr{P}_f(\mathcal{D}_n)$
-    \item A finite number of right children (diagrams of depth $n$), an element of $\mathscr{P}_f(\mathcal{D}_n)$
-\end{itemize}
-
-Defining $\mathcal{D}_{n+1} = \mathcal{A}_0 \times \mathscr{P}_f(\mathcal{D}_n) \times \mathscr{P}_f(\mathcal{D}_n)$ thus comes naturally.
+Defining $\mathcal{D}_{n+1} = \mathscr{P}_f(\mathcal{A}_0 \times \mathcal{D}_n) \times \mathscr{P}_f(\mathcal{A}_0 \times \mathcal{D}_n)$ thus comes naturally.
 
 \subsection{Diagram evaluation}
 
 Now that we defined our decision diagrams, we can evaluate them to get abstract elements. We inductively define our evaluation function for $n$ quibits $\mathcal{E}_n : \mathcal{D}_n \rightarrow \mathcal{A}_n$:
 
-$$\forall D \in \mathcal{D}_0, \mathcal{E}_0(D) = D$$
+$$\mathcal{E}_0(\boxed{1}) = \{1\}$$
 
-$$\forall \alpha \in \mathcal{A}_0, \forall D, G \in \mathscr{P}_f(\mathcal{D}_n), \mathcal{E}_{n+1}(\alpha, D, G) =
+$$\forall D, G \in \mathscr{P}_f(\mathcal{A}_0 \times \mathcal{D}_n), \mathcal{E}_{n+1}(D, G) =
 \begin{pmatrix}
-    \alpha * \sum(G)_0 \\
-    ... \\
-    \alpha * \sum(G)_{2^n - 1} \\
-    \alpha * \sum(D)_0 \\
-    ... \\
-    \alpha * \sum(D)_{2^n - 1} \\
+    \displaystyle\sum_{(\alpha, g) \in G} \alpha * \mathcal{E}_n(g) \\
+    \displaystyle\sum_{(\beta, d) \in D} \beta * \mathcal{E}_n(d) \\
 \end{pmatrix}
 \quad\text{with}
 $$
 
-$$\fonction{\sum}{\mathscr{P}_f(\mathcal{D}_n)}{\mathcal{A}_n}{G}{\displaystyle\sum_{g \in G} \mathcal{E}_n(g)}
-\quad\text{and as expected}$$
-
-$$\forall A = \begin{pmatrix}
-a_0 \\
-... \\
-a_{2^n - 1}
-\end{pmatrix} \in \mathcal{A}_n, \forall i  \in \{0, ..., 2^n - 1\}, A_i = a_i$$
-
 Since there is no risk of ambiguity, defining $\mathcal{E} : \bigcup \mathcal{D}_n \rightarrow \bigcup \mathcal{A}_n$ is not problematic. With this last function, we can now evaluate all our AAQDDs.
+
+
 
 \end{document}
