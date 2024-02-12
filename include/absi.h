@@ -9,6 +9,8 @@
 
 namespace absi
 {
+    typedef std::tuple<ampl::real, ampl::real> real_interval;
+
     class AbstractElement
     {
     public:
@@ -40,9 +42,11 @@ namespace absi
 
     protected:
         ampl::Amplitude bottomLeft, topRight;
-        ampl::real reals[2];
-        ampl::real imaginaries[2];
+        real_interval reals;
+        real_interval imaginaries;
     };
+
+    AbstractElement zero;
 }
 
 #endif
