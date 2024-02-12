@@ -77,6 +77,34 @@ $$
 
 Since there is no risk of ambiguity, defining $\mathcal{E} : \bigcup \mathcal{D}_n \rightarrow \bigcup \mathcal{A}_n$ is not problematic. With this last function, we can now evaluate all our AAQDDs.
 
+\section{Reduction algorithm}
 
+We note that multiple QDDs can be evaluated to the same abstract state. This part will aim to provide an algorithm to decrease the "size" of diagrams while not breaking their evaluation by $\mathcal{E}$. The size of a AAQDD is the number of intervals (counting them with their multiplicity). We would want, from a diagram $D$, to get a diagram $D'$ such that $\text{size}(D) > \text{size}(D')$ and $\mathcal{E}(D) \subset \mathcal{E}(D')$ (the reduction is smaller in size and might be less precise that the original diagram).
+
+We developed a reduction formula to force the merging of two nodes. This is permitted both because of abstract interpretation (to merge without amplitudes being colinear) and  The cost is zero.
+
+\subsection{One-side case}
+
+To begin, let's consider the simple case where all diagrams only have left children (this case would be useless in practice because it would result in only one interval and zeros). Let's say we want to merge the two diagrams:
+\begin{gather*}
+A = (\{(\alpha_0, a_0), ..., (\alpha_{l-1}, a_{l-1}), (\beta(A)_0, b_0), ..., (\beta(A)_{n-1}, b_{n-1})\}, \emptyset)\quad \text{and} \\
+C = (\{ (\beta(C)_0, b_0), ..., (\beta(C)_{n-1}, b_{n-1}), (\gamma_0, c_0), ..., (\gamma_m, c_{m-1}) \}, \emptyset)
+\end{gather*}
+\noindent with $\{a_0, ..., a_{l-1}\} \cap \{c_0, ..., c_{m-1}\} = \emptyset$. A graphic representation of our merging formula would be:
+
+\vspace{1.7cm}
+\leftskip=200pt
+% https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZAJgBoAGAXVJADcBDAGwFcYkQQBfU9TXfQigAsFanSat2XHiAzY8BIgHZRNBizaIO3XvIFEAnKvEapO2XwWCSpAIxj1krQEFpu-ouF2HEzSADCbhZ6nsgArN5qvmYych7WKvZRplpBcVZEAByRJk4gADr5ODAAHjjAALYwAE4A5jCcABTOpAAE-gCUaZb6KOSkxD4pIPQA+uTdIda2A0N5Y8CMALS2nJPxRGSDyXkARuPrGSgAzLM7fvvAYCtr5um9yCLbuX4Axgd3PaERz45vo5UbocHgA2M4vdhjCafKbKcF-SEA5arYGhbK-aJafbQ2JfaxGDHDS7XFEwjYoWz9Ql5d449xHZC2GbU-6A0liGBQeoIFCgABm1QgFSQ-RAOAgSBEEK0zBANEY9F2MEYAAU8exGDA+TgggKhUgZmKJYgItK6HKQAqlar1VpNdrdYLhYgyEakNkzbL5YrlWrYXatTrzHrnac3YgPQitLQLVbfbaQNUsLUABZBmQhyU0cUG0VRsDMRiMb3Wv3ky2Bx36xBSnOIJnnJAFosl+P+isO4NOrPh2yuqMFfJKnD0ZodUYAK1jPpt7ft6f53Zr2eNRjNhSYaBTYyw09LCaTqYXIEzJpXBsN+cLxctM7LRw7x9PprrfcbWkKw9HACFx1PW7O5bzlWzovsathhleLa3vuc6Vl21ZgQaUoDoUtT0BUFRjAA1nubZAfBGZLmC4YqGajR8hUXQAfevSPrGWBgH4UAQMwuyaiB7rnvWJFQTecaAQ+wEIc6HqvmRqH5LAjAjpOeGCXRwlEdWYngZGmLNvxd4Jkpi4qdxtimpJm7bqMu40QeyZppxEYGWufEWXBnbKaJ3HEHmmKDuhmE4fJtGePRIlIGur4eSkmmOQRDo0CmMD0FA7CQExDHJVoUD0HAsUJUF9aGq+-YadekVCZWMVxQlWhJWw8qMcxGVZTZEEGShhXQQJ-mCPRZXxYlBDVZatXsOlmWco1SE8e+EUwfhJXRSAsU9ZVfUpXVI3ZS5Bpka+6nhUV00KQFwHdRV4DLTVqUgMNDU5bYIXGu5k17e1OmlfN5W9cl52rddlCcEAA
+\begin{tikzcd}[overlay]
+                               &         & {} \arrow[d, "u"]                                                        &         & {} \arrow[d, "v"]                                                       &                                   &                                & {} \arrow[rd, "u"] &                                                                                                                                & {} \arrow[ld, "v"'] &                                &         \\
+                               &         & A \arrow[ld] \arrow[d] \arrow[rd, "\beta(A)_j"] \arrow[lld, "\alpha_i"'] &         & C \arrow[lld] \arrow[ld, "\beta(B)_j"] \arrow[d] \arrow[rd, "\gamma_k"] & {} \arrow[rr, "(\text{fm})", Rightarrow] &                                & {}                 & {\text{fm}(A, C)} \arrow[ld] \arrow[d, "\delta_j"] \arrow[rd] \arrow[lld, "\alpha_i"'] \arrow[rrd] \arrow[rrrd, "\gamma_k"] &                     &                                &         \\
+a_0 \arrow[r, no head, dashed] & a_{l-1} & b_0 \arrow[r, no head, dashed]                                           & b_{n-1} & c_0 \arrow[r, no head, dashed]                                          & c_{m-1}                           & a_0 \arrow[r, no head, dashed] & a_{l-1}            & b_0 \arrow[r, no head, dashed]                                                                                                 & b_{n-1}             & c_0 \arrow[r, no head, dashed] & c_{m-1}
+\end{tikzcd}
+
+\vspace{1.7cm}
+\leftskip=0pt
+
+\noindent with $\delta_j = \beta(A)_j \sqcup \beta(B)_j$. More formally, the merging formula would be:
+$$\text{merge}(A, C) = (\{(\alpha_0, a_0), ..., (\alpha_{l-1}, a_{l-1}), (\delta_0, b_0), ..., (\delta_{n-1}, b_{n-1}), (\gamma_0, c_0), ..., (\gamma_m, c_{m-1})\}, \emptyset)$$
 
 \end{document}
