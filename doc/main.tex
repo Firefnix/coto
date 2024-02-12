@@ -12,7 +12,7 @@
 \usepackage{tikz-cd}
 
 
-\newcommand{\fonction}[5]{\begin{array}{l|rcl}
+\newcommand{\function}[5]{\begin{array}{l|rcl}
 #1: & #2 & \longrightarrow & #3 \\
     & #4 & \longmapsto & #5 \end{array}}
 
@@ -30,12 +30,10 @@
 The purpose of quantum decision diagrams is to provide a more efficient way to store and manipulate quantum states of a finite number of qubits. A $n$-qubit state is indeed traditionally represented as an element of $\mathbb{C}^{2^n}$ (with norm 1), which takes exponential space as $n$ grows. Abstract states will be in this part defined similarly, but with complex intervals instead of complex numbers.
 
 The standard definition of real intervals is:
-
 $$\forall a, b \in \mathbb{R}, [a, b]
 = \{x \in \mathbb{R} / \min(a, b) \le x \le \max(a, b)\}$$
 
 Those can be generalised to complex intervals, commonly using the cartesian notation.
-
 $$\forall x, y \in \mathbb{C}, [x, y]
 = \{a + ib ; a \in [\Re(x), \Re(y)], b \in [\Im(x), \Im(y)]\}$$
 
@@ -45,7 +43,8 @@ $$\forall \alpha, \beta \in \mathcal{A}_0, \alpha * \beta = \{a * b ; a \in \alp
 $$\forall \alpha, \beta \in \mathcal{A}_0, \alpha \sqcup \beta = \bigcap_{\alpha \subset \gamma~\text{and}~\beta \subset \gamma} \gamma$$
 
 We now have intervals, \textit{abstract elements} of $\mathbb{C}$ represented in $\mathcal{A}_0$. Our abstract elements for a $n$-qubit quantum state would be in $\mathcal{A}_n = {\mathcal{A}_0}^{2^n}$ for all $n \in \mathbb{N}$. Defining a sum in $\mathcal{A}_n$, and an external product $\alpha * A$ for
-$\alpha \in \mathcal{A}_0$ and $A \in \mathcal{A}_n$, comes easily.
+$\alpha \in \mathcal{A}_0$ and $A \in \mathcal{A}_n$, comes easily. We also define the inclusion relation in $\mathcal{A}_n$ (which is an order relation) $\subset$ using the cartesian product of sets:
+$$\forall A = (a_0, ..., a_{2^n-1})^{T},  B = (b_0, ..., b_{2^n-1})^{T} \in \mathcal{A}_n, A \subset B \iff a_0 \times ... \times a_{2^n-1} \subset b_0 \times ... \times b_{2^n-1}$$
 
 \subsection{Decision diagrams}
 
@@ -59,7 +58,16 @@ We inductively define abstract additive quantum decision diagrams, starting from
     \end{tikzcd}
 \end{center}
 
-Defining $\mathcal{D}_{n+1} = \mathscr{P}_f(\mathcal{A}_0 \times \mathcal{D}_n) \times \mathscr{P}_f(\mathcal{A}_0 \times \mathcal{D}_n)$ thus comes naturally.
+Defining $\mathcal{D}_{n+1} = \mathscr{P}_f(\mathcal{A}_0 \times \mathcal{D}_n) \times \mathscr{P}_f(\mathcal{A}_0 \times \mathcal{D}_n)$ thus comes naturally. Eventually, let $\mathcal{D} = \bigcup_{n \in \mathbb{N}} \mathcal{D}_n$ the set of all AAQDDs.
+
+\subsection{Sub-diagrams}
+
+Sub-diagrams (or nodes) of a diagram $D \in \mathcal{D}_n$ for all $n \in \mathbb{N}$, are defined indictively:
+$$\mathcal{N}(\boxed{1}) = \boxed{1}$$
+$$\forall D, G \in \mathscr{P}_f(\mathcal{A}_0 \times \mathcal{D}_n), \mathcal{N}(D, G) = \{d ; (\alpha, d) \in D \cup G\} \cup
+\bigcup_{(\alpha, d) \in D \cup G} \mathcal{N}(d)$$
+
+We also define $\mathcal{N}_i(D) = \mathcal{N}(D) \cap \mathcal{D}_i$ for all $i \in \mathbb{N}$.
 
 \subsection{Diagram evaluation}
 
@@ -79,9 +87,38 @@ Since there is no risk of ambiguity, defining $\mathcal{E} : \bigcup \mathcal{D}
 
 \section{Reduction algorithm}
 
-We note that multiple QDDs can be evaluated to the same abstract state. This part will aim to provide an algorithm to decrease the "size" of diagrams while not breaking their evaluation by $\mathcal{E}$. The size of a AAQDD is the number of intervals (counting them with their multiplicity). We would want, from a diagram $D$, to get a diagram $D'$ such that $\text{size}(D) > \text{size}(D')$ and $\mathcal{E}(D) \subset \mathcal{E}(D')$ (the reduction is smaller in size and might be less precise that the original diagram).
+We note that multiple QDDs can be evaluated to the same abstract state. This part will aim to provide an algorithm to decrease the "size" of diagrams while not breaking their evaluation by $\mathcal{E}$. The size of a AAQDD is the number of intervals (counting them with their multiplicity). We would want, from a diagram $D$, to get a diagram $D'$ such that $\text{size}(D) > \text{size}(D')$ and $\mathcal{E}(D) \subset \mathcal{E}(D')$ (the reduction is smaller in size and might be less precise that the original diagram). More generally, function $g : \mathcal{D}_n \rightarrow \mathcal{D}_n$ is an \textit{global approximation} if
+$$\forall D \in \mathcal{D}_n, \mathcal{E}(D) \subset \mathcal{E}(g(D))$$
 
-We developed a reduction formula to force the merging of two nodes. This is permitted both because of abstract interpretation (to merge without amplitudes being colinear) and  The cost is zero.
+Similarly, a function $f : \mathcal{D}_n \times \mathcal{D}_n \rightarrow \mathcal{D}_n$ is a \textit{merge approximation at height $n$} if
+$$\begin{cases}
+    \forall A \not= B \in \mathcal{D}_n, \mathcal{E}(A) \subset \mathcal{E}(f(A, B))~\text{and}~\mathcal{E}(B) \subset \mathcal{E}(f(A, B)) \\
+    \forall A \in \mathcal{D}_n, f(A, A) = A
+\end{cases}
+$$
+
+We developed a reduction formula to force the merging of two nodes. This is permitted both because of abstract interpretation (to merge without amplitudes being colinear).
+
+\subsection{Merging theorem}
+
+Let $n \in \mathbb{N}^*$, $N \ge n$, and $f$ be a merge approximation. Moreover let $w : \mathcal{D}_N \rightarrow \mathcal{D}_n \times \mathcal{D}_n$ be a choice function at height $n$ in $\mathcal{D}_N$, meaning that $\forall D, w(D) \in \mathcal{N}_n(D) \times \mathcal{N}_n(D)$. Now we define:
+
+$$\function{f | w}{\mathcal{D}_N}{\mathcal{D}_N}{D}{r(B, C, r(A, C, D))\quad \text{with}~C = f(w(D))}$$
+
+With $\forall i > 0, r_i : \mathcal{D}_n \times \mathcal{D}_n \times \mathcal{D}_i \rightarrow \mathcal{D}_i$ the replacement function defined by:
+$$\begin{cases}
+\forall n > i, \forall A, B \in \mathcal{D}_n, \forall D \in \mathcal{D}_i, r_i(A, B, D) = D \\
+\forall A, B, D \in \mathcal{D}_n, r_n(A, B, D) = \begin{cases}
+B \quad \text{if}~D = A \\
+D \quad \text{otherwise}
+\end{cases} \\
+\forall 1 \le n < i, \forall A, B \in \mathcal{D}_n, \forall \{(\alpha_j, g_j)\}, \{(\beta_k, d_k)\} \in \mathcal{D}_{i-1}, r_i(A, B, (G, D)) = (\{(\alpha_j, r_{i-1}(g_j))\}, \{(\beta_k, r_{i-1}(d_k))\})
+\end{cases}
+$$
+
+\noindent\underline{\textbf{Merging theorem:}} Let $f$ be a merge approximation at height $n$ and $w$ be a choice function at height $n$. $f|w$ is a global approximation.
+
+\noindent\underline{Proof:} Let $D \in \mathcal{D}_N$, $(A, B) = w(D)$ and $C = f(w(D))$. It is clear that proving $\mathcal{E}(r(A, C, D)) \subset \mathcal{E}(A, C, D)$ is enough to prove the theorem. $f$ is a merge approximation so $\mathcal{E}(A) \subset \mathcal{E}(C)$ and $\mathcal{E}(B) \subset \mathcal{E}(C)$.
 
 \subsection{One-side case}
 
