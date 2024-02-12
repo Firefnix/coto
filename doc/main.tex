@@ -83,16 +83,17 @@ $$\forall D, G \in \mathscr{P}_f(\mathcal{A}_0 \times \mathcal{D}_n), \mathcal{E
 \quad\text{with}
 $$
 
-Since there is no risk of ambiguity, defining $\mathcal{E} : \bigcup \mathcal{D}_n \rightarrow \bigcup \mathcal{A}_n$ is not problematic. With this last function, we can now evaluate all our AAQDDs.
+Since there is no risk of ambiguity, defining $\mathcal{E} : \bigcup \mathcal{D}_n \rightarrow \bigcup \mathcal{A}_n$ is not problematic. With this last function, we can now evaluate all our AAQDDs and define a partial order $\le$ on $\mathcal{D}$, with:
+$$\forall A, B \in \mathcal{D}, A \le B \iff \mathcal{E}(A) \subset \mathcal{E}(B)$$
 
 \section{Reduction algorithm}
 
-We note that multiple QDDs can be evaluated to the same abstract state. This part will aim to provide an algorithm to decrease the "size" of diagrams while not breaking their evaluation by $\mathcal{E}$. The size of a AAQDD is the number of intervals (counting them with their multiplicity). We would want, from a diagram $D$, to get a diagram $D'$ such that $\text{size}(D) > \text{size}(D')$ and $\mathcal{E}(D) \subset \mathcal{E}(D')$ (the reduction is smaller in size and might be less precise that the original diagram). More generally, function $g : \mathcal{D}_n \rightarrow \mathcal{D}_n$ is an \textit{global approximation} if
-$$\forall D \in \mathcal{D}_n, \mathcal{E}(D) \subset \mathcal{E}(g(D))$$
+We note that multiple QDDs can be evaluated to the same abstract state. This part will aim to provide an algorithm to decrease the "size" of diagrams while not breaking their evaluation by $\mathcal{E}$. The size of a AAQDD is the number of intervals (counting them with their multiplicity). We would want, from a diagram $D$, to get a diagram $D'$ such that $\text{size}(D) > \text{size}(D')$ and $D \le D'$ (the reduction is smaller in size and might be less precise that the original diagram). More generally, function $g : \mathcal{D}_n \rightarrow \mathcal{D}_n$ is an \textit{global approximation} if
+$$\forall D \in \mathcal{D}_n, D \le g(D)$$
 
 Similarly, a function $f : \mathcal{D}_n \times \mathcal{D}_n \rightarrow \mathcal{D}_n$ is a \textit{merge approximation at height $n$} if
 $$\begin{cases}
-    \forall A \not= B \in \mathcal{D}_n, \mathcal{E}(A) \subset \mathcal{E}(f(A, B))~\text{and}~\mathcal{E}(B) \subset \mathcal{E}(f(A, B)) \\
+    \forall A \not= B \in \mathcal{D}_n, A \le f(A, B)~\text{and}~B \le f(A, B) \\
     \forall A \in \mathcal{D}_n, f(A, A) = A
 \end{cases}
 $$
@@ -103,7 +104,7 @@ We developed a reduction formula to force the merging of two nodes. This is perm
 
 Let $n \in \mathbb{N}^*$, $N \ge n$, and $f$ be a merge approximation. Moreover let $w : \mathcal{D}_N \rightarrow \mathcal{D}_n \times \mathcal{D}_n$ be a choice function at height $n$ in $\mathcal{D}_N$, meaning that $\forall D, w(D) \in \mathcal{N}_n(D) \times \mathcal{N}_n(D)$. Now we define:
 
-$$\function{f | w}{\mathcal{D}_N}{\mathcal{D}_N}{D}{r(B, C, r(A, C, D))\quad \text{with}~C = f(w(D))}$$
+$$\function{f | w}{\mathcal{D}_N}{\mathcal{D}_N}{D}{r_N(B, C, r_N(A, C, D))\quad \text{with}~C = f(w(D))}$$
 
 With $\forall i > 0, r_i : \mathcal{D}_n \times \mathcal{D}_n \times \mathcal{D}_i \rightarrow \mathcal{D}_i$ the replacement function defined by:
 $$\begin{cases}
@@ -112,13 +113,18 @@ $$\begin{cases}
 B \quad \text{if}~D = A \\
 D \quad \text{otherwise}
 \end{cases} \\
-\forall 1 \le n < i, \forall A, B \in \mathcal{D}_n, \forall \{(\alpha_j, g_j)\}, \{(\beta_k, d_k)\} \in \mathcal{D}_{i-1}, r_i(A, B, (G, D)) = (\{(\alpha_j, r_{i-1}(g_j))\}, \{(\beta_k, r_{i-1}(d_k))\})
+\forall 1 \le n < i, \forall A, B \in \mathcal{D}_n, \forall \{(\alpha_j, g_j)\}, \{(\beta_k, d_k)\} \in \mathcal{D}_{i-1},\\
+\hfill r_i(A, B, (G, D)) = (\{(\alpha_j, r_{i-1}(g_j))\}, \{(\beta_k, r_{i-1}(d_k))\})
 \end{cases}
 $$
 
-\noindent\underline{\textbf{Merging theorem:}} Let $f$ be a merge approximation at height $n$ and $w$ be a choice function at height $n$. $f|w$ is a global approximation.
+\noindent\underline{\textbf{Merging theorem:}} Let $f$ be a merge approximation at height $n$ and $w$ be a choice function at height $n$ in $\mathcal{D}_N$. $f|w$ is a global approximation in $\mathcal{D}_N$.
 
-\noindent\underline{Proof:} Let $D \in \mathcal{D}_N$, $(A, B) = w(D)$ and $C = f(w(D))$. It is clear that proving $\mathcal{E}(r(A, C, D)) \subset \mathcal{E}(A, C, D)$ is enough to prove the theorem. $f$ is a merge approximation so $\mathcal{E}(A) \subset \mathcal{E}(C)$ and $\mathcal{E}(B) \subset \mathcal{E}(C)$.
+\noindent\underline{Proof:} Let $D \in \mathcal{D}_N$, $(A, B) = w(D)$ and $C = f(w(D))$. By ascending induction (in height), it comes that $\forall U, V \in \mathcal{D}_n, U \le V \Rightarrow r_N(U, V, D) \le D$. Meanwhile, $f$ is a merge approximation so $A \le C$, thus $r_N(A, C, D) \le D$.
+
+Proving that $r_N(A, C, D) \le D$ is mostly enough to prove the theorem, because once it is proven we only have let $D' = r_N(A, C, D)$ and use this result on $B$ and $D'$ to conclude that $r_N(B, C, D') \le D'$. The only problem is that we would need $C' = f(w(D'))$ instead of $C$ to reuse the exact same result demonstrated earlier.
+\hfill{} $\boxed{}$
+
 
 \subsection{One-side case}
 
@@ -142,6 +148,29 @@ a_0 \arrow[r, no head, dashed] & a_{l-1} & b_0 \arrow[r, no head, dashed]       
 \leftskip=0pt
 
 \noindent with $\delta_j = \beta(A)_j \sqcup \beta(B)_j$. More formally, the merging formula would be:
-$$\text{merge}(A, C) = (\{(\alpha_0, a_0), ..., (\alpha_{l-1}, a_{l-1}), (\delta_0, b_0), ..., (\delta_{n-1}, b_{n-1}), (\gamma_0, c_0), ..., (\gamma_m, c_{m-1})\}, \emptyset)$$
+$$\text{fm}(A, C) = (\{(\alpha_0, a_0), ..., (\alpha_{l-1}, a_{l-1}), (\delta_0, b_0), ..., (\delta_{n-1}, b_{n-1}), (\gamma_0, c_0), ..., (\gamma_m, c_{m-1})\}, \emptyset)$$
+
+\subsection{General case -- theoretical approach}
+
+
+Let's consider another case, where our two nodes $A$ and $B$ have both a common left-descendance and a common right-descendance. We will see later that the general case can always be reduced to this case. The abstract amplitude on link between nodes is noded $\text{ampl}(u, v)$ for example $\text{ampl}(A, l_0)$ or $\text{ampl}(B, l_0)$.
+
+\vspace{1.7cm}
+\leftskip=200pt
+% https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZAJgBoAGAXVJADcBDAGwFcYkQBBEAX1PU1z5CKACwVqdJq3YAhHnxAZseAkXKliEhizaIQjAPrl5-ZUKJlNNbdL2HgYALQBGbicUCVw5GKuSd7ABORu5KgqooAGwaWlK6IMHAALYubrym4d4A7DHWceyGxukeZhHIAJy5-rb6Bg6poZ7mKM7OVTbxwUUKYV5EzgDM7fl6iSmujaXezupUeQF6AMIABAC8ywA6GzgwAB44wABmSdwAFBykyzIAlJOZRNHOsQsgd30oABykT-M1PBIwKAAc3gRFAh0CECSSHUIBwECQZH0WDA8Sg9DgAAtAe4IVCYTR4UghsjUex0ViccU8dDEEiiYgSYwUWiIDgdlAQDRsfROXpIGTqZDaW04Qi6TRmWS9BTsZyhfjEKKGUyWeSMXLccKCWKkCIFSLCeL9QoaTqGQBWA16o1IC3cmC89gCtiStUytkcrWK5Xiq2m7WIaK6xA5Ums9k4h1O-kENjWxBfEOVEA8vngONc8Pkz1UgM+2EMsNStEavPgwMzW2JhNV5O131IZxIks55gAI0YrtTjr5YGYjEYhPoWEYzszv3iWx2+2Ap2O1zS+ZFhfFwdbMrL8so3CAA
+\begin{tikzcd}[overlay]
+                                &  & A \arrow[lldd, dashed] \arrow[dd, dashed] \arrow[rrdd] \arrow[rrrrdd] &  & B \arrow[lllldd, dashed] \arrow[lldd, dashed] \arrow[dd] \arrow[rrdd] &  &                                          &                                 &    &         & {C = \text{fm}(A, B)} \arrow[ldd, dashed] \arrow[rdd] \arrow[rrrdd] \arrow[llldd, dashed] &                                 &  &         \\
+                                &  &                                                                       &  &                                                                       &  & {} \arrow[rr, "\text{(fm)}", Rightarrow] &                                 & {} &         &                                                                                           &                                 &  &         \\
+l_0 \arrow[rr, no head, dotted] &  & l_{n-1}                                                               &  & r_0 \arrow[rr, no head, dotted]                                       &  & r_{m-1}                                  & l_0 \arrow[rr, no head, dotted] &    & l_{n-1} &                                                                                           & r_0 \arrow[rr, no head, dotted] &  & r_{m-1}
+\end{tikzcd}
+
+\vspace{1.7cm}
+\leftskip=0pt
+
+Where the new abstract amplitudes are defined by the following formula:
+
+$$\forall x \in {l_0, ..., l_{n-1}, r_0, ..., r_{m-1}}, \text{ampl}(C, x) = \text{ampl}(A, x) \sqcup \text{ampl}(B, x)$$
+
+\noindent\underline{\textbf{Proof:}}
 
 \end{document}
