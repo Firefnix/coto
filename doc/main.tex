@@ -168,7 +168,7 @@ $$\text{fm}(A, C) = (\{(\alpha_0, a_0), ..., (\alpha_{l-1}, a_{l-1}), (\delta_0,
 \subsection{Fully connected case}
 
 
-Let's consider another case, where our two nodes $A$ and $B$ have both a common left-descendance and a common right-descendance. We will see later that the general case can always be reduced to this case. The abstract amplitude on the link between two nodes is $\text{ampl}(u, v)$, for example $\text{ampl}(A, l_0)$ or $\text{ampl}(B, l_0)$. Additionally, let $X = {l_0, ..., l_{n-1}, r_0, ..., r_{m-1}}$.
+Let's consider another case, where our two nodes $A$ and $B$ have both a common left-descendance and a common right-descendance. We will see later that the general case can always be reduced to this case. The abstract amplitude on the link between two nodes is $\text{ampl}(u, v)$, for example $\text{ampl}(A, l_0)$ or $\text{ampl}(B, l_0)$. Additionally, let $X = \{l_0, ..., l_{k-1}, r_0, ..., r_{m-1}\}$.
 
 \vspace{1.7cm}
 \leftskip=200pt
@@ -176,7 +176,7 @@ Let's consider another case, where our two nodes $A$ and $B$ have both a common 
 \begin{tikzcd}[overlay]
                                 &  & A \arrow[lldd, dashed] \arrow[dd, dashed] \arrow[rrdd] \arrow[rrrrdd] &  & B \arrow[lllldd, dashed] \arrow[lldd, dashed] \arrow[dd] \arrow[rrdd] &  &                                          &                                 &    &         & {C = \text{fm}(A, B)} \arrow[ldd, dashed] \arrow[rdd] \arrow[rrrdd] \arrow[llldd, dashed] &                                 &  &         \\
                                 &  &                                                                       &  &                                                                       &  & {} \arrow[rr, "\text{(fm)}", Rightarrow] &                                 & {} &         &                                                                                           &                                 &  &         \\
-l_0 \arrow[rr, no head, dotted] &  & l_{n-1}                                                               &  & r_0 \arrow[rr, no head, dotted]                                       &  & r_{m-1}                                  & l_0 \arrow[rr, no head, dotted] &    & l_{n-1} &                                                                                           & r_0 \arrow[rr, no head, dotted] &  & r_{m-1}
+l_0 \arrow[rr, no head, dotted] &  & l_{k-1}                                                               &  & r_0 \arrow[rr, no head, dotted]                                       &  & r_{m-1}                                  & l_0 \arrow[rr, no head, dotted] &    & l_{k-1} &                                                                                           & r_0 \arrow[rr, no head, dotted] &  & r_{m-1}
 \end{tikzcd}
 
 \vspace{1.7cm}
@@ -184,8 +184,25 @@ l_0 \arrow[rr, no head, dotted] &  & l_{n-1}                                    
 
 Where the new abstract amplitudes are defined by the following formula:
 
-$$\forall x \in {l_0, ..., l_{n-1}, r_0, ..., r_{m-1}}, \text{ampl}(C, x) = \text{ampl}(A, x) \sqcup \text{ampl}(B, x)$$
+$$\forall x \in X, \text{ampl}(C, x) = \text{ampl}(A, x) \sqcup \text{ampl}(B, x)$$
 
-\noindent\underline{\textbf{Proof:}}
+\noindent\underline{\textbf{Proof:}} Let $f : \mathcal{D}_n \times \mathcal{D}_n \rightarrow \mathcal{D}_n$ be our diagram transofrmation.
+Let $\alpha_0, \alpha_1, \beta_0, \beta_1 \in \mathcal{A}_0$ such that $\alpha_0 \subset \beta_0$ and $\alpha_1 \subset \beta_1$.
+\begin{align*}
+&\min(\min \RE(\beta_0), \min \RE(\beta_1)) \le \min(\min \RE(\alpha_0), \min \RE(\alpha_1)) & \text{and} \\
+&\max(\max \RE(\beta_0), \max \RE(\beta_1)) \ge \max(\max \RE(\alpha_0), \max \RE(\alpha_1))&
+\end{align*}
+
+\noindent thus $\RE(\alpha_0 \sqcup \alpha_1) \subset \RE(\beta_0 \sqcup \beta_1)$. The same goes for imaginary parts, hence $\alpha_0 \sqcup \alpha_1 \subset \beta_0 \sqcup \beta_1$.
+With a very similar proof, we can show that $\alpha_0 + \alpha_1 \subset \beta_0 + \beta_1$.
+
+From there it comes that $\forall x \in X, \text{ampl}(A, x) \subset \text{ampl}(C, x)$ and $\forall x \in X, \text{ampl}(B, x) \subset \text{ampl}(C, x)$, and inductively:
+\begin{align*}
+\displaystyle\sum_{l \in \{l_0, ..., l_{k-1}\}} \text{ampl}(A, l) * l \subset &\displaystyle\sum_{l \in \{l_0, ..., l_{k-1}\}} \text{ampl}(C, l) * l\quad\quad \text{and} \\
+\displaystyle\sum_{r \in \{r_0, ..., r_{m-1}\}} \text{ampl}(A, r) * r\subset &\displaystyle\sum_{r \in \{r_0, ..., r_{m-1}\}} \text{ampl}(C, r) * r
+\end{align*}
+
+We now have $A \le C$, and since $A$ and $B$ are interchangeable, $B \le C$. Consequently, $f$ is a merge approximation and according to the merging theorem, a global approximation can be derived from it.
+\hfill{} $\boxed{}$
 
 \end{document}
