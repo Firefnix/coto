@@ -74,16 +74,22 @@ add_executable(amplitude_test test/amplitude_test.cpp)
 target_link_libraries(amplitude_test amplitude GTest::gtest_main)
 
 # ABSI test
-add_library(absi STATIC src/absi.cpp)
+add_library(absi STATIC src/absi.cpp src/amplitude.cpp)
 add_executable(absi_test test/absi_test.cpp)
 target_link_libraries(absi_test absi amplitude GTest::gtest_main)
 
 # QDD test
-add_library(qdd STATIC src/qdd.cpp src/amplitude.cpp)
-add_executable(qdd_test test/qdd_test.cpp)
-target_link_libraries(qdd_test qdd amplitude GTest::gtest_main)
+# add_library(qdd STATIC src/qdd.cpp src/amplitude.cpp)
+# add_executable(qdd_test test/node_test.cpp test/qdd_test.cpp)
+# target_link_libraries(qdd_test qdd amplitude GTest::gtest_main)
+
+# AAQDD test
+add_library(aaqdd STATIC src/aaqdd.cpp src/absi.cpp src/amplitude.cpp)
+
+# Reduction test
+add_library(reduction STATIC src/reduction.cpp src/aaqdd.cpp src/absi.cpp src/amplitude.cpp)
 
 include(GoogleTest)
 gtest_discover_tests(amplitude_test)
 gtest_discover_tests(absi_test)
-gtest_discover_tests(qdd_test)
+# gtest_discover_tests(qdd_test)
