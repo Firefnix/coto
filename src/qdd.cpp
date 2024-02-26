@@ -1,9 +1,13 @@
+#include <set>
 #include <qdd.h>
+#include <stdio.h>
 #include <amplitude.h>
 
 using namespace qdd;
 
-bool Node::is_unity() const
+static void fillNodesPointers(std::set<std::shared_ptr<Node>>, qdd::Node, size_t, size_t);
+
+bool Node::isUnity() const
 {
     return left.empty() && right.empty();
 }
@@ -18,35 +22,78 @@ void Node::appendRight(child c)
     right.push_back(c);
 }
 
-unsigned Node::countLeft()
+size_t Node::countLeft()
 {
     return left.size();
 }
 
-unsigned Node::countRight()
+size_t Node::countRight()
 {
     return right.size();
 }
 
-unsigned Node::depth()
+size_t Node::depth()
 {
-    if (!left.empty())
+    if (countLeft())
     {
-        return left.back().n->depth();
+        return 1 + left.back().n->depth();
     }
-    else if (!right.empty())
+    else if (countRight())
     {
-        return right.back().n->depth();
+        return 1 + right.back().n->depth();
     }
     return 0;
 }
 
-unsigned QDD::depth()
+ampl::Amplitude qdd::Node::getAt(unsigned address, unsigned level)
+{
+    if (level == 0)
+    {
+        return ampl::one;
+    }
+    ampl::Amplitude a = ampl::zero;
+    if ((address & (1 << (level - 1))) == 0)
+    {
+        puts("left");
+        for (child c : left)
+        {
+            a += c.x * c.n->getAt(address, level - 1);
+        }
+        return a;
+    }
+    puts("right");
+
+    for (child c : right)
+    {
+        a += c.x * c.n->getAt(address, level - 1);
+    }
+    return a;
+}
+
+size_t QDD::depth()
 {
     return root.depth();
 }
 
-unsigned QDD::size()
+size_t QDD::nodesAtLevel(size_t level)
+{
+    std::set<std::shared_ptr<Node>> nodes;
+    return nodes.size();
+}
+
+static void fillNodesPointers(std::set<std::shared_ptr<Node>> &queue, std::shared_ptr<qdd::Node> node_ptr, size_t desiredLevel, size_t currentLevel)
+{
+    if (currentLevel == desiredLevel)
+    {
+        queue.insert(node_ptr);
+        return;
+    }
+    for (child i : node_ptr->left) {
+        fillNodesPointers(queue, i.n, desiredLevel, currentLevel+1);
+    }
+}
+
+size_t QDD::size()
 {
     return sizeof(child); // TODO: implement that
 }
@@ -63,15 +110,11 @@ std::array<Node *, s> QDD::save(std::array<Node, s> newNodes)
     return pointers;
 }
 
-static ampl::Amplitude _getAt(unsigned address, unsigned level, Node n);
-
-ampl::Amplitude QDD::getAt(unsigned int address)
+ampl::Amplitude qdd::QDD::getAt(size_t address)
 {
-    return _getAt(address, depth(), root);
+    if (address >= pow(2, depth()))
+    {
+        throw std::range_error("Address is larger than 2^depth");
+    }
+    return root_ampl * root.getAt(address, depth());
 }
-
-static ampl::Amplitude _getAt(unsigned address, unsigned level, Node n)
-{
-    return ampl::zero;
-}
- 
