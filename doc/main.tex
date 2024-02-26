@@ -11,7 +11,8 @@
 \usetikzlibrary{positioning}
 \usepackage{tikz-cd}
 
-
+\newcommand{\RE}{\mathrm{Re}}
+\newcommand{\IM}{\mathrm{Im}}
 \newcommand{\function}[5]{\begin{array}{l|rcl}
 #1: & #2 & \longrightarrow & #3 \\
     & #4 & \longmapsto & #5 \end{array}}
@@ -35,7 +36,7 @@ $$\forall a, b \in \mathbb{R}, [a, b]
 
 Those can be generalised to complex intervals, commonly using the cartesian notation.
 $$\forall x, y \in \mathbb{C}, [x, y]
-= \{a + ib ; a \in [\Re(x), \Re(y)], b \in [\Im(x), \Im(y)]\}$$
+= \{a + ib ; a \in [\RE(x), \RE(y)], b \in [\IM(x), \IM(y)]\}$$
 
 Now let $\mathcal{A}_0 = \{[x, y] ; x, y \in \mathbb{C}\}$, we can now define basic operations: sum, product, and join. We note that these definition do not depend on the type of complex interval chosen.
 $$\forall \alpha, \beta \in \mathcal{A}_0, \alpha + \beta = \{a + b ; a \in \alpha, b \in \beta\}$$
@@ -45,6 +46,16 @@ $$\forall \alpha, \beta \in \mathcal{A}_0, \alpha \sqcup \beta = \bigcap_{\alpha
 We now have intervals, \textit{abstract elements} of $\mathbb{C}$ represented in $\mathcal{A}_0$. Our abstract elements for a $n$-qubit quantum state would be in $\mathcal{A}_n = {\mathcal{A}_0}^{2^n}$ for all $n \in \mathbb{N}$. Defining a sum in $\mathcal{A}_n$, and an external product $\alpha * A$ for
 $\alpha \in \mathcal{A}_0$ and $A \in \mathcal{A}_n$, comes easily. We also define the inclusion relation in $\mathcal{A}_n$ (which is an order relation) $\subset$ using the cartesian product of sets:
 $$\forall A = (a_0, ..., a_{2^n-1})^{T},  B = (b_0, ..., b_{2^n-1})^{T} \in \mathcal{A}_n, A \subset B \iff a_0 \times ... \times a_{2^n-1} \subset b_0 \times ... \times b_{2^n-1}$$
+
+\subsection{Abstract state imprecision}
+
+Intuitively, if $A$ and $B$ are in $\mathcal{A}_n$ and $A \subset B$, the abstract state $A$ is more \textit{precise} than $B$. In order to work with this notion, and later on to make it work with diagrams and approximations, we define the \textit{imprecision} $\mathcal{I}$ of an abstract state:
+$$\function{\mathcal{I}}
+{\bigcup_{n \in \mathbb{N}} \mathcal{A}_n}{\mathbb{R}^+}
+{A \in \mathcal{A}_n}{\displaystyle\prod_{i = 0}^{2^n-1} s(A_i)}$$
+
+\noindent using the surface function $s$ on complex intervals defined by
+$$s(\alpha) = (\max\{\RE(z) ; z \in \alpha\} - \min\{\RE(z) ; z \in \alpha\}) \times (\max\{\IM(z) ; z \in \alpha\} - \min\{\IM(z) ; z \in \alpha\})$$
 
 \subsection{Decision diagrams}
 
@@ -85,6 +96,8 @@ $$
 
 Since there is no risk of ambiguity, defining $\mathcal{E} : \bigcup \mathcal{D}_n \rightarrow \bigcup \mathcal{A}_n$ is not problematic. With this last function, we can now evaluate all our AAQDDs and define a partial order $\le$ on $\mathcal{D}$, with:
 $$\forall A, B \in \mathcal{D}, A \le B \iff \mathcal{E}(A) \subset \mathcal{E}(B)$$
+
+Additionally, we extend the definition of the imprecision function $\mathcal{I}$ to diagrams: $\forall D \in \mathcal{D}, \mathcal{I}(D) = \mathcal{I}(\mathcal{E}(D))$. Note that $\forall A, B \in \mathcal{D}_n, A \le B$ implies that $\mathcal{I}(A) \le \mathcal{I}(B)$ but that the reciprocal is not generally true.
 
 \section{Reduction algorithm}
 
@@ -150,10 +163,10 @@ a_0 \arrow[r, no head, dashed] & a_{l-1} & b_0 \arrow[r, no head, dashed]       
 \noindent with $\delta_j = \beta(A)_j \sqcup \beta(B)_j$. More formally, the merging formula would be:
 $$\text{fm}(A, C) = (\{(\alpha_0, a_0), ..., (\alpha_{l-1}, a_{l-1}), (\delta_0, b_0), ..., (\delta_{n-1}, b_{n-1}), (\gamma_0, c_0), ..., (\gamma_m, c_{m-1})\}, \emptyset)$$
 
-\subsection{General case -- theoretical approach}
+\subsection{Fully connected case}
 
 
-Let's consider another case, where our two nodes $A$ and $B$ have both a common left-descendance and a common right-descendance. We will see later that the general case can always be reduced to this case. The abstract amplitude on link between nodes is noded $\text{ampl}(u, v)$ for example $\text{ampl}(A, l_0)$ or $\text{ampl}(B, l_0)$.
+Let's consider another case, where our two nodes $A$ and $B$ have both a common left-descendance and a common right-descendance. We will see later that the general case can always be reduced to this case. The abstract amplitude on the link between two nodes is $\text{ampl}(u, v)$, for example $\text{ampl}(A, l_0)$ or $\text{ampl}(B, l_0)$. Additionally, let $X = {l_0, ..., l_{n-1}, r_0, ..., r_{m-1}}$.
 
 \vspace{1.7cm}
 \leftskip=200pt
