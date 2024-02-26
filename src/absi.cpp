@@ -4,6 +4,7 @@
 
 using namespace absi;
 
+
 // @brief Minimum and maximum of xy for x in [xn, xx] and y in [yn, yx]
 static absi::real_interval minMaxOfProduct(real_interval x, real_interval y);
 
@@ -37,6 +38,7 @@ AbstractElement AbstractElement::operator*(const ampl::real &other) const
 AbstractElement AbstractElement::operator*(const AbstractElement &other) const
 {
     // TODO: not implemented yet (the formulas exist on paper)
+    return *this;
 }
 
 ampl::real AbstractElement::operator^(const AbstractElement &other) const
@@ -56,38 +58,6 @@ bool AbstractElement::contains(ampl::Amplitude z) const
 ampl::real AbstractElement::norm() const
 {
     return abs(topRight - bottomLeft);
-}
-
-real_interval absi::AbstractElement::real_interval()
-{
-    return real_interval();
-}
-
-ampl::real AbstractElement::includeCost(ampl::Amplitude z) const
-{
-    if (contains(z))
-    {
-        return ampl::zero_real;
-    }
-    ampl::real a = std::get<0>(reals);
-    ampl::real newReals[2] = {
-        std::min(std::get<0>(reals), z.real()),
-        std::max(std::get<1>(reals), z.real())};
-    ampl::real newImaginaries[2] = {
-        std::min(std::get<0>(imaginaries), z.imag()),
-        std::max(std::get<1>(imaginaries), z.imag())};
-    ampl::real newSurface = (newReals[1] - newReals[0]) * (newImaginaries[1] - newImaginaries[0]);
-    return newSurface - norm();
-}
-
-void AbstractElement::include(ampl::Amplitude z)
-{
-    reals[0] = std::min(reals[0], z.real());
-    reals[1] = std::max(reals[1], z.real());
-    imaginaries[0] = std::min(imaginaries[0], z.imag());
-    imaginaries[1] = std::max(imaginaries[1], z.imag());
-    bottomLeft = ampl::Amplitude(reals[0], imaginaries[0]);
-    topRight = ampl::Amplitude(reals[1], imaginaries[1]);
 }
 
 static real_interval minMaxOfProduct(real_interval x, real_interval y)

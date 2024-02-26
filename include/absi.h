@@ -6,6 +6,7 @@
 #define ABSI_H_ 1
 
 #include <amplitude.h>
+#include <tuple>
 
 namespace absi
 {
@@ -36,8 +37,6 @@ namespace absi
         AbstractElement operator*(const AbstractElement &other) const;
         ampl::real operator^(const AbstractElement &other) const; // distance
         bool contains(ampl::Amplitude) const;
-        ampl::real includeCost(ampl::Amplitude) const;
-        void include(ampl::Amplitude);
         ampl::real norm() const;
 
     protected:
@@ -46,7 +45,7 @@ namespace absi
         real_interval imaginaries;
     };
 
-    AbstractElement zero;
+    inline absi::AbstractElement zero = AbstractElement(ampl::zero);
 }
 
 #endif
