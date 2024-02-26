@@ -111,7 +111,9 @@ $$\begin{cases}
 \end{cases}
 $$
 
-We developed a reduction formula to force the merging of two nodes. This is permitted both because of abstract interpretation (to merge without amplitudes being colinear).
+We developed a reduction formula to force the merging of two nodes. This is permitted both thanks to abstract interpretation (to merge without amplitudes being colinear) and the additive nature of diagrams. The cost $\mathcal{C}_f : \mathcal{D}_n \rightarrow \mathbb{R}^+$ of applying a global approximation $f$ to a diagram $D \in \mathcal{D}_n$ is defined by:
+
+$$\mathcal{C}_f(D) = \mathcal{I}(f(D)) - \mathcal{I}(D)$$
 
 \subsection{Merging theorem}
 
