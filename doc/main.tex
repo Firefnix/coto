@@ -3,9 +3,11 @@
 \usepackage[english]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage{geometry}
+\usepackage{amsthm}
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{mathrsfs}
+\usepackage{enumerate}
 
 \usepackage{tikz}
 \usetikzlibrary{positioning}
@@ -26,7 +28,7 @@
 
 \section{Formal definition}
 
-\subsection{Abstract states}
+\subsection{Complex intervals}
 
 The purpose of quantum decision diagrams is to provide a more efficient way to store and manipulate quantum states of a finite number of qubits. A $n$-qubit state is indeed traditionally represented as an element of $\mathbb{C}^{2^n}$ (with norm 1), which takes exponential space as $n$ grows. Abstract states will be in this part defined similarly, but with complex intervals instead of complex numbers.
 
@@ -38,16 +40,59 @@ Those can be generalised to complex intervals, commonly using the cartesian nota
 $$\forall x, y \in \mathbb{C}, [x, y]
 = \{a + ib ; a \in [\RE(x), \RE(y)], b \in [\IM(x), \IM(y)]\}$$
 
-Now let $\mathcal{A}_0 = \{[x, y] ; x, y \in \mathbb{C}\}$, we can now define basic operations: sum, product, and join. We note that these definition do not depend on the type of complex interval chosen.
+Now let $\mathcal{A}_0 = \{[x, y] ; x, y \in \mathbb{C}\}$, we can now define basic operations: sum, product, and join. We note that these definition do not depend on the type of complex interval chosen (here, cartesian).
+$$\forall \alpha \in \mathcal{A}_0, |\alpha| = \max\{|a| ; a \in \alpha\}$$
 $$\forall \alpha, \beta \in \mathcal{A}_0, \alpha + \beta = \{a + b ; a \in \alpha, b \in \beta\}$$
-$$\forall \alpha, \beta \in \mathcal{A}_0, \alpha * \beta = \{a * b ; a \in \alpha, b \in \beta\}$$
+$$\forall \alpha, \beta \in \mathcal{A}_0, \alpha \beta = \{ab ; a \in \alpha, b \in \beta\}$$
 $$\forall \alpha, \beta \in \mathcal{A}_0, \alpha \sqcup \beta = \bigcap_{\alpha \subset \gamma~\text{and}~\beta \subset \gamma} \gamma$$
+
+\noindent These operations are trivially commutative and associative. Additionally, let $\alpha, \beta, \gamma \in \mathcal{A}_0$, then $(\alpha + \beta) \gamma = \alpha \gamma + \beta \gamma$.
+
+\noindent \text{\underline{\textbf{Proof:}}}
+\begin{align*}
+(\alpha + \beta)\gamma &= \{xc ; x \in \{a + b ; a \in \alpha, b \in \beta\}, c \in \gamma\} \quad \text{(by definition of the product)}\\
+&= \{(a + b)c ; a \in \alpha, b \in \beta, c \in \gamma\} \\
+&= \{ac + bc ; a \in \alpha, b \in \beta, c \in \gamma\} \\
+&= \{ac; a \in \alpha, c \in \gamma\} + \{bc ; b \in \beta, c \in \gamma\} \quad \text{(by definition of the sum)} \\
+&= \alpha \gamma + \beta \gamma
+\end{align*}
+\hfill{} $\boxed{}$
+
+This gives us a ring structure for $(\mathcal{A}_0, +, \cdot)$, which we will use just next. For all $\alpha \in \mathcal{A}_0$, we introduce $\mu(\alpha) \in \mathbb{C}$ the \textit{middle} of $\alpha$:
+
+$$\mu(\alpha) = \frac{\min(\RE~\alpha) + \max(\RE~\alpha)}{2} + i \frac{\min(\IM~\alpha) + \max(\IM~\alpha)}{2}$$
+This notion comes with the following properties:
+\begin{enumerate}[i]
+    \item $\forall x \in \mathbb{C}, \mu([x, x]) = x$
+    \item\label{musum} $\forall \alpha, \beta \in \mathcal{A}_0, \mu(\alpha + \beta) = \mu(\alpha) + \mu(\beta)$
+    \item \label{muscalarprod}$\forall \alpha \in \mathcal{A}_0, \forall \lambda \in \mathbb{C}, \mu(\lambda \alpha) = \lambda \mu(\alpha)$ and more generally,
+    \item $\forall \alpha, \beta \in \mathcal{A}_0, \mu(\alpha \beta) = \mu(\alpha) \mu(\beta)$
+\end{enumerate}
+
+\noindent\underline{\textbf{Proofs:}}
+\begin{enumerate}[i]
+    \item $\RE([x, x]) = \RE(x)$ and $\IM([x, x]) = \IM(x)$, hence the result.
+    \item $\forall \alpha, \beta \in \mathcal{A}_0, \RE(\alpha + \beta) = \RE(\alpha) + \RE(\beta)$
+    \item The result is obvious for $\lambda \in \mathbb{R}$.
+    Moreover it is clear that $\IM(i \alpha) = \RE(\alpha)$ and similarly that $\RE(i \alpha) = - \IM(\alpha)$, thus
+    \begin{align*}
+        \mu(i\alpha) &= \frac{\min(-\IM~\alpha) + \max(-\IM~\alpha)}{2} + i \frac{\min(\RE~\alpha) + \max(\RE~\alpha)}{2} \\
+        &= \frac{(-\max(\IM~\alpha)) + (-\min(\IM~\alpha))}{2} + i \frac{\min(\RE~\alpha) + \max(\RE~\alpha)}{2} \\
+        &= - \IM(\mu(\alpha)) + i \RE(\mu(\alpha)) \\
+        &= i \mu(\alpha)
+    \end{align*}
+    Property \ref{musum} enables us to conclude.
+    \item The case when $\alpha$ is a real interval is easy. Using property \ref{muscalarprod} and the ring structure of $\mathcal{A}_0$, the general case is proven.
+    \hfill{} $\boxed{}$
+\end{enumerate}
+
+\noindent From these properties, it follows that $\mu$ is a ring morphism.
+
+\subsection{Abstract states}
 
 We now have intervals, \textit{abstract elements} of $\mathbb{C}$ represented in $\mathcal{A}_0$. Our abstract elements for a $n$-qubit quantum state would be in $\mathcal{A}_n = {\mathcal{A}_0}^{2^n}$ for all $n \in \mathbb{N}$. Defining a sum in $\mathcal{A}_n$, and an external product $\alpha * A$ for
 $\alpha \in \mathcal{A}_0$ and $A \in \mathcal{A}_n$, comes easily. We also define the inclusion relation in $\mathcal{A}_n$ (which is an order relation) $\subset$ using the cartesian product of sets:
 $$\forall A = (a_0, ..., a_{2^n-1})^{T},  B = (b_0, ..., b_{2^n-1})^{T} \in \mathcal{A}_n, A \subset B \iff a_0 \times ... \times a_{2^n-1} \subset b_0 \times ... \times b_{2^n-1}$$
-
-\subsection{Abstract state imprecision}
 
 Intuitively, if $A$ and $B$ are in $\mathcal{A}_n$ and $A \subset B$, the abstract state $A$ is more \textit{precise} than $B$. In order to work with this notion, and later on to make it work with diagrams and approximations, we define the \textit{imprecision} $\mathcal{I}$ of an abstract state:
 $$\function{\mathcal{I}}
