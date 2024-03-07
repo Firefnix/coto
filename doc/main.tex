@@ -30,6 +30,9 @@
 
 \subsection{Complex intervals}
 
+\subsubsection{The field of intervals}
+
+
 The purpose of quantum decision diagrams is to provide a more efficient way to store and manipulate quantum states of a finite number of qubits. A $n$-qubit state is indeed traditionally represented as an element of $\mathbb{C}^{2^n}$ (with norm 1), which takes exponential space as $n$ grows. Abstract states will be in this part defined similarly, but with complex intervals instead of complex numbers.
 
 The standard definition of real intervals is:
@@ -58,8 +61,16 @@ $$\forall \alpha, \beta \in \mathcal{A}_0, \alpha \sqcup \beta = \bigcap_{\alpha
 \end{align*}
 \hfill{} $\boxed{}$
 
-This gives us a ring structure for $(\mathcal{A}_0, +, \cdot)$, which we will use just next. For all $\alpha \in \mathcal{A}_0$, we introduce $\mu(\alpha) \in \mathbb{C}$ the \textit{middle} of $\alpha$:
+This gives us a ring structure for $(\mathcal{A}_0, +, \cdot)$, which we will use just next, and form now on we will note $0 = [0, 0]$ and $1 = [1, 1]$. One important thing is that $\mathcal{A}_0$ is a field, i.e.:
+$$\forall \alpha, \beta \in \mathcal{A}_0, \alpha \beta = 0 \Rightarrow \alpha = 0 ~\text{or}~ \beta = 0$$
 
+\noindent\underline{\textbf{Proof:}} Let such $\alpha, \beta \in \mathcal{A}_0$.
+If $\alpha \not= 0$ and $\beta \not= 0$, there are $x \in \alpha \backslash \{0\}$ and $y \in \beta \backslash \{0\}$, hence $xy \not= 0$, and by definition $xy \in \alpha\beta$.
+\hfill{} $\boxed{}$
+
+\subsubsection{Centered intervals}
+
+For all $\alpha \in \mathcal{A}_0$, we introduce $\mu(\alpha) \in \mathbb{C}$ the \textit{middle} of $\alpha$:
 $$\mu(\alpha) = \frac{\min(\RE~\alpha) + \max(\RE~\alpha)}{2} + i \frac{\min(\IM~\alpha) + \max(\IM~\alpha)}{2}$$
 This notion comes with the following properties:
 \begin{enumerate}[i]
@@ -87,6 +98,39 @@ This notion comes with the following properties:
 \end{enumerate}
 
 \noindent From these properties, it follows that $\mu$ is a ring morphism.
+
+For all $z \in \mathbb{C}$, let $\pm z = [-z, -z]$ (obviously $\mu(\pm z) = 0$). We have the following central decomposition theorem:
+$$\forall \alpha \in \mathcal{A}_0, \exists z \in \mathbb{C}, \{y \in \mathbb{C} / \alpha = \pm y + \mu(\alpha)\} = \{z, -z, \bar{z}, -\bar z\}$$
+
+\noindent\underline{\textbf{Proof:}} The existence on real intervals comes easily from the definition of $\mu$.
+Now for $\alpha \in \mathcal{A}_0$, $\alpha = \RE(\alpha) + i~\IM(\alpha)$, hence the existence of $z$ such that $\{z, -z, \bar{z}, -\bar z\} \subset \{y \in \mathbb{C} / \alpha = \pm y + \mu(\alpha)\}$.
+The reciprocal inclusion comes from the fact that, for real numbers, it is true.
+
+Now let $\alpha^c$ be this centered interval $\alpha - \mu(\alpha)$, and $\mathcal{A}_0^c = \text{Ker}(\mu)$ be the ring of centered intervals. What makes this decomposition particularly interesting is that $\pm : \mathbb{C} \rightarrow \mathcal{A}_0^c$ is a ring morphism.
+
+\noindent\underline{\textbf{Proof:}} All properties are trivial except for the product. Let $x, y \in \mathbb{C}$, we want to prove that $(\pm x)(\pm y) = \pm (xy)$. The result is easy to obtain when $x, y \in \mathbb{R}$.
+We also easily get that if $x \in \mathbb{R}, \pm (ix) = i(\pm x)$.
+\begin{align*}
+    \pm x &= \pm(\RE(x) + i\IM(x)) = \pm(\RE x) + i \pm(\IM x) \\
+    (\pm x)(\pm y) &= \left[\pm(\RE x) + i \pm(\IM x)\right] \left[\pm(\RE y) + i \pm(\IM y)\right] \\
+    &= (\pm \RE x) (\pm \RE y) - (\pm \IM x) (\pm \IM y) + i \left[(\pm \RE x)(\pm \IM y) + (\pm \IM x) (\pm \RE y)\right] \\
+    &= \pm(\RE x~\RE y - \IM x~\IM y) + \pm i \left[\RE x \IM y - \IM x \RE y\right] \\
+    &= \pm (xy)
+\end{align*}
+
+Additionally, $\forall x \in \mathbb{C}, (\pm x)^{-1} = \pm (x^{-1})$.
+
+\subsubsection{Partial order on intervals}
+
+We define the relation $\le$ on $\mathcal{A}_0$ such that $\forall \alpha, \beta \in \mathcal{A}_0, \alpha \le \beta \Rightarrow \alpha \subset \beta$.
+We easily get the following properties:
+\begin{enumerate}[i]
+    \item $\le$ is a partial order on $\mathcal{A}_0$
+    \item $\forall \alpha_1, \beta_1, \alpha_2, \beta_2 \in \mathcal{A}_0, \alpha_1 \le \alpha_2 ~\text{and}~ \beta_1 \le \beta_2 \Rightarrow \alpha_1 + \alpha_2 \le \beta_1 + \beta_2$
+    \item $\forall \alpha_1, \beta_1, \alpha_2, \beta_2 \in \mathcal{A}_0, \alpha_1 \le \alpha_2 ~\text{and}~ \beta_1 \le \beta_2 \Rightarrow \alpha_1 \alpha_2 \le \beta_1 \beta_2$
+    \item $\forall \alpha, \beta \in \mathcal{A}_0, \alpha \le \beta \Rightarrow \alpha^c \le \beta^c$
+    \item $\forall \alpha, \beta, \gamma \in \mathcal{A}_0, \alpha \gamma \le \beta \gamma ~\text{and}~ \gamma \not=0 \Rightarrow \alpha \le \beta$
+\end{enumerate}
 
 \subsection{Abstract states}
 
