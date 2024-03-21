@@ -1,0 +1,165 @@
+\chapter{Formal definition}
+
+\section{Complex intervals}
+
+\subsection{The field of intervals}
+
+
+The purpose of quantum decision diagrams is to provide a more efficient way to store and manipulate quantum states of a finite number of qubits. A $n$-qubit state is indeed traditionally represented as an element of $\mathbb{C}^{2^n}$ (with norm 1), which takes exponential space as $n$ grows. Abstract states will be in this part defined similarly, but with complex intervals instead of complex numbers.
+
+The standard definition of real intervals is:
+$$\forall a, b \in \mathbb{R}, [a, b]
+= \{x \in \mathbb{R} / \min(a, b) \le x \le \max(a, b)\}$$
+
+Those can be generalised to complex intervals, commonly using the cartesian notation.
+$$\forall x, y \in \mathbb{C}, [x, y]
+= \{a + ib ; a \in [\RE(x), \RE(y)], b \in [\IM(x), \IM(y)]\}$$
+
+Now let $\mathcal{A}_0 = \{[x, y] ; x, y \in \mathbb{C}\}$, we can now define basic operations: sum, product, and join. We note that these definition do not depend on the type of complex interval chosen (here, cartesian).
+$$\forall \alpha \in \mathcal{A}_0, |\alpha| = \max\{|a| ; a \in \alpha\}$$
+$$\forall \alpha, \beta \in \mathcal{A}_0, \alpha + \beta = \{a + b ; a \in \alpha, b \in \beta\}$$
+$$\forall \alpha, \beta \in \mathcal{A}_0, \alpha \beta = \{ab ; a \in \alpha, b \in \beta\}$$
+$$\forall \alpha, \beta \in \mathcal{A}_0, \alpha \sqcup \beta = \bigcap_{\alpha \subset \gamma~\text{and}~\beta \subset \gamma} \gamma$$
+
+\noindent These operations are trivially commutative and associative. Additionally, let $\alpha, \beta, \gamma \in \mathcal{A}_0$, then $(\alpha + \beta) \gamma \le \alpha \gamma + \beta \gamma$.
+
+\noindent \text{\underline{\textbf{Proof:}}}
+\begin{align*}
+(\alpha + \beta)\gamma &= \{xc ; x \in \{a + b ; a \in \alpha, b \in \beta\}, c \in \gamma\} \quad \text{(by definition of the product)}\\
+&= \{(a + b)c ; a \in \alpha, b \in \beta, c \in \gamma\} \\
+&= \{ac + bc ; a \in \alpha, b \in \beta, c \in \gamma\} \\
+&\subset \{ac; a \in \alpha, c \in \gamma\} + \{bc ; b \in \beta, c \in \gamma\} \quad \text{(by definition of the sum)} \\
+&= \alpha \gamma + \beta \gamma
+\end{align*}
+\hfill{} $\boxed{}$
+
+This gives us an \textit{almost} ring structure for $(\mathcal{A}_0, +, \cdot)$, which we will use just next, and form now on we will note $0 = [0, 0]$ and $1 = [1, 1]$. It is indeed not a ring because $(\mathcal{A}_0, +)$ is not a group. In fact, the exitence of an opposite (additive inverse) in $\mathcal{A}_0$ is replaced by the property
+$$\forall \alpha,\beta \in \mathcal{A}_0, \alpha \not= 0 \Rightarrow \alpha + \beta \not= 0$$
+
+This implies the non-existence of an additive inverse for all non-zero intervals. Another important thing is that $\mathcal{A}_0$ is a (except for ) field, i.e.:
+$$\forall \alpha, \beta \in \mathcal{A}_0, \alpha \beta = 0 \Rightarrow \alpha = 0 ~\text{or}~ \beta = 0$$
+
+\noindent\underline{\textbf{Proof:}} Let such $\alpha, \beta \in \mathcal{A}_0$.
+If $\alpha \not= 0$ and $\beta \not= 0$, there are $x \in \alpha \backslash \{0\}$ and $y \in \beta \backslash \{0\}$, hence $xy \not= 0$, and by definition $xy \in \alpha\beta$.
+\hfill{} $\boxed{}$
+
+\subsection{Centered intervals}
+
+For all $\alpha \in \mathcal{A}_0$, we introduce $\mu(\alpha) \in \mathbb{C}$ the \textit{middle} of $\alpha$:
+$$\mu(\alpha) = \frac{\min(\RE~\alpha) + \max(\RE~\alpha)}{2} + i \frac{\min(\IM~\alpha) + \max(\IM~\alpha)}{2}$$
+This notion comes with the following properties:
+\begin{enumerate}[i]
+    \item $\forall x \in \mathbb{C}, \mu([x, x]) = x$
+    \item\label{musum} $\forall \alpha, \beta \in \mathcal{A}_0, \mu(\alpha + \beta) = \mu(\alpha) + \mu(\beta)$
+    \item \label{muscalarprod}$\forall \alpha \in \mathcal{A}_0, \forall \lambda \in \mathbb{C}, \mu(\lambda \alpha) = \lambda \mu(\alpha)$ and more generally,
+    \item $\forall \alpha, \beta \in \mathcal{A}_0, \mu(\alpha \beta) = \mu(\alpha) \mu(\beta)$
+\end{enumerate}
+
+\noindent\underline{\textbf{Proofs:}}
+\begin{enumerate}[i]
+    \item $\RE([x, x]) = \RE(x)$ and $\IM([x, x]) = \IM(x)$, hence the result.
+    \item $\forall \alpha, \beta \in \mathcal{A}_0, \RE(\alpha + \beta) = \RE(\alpha) + \RE(\beta)$
+    \item The result is obvious for $\lambda \in \mathbb{R}$.
+    Moreover it is clear that $\IM(i \alpha) = \RE(\alpha)$ and similarly that $\RE(i \alpha) = - \IM(\alpha)$, thus
+    \begin{align*}
+        \mu(i\alpha) &= \frac{\min(-\IM~\alpha) + \max(-\IM~\alpha)}{2} + i \frac{\min(\RE~\alpha) + \max(\RE~\alpha)}{2} \\
+        &= \frac{(-\max(\IM~\alpha)) + (-\min(\IM~\alpha))}{2} + i \frac{\min(\RE~\alpha) + \max(\RE~\alpha)}{2} \\
+        &= - \IM(\mu(\alpha)) + i \RE(\mu(\alpha)) \\
+        &= i \mu(\alpha)
+    \end{align*}
+    Property \ref{musum} enables us to conclude.
+    \item The case when $\alpha$ is a real interval is easy. Using property \ref{muscalarprod} and the almost-ring structure of $\mathcal{A}_0$, the general case is proven.
+    \hfill{} $\boxed{}$
+\end{enumerate}
+
+\noindent From these properties, it follows that $\mu$ is an almost-ring morphism.
+
+For all $z \in \mathbb{C}$, let $\pm z = [-z, -z]$ (obviously $\mu(\pm z) = 0$). We have the following central decomposition theorem:
+$$\forall \alpha \in \mathcal{A}_0, \exists z \in \mathbb{C}, \{y \in \mathbb{C} / \alpha = \pm y + \mu(\alpha)\} = \{z, -z, \bar{z}, -\bar z\}$$
+
+\noindent\underline{\textbf{Proof:}} The existence on real intervals comes easily from the definition of $\mu$.
+Now for $\alpha \in \mathcal{A}_0$, $\alpha = \RE(\alpha) + i~\IM(\alpha)$, hence the existence of $z$ such that $\{z, -z, \bar{z}, -\bar z\} \subset \{y \in \mathbb{C} / \alpha = \pm y + \mu(\alpha)\}$.
+The reciprocal inclusion comes from the fact that, for real numbers, it is true.
+
+Now let $\alpha^c$ be this centered interval $\alpha - \mu(\alpha)$, and $\mathcal{A}_0^c = \text{Ker}(\mu)$ be the sub-almost-ring of centered intervals. What makes this decomposition particularly interesting is that $\pm : \mathbb{C} \rightarrow \mathcal{A}_0^c$ is a ring morphism.
+
+\noindent\underline{\textbf{Proof:}} All properties are trivial except for the product. Let $x, y \in \mathbb{C}$, we want to prove that $(\pm x)(\pm y) = \pm (xy)$. The result is easy to obtain when $x, y \in \mathbb{R}$.
+We also easily get that if $x \in \mathbb{R}, \pm (ix) = i(\pm x)$.
+\begin{align*}
+    \pm x &= \pm(\RE(x) + i\IM(x)) = \pm(\RE x) + i \pm(\IM x) \\
+    (\pm x)(\pm y) &= \left[\pm(\RE x) + i \pm(\IM x)\right] \left[\pm(\RE y) + i \pm(\IM y)\right] \\
+    &= (\pm \RE x) (\pm \RE y) - (\pm \IM x) (\pm \IM y) + i \left[(\pm \RE x)(\pm \IM y) + (\pm \IM x) (\pm \RE y)\right] \\
+    &= \pm (\RE x \RE y) - \pm(\IM x \IM y) + i \left[(\pm \RE x)(\pm \IM y) + (\pm \IM x) (\pm \RE y)\right] \\
+    &= \pm(\RE x~\RE y - \IM x~\IM y) + \pm i \left[\RE x \IM y - \IM x \RE y\right] \\
+    &= \pm (xy)
+\end{align*}
+
+Additionally, $\forall x \in \mathbb{C}, (\pm x)^{-1} = \pm (x^{-1})$.
+
+\subsection{Partial order on intervals}
+
+We define the relation $\le$ on $\mathcal{A}_0$ such that $\forall \alpha, \beta \in \mathcal{A}_0, \alpha \le \beta \Rightarrow \alpha \subset \beta$.
+We easily get the following properties:
+\begin{enumerate}[i]
+    \item $\le$ is a partial order on $\mathcal{A}_0$
+    \item $\forall \alpha_1, \beta_1, \alpha_2, \beta_2 \in \mathcal{A}_0, \alpha_1 \le \alpha_2 ~\text{and}~ \beta_1 \le \beta_2 \Rightarrow \alpha_1 + \alpha_2 \le \beta_1 + \beta_2$
+    \item $\forall \alpha_1, \beta_1, \alpha_2, \beta_2 \in \mathcal{A}_0, \alpha_1 \le \alpha_2 ~\text{and}~ \beta_1 \le \beta_2 \Rightarrow \alpha_1 \alpha_2 \le \beta_1 \beta_2$
+    \item $\forall \alpha, \beta \in \mathcal{A}_0, \alpha \le \beta \Rightarrow \alpha^c \le \beta^c$
+    \item $\forall \alpha, \beta, \gamma \in \mathcal{A}_0, \alpha \gamma \le \beta \gamma ~\text{and}~ \gamma \not=0 \Rightarrow \alpha \le \beta$
+\end{enumerate}
+
+\section{Abstract states}
+
+We now have intervals, \textit{abstract elements} of $\mathbb{C}$ represented in $\mathcal{A}_0$. Our abstract elements for a $n$-qubit quantum state would be in $\mathcal{A}_n = {\mathcal{A}_0}^{2^n}$ for all $n \in \mathbb{N}$. Defining a sum in $\mathcal{A}_n$, and an external product $\alpha * A$ for
+$\alpha \in \mathcal{A}_0$ and $A \in \mathcal{A}_n$, comes easily. We also define the inclusion relation in $\mathcal{A}_n$ (which is an order relation) $\subset$ using the cartesian product of sets:
+$$\forall A = (a_0, ..., a_{2^n-1})^{T},  B = (b_0, ..., b_{2^n-1})^{T} \in \mathcal{A}_n, A \subset B \iff a_0 \times ... \times a_{2^n-1} \subset b_0 \times ... \times b_{2^n-1}$$
+
+Intuitively, if $A$ and $B$ are in $\mathcal{A}_n$ and $A \subset B$, the abstract state $A$ is more \textit{precise} than $B$. In order to work with this notion, and later on to make it work with diagrams and approximations, we define the \textit{imprecision} $\mathcal{I}$ of an abstract state:
+$$\function{\mathcal{I}}
+{\bigcup_{n \in \mathbb{N}} \mathcal{A}_n}{\mathbb{R}^+}
+{A \in \mathcal{A}_n}{\displaystyle\prod_{i = 0}^{2^n-1} s(A_i)}$$
+
+\noindent using the surface function $s$ on complex intervals defined by
+$$s(\alpha) = (\max\{\RE(z) ; z \in \alpha\} - \min\{\RE(z) ; z \in \alpha\}) \times (\max\{\IM(z) ; z \in \alpha\} - \min\{\IM(z) ; z \in \alpha\})$$
+
+\section{Decision diagrams}
+
+We inductively define abstract additive quantum decision diagrams, starting from zero-depth decision. The only zero-depth diagram is $\boxed{1}$. Let for every set $E$ be the set of finite subsets of $E$: $\mathscr{P}_f(E) = \{ A \subset E / |A| < \infty \}$. If the set $\mathcal{D}_n$ of diagrams of depth $n$ is defined, $n+1$-depth diagrams can have a finite number of left children in $\mathcal{D}_n$ and a finite number of right children in $\mathcal{D}_n$, each being associated with an abstract amplitude in $\mathcal{A}_0$.
+
+\begin{center}
+    % https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZAZgBoAGAXVJADcBDAGwFcYkQAREAX1PU1z5CKcqQCM1Ok1bsoAfXI8+IDNjwEiY8ZIYs2iEADpjS-mqFEATNpq6ZB+cDABaMd1MqB64cgAsNqT12AHM5MQ9VQQ0UAFYAu30jE14zKJ8ANnjpRNDgAFtXd25JGChg+CJQADMAJwg8pFEQHAgkMkD7EAAdLqY0AAt6OSdCkBpGegAjGEYABS8LA0YYKpwxkEYsMESoejh+0o9a+saaFqR-DsSe6ZwhxXGpmfnzaJAarGD+tZSQY4bEE1zohMld2DcYHdhgU3OsJtM5gs3stVkc6gCga1EFowQYen1Bgo4U9Ea9hO9Pt84VsdnsDlAeJRuEA
+    \begin{tikzcd}
+        &     &         & D \arrow[ld, "\alpha_{n-1}", dashed] \arrow[rd, "\beta_0"'] \arrow[rrrd, "\beta_{m-1}"] \arrow[llld, "\alpha_0"', dashed] &     &     &         \\
+    d_0 & ... & d_{n-1} &                                                                                                                           & g_1 & ... & g_{m-1}
+    \end{tikzcd}
+\end{center}
+
+Defining $\mathcal{D}_{n+1} = \mathscr{P}_f(\mathcal{A}_0 \times \mathcal{D}_n) \times \mathscr{P}_f(\mathcal{A}_0 \times \mathcal{D}_n)$ thus comes naturally. Eventually, let $\mathcal{D} = \bigcup_{n \in \mathbb{N}} \mathcal{D}_n$ the set of all AAQDDs.
+
+\section{Sub-diagrams}
+
+Sub-diagrams (or nodes) of a diagram $D \in \mathcal{D}_n$ for all $n \in \mathbb{N}$, are defined inductively:
+$$\mathcal{N}(\boxed{1}) = \boxed{1}$$
+$$\forall D, G \in \mathscr{P}_f(\mathcal{A}_0 \times \mathcal{D}_n), \mathcal{N}(D, G) = \{d ; (\alpha, d) \in D \cup G\} \cup
+\bigcup_{(\alpha, d) \in D \cup G} \mathcal{N}(d)$$
+
+We also define $\mathcal{N}_i(D) = \mathcal{N}(D) \cap \mathcal{D}_i$ for all $i \in \mathbb{N}$.
+
+\section{Diagram evaluation}
+
+Now that we defined our decision diagrams, we can evaluate them to get abstract elements. We inductively define our evaluation function for $n$ quibits $\mathcal{E}_n : \mathcal{D}_n \rightarrow \mathcal{A}_n$:
+
+$$\mathcal{E}_0(\boxed{1}) = \{1\}$$
+
+$$\forall D, G \in \mathscr{P}_f(\mathcal{A}_0 \times \mathcal{D}_n), \mathcal{E}_{n+1}(D, G) =
+\begin{pmatrix}
+    \displaystyle\sum_{(\alpha, g) \in G} \alpha * \mathcal{E}_n(g) \\
+    \displaystyle\sum_{(\beta, d) \in D} \beta * \mathcal{E}_n(d) \\
+\end{pmatrix}
+\quad\text{with}
+$$
+
+Since there is no risk of ambiguity, defining $\mathcal{E} : \bigcup \mathcal{D}_n \rightarrow \bigcup \mathcal{A}_n$ is not problematic. With this last function, we can now evaluate all our AAQDDs and define a partial order $\le$ on $\mathcal{D}$, with:
+$$\forall A, B \in \mathcal{D}, A \le B \iff \mathcal{E}(A) \subset \mathcal{E}(B)$$
+
+Additionally, we extend the definition of the imprecision function $\mathcal{I}$ to diagrams: $\forall D \in \mathcal{D}, \mathcal{I}(D) = \mathcal{I}(\mathcal{E}(D))$. Note that $\forall A, B \in \mathcal{D}_n, A \le B$ implies that $\mathcal{I}(A) \le \mathcal{I}(B)$ but that the reciprocal is not generally true.

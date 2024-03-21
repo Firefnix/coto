@@ -1,0 +1,146 @@
+\chapter{Reduction algorithm}
+
+We note that multiple QDDs can be evaluated to the same abstract state. This part will aim to provide an algorithm to decrease the "size" of diagrams while not breaking their evaluation by $\mathcal{E}$. The size of a AAQDD is the number of intervals (counting them with their multiplicity). We would want, from a diagram $D$, to get a diagram $D'$ such that $\text{size}(D) > \text{size}(D')$ and $D \le D'$ (the reduction is smaller in size and might be less precise that the original diagram). More generally, function $g : \mathcal{D}_n \rightarrow \mathcal{D}_n$ is an \textit{global approximation} if
+$$\forall D \in \mathcal{D}_n, D \le g(D)$$
+
+Similarly, a function $f : \mathcal{D}_n \times \mathcal{D}_n \rightarrow \mathcal{D}_n$ is a \textit{merge approximation at height $n$} if
+$$\begin{cases}
+    \forall A \not= B \in \mathcal{D}_n, A \le f(A, B)~\text{and}~B \le f(A, B) \\
+    \forall A \in \mathcal{D}_n, f(A, A) = A
+\end{cases}
+$$
+
+We developed a reduction formula to force the merging of two nodes. This is permitted both thanks to abstract interpretation (to merge without amplitudes being colinear) and the additive nature of diagrams. The cost $\mathcal{C}_f : \mathcal{D}_n \rightarrow \mathbb{R}^+$ of applying a global approximation $f$ to a diagram $D \in \mathcal{D}_n$ is defined by:
+
+$$\mathcal{C}_f(D) = \mathcal{I}(f(D)) - \mathcal{I}(D)$$
+
+\section{Merging theorem}
+
+Let $n \in \mathbb{N}^*$, $N \ge n$, and $f$ be a merge approximation. Moreover let $w : \mathcal{D}_N \rightarrow \mathcal{D}_n \times \mathcal{D}_n$ be a choice function at height $n$ in $\mathcal{D}_N$, meaning that $\forall D, w(D) \in \mathcal{N}_n(D) \times \mathcal{N}_n(D)$. Now we define:
+
+$$\function{f | w}{\mathcal{D}_N}{\mathcal{D}_N}{D}{r_N(B, C, r_N(A, C, D))\quad \text{with}~C = f(w(D))}$$
+
+With $\forall i > 0, r_i : \mathcal{D}_n \times \mathcal{D}_n \times \mathcal{D}_i \rightarrow \mathcal{D}_i$ the replacement function defined by:
+$$\begin{cases}
+\forall n > i, \forall A, B \in \mathcal{D}_n, \forall D \in \mathcal{D}_i, r_i(A, B, D) = D \\
+\forall A, B, D \in \mathcal{D}_n, r_n(A, B, D) = \begin{cases}
+B \quad \text{if}~D = A \\
+D \quad \text{otherwise}
+\end{cases} \\
+\forall 1 \le n < i, \forall A, B \in \mathcal{D}_n, \forall \{(\alpha_j, g_j)\}, \{(\beta_k, d_k)\} \in \mathcal{D}_{i-1},\\
+\hfill r_i(A, B, (G, D)) = (\{(\alpha_j, r_{i-1}(g_j))\}, \{(\beta_k, r_{i-1}(d_k))\})
+\end{cases}
+$$
+
+\noindent\underline{\textbf{Merging theorem:}} Let $f$ be a merge approximation at height $n$ and $w$ be a choice function at height $n$ in $\mathcal{D}_N$. $f|w$ is a global approximation in $\mathcal{D}_N$.
+
+\noindent\underline{Proof:} Let $D \in \mathcal{D}_N$, $(A, B) = w(D)$ and $C = f(w(D))$. By ascending induction (in height), it comes that $\forall U, V \in \mathcal{D}_n, U \le V \Rightarrow r_N(U, V, D) \le D$. Meanwhile, $f$ is a merge approximation so $A \le C$, thus $r_N(A, C, D) \le D$.
+
+Proving that $r_N(A, C, D) \le D$ is mostly enough to prove the theorem, because once it is proven we only have let $D' = r_N(A, C, D)$ and use this result on $B$ and $D'$ to conclude that $r_N(B, C, D') \le D'$. The only problem is that we would need $C' = f(w(D'))$ instead of $C$ to reuse the exact same result demonstrated earlier.
+\hfill{} $\boxed{}$
+
+
+\section{One-side case}
+
+To begin, let's consider the simple case where all diagrams only have left children (this case would be useless in practice because it would result in only one interval and zeros). Let's say we want to merge the two diagrams:
+\begin{gather*}
+A = (\{(\alpha_0, a_0), ..., (\alpha_{l-1}, a_{l-1}), (\beta(A)_0, b_0), ..., (\beta(A)_{n-1}, b_{n-1})\}, \emptyset)\quad \text{and} \\
+C = (\{ (\beta(C)_0, b_0), ..., (\beta(C)_{n-1}, b_{n-1}), (\gamma_0, c_0), ..., (\gamma_m, c_{m-1}) \}, \emptyset)
+\end{gather*}
+\noindent with $\{a_0, ..., a_{l-1}\} \cap \{c_0, ..., c_{m-1}\} = \emptyset$. A graphic representation of our merging formula would be:
+
+\vspace{1.7cm}
+\leftskip=200pt
+% https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZAJgBoAGAXVJADcBDAGwFcYkQQBfU9TXfQigAsFanSat2XHiAzY8BIgHZRNBizaIO3XvIFEAnKvEapO2XwWCSpAIxj1krQEFpu-ouF2HEzSADCbhZ6nsgArN5qvmYych7WKvZRplpBcVZEAByRJk4gADr5ODAAHjjAALYwAE4A5jCcABTOpAAE-gCUaZb6KOSkxD4pIPQA+uTdIda2A0N5Y8CMALS2nJPxRGSDyXkARuPrGSgAzLM7fvvAYCtr5um9yCLbuX4Axgd3PaERz45vo5UbocHgA2M4vdhjCafKbKcF-SEA5arYGhbK-aJafbQ2JfaxGDHDS7XFEwjYoWz9Ql5d449xHZC2GbU-6A0liGBQeoIFCgABm1QgFSQ-RAOAgSBEEK0zBANEY9F2MEYAAU8exGDA+TgggKhUgZmKJYgItK6HKQAqlar1VpNdrdYLhYgyEakNkzbL5YrlWrYXatTrzHrnac3YgPQitLQLVbfbaQNUsLUABZBmQhyU0cUG0VRsDMRiMb3Wv3ky2Bx36xBSnOIJnnJAFosl+P+isO4NOrPh2yuqMFfJKnD0ZodUYAK1jPpt7ft6f53Zr2eNRjNhSYaBTYyw09LCaTqYXIEzJpXBsN+cLxctM7LRw7x9PprrfcbWkKw9HACFx1PW7O5bzlWzovsathhleLa3vuc6Vl21ZgQaUoDoUtT0BUFRjAA1nubZAfBGZLmC4YqGajR8hUXQAfevSPrGWBgH4UAQMwuyaiB7rnvWJFQTecaAQ+wEIc6HqvmRqH5LAjAjpOeGCXRwlEdWYngZGmLNvxd4Jkpi4qdxtimpJm7bqMu40QeyZppxEYGWufEWXBnbKaJ3HEHmmKDuhmE4fJtGePRIlIGur4eSkmmOQRDo0CmMD0FA7CQExDHJVoUD0HAsUJUF9aGq+-YadekVCZWMVxQlWhJWw8qMcxGVZTZEEGShhXQQJ-mCPRZXxYlBDVZatXsOlmWco1SE8e+EUwfhJXRSAsU9ZVfUpXVI3ZS5Bpka+6nhUV00KQFwHdRV4DLTVqUgMNDU5bYIXGu5k17e1OmlfN5W9cl52rddlCcEAA
+\begin{tikzcd}[overlay]
+                               &         & {} \arrow[d, "u"]                                                        &         & {} \arrow[d, "v"]                                                       &                                   &                                & {} \arrow[rd, "u"] &                                                                                                                                & {} \arrow[ld, "v"'] &                                &         \\
+                               &         & A \arrow[ld] \arrow[d] \arrow[rd, "\beta(A)_j"] \arrow[lld, "\alpha_i"'] &         & C \arrow[lld] \arrow[ld, "\beta(B)_j"] \arrow[d] \arrow[rd, "\gamma_k"] & {} \arrow[rr, "(\text{fm})", Rightarrow] &                                & {}                 & {\text{fm}(A, C)} \arrow[ld] \arrow[d, "\delta_j"] \arrow[rd] \arrow[lld, "\alpha_i"'] \arrow[rrd] \arrow[rrrd, "\gamma_k"] &                     &                                &         \\
+a_0 \arrow[r, no head, dashed] & a_{l-1} & b_0 \arrow[r, no head, dashed]                                           & b_{n-1} & c_0 \arrow[r, no head, dashed]                                          & c_{m-1}                           & a_0 \arrow[r, no head, dashed] & a_{l-1}            & b_0 \arrow[r, no head, dashed]                                                                                                 & b_{n-1}             & c_0 \arrow[r, no head, dashed] & c_{m-1}
+\end{tikzcd}
+
+\vspace{1.7cm}
+\leftskip=0pt
+
+\noindent with $\delta_j = \beta(A)_j \sqcup \beta(B)_j$. More formally, the merging formula would be:
+$$\text{fm}(A, C) = (\{(\alpha_0, a_0), ..., (\alpha_{l-1}, a_{l-1}), (\delta_0, b_0), ..., (\delta_{n-1}, b_{n-1}), (\gamma_0, c_0), ..., (\gamma_m, c_{m-1})\}, \emptyset)$$
+
+\section{Fully connected case}
+
+
+Let's consider another case, where our two nodes $A$ and $B$ have both a common left-descendance and a common right-descendance. We will see later that the general case can always be reduced to this case. The abstract amplitude on the link between two nodes is $\text{ampl}(u, v)$, for example $\text{ampl}(A, l_0)$ or $\text{ampl}(B, l_0)$. Additionally, let $X = \{l_0, ..., l_{k-1}, r_0, ..., r_{m-1}\}$.
+
+\vspace{1.7cm}
+\leftskip=200pt
+% https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZAJgBoAGAXVJADcBDAGwFcYkQBBEAX1PU1z5CKACwVqdJq3YAhHnxAZseAkXKliEhizaIQjAPrl5-ZUKJlNNbdL2HgYALQBGbicUCVw5GKuSd7ABORu5KgqooAGwaWlK6IMHAALYubrym4d4A7DHWceyGxukeZhHIAJy5-rb6Bg6poZ7mKM7OVTbxwUUKYV5EzgDM7fl6iSmujaXezupUeQF6AMIABAC8ywA6GzgwAB44wABmSdwAFBykyzIAlJOZRNHOsQsgd30oABykT-M1PBIwKAAc3gRFAh0CECSSHUIBwECQZH0WDA8Sg9DgAAtAe4IVCYTR4UghsjUex0ViccU8dDEEiiYgSYwUWiIDgdlAQDRsfROXpIGTqZDaW04Qi6TRmWS9BTsZyhfjEKKGUyWeSMXLccKCWKkCIFSLCeL9QoaTqGQBWA16o1IC3cmC89gCtiStUytkcrWK5Xiq2m7WIaK6xA5Ums9k4h1O-kENjWxBfEOVEA8vngONc8Pkz1UgM+2EMsNStEavPgwMzW2JhNV5O131IZxIks55gAI0YrtTjr5YGYjEYhPoWEYzszv3iWx2+2Ap2O1zS+ZFhfFwdbMrL8so3CAA
+\begin{tikzcd}[overlay]
+                                &  & A \arrow[lldd, dashed] \arrow[dd, dashed] \arrow[rrdd] \arrow[rrrrdd] &  & B \arrow[lllldd, dashed] \arrow[lldd, dashed] \arrow[dd] \arrow[rrdd] &  &                                          &                                 &    &         & {C = \text{fm}(A, B)} \arrow[ldd, dashed] \arrow[rdd] \arrow[rrrdd] \arrow[llldd, dashed] &                                 &  &         \\
+                                &  &                                                                       &  &                                                                       &  & {} \arrow[rr, "\text{(fm)}", Rightarrow] &                                 & {} &         &                                                                                           &                                 &  &         \\
+l_0 \arrow[rr, no head, dotted] &  & l_{k-1}                                                               &  & r_0 \arrow[rr, no head, dotted]                                       &  & r_{m-1}                                  & l_0 \arrow[rr, no head, dotted] &    & l_{k-1} &                                                                                           & r_0 \arrow[rr, no head, dotted] &  & r_{m-1}
+\end{tikzcd}
+
+\vspace{1.7cm}
+\leftskip=0pt
+
+Where the new abstract amplitudes are defined by the following formula:
+
+$$\forall x \in X, \text{ampl}(C, x) = \text{ampl}(A, x) \sqcup \text{ampl}(B, x)$$
+
+\noindent\underline{\textbf{Proof:}} Let $f : \mathcal{D}_n \times \mathcal{D}_n \rightarrow \mathcal{D}_n$ be our diagram transofrmation.
+Let $\alpha_0, \alpha_1, \beta_0, \beta_1 \in \mathcal{A}_0$ such that $\alpha_0 \subset \beta_0$ and $\alpha_1 \subset \beta_1$.
+\begin{align*}
+&\min(\min \RE(\beta_0), \min \RE(\beta_1)) \le \min(\min \RE(\alpha_0), \min \RE(\alpha_1)) & \text{and} \\
+&\max(\max \RE(\beta_0), \max \RE(\beta_1)) \ge \max(\max \RE(\alpha_0), \max \RE(\alpha_1))&
+\end{align*}
+
+\noindent thus $\RE(\alpha_0 \sqcup \alpha_1) \subset \RE(\beta_0 \sqcup \beta_1)$. The same goes for imaginary parts, hence $\alpha_0 \sqcup \alpha_1 \subset \beta_0 \sqcup \beta_1$.
+With a very similar proof, we can show that $\alpha_0 + \alpha_1 \subset \beta_0 + \beta_1$.
+
+From there it comes that $\forall x \in X, \text{ampl}(A, x) \subset \text{ampl}(C, x)$ and $\forall x \in X, \text{ampl}(B, x) \subset \text{ampl}(C, x)$, and inductively:
+\begin{align*}
+\displaystyle\sum_{l \in \{l_0, ..., l_{k-1}\}} \text{ampl}(A, l) * l \subset &\displaystyle\sum_{l \in \{l_0, ..., l_{k-1}\}} \text{ampl}(C, l) * l\quad\quad \text{and} \\
+\displaystyle\sum_{r \in \{r_0, ..., r_{m-1}\}} \text{ampl}(A, r) * r\subset &\displaystyle\sum_{r \in \{r_0, ..., r_{m-1}\}} \text{ampl}(C, r) * r
+\end{align*}
+
+We now have $A \le C$, and since $A$ and $B$ are interchangeable, $B \le C$. Consequently, $f$ is a merge approximation and according to the merging theorem, a global approximation can be derived from it.
+\hfill{} $\boxed{}$
+
+\section{Error estimation}
+
+Let $A, C \in \mathcal{D}_n$. We would like to define a scale $\delta : \mathcal{D}_n \rightarrow X$ with $(X, \prec)$ a partially ordered set, that we would be able to compute in polynomial time and space (i.e. in $O(n^p)$ for a certain $p \in \mathbb{N}$), such that if $A \le C$, $\delta(A) \prec \delta(C)$. Let $X = \mathbb{R}^+ \times \mathcal{A}_0$ and $\delta(A) = (|A|, [A])$ be inductively defined by:
+$$\delta(\boxed{1}) = (1, [1, 1])$$
+$$\forall a, b \in \mathcal{A}_0, \delta(\{(a, \boxed{1})\}, \{(b, \boxed{1})\}) = $$
+$$\forall G, D \in \mathscr{P}_f(\mathcal{A}_0 \times \mathcal{D}_n), |(G, D)|
+= \max\left( \left|\sum_{(l, L) \in G} l |L| \right|, \left|\sum_{(r, R) \in D} r |R| \right|\right)$$
+$$\forall G, D \in \mathscr{P}_f(\mathcal{A}_0 \times \mathcal{D}_n), [(G, D)]
+= \left(\sum_{(l, L) \in G} l |L| [L] \right) \bigsqcup \left(\sum_{(r, R) \in D} r |R| [R]\right)$$
+
+\noindent\underline{\textbf{Proof:}} Let for $n \ge 0$ the property
+$$(\Delta_n)\quad : \quad \forall A, B \in \mathcal{D}_n, A \le B \Rightarrow \delta(A) \prec \delta(B)$$
+
+\noindent\boxed{n = 0} The only zero-height diagram is $\boxed{1}$, the result is trivial.
+
+\noindent\boxed{n = 1} Let $A, B \in \mathcal{D}_1$.
+
+\begin{center}
+% https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZABgBpiBdUkANwEMAbAVxiRAEEQBfU9TXfIRQAmclVqMWbAELdeIDNjwEiZAIzj6zVohAAdPQCMIADxhRgarnL5LBRURupapug8bMWr3ceYDm8ESgAGYAThAAtkhkIDgQSKIS2mx0APoMAH4ZINQMdIYwDAAK-MpCIKFYfgAWODkgDFhgOiBQdHDV5vUFYFBIALQALACcPCHhUYgxcQnOki1ZaaH1eQXFpfa6DDDBddQ9fYgjYyBhkUhq1DOIAMxzybqG6Vkr+YUldiq6lTV7DU0tNodLr7GC9AbHeRnSaXWLxW73VwgLJPZa5N7rT7lba7bpgw7HChcIA
+\begin{tikzcd}
+A \arrow[d, "a_l~~"', dashed, bend right=49] \arrow[d, "~~a_r", bend left=49] &  & B \arrow[d, "b_l~~"', dashed, bend right=49] \arrow[d, "~~b_r", bend left=49] \\
+\boxed{1}                                                                     &  & \boxed{1}
+\end{tikzcd}
+\end{center}
+
+Suppose that $A \le B$, then $a_l \le b_l$ and $a_r \le b_r$, hence $a_l [\boxed{1}] \sqcup a_r [\boxed{1}] = a_l + a_r \le b_l + b_r$, and then $\delta(A) \prec \delta(B)$, so $(\Delta_1)$ is true.
+
+\noindent\boxed{n > 1} Let $n > 1$ such that $(\Delta_{n-1})$ is true. Let $A, B \in \mathcal{D}_n$ such that $A \le B$.
+
+% https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZAJgBoAGAXVJADcBDAGwFcYkQBBEAX1PU1z5CKAKwVqdJq3YAhHnxAZseAkXKkAjBIYs2iEABkA+hvn9lQohs3apew0cK9zg1SjJaaO6foBKJs0UBFWFkAGYbLzt2fwBbQKVXUIAWSMlddmNTZyCLN2QxT3SfBycFRJCiADY073t-bPLgyxQAdlrovyN47gkYKABzeCJQADMAJwh4xHUQHAgkCOK9MGZGRhpGegAjGEYABWa3EEYYUZwQTawweyh6OAALfsCJqaRZ+aRU5aRV9c2dntDnlhCczhccq9ph8FogxD9EH8NidAQcjqDTucXpNoTRPogyAikQDdmiQexMRcrjd2HdHs9ITikNY5rCakS1sitqTgUkKeDLidrrd7k8oNi3ogWfj2hz-iieej+VjqSL6eLGZLpbCABxRDKIzkkoFK-SUiXTbVIACc+p8xIVJvJZoFmumhPxSzqvyNjrJfJdKpAT3o4v0kBpqtpEBwOAZCihXzxsPh3sN8u5ToDYKDIbD4AIbCj+igMbjGoTTMQ7JldpWvsz-sqgapwZgofYEaLQppJbL8bGVb1rJtdZ9GdRvObOdbec7hcFjGF0djDMo3CAA
+\begin{tikzcd}
+                               &     & A \arrow[ld, dashed] \arrow[d] \arrow[rd] \arrow[lld, dashed] &     &                                & B \arrow[ld, dashed] \arrow[d, dashed] \arrow[rd] \arrow[rrd] &                                &     \\
+L_1 \arrow[r, no head, dotted] & L_n & R_1 \arrow[r, no head, dotted]                                & R_m & L_1 \arrow[r, no head, dotted] & L_n                                                           & R_1 \arrow[r, no head, dotted] & R_m
+\end{tikzcd}
+
+Let $a_j = \text{ampl}(j, A)$ and $b_j = \text{ampl}(j, B)$. We know that $A \le B$ so:
+$$\sum_j a_j \mathcal{E}(j) \le \sum_j b_j \mathcal{E}(j)$$
+
+We would like to prove that:
+$$|A \le |B|, ~\text{i.e.}~ \max()$$
