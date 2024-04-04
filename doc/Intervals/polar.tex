@@ -1,0 +1,26 @@
+\subsection{Definition}
+
+We have seen that cartesian complex intervals have interesting properties on sums while being harder to manipulate with products. Given the multiplicative nature of some of the structures we will define in the next chapter, is seems interesting to define a kind of complex interval that works better with products. Polar intervals were defined .
+
+A polar complex interval is $\rho e^{i\theta}$ for $\rho, \theta \in \mathcal{A}_0^+$ (the product between $\rho$ and $e^{i\theta}$ here is $\otimes$). The set of polar complex intervals is $\mathcal{S}_0$.
+
+\subsection{Operations}
+
+The most interesting property of polar complex intervals is the following.
+
+\begin{theorem}[directness of the product]
+The product is direct in $\mathcal{S}_0$.
+\end{theorem}
+\begin{proof}
+Let $\rho, \eta, \theta, \varphi \in \mathcal{A}_0^+$. By associativity and commutativity of $\otimes$,
+\begin{align*}
+    (\rho \otimes e^{i\theta}) \otimes (\eta \otimes e^{i\varphi})
+    &= (\rho \eta) \otimes e^{i\theta} \otimes e^{i\varphi} \\
+    &= \{r e^{it} e^{ip} ; r \in \rho \otimes \eta, t \in \theta, p \in \varphi\} \\
+    &= \{r e^{i(t+p)} ; r \in \rho \otimes \eta, t \in \theta, p \in \varphi\} \\
+    &= \{r e^{i(t+p)} ; r \in \rho \otimes \eta, x \in \theta \oplus \varphi\} \\
+    &= \{r e^{i(t+p)} ; r \in \rho \eta, x \in \theta + \varphi\} \\
+    & \quad \quad (\text{by directness of the sum and product in } \mathcal{A}_0^+) \\
+    &= \rho \eta e^{i(\theta + \varphi)} \in \mathcal{S}_0
+\end{align*}
+\end{proof}

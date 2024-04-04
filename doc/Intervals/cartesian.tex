@@ -1,0 +1,112 @@
+\subsection{Definition}
+
+Real intervals can be generalised to complex intervals naturally using the cartesian notation of complex numbers.
+$$\forall x, y \in \mathbb{C}, [x, y]
+= \{a + ib ; a \in [\RE(x), \RE(y)], b \in [\IM(x), \IM(y)]\}$$
+
+Similarly to what can be done with real intervals, we can see complex numbers as complex intervals that only have one element, hence we might use $\mathbb{C}$ to be $\{[z, z] ; z \in \mathbb{C}\}$. Now let $\mathcal{A}_0 = \{[x, y] ; x, y \in \mathbb{C}\}$.
+
+\subsection{Operations}
+
+The basic operations on $\mathcal{A}_0$ (sum, product and join) are defined thanks to subsection \ref{general-operations}. Note that the product is \underline{not} associative in $\mathcal{A}_0$, and that the sum is \underline{not} distributive on the product:
+$$\forall \alpha, \beta, \gamma \in \mathcal{A}_0, (\alpha + \beta) \gamma \subset \alpha \gamma + \beta \gamma$$
+
+\noindent \underline{\textbf{Proof:}}
+\begin{align*}
+(\alpha + \beta)\gamma &= \{xc ; x \in \{a + b ; a \in \alpha, b \in \beta\}, c \in \gamma\} \quad \text{(by definition of the product)}\\
+&= \{(a + b)c ; a \in \alpha, b \in \beta, c \in \gamma\} \\
+&= \{ac + bc ; a \in \alpha, b \in \beta, c \in \gamma\} \\
+&\subset \{ac + bd ; a \in \alpha, b \in \beta, c, d \in \gamma\} \\
+&\subset \{ac; a \in \alpha, c \in \gamma\} + \{bc ; b \in \beta, c \in \gamma\} \quad \text{(by definition of the sum)} \\
+&\subset \alpha \gamma + \beta \gamma
+\end{align*}
+\hfill{} $\boxed{}$
+
+\subsection{Convex conservation}
+
+All complex intervals are convex.
+
+\noindent \underline{\textbf{Proof:}} Let $\alpha \in \mathcal{A}_0$ and $a, b \in \alpha$. Additionally let $t \in [0, 1]$.
+
+\begin{align*}
+\RE(ta+(1-t)b) &= \RE(ta) + \RE((1-t)b) \\
+&\le t\RE(a) + (1-t)\RE(b) \quad (\text{since}~t, 1-t \in \mathbb{R}) \\
+&\le \max(\RE(\alpha)) \quad \text{since}~a, b \in \alpha
+\end{align*}
+
+The corresponding properties with a minimum or the imaginary part are proven very similarly, hence $ta+(1-t)b \in \alpha$.
+\hfill{} $\boxed{}$
+
+\subsection{The minus operation}
+
+This gives \textit{almost} us an ring structure for $(\mathcal{A}_0, +, \cdot)$, which we will use just next, and form now on we will note $0 = [0, 0]$ and $1 = [1, 1]$. However it is indeed not a ring because $(\mathcal{A}_0, +)$ is not a group. In fact, the exitence of an opposite (additive inverse) in $\mathcal{A}_0$ is replaced by the following property, which implies that almost no complex interval has an opposite:
+$$\forall \alpha,\beta \in \mathcal{A}_0, \alpha \not\in \mathbb{C} \Rightarrow \alpha + \beta \not= 0$$
+
+\noindent \underline{\textbf{Proof:}} Let $\alpha, \beta \in \mathcal{A}_0$, such that $\alpha \not\in \mathbb{C}$. Let $b \in \beta$.
+Now, since $\alpha \not\in \mathbb{C}$ there are at least two different complex numbers $x, y \in \mathbb{C}$ in $\alpha$. Hence one of them $z \in \{x, y\}$ is different from $-b$, so $z + b \in \alpha + \beta ~\text{and}~ z + b \not=0$ and finally $\alpha + \beta \not= 0$.
+\hfill{} $\boxed{}$
+
+\vspace{1em}
+This implies the non-existence of an additive inverse for all non-constant intervals, which breaks any ring structure we could try to build on $+$. Despite that, we can still define a minus operation
+$$\forall \beta \in \mathcal{A}_0, -\beta = \{-b ; b \in \beta\}$$
+$$\forall \alpha, \beta \in \mathcal{A}_0, \alpha - \beta = \alpha + (- \beta)$$
+
+What is important keep in mind is that we cannot do things like "$\alpha + \beta = \gamma$ \textit{so} $\alpha = \gamma - \beta$", for example if $\alpha = \beta = [0, 1]$. Fundamentally, $\alpha - \alpha \not= 0$.
+
+\subsection{Partial order on intervals}
+
+We define the relation $\le$ on $\mathcal{A}_0$ such that $\forall \alpha, \beta \in \mathcal{A}_0, \alpha \le \beta \Rightarrow \alpha \subset \beta$.
+We easily get the following properties:
+\begin{enumerate}[i]
+    \item $\forall \alpha, \beta \in \mathcal{A}_0, \alpha \le \beta \Rightarrow \alpha^c \le \beta^c$
+    \item $\forall \alpha, \beta, \gamma \in \mathcal{A}_0, \alpha \gamma \le \beta \gamma ~\text{and}~ \gamma \not=0 \Rightarrow \alpha \le \beta$
+\end{enumerate}
+
+\subsection{Centering}
+
+For all $\alpha \in \mathcal{A}_0$, we introduce $\mu(\alpha) \in \mathbb{C}$ the \textit{middle} of $\alpha$:
+$$\mu(\alpha) = \frac{\min(\RE~\alpha) + \max(\RE~\alpha)}{2} + i \frac{\min(\IM~\alpha) + \max(\IM~\alpha)}{2}$$
+This notion comes with the following properties:
+\begin{enumerate}[i]
+    \item $\forall x \in \mathbb{C}, \mu([x, x]) = x$
+    \item\label{musum} $\forall \alpha, \beta \in \mathcal{A}_0, \mu(\alpha + \beta) = \mu(\alpha) + \mu(\beta)$
+    \item \label{muscalarprod}$\forall \alpha \in \mathcal{A}_0, \forall \lambda \in \mathbb{C}, \mu(\lambda \alpha) = \lambda \mu(\alpha)$ and more generally,
+    \item $\forall \alpha, \beta \in \mathcal{A}_0, \mu(\alpha \beta) = \mu(\alpha) \mu(\beta)$
+\end{enumerate}
+
+\noindent\underline{\textbf{Proofs:}}
+\begin{enumerate}[i]
+    \item $\RE([x, x]) = \RE(x)$ and $\IM([x, x]) = \IM(x)$, hence the result.
+    \item $\forall \alpha, \beta \in \mathcal{A}_0, \RE(\alpha + \beta) = \RE(\alpha) + \RE(\beta)$
+    \item The result is obvious for $\lambda \in \mathbb{R}$.
+    Moreover it is clear that $\IM(i \alpha) = \RE(\alpha)$ and similarly that $\RE(i \alpha) = - \IM(\alpha)$, thus
+    \begin{align*}
+        \mu(i\alpha) &= \frac{\min(-\IM~\alpha) + \max(-\IM~\alpha)}{2} + i \frac{\min(\RE~\alpha) + \max(\RE~\alpha)}{2} \\
+        &= \frac{(-\max(\IM~\alpha)) + (-\min(\IM~\alpha))}{2} + i \frac{\min(\RE~\alpha) + \max(\RE~\alpha)}{2} \\
+        &= - \IM(\mu(\alpha)) + i \RE(\mu(\alpha)) \\
+        &= i \mu(\alpha)
+    \end{align*}
+    Property \ref{musum} enables us to conclude.
+    \item The case when $\alpha$ is a real interval is easy. Using property \ref{muscalarprod} and the almost-ring structure of $\mathcal{A}_0$, the general case is proven.
+    \hfill{} $\boxed{}$
+\end{enumerate}
+
+\noindent From these properties, it follows that $\mu$ is an almost-ring morphism.
+
+For all $z \in \mathbb{C}$, let $\pm z = [-z, z]$ (obviously $\mu(\pm z) = 0$).
+\begin{theorem}[central decomposition]
+    $$\forall \alpha \in \mathcal{A}_0, \exists z \in \mathbb{C}, \{y \in \mathbb{C} / \alpha = \pm y + \mu(\alpha)\} = \{z, -z, \bar{z}, -\bar z\}$$
+\end{theorem}
+\begin{proof}
+    The existence on real intervals comes easily from the definition of $\mu$.
+    Now for $\alpha \in \mathcal{A}_0$, $\alpha = \RE(\alpha) + i~\IM(\alpha)$, hence the existence of $z$ such that $\{z, -z, \bar{z}, -\bar z\} \subset \{y \in \mathbb{C} / \alpha = \pm y + \mu(\alpha)\}$.
+    The reciprocal inclusion comes from the fact that, for real numbers, it is true.
+\end{proof}
+
+Now let $\alpha^c$ be this centered interval $\alpha - \mu(\alpha)$, and $\mathcal{A}_0^c = \text{Ker}(\mu)$ be the sub-almost-ring of centered intervals. Now that we defined the centered version of an interval, we can come back to computing $\alpha - \alpha$
+$$\forall \alpha \in \mathcal{A}_0, \alpha - \alpha = 2(\alpha^c) = (2\alpha)^c$$
+
+\begin{align*}
+\alpha - \alpha
+&= \mu(\alpha) + \alpha^c + (\mu(-\alpha) + (-\alpha)^c)\\
+\end{align*}

@@ -1,5 +1,3 @@
-\chapter{Reduction algorithm}
-
 We note that multiple QDDs can be evaluated to the same abstract state. This part will aim to provide an algorithm to decrease the "size" of diagrams while not breaking their evaluation by $\mathcal{E}$. The size of a AAQDD is the number of intervals (counting them with their multiplicity). We would want, from a diagram $D$, to get a diagram $D'$ such that $\text{size}(D) > \text{size}(D')$ and $D \le D'$ (the reduction is smaller in size and might be less precise that the original diagram). More generally, function $g : \mathcal{D}_n \rightarrow \mathcal{D}_n$ is an \textit{global approximation} if
 $$\forall D \in \mathcal{D}_n, D \le g(D)$$
 

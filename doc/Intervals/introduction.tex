@@ -1,0 +1,58 @@
+\subsection{Real intervals}
+
+The standard definition of real intervals is:
+$$\forall a, b \in \mathbb{R}, [a, b]
+= \{x \in \mathbb{R} / \min(a, b) \le x \le \max(a, b)\}$$
+
+From now on, the set of real intervals will be noted $\mathcal{A}_0(\mathbb{R})$. Of course, $\mathcal{A}_0(\mathbb{R}) \subset \mathcal{P}(\mathbb{R}) \subset \mathcal{P}(\mathbb{C})$. While not being sufficient to handle completely our operations on quantum states, caracterized by complex amplitudes, these real intervals will still be useful. Moreover, they are well-known and many papers already studied them.
+
+\subsection{Operations in a general context}
+\label{general-operations}
+
+Let $E \subset \mathcal{P}(\mathbb{C})$ a set containing sets of $\mathbb{C}$ (later on, our intervals). On we define the following operations for $\alpha, \beta \in E$.
+$$\alpha \otimes \beta = \{a b ; a \in \alpha, b \in \beta\}$$
+$$\alpha \oplus \beta = \{a + b ; a \in \alpha, b \in \beta\}$$
+\noindent Note that none of these sets are in $E$ in the general case, despite it being the case for $E = \mathcal{A}_0(\mathbb{R})$.
+
+Additionally, we define the \textbf{join operation $\sqcup$} on real intervals: for all $\alpha, \beta \in \mathcal{A}_0(\mathbb{R})$
+$$\alpha \sqcup \beta = \bigcap_{\gamma \supset \alpha \cup \beta~\text{and}~\gamma \in \mathcal{A}_0(\mathbb{R})} \gamma$$
+\noindent This operation, by definition gives us an element of $\mathcal{A}_0(\mathbb{R})$. This definition will be easily extented on supersets of $\mathcal{A}_0(\mathbb{R})$ in the, the only thing changing being the set all $\gamma$ elements are taken from.
+% TODO: proof of existence
+
+Now,  The definition of the join operation makes us want to define sum and product ($\cdot$) operations that necessarily make an elment of $E$:
+$$\alpha \beta = \bigcap_{\gamma \supset \alpha \otimes \beta~\text{and}~\gamma \in \mathcal{A}_0(\mathbb{R})} \gamma$$
+$$\alpha + \beta = \bigcap_{\gamma \supset \alpha \oplus \beta~\text{and}~\gamma \in \mathcal{A}_0(\mathbb{R})} \gamma$$
+\noindent Remarkably, in + is the same as $\oplus$ and $\cdot$ is the same as $\otimes$. On complex intervals, we will see later that this is not necessarily the case.
+
+We also define the modulus of a complex set $\forall \alpha \in E, |\alpha| = \sup\{|a| ; a \in \alpha\}$.
+
+This general case on a contextual set $E$ leads to defining a \textbf{partial order $\le$}, which really is the subset relation $\supset$, but implying that the sets are all intervals of the same interval set $E$. We easily get the following properties
+\begin{enumerate}[i]
+    \item $\forall \alpha_1, \beta_1, \alpha_2, \beta_2 \in \mathcal{A}_0, \alpha_1 \le \alpha_2 ~\text{and}~ \beta_1 \le \beta_2 \Rightarrow \alpha_1 + \alpha_2 \le \beta_1 + \beta_2$
+    \item $\forall \alpha_1, \beta_1, \alpha_2, \beta_2 \in \mathcal{A}_0, \alpha_1 \le \alpha_2 ~\text{and}~ \beta_1 \le \beta_2 \Rightarrow \alpha_1 \alpha_2 \le \beta_1 \beta_2$
+\end{enumerate}
+
+Note that in the case of $\mathcal{A}_0(\mathbb{R})$, the sum and product are \textbf{direct}, meaning that for all $\alpha, \beta \in \mathcal{A}_0^+, \alpha + \beta = \alpha \oplus \beta$ and $\alpha \beta = \alpha \otimes \beta$. To prove that the sum (respectively, the product) is direct, it is enough to prove that summing (respectively multiplying) two elements of $E$ yields another element of $E$.
+
+The operations $\oplus, \otimes, \sqcup, +$ and $\cdot$ are obviously commutative, but only $\oplus$ and $\otimes$ are always associative no matter the set $E$. Proving the directness of the sum or the product in $E$ is hence a way to prove their associativity in $E$.
+
+\subsection{Remarkable subsets}
+
+Intervals of $\mathcal{A}_0(\mathbb{R})$, while being already unsifficient to fully cover the use of intervals in a quantum context, contain even more resricted subsets that will be useful in the next sections. The set of positive intervals $\mathcal{A}_0^+ = \mathcal{A}_0(\mathbb{R}) \cap \mathcal{P}(\mathbb{R})$ is remarkably convenient because it is working well with the operations defined above.
+
+First, $\mathcal{A}_0^+$ is stable for +, $\cdot$ and $\sqcup$, meaning that using these operations on two elements of $\mathcal{A}_0^+$ results in another element of $\mathcal{A}_0^+$. Second, for all real number $0 \le a_1 \le b_1$ and $0 \le a_2 \le b_2$
+$$[a_1, b_1] + [a_2, b_2] = [a_1 + a_2, b_1 + b_2]$$
+$$[a_1, b_1] [a_2, b_2] = [a_1 a_2, b_1 b_2]$$
+
+Let $\mathcal{A}_0^{2\pi} = \mathcal{A}_0^+ \cap \mathcal{P}([0, 2\pi])$. While $\mathcal{A}_0^{2\pi}$ is not stable, it will be useful in section \ref{polar}.
+
+\begin{theorem}[intervals of the exponential]
+Let $\theta \in \mathcal{A}_0^+$, there is a unique $\varphi \in \mathcal{A}_0^{2\pi}$ such that
+$$\exp(i\theta) = \exp(i \varphi)$$
+\end{theorem}
+
+\begin{proof}
+There are unique $\theta^-, \theta^+, \mathbb{R}^+$ such that $\theta = [\theta^-, \theta^+]$ and $\theta^- \le \theta^+$.
+% TODO: change the definition?
+
+\end{proof}

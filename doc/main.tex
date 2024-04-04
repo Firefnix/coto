@@ -18,6 +18,7 @@
 \newcommand{\function}[5]{\begin{array}{l|rcl}
 #1: & #2 & \longrightarrow & #3 \\
     & #4 & \longmapsto & #5 \end{array}}
+\newtheorem{theorem}{Theorem}[section]
 
 \title{AAQDD -- Abstract additive quantum decision diagrams}
 \author{M. Leroy, R. Vilmart}
@@ -26,7 +27,20 @@
 
 \maketitle
 
-\input{Formal definition}
+\tableofcontents
+
+\newpage
+
+\chapter{Complex intervals arithmetics}
+
+\input{Intervals/intervals.tex}
+
+\chapter{States \& diagrams}
+
+\input{diagrams.tex}
+
+\chapter{Reduction algorithm}
+
 \input{Reduction}
 
 \end{document}
