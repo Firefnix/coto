@@ -1,7 +1,7 @@
 #include <stdexcept>
-#include <math.h>
-
 #include <polar.h>
+
+using namespace polar;
 
 PositiveInterval::PositiveInterval(real a, real b) : min(a), max(b)
 {
@@ -27,67 +27,88 @@ PositiveInterval PositiveInterval::operator*(PositiveInterval other)
     return PositiveInterval(min * other.min, max * other.max);
 }
 
-RemaindedInterval::RemaindedInterval(real a, real b) : min(a), max(b)
+PositiveInterval polar::PositiveInterval::operator|(PositiveInterval other)
 {
-    if (a < 0 || b < 0)
+    return PositiveInterval(std::min(min, other.min), std::max(max, other.max));
+}
+
+AngleInterval::AngleInterval(real min, real delta) : min(min), delta(delta)
+{
+    if (delta < 0)
     {
-        throw std::range_error("Negative init. for positive interval");
+        throw std::range_error("Negative delta for angle interval");
     }
-    if (a > b)
+    if (min > 2 * pi || min < 0)
     {
-        std::swap(min, max);
+        int ratio = min / 2 * pi;
+        min = min - 2 * pi * ratio;
+    }
+    if (delta > 2 * pi)
+    {
+        delta = 2 * pi;
     }
 }
 
-RemaindedInterval::RemaindedInterval(real a) : min(a), max(a) {}
+AngleInterval::AngleInterval(real min) : min(min), delta(0.) {}
 
-RemaindedInterval RemaindedInterval::operator+(RemaindedInterval other)
+AngleInterval polar::AngleInterval::min_max(real a, real b)
 {
-    auto r = RemaindedInterval(min + other.min, max + other.max);
-    if (remainder || other.remainder)
-    {
-        r.remainder = true;
-        r.set_remainder();
-    }
+    return AngleInterval(std::min(a, b), std::abs(a - b));
+}
+
+AngleInterval AngleInterval::operator+(AngleInterval other)
+{
+    auto r = AngleInterval(min + other.min, delta + other.delta);
+    r.set_remainder();
     return r;
 }
 
-RemaindedInterval RemaindedInterval::operator*(RemaindedInterval other)
+AngleInterval AngleInterval::operator*(AngleInterval other)
 {
-    auto r = RemaindedInterval(min * other.min, max * other.max);
-    if (remainder || other.remainder)
-    {
-        r.remainder = true;
-        r.set_remainder();
-    }
+    auto r = AngleInterval(std::min(min * other.min, (min + delta) * (other.min + other.delta)), delta * other.delta);
+    r.set_remainder();
     return r;
 }
 
-void RemaindedInterval::set_remainder()
+AngleInterval polar::AngleInterval::operator|(AngleInterval other)
 {
-    if (max > 2 * M_PI)
+    return AngleInterval::min_max(std::min(min, other.min), std::max(min + delta, other.min + other.delta));
+}
+
+void AngleInterval::set_remainder()
+{
+    if (min > 2 * pi || min < 0)
     {
-        int ratio = max / 2 * M_PI;
-        max = max - 2 * M_PI * ratio;
+        int ratio = min / 2 * pi;
+        min = min - 2 * pi * ratio;
+    }
+    if (delta > 2 * pi)
+    {
+        delta = 2 * pi;
     }
 }
 
-PolarInterval::PolarInterval(PositiveInterval mod, RemaindedInterval arg) : mod(mod), arg(arg) {}
+Interval::Interval(PositiveInterval mod, AngleInterval arg) : mod(mod), arg(arg) {}
 
-PolarInterval PolarInterval::singleton(real modulus, real argument)
+Interval Interval::singleton(real modulus, real argument)
 {
     if (modulus < 0)
     {
         throw std::range_error("Negative modulus in a polar interval");
     }
-    if (argument < 0 || argument > 2 * M_PI || argument)
+    if (argument < 0 || argument > 2 * pi)
     {
         throw std::range_error("Bad argument in polar interval");
     }
-    return PolarInterval(PositiveInterval(modulus), RemaindedInterval(argument));
+    return Interval(PositiveInterval(modulus), AngleInterval(argument));
 }
 
-PolarInterval PolarInterval::operator*(PolarInterval other)
+Interval Interval::operator*(Interval other)
 {
-    return PolarInterval(mod * other.mod, arg + other.arg);
+    return Interval(mod * other.mod, arg + other.arg);
+}
+
+Interval polar::Interval::operator|(Interval other)
+{
+    return Interval(mod | other.mod, arg | other.arg);
 }

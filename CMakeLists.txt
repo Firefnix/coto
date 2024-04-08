@@ -78,6 +78,11 @@ add_library(absi STATIC src/absi.cpp src/amplitude.cpp)
 add_executable(absi_test test/absi_test.cpp)
 target_link_libraries(absi_test absi amplitude GTest::gtest_main)
 
+# Polar intervals test
+add_library(polar STATIC src/polar.cpp)
+add_executable(polar_test test/polar_test.cpp)
+target_link_libraries(polar_test polar GTest::gtest_main)
+
 # QDD test
 # add_library(qdd STATIC src/qdd.cpp src/amplitude.cpp)
 # add_executable(qdd_test test/node_test.cpp test/qdd_test.cpp)
@@ -93,3 +98,4 @@ include(GoogleTest)
 gtest_discover_tests(amplitude_test)
 gtest_discover_tests(absi_test)
 # gtest_discover_tests(qdd_test)
+gtest_discover_tests(polar_test)

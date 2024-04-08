@@ -1,56 +1,74 @@
 #ifndef POLAR_H
 #define POLAR_H 1
 
-typedef float real;
+#include <math.h>
 
-class PositiveInterval
+namespace polar
 {
-public:
-    PositiveInterval(real a, real b);
+    typedef float real;
 
-    PositiveInterval(real a);
+    class PositiveInterval
+    {
+    public:
+        PositiveInterval(real a, real b);
 
-    PositiveInterval operator+(PositiveInterval other);
+        PositiveInterval(real a);
 
-    PositiveInterval operator*(PositiveInterval other);
+        PositiveInterval operator+(PositiveInterval other);
 
-protected:
-    real min;
-    real max;
-};
+        PositiveInterval operator*(PositiveInterval other);
 
-class RemaindedInterval
-{
-public:
-    RemaindedInterval(real a, real b);
+        PositiveInterval operator|(PositiveInterval other);
 
-    RemaindedInterval(real a);
+    protected:
+        real min;
+        real max;
+    };
 
-    RemaindedInterval operator+(RemaindedInterval other);
+    constexpr real pi = M_PI;
 
-    RemaindedInterval operator*(RemaindedInterval other);
+    class AngleInterval
+    {
+    public:
+        AngleInterval(real min, real delta);
 
-    bool remainder;
+        AngleInterval(real a);
 
-protected:
-    real min;
-    real max;
-    void set_remainder();
-};
+        static AngleInterval min_max(real a, real b);
 
-class PolarInterval
-{
-public:
-    PolarInterval(PositiveInterval mod, RemaindedInterval arg);
+        AngleInterval operator+(AngleInterval other);
 
-    static PolarInterval singleton(real modulus, real argument);
+        AngleInterval operator*(AngleInterval other);
 
-    PolarInterval operator*(PolarInterval other);
+        AngleInterval operator|(AngleInterval other);
 
-protected:
-    PositiveInterval mod;
+    protected:
+        /// @brief The minimal value of the interval
+        /// 0 < @ref min < 2 is expressed in radians to limit
+        real min;
 
-    RemaindedInterval arg;
-};
+        /// @brief The wideness/uncertainty of the interval
+        /// Values in the interval are between @ref min and @ref min + @ref delta
+        /// Moreover, 0 < @ref delta <= 2*pi
+        real delta;
+        void set_remainder();
+    };
 
+    class Interval
+    {
+    public:
+        Interval(PositiveInterval mod, AngleInterval arg);
+
+        static Interval singleton(real modulus, real argument);
+
+        Interval operator*(Interval other);
+
+        Interval operator|(Interval other);
+
+    protected:
+        PositiveInterval mod;
+
+        AngleInterval arg;
+    };
+}
 #endif
