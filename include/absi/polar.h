@@ -14,11 +14,13 @@ namespace polar
 
         PositiveInterval(real a);
 
-        PositiveInterval operator+(PositiveInterval other);
+        PositiveInterval operator+(PositiveInterval &other) const;
 
-        PositiveInterval operator*(PositiveInterval other);
+        PositiveInterval operator*(PositiveInterval &other) const;
 
-        PositiveInterval operator|(PositiveInterval other);
+        PositiveInterval operator|(PositiveInterval &other) const;
+
+        bool operator==(const PositiveInterval &other) const;
 
     protected:
         real min;
@@ -36,15 +38,17 @@ namespace polar
 
         static AngleInterval min_max(real a, real b);
 
-        AngleInterval operator+(AngleInterval other);
+        AngleInterval operator+(AngleInterval &other) const;
 
-        AngleInterval operator*(AngleInterval other);
+        AngleInterval operator*(AngleInterval &other) const;
 
-        AngleInterval operator|(AngleInterval other);
+        AngleInterval operator|(AngleInterval &other) const;
+
+        bool operator==(const AngleInterval &other) const;
 
     protected:
         /// @brief The minimal value of the interval
-        /// 0 < @ref min < 2 is expressed in radians to limit
+        /// `0 < @ref min < 2` is expressed in radians to limit
         real min;
 
         /// @brief The wideness/uncertainty of the interval
@@ -61,14 +65,24 @@ namespace polar
 
         static Interval singleton(real modulus, real argument);
 
-        Interval operator*(Interval other);
+        static Interval real(real value);
 
-        Interval operator|(Interval other);
+        Interval operator+(Interval &other) const;
+
+        Interval operator*(Interval &other) const;
+
+        Interval operator|(Interval &other) const;
+
+        bool operator==(const Interval &other) const;
 
     protected:
         PositiveInterval mod;
 
         AngleInterval arg;
     };
+
+    inline Interval zero = Interval::real(0.);
+
+    inline Interval one = Interval::real(1.);
 }
 #endif

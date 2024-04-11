@@ -19,6 +19,7 @@ include_directories(include/)
 enable_testing()
 
 set(absi_files src/absi/polar.cpp src/absi/cartesian.cpp)
+set(absi_libs cartesian polar amplitude)
 set(src_files src/amplitude.cpp ${absi_files})
 set(header_files include/amplitude.h include/qdd.h include/absi.h)
 set(test_files test/amplitude_test.cpp test/qdd_test.cpp test/absi_test.cpp)
@@ -76,10 +77,10 @@ target_link_libraries(amplitude_test amplitude GTest::gtest_main)
 
 # ABStract Interpretation (ABSI) tests
 # Encompasses cartesian intervals test and polar intervals tests
-add_library(cartesian STATIC src/absi/cartesian.cpp src/amplitude.cpp)
+add_library(cartesian STATIC src/absi/cartesian.cpp)
 add_library(polar STATIC src/absi/polar.cpp)
 add_executable(absi_test test/absi_test.cpp)
-target_link_libraries(absi_test cartesian polar amplitude GTest::gtest_main)
+target_link_libraries(absi_test ${absi_libs} GTest::gtest_main)
 
 # QDD test
 # add_library(qdd STATIC src/qdd.cpp src/amplitude.cpp)
@@ -87,13 +88,15 @@ target_link_libraries(absi_test cartesian polar amplitude GTest::gtest_main)
 # target_link_libraries(qdd_test qdd amplitude GTest::gtest_main)
 
 # Diagram test
-add_library(diagram STATIC src/diagram.cpp  src/amplitude.cpp)
+# add_library(diagram_t STATIC )
+add_executable(diagram_test ${absi_files} test/diagram_test.cpp include/diagram.h)
+target_link_libraries(diagram_test  ${absi_libs} GTest::gtest_main)
 
 # Reduction test
-add_library(reduction STATIC src/reduction.cpp src/diagram.cpp ${absi_files} src/amplitude.cpp)
+add_library(reduction STATIC src/reduction.cpp include/diagram.h ${absi_files} src/amplitude.cpp)
 
 include(GoogleTest)
 gtest_discover_tests(amplitude_test)
 gtest_discover_tests(absi_test)
+gtest_discover_tests(diagram_test)
 # gtest_discover_tests(qdd_test)
-# gtest_discover_tests(polar_test)

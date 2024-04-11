@@ -17,19 +17,24 @@ PositiveInterval::PositiveInterval(real a, real b) : min(a), max(b)
 
 PositiveInterval::PositiveInterval(real a) : min(a), max(a) {}
 
-PositiveInterval PositiveInterval::operator+(PositiveInterval other)
+PositiveInterval PositiveInterval::operator+(PositiveInterval &other) const
 {
     return PositiveInterval(min + other.min, max + other.max);
 }
 
-PositiveInterval PositiveInterval::operator*(PositiveInterval other)
+PositiveInterval PositiveInterval::operator*(PositiveInterval &other) const
 {
     return PositiveInterval(min * other.min, max * other.max);
 }
 
-PositiveInterval polar::PositiveInterval::operator|(PositiveInterval other)
+PositiveInterval polar::PositiveInterval::operator|(PositiveInterval &other) const
 {
     return PositiveInterval(std::min(min, other.min), std::max(max, other.max));
+}
+
+bool polar::PositiveInterval::operator==(const PositiveInterval &other) const
+{
+    return (min == other.min) && (max == other.max);
 }
 
 AngleInterval::AngleInterval(real min, real delta) : min(min), delta(delta)
@@ -56,23 +61,28 @@ AngleInterval polar::AngleInterval::min_max(real a, real b)
     return AngleInterval(std::min(a, b), std::abs(a - b));
 }
 
-AngleInterval AngleInterval::operator+(AngleInterval other)
+AngleInterval AngleInterval::operator+(AngleInterval &other) const
 {
     auto r = AngleInterval(min + other.min, delta + other.delta);
     r.set_remainder();
     return r;
 }
 
-AngleInterval AngleInterval::operator*(AngleInterval other)
+AngleInterval AngleInterval::operator*(AngleInterval &other) const
 {
     auto r = AngleInterval(std::min(min * other.min, (min + delta) * (other.min + other.delta)), delta * other.delta);
     r.set_remainder();
     return r;
 }
 
-AngleInterval polar::AngleInterval::operator|(AngleInterval other)
+AngleInterval polar::AngleInterval::operator|(AngleInterval &other) const
 {
     return AngleInterval::min_max(std::min(min, other.min), std::max(min + delta, other.min + other.delta));
+}
+
+bool polar::AngleInterval::operator==(const AngleInterval &other) const
+{
+    return (min == other.min) && (delta == other.delta);
 }
 
 void AngleInterval::set_remainder()
@@ -90,7 +100,7 @@ void AngleInterval::set_remainder()
 
 Interval::Interval(PositiveInterval mod, AngleInterval arg) : mod(mod), arg(arg) {}
 
-Interval Interval::singleton(real modulus, real argument)
+Interval Interval::singleton(polar::real modulus, polar::real argument)
 {
     if (modulus < 0)
     {
@@ -103,12 +113,27 @@ Interval Interval::singleton(real modulus, real argument)
     return Interval(PositiveInterval(modulus), AngleInterval(argument));
 }
 
-Interval Interval::operator*(Interval other)
+Interval polar::Interval::real(polar::real value)
+{
+    return Interval::singleton(value, (value >= 0) ? 0. : 1.);
+}
+
+Interval polar::Interval::operator+(Interval &other) const
+{
+    throw std::logic_error("Sum of polar intervals");
+}
+
+Interval Interval::operator*(Interval &other) const
 {
     return Interval(mod * other.mod, arg + other.arg);
 }
 
-Interval polar::Interval::operator|(Interval other)
+Interval polar::Interval::operator|(Interval &other) const
 {
     return Interval(mod | other.mod, arg | other.arg);
+}
+
+bool polar::Interval::operator==(const Interval &other) const
+{
+    return (mod == other.mod) && (arg == other.arg);
 }
