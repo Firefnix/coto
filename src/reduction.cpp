@@ -9,7 +9,7 @@ template <size_t height>
 static Diagram<height> forceMerge(Diagram<height> a, Diagram<height> b);
 
 template <size_t height>
-static absi::AbstractElement get_amplitude(Diagram<height> d, branch<height> ch);
+static cartesian::Interval childAmplitude(std::vector<branch<height>> branches, Diagram<height - 1> possible_child);
 
 /**
  * We use a bottom-to top algorithm, reducing each level independantly.
@@ -17,11 +17,11 @@ static absi::AbstractElement get_amplitude(Diagram<height> d, branch<height> ch)
  * there is less than `maxNodes[i]` at this level.
  */
 template <size_t height>
-void maxNodesLevel(Diagram<height> d, std::array<size_t, height> maxNodes)
+void reduction::maxNodesLevel(Diagram<height> d, std::array<size_t, height> maxNodes)
 {
     for (int i = 0; i < height; i++)
     {
-        while (d.nodesAtLevel(i) > maxNodes[i])
+        while (d.nodesAtHeight(i) > maxNodes[i])
         {
             forceMergeAtHeight(d, i);
         }
@@ -31,6 +31,7 @@ void maxNodesLevel(Diagram<height> d, std::array<size_t, height> maxNodes)
 template <size_t height>
 static void forceMergeAtHeight(Diagram<height> d, size_t h)
 {
+    return;
 }
 
 /**
@@ -44,7 +45,7 @@ static Diagram<height> forceMerge(Diagram<height> a, Diagram<height> b)
     for (branch<height - 1> ch : a.left)
     {
         auto x = get_amplitude(b, ch.d);
-        if (x != absi::zero)
+        if (x != cartesian::zero)
         {
             bothLeft.insert((ch.x | x, ch.d));
         }
@@ -64,7 +65,7 @@ static Diagram<height> forceMerge(Diagram<height> a, Diagram<height> b)
     for (branch<height - 1> ch : a.right)
     {
         auto x = get_amplitude(b, ch.d);
-        if (x != absi::zero)
+        if (x != cartesian::zero)
         {
             bothRight.insert((ch.x | x, ch.d));
         }
@@ -75,7 +76,7 @@ static Diagram<height> forceMerge(Diagram<height> a, Diagram<height> b)
     }
     for (branch<height - 1> ch : b.right)
     {
-        if (getAmplitude(a.right, ch.d) == absi::zero)
+        if (getAmplitude(a.right, ch.d) == cartesian::zero)
         {
             rightAOnly.insert(ch);
         }
@@ -102,7 +103,7 @@ static Diagram<height> forceMerge(Diagram<height> a, Diagram<height> b)
 }
 
 template <size_t height>
-static absi::AbstractElement getAmplitude(std::vector<branch<height>> branches, Diagram<height - 1> possible_child)
+static cartesian::Interval childAmplitude(std::vector<branch<height>> branches, Diagram<height - 1> possible_child)
 {
     for (branch<height> b : branches)
     {
@@ -111,5 +112,5 @@ static absi::AbstractElement getAmplitude(std::vector<branch<height>> branches, 
             return b.x;
         }
     }
-    return absi::zero;
+    return cartesian::zero;
 }

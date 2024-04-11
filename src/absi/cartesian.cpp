@@ -1,53 +1,53 @@
-#include <absi.h>
 #include <algorithm>
 #include <tuple>
 
-using namespace absi;
+#include <absi/cartesian.h>
 
+using namespace cartesian;
 
 // @brief Minimum and maximum of xy for x in [xn, xx] and y in [yn, yx]
-static absi::real_interval minMaxOfProduct(real_interval x, real_interval y);
+static cartesian::real_interval minMaxOfProduct(real_interval x, real_interval y);
 
-AbstractElement AbstractElement::operator-() const
+Interval Interval::operator-() const
 {
-    return AbstractElement(ampl::Amplitude(-topRight.real(), -topRight.imag()),
-                           ampl::Amplitude(-bottomLeft.real(), -bottomLeft.imag()));
+    return Interval(ampl::Amplitude(-topRight.real(), -topRight.imag()),
+                    ampl::Amplitude(-bottomLeft.real(), -bottomLeft.imag()));
 }
 
-AbstractElement AbstractElement::operator||(const AbstractElement &other) const
+Interval Interval::operator||(const Interval &other) const
 {
     return {ampl::Amplitude(std::min(bottomLeft.real(), other.bottomLeft.real()), std::min(bottomLeft.imag(), other.bottomLeft.imag())),
             ampl::Amplitude(std::max(topRight.real(), other.topRight.real()), std::max(topRight.imag(), other.topRight.imag()))};
 }
 
-AbstractElement AbstractElement::operator+(const AbstractElement &other) const
+Interval Interval::operator+(const Interval &other) const
 {
     return {ampl::Amplitude(bottomLeft.real() + other.bottomLeft.real(), bottomLeft.imag() + other.bottomLeft.imag()),
             ampl::Amplitude(topRight.real() + other.topRight.real(), topRight.imag() + other.topRight.imag())};
 }
 
-AbstractElement AbstractElement::operator*(const ampl::real &other) const
+Interval Interval::operator*(const ampl::real &other) const
 {
     if (other >= ampl::zero_real)
     {
-        return AbstractElement(bottomLeft * other, topRight * other);
+        return Interval(bottomLeft * other, topRight * other);
     }
     return -(*this * (-other));
 }
 
-AbstractElement AbstractElement::operator*(const AbstractElement &other) const
+Interval Interval::operator*(const Interval &other) const
 {
     // TODO: not implemented yet (the formulas exist on paper)
     return *this;
 }
 
-ampl::real AbstractElement::operator^(const AbstractElement &other) const
+ampl::real Interval::operator^(const Interval &other) const
 {
     ampl::real total = (*this || other).norm();
     return (total * 2) - norm() - other.norm();
 }
 
-bool AbstractElement::contains(ampl::Amplitude z) const
+bool Interval::contains(ampl::Amplitude z) const
 {
     return (bottomLeft.real() <= z.real()) &&
            (z.real() <= topRight.real()) &&
@@ -55,7 +55,7 @@ bool AbstractElement::contains(ampl::Amplitude z) const
            (z.imag() <= topRight.imag());
 }
 
-ampl::real AbstractElement::norm() const
+ampl::real Interval::norm() const
 {
     return abs(topRight - bottomLeft);
 }

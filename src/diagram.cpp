@@ -1,4 +1,4 @@
-#include <aaqdd.h>
+#include <diagram.h>
 
 template <size_t height>
 Diagram<height>::Diagram()
@@ -6,12 +6,12 @@ Diagram<height>::Diagram()
 }
 
 template <size_t height>
-std::array<absi::AbstractElement, pwrtwo(height)> Diagram<height>::evaluate()
+std::array<absi::Interval, pwrtwo(height)> Diagram<height>::evaluate()
 {
     const size_t N = pwrtwo(height);
-    std::array<absi::AbstractElement, N> arr;
-    std::array<absi::AbstractElement, N / 2> left_array, right_array;
-    std::array<absi::AbstractElement, N / 2> tmp;
+    std::array<absi::Interval, N> arr;
+    std::array<absi::Interval, N / 2> left_array, right_array;
+    std::array<absi::Interval, N / 2> tmp;
     for (size_t i = 0; i < N / 2; i++)
     {
         left_array[i] = absi::zero;
