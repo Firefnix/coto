@@ -31,8 +31,6 @@ namespace polar
         real max;
     };
 
-    constexpr real pi = M_PI;
-
     class AngleInterval
     {
         friend class Interval;
@@ -59,7 +57,7 @@ namespace polar
 
         /// @brief The wideness/uncertainty of the interval
         /// Values in the interval are between @ref min and @ref min + @ref delta
-        /// Moreover, 0 < @ref delta <= 2*pi
+        /// Moreover, 0 < @ref delta <= 2
         real delta;
         void set_remainder();
     };
@@ -87,6 +85,15 @@ namespace polar
         std::string to_string() const;
 
     protected:
+        /**
+         * @brief Checks if the number is real.
+         *
+         * @return true if the number is real, false otherwise.
+         */
+        bool is_real() const;
+
+        polar::real to_real() const;
+
         PositiveInterval mod;
 
         AngleInterval arg;

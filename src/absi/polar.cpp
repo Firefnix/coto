@@ -43,14 +43,14 @@ AngleInterval::AngleInterval(real min, real delta) : min(min), delta(delta)
     {
         throw std::range_error("Negative delta for angle interval");
     }
-    if (min > 2 * pi || min < 0)
+    if (min > 2 || min < 0)
     {
-        int ratio = min / 2 * pi;
-        min = min - 2 * pi * ratio;
+        int ratio = min / 2;
+        min = min - 2 * ratio;
     }
-    if (delta > 2 * pi)
+    if (delta > 2)
     {
-        delta = 2 * pi;
+        delta = 2;
     }
 }
 
@@ -87,14 +87,14 @@ bool polar::AngleInterval::operator==(const AngleInterval &other) const
 
 void AngleInterval::set_remainder()
 {
-    if (min > 2 * pi || min < 0)
+    if (min > 2 || min < 0)
     {
-        int ratio = min / 2 * pi;
-        min = min - 2 * pi * ratio;
+        int ratio = min / 2;
+        min = min - 2 * ratio;
     }
-    if (delta > 2 * pi)
+    if (delta > 2)
     {
-        delta = 2 * pi;
+        delta = 2;
     }
 }
 
@@ -110,7 +110,7 @@ Interval Interval::singleton(polar::real modulus, polar::real argument)
     {
         throw std::range_error("Negative modulus in a polar interval");
     }
-    if (argument < 0 || argument > 2 * pi)
+    if (argument < 0 || argument > 2)
     {
         throw std::range_error("Bad argument in polar interval");
     }
@@ -119,7 +119,7 @@ Interval Interval::singleton(polar::real modulus, polar::real argument)
 
 Interval polar::Interval::real(polar::real value)
 {
-    return Interval::singleton(value, (value >= 0) ? 0. : 1.);
+    return Interval::singleton(std::abs(value), (value >= 0) ? 0. : 1.);
 }
 
 Interval polar::Interval::operator+(Interval &other) const
@@ -131,6 +131,10 @@ Interval polar::Interval::operator+(Interval &other) const
     if (other == zero)
     {
         return *this;
+    }
+    if (is_real() && other.is_real())
+    {
+        return Interval::real(to_real() + other.to_real());
     }
     throw std::logic_error("Sum of polar intervals");
 }
@@ -157,4 +161,18 @@ bool polar::Interval::operator==(const Interval &other) const
 std::string polar::Interval::to_string() const
 {
     return "{mod: " + std::to_string(mod.min) + " " + std::to_string(mod.max) + " arg: " + std::to_string(arg.min) + " " + std::to_string(arg.delta) + "}";
+}
+
+bool polar::Interval::is_real() const
+{
+    return (arg.delta == 0) && (arg.min == 0. || arg.min == 1.);
+}
+
+polar::real polar::Interval::to_real() const
+{
+    if (!is_real())
+    {
+        throw std::logic_error("Not a real number");
+    }
+    return mod.min * (arg.min == 0 ? 1 : -1);
 }
