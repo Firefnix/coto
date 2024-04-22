@@ -34,3 +34,15 @@ TEST_F(DiagramTest, testConstruction)
     EXPECT_EQ(two, vec[2]) << vec[2].to_string() << dgm->right[0].x.to_string();
     EXPECT_EQ(absi::zero, vec[3]) << vec[3].to_string();
 }
+
+TEST_F(DiagramTest, testAdditiveness)
+{
+    auto two = absi::Interval::real(2.);
+    auto minus_three = absi::Interval::real(-3.);
+    auto minus_one = absi::Interval::real(2. + (-3.));
+    eig0->lefto(leaf, two);
+    eig0->lefto(leaf, minus_three);
+    auto vec = eig0->evaluate();
+    EXPECT_EQ(minus_one, vec[0]);
+    EXPECT_EQ(absi::zero, vec[1]);
+}
