@@ -1,13 +1,3 @@
-We note that multiple QDDs can be evaluated to the same abstract state. This part will aim to provide an algorithm to decrease the "size" of diagrams while not breaking their evaluation by $\mathcal{E}$. The size of a AAQDD is the number of intervals (counting them with their multiplicity). We would want, from a diagram $D$, to get a diagram $D'$ such that $\text{size}(D) > \text{size}(D')$ and $D \le D'$ (the reduction is smaller in size and might be less precise that the original diagram). More generally, function $g : \mathcal{D}_n \rightarrow \mathcal{D}_n$ is an \textit{global approximation} if
-$$\forall D \in \mathcal{D}_n, D \le g(D)$$
-
-Similarly, a function $f : \mathcal{D}_n \times \mathcal{D}_n \rightarrow \mathcal{D}_n$ is a \textit{merge approximation at height $n$} if
-$$\begin{cases}
-    \forall A \not= B \in \mathcal{D}_n, A \le f(A, B)~\text{and}~B \le f(A, B) \\
-    \forall A \in \mathcal{D}_n, f(A, A) = A
-\end{cases}
-$$
-
 We developed a reduction formula to force the merging of two nodes. This is permitted both thanks to abstract interpretation (to merge without amplitudes being colinear) and the additive nature of diagrams. The cost $\mathcal{C}_f : \mathcal{D}_n \rightarrow \mathbb{R}^+$ of applying a global approximation $f$ to a diagram $D \in \mathcal{D}_n$ is defined by:
 
 $$\mathcal{C}_f(D) = \mathcal{I}(f(D)) - \mathcal{I}(D)$$

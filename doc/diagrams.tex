@@ -4,17 +4,11 @@ We now have intervals, \textit{abstract elements} of $\mathbb{C}$ represented in
 $\alpha \in \mathcal{A}_0$ and $A \in \mathcal{A}_n$, comes easily. We also define the inclusion relation in $\mathcal{A}_n$ (which is an order relation) $\subset$ using the cartesian product of sets:
 $$\forall A = (a_0, ..., a_{2^n-1})^{T},  B = (b_0, ..., b_{2^n-1})^{T} \in \mathcal{A}_n, A \subset B \iff a_0 \times ... \times a_{2^n-1} \subset b_0 \times ... \times b_{2^n-1}$$
 
-Intuitively, if $A$ and $B$ are in $\mathcal{A}_n$ and $A \subset B$, the abstract state $A$ is more \textit{precise} than $B$. In order to work with this notion, and later on to make it work with diagrams and approximations, we define the \textit{imprecision} $\mathcal{I}$ of an abstract state:
-$$\function{\mathcal{I}}
-{\bigcup_{n \in \mathbb{N}} \mathcal{A}_n}{\mathbb{R}^+}
-{A \in \mathcal{A}_n}{\displaystyle\prod_{i = 0}^{2^n-1} s(A_i)}$$
-
-\noindent using the surface function $s$ on complex intervals defined by
-$$s(\alpha) = (\max\{\RE(z) ; z \in \alpha\} - \min\{\RE(z) ; z \in \alpha\}) \times (\max\{\IM(z) ; z \in \alpha\} - \min\{\IM(z) ; z \in \alpha\})$$
+Intuitively, if $A$ and $B$ are in $\mathcal{A}_n$ and $A \subset B$, the abstract state $A$ is more \textit{precise} than $B$.
 
 \section{Decision diagrams}
 
-We inductively define abstract additive quantum decision diagrams, starting from zero-depth decision. The only zero-depth diagram is $\boxed{1}$. Let for every set $E$ be the set of finite subsets of $E$: $\mathscr{P}_f(E) = \{ A \subset E / |A| < \infty \}$. If the set $\mathcal{D}_n$ of diagrams of depth $n$ is defined, $n+1$-depth diagrams can have a finite number of left children in $\mathcal{D}_n$ and a finite number of right children in $\mathcal{D}_n$, each being associated with an abstract amplitude in $\mathcal{A}_0$.
+We inductively define abstract additive quantum decision diagrams (AAQDDs), starting from zero-depth decision. The only zero-depth diagram is $\boxed{1}$. Let for every set $E$ be the set of finite subsets of $E$: $\mathscr{P}_f(E) = \{ A \subset E / |A| < \infty \}$. If the set $\mathcal{D}_n$ of diagrams of depth $n$ is defined, $n+1$-depth diagrams can have a finite number of left children in $\mathcal{D}_n$ and a finite number of right children in $\mathcal{D}_n$, each being associated with an abstract amplitude in $\mathcal{A}_0$.
 
 \begin{center}
     % https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZAZgBoAGAXVJADcBDAGwFcYkQAREAX1PU1z5CKcqQCM1Ok1bsoAfXI8+IDNjwEiY8ZIYs2iEADpjS-mqFEATNpq6ZB+cDABaMd1MqB64cgAsNqT12AHM5MQ9VQQ0UAFYAu30jE14zKJ8ANnjpRNDgAFtXd25JGChg+CJQADMAJwg8pFEQHAgkMkD7EAAdLqY0AAt6OSdCkBpGegAjGEYABS8LA0YYKpwxkEYsMESoejh+0o9a+saaFqR-DsSe6ZwhxXGpmfnzaJAarGD+tZSQY4bEE1zohMld2DcYHdhgU3OsJtM5gs3stVkc6gCga1EFowQYen1Bgo4U9Ea9hO9Pt84VsdnsDlAeJRuEA
@@ -53,3 +47,9 @@ Since there is no risk of ambiguity, defining $\mathcal{E} : \bigcup \mathcal{D}
 $$\forall A, B \in \mathcal{D}, A \le B \iff \mathcal{E}(A) \subset \mathcal{E}(B)$$
 
 Additionally, we extend the definition of the imprecision function $\mathcal{I}$ to diagrams: $\forall D \in \mathcal{D}, \mathcal{I}(D) = \mathcal{I}(\mathcal{E}(D))$. Note that $\forall A, B \in \mathcal{D}_n, A \le B$ implies that $\mathcal{I}(A) \le \mathcal{I}(B)$ but that the reciprocal is not generally true.
+
+\section{Non-additive diagrams}
+
+We can also define non-additive diagrams, which are diagrams that have at most one left child and one right child. We define $\mathcal{D}^* = \bigcup_{n \in \mathbb{N}} \mathcal{D}^*_n$ the set of all non-additive diagrams, with $\mathcal{D}^*_n = \mathscr{S}(\mathcal{A}_0 \times \mathcal{D}^*_{n-1}) \times \mathscr{S}(\mathcal{A}_0 \times \mathcal{D}^*_{n-1})$ and $\mathscr{S}(E) = \{ \{x\} ; x \in E\} \cup \{\emptyset\}$.
+
+As we will see in the next chapter, non-additive diagrams have convenient properies that are not generally verified in additive diagrams, enabling us to provide a reduction algorithm.
