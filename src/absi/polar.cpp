@@ -100,6 +100,10 @@ void AngleInterval::set_remainder()
 
 Interval::Interval(PositiveInterval mod, AngleInterval arg) : mod(mod), arg(arg) {}
 
+polar::Interval::Interval() : mod(PositiveInterval(0.)), arg(AngleInterval(0.))
+{
+}
+
 Interval Interval::singleton(polar::real modulus, polar::real argument)
 {
     if (modulus < 0)
@@ -120,11 +124,23 @@ Interval polar::Interval::real(polar::real value)
 
 Interval polar::Interval::operator+(Interval &other) const
 {
+    if (*this == zero)
+    {
+        return other;
+    }
+    if (other == zero)
+    {
+        return *this;
+    }
     throw std::logic_error("Sum of polar intervals");
 }
 
 Interval Interval::operator*(Interval &other) const
 {
+    if (*this == zero || other == zero)
+    {
+        return zero;
+    }
     return Interval(mod * other.mod, arg + other.arg);
 }
 
@@ -136,4 +152,9 @@ Interval polar::Interval::operator|(Interval &other) const
 bool polar::Interval::operator==(const Interval &other) const
 {
     return (mod == other.mod) && (arg == other.arg);
+}
+
+std::string polar::Interval::to_string() const
+{
+    return "{mod: " + std::to_string(mod.min) + " " + std::to_string(mod.max) + " arg: " + std::to_string(arg.min) + " " + std::to_string(arg.delta) + "}";
 }

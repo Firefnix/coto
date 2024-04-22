@@ -7,8 +7,12 @@ namespace polar
 {
     typedef float real;
 
+    class Interval;
+
     class PositiveInterval
     {
+        friend class Interval;
+
     public:
         PositiveInterval(real a, real b);
 
@@ -31,6 +35,8 @@ namespace polar
 
     class AngleInterval
     {
+        friend class Interval;
+
     public:
         AngleInterval(real min, real delta);
 
@@ -61,6 +67,9 @@ namespace polar
     class Interval
     {
     public:
+        /// @brief The singleton of 0.
+        Interval();
+
         Interval(PositiveInterval mod, AngleInterval arg);
 
         static Interval singleton(real modulus, real argument);
@@ -75,13 +84,15 @@ namespace polar
 
         bool operator==(const Interval &other) const;
 
+        std::string to_string() const;
+
     protected:
         PositiveInterval mod;
 
         AngleInterval arg;
     };
 
-    inline Interval zero = Interval::real(0.);
+    inline Interval zero = Interval();
 
     inline Interval one = Interval::real(1.);
 }

@@ -47,12 +47,16 @@ public:
     /// @brief Add @ref{d} to be a left child with amplitude @ref{x}
     /// @param d The child
     /// @param x The amplitude
-    void lefto(Diagram<height - 1>* d, absi::Interval x = absi::one);
+    void lefto(Diagram<height - 1> *d, absi::Interval x = absi::one);
 
     /// @brief Add @ref{d} to be a right child with amplitude @ref{x}
     /// @param d The child
     /// @param x The amplitude
-    void righto(Diagram<height - 1>* d, absi::Interval x = absi::one);
+    void righto(Diagram<height - 1> *d, absi::Interval x = absi::one);
+
+    /// @brief The number of intervals contained in the evaluation
+    /// @return 2 ^ @ref{height}
+    size_t size();
 };
 
 #include <../src/diagram.cpp>

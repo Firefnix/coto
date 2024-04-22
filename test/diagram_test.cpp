@@ -11,16 +11,26 @@ public:
 
 TEST_F(DiagramTest, testEvaluate)
 {
-    absi::Interval i = leaf->evaluate()[0];
-    EXPECT_EQ(absi::one, i);
+    eig0->lefto(leaf);
+    dgm->lefto(eig0);
+    dgm->righto(eig0, absi::Interval::real(2.));
+    absi::Interval a = leaf->evaluate()[0];
+    absi::Interval b = eig0->evaluate()[0];
+    absi::Interval c = eig0->evaluate()[1];
+    EXPECT_EQ(absi::one, a);
+    EXPECT_EQ(absi::one, b) << b.to_string();
+    EXPECT_EQ(absi::zero, c);
 }
 
 TEST_F(DiagramTest, testConstruction)
 {
+    auto two = absi::Interval::real(2.);
     eig0->lefto(leaf);
     dgm->lefto(eig0);
-    dgm->righto(eig0, absi::Interval::real(2.));
-    // auto vec = dgm->evaluate();
-    // EXPECT_EQ(vec[0], absi::);
+    dgm->righto(eig0, two);
+    auto vec = dgm->evaluate();
+    EXPECT_EQ(absi::one, vec[0]);
+    EXPECT_EQ(absi::zero, vec[1]);
+    EXPECT_EQ(two, vec[2]) << vec[2].to_string() << dgm->right[0].x.to_string();
+    EXPECT_EQ(absi::zero, vec[3]) << vec[3].to_string();
 }
-// TEST_F(DiagramTest, test)
