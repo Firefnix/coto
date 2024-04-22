@@ -1,4 +1,4 @@
-# AAQDDs
+# Coto - Abstract Additive Quantum Decision Diagrams
 
 [![Build Status (GitHub Actions)](https://github.com/Firefnix/coto/workflows/CMake%20Tests/badge.svg)](https://github.com/Firefnix/coto/actions?query=workflow%3A"CMake%20Tests")
 <a href="https://gitmoji.dev">
