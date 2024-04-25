@@ -9,16 +9,23 @@
 \usepackage{mathrsfs}
 \usepackage{enumerate}
 
+\usepackage{lmodern}
+\newtheorem{theorem}{Theorem}[chapter]
+
 \usepackage{tikz}
 \usetikzlibrary{positioning}
 \usepackage{tikz-cd}
+\usepackage{wrapfig}
+
+\usepackage{algorithm}
+\usepackage{algpseudocode}
 
 \newcommand{\RE}{\mathrm{Re}}
 \newcommand{\IM}{\mathrm{Im}}
 \newcommand{\function}[5]{\begin{array}{l|rcl}
 #1: & #2 & \longrightarrow & #3 \\
     & #4 & \longmapsto & #5 \end{array}}
-\newtheorem{theorem}{Theorem}[section]
+\newcommand{\mathsc}[1]{{\normalfont\textsc{#1}}}
 
 \title{AAQDD -- Abstract additive quantum decision diagrams}
 \author{M. Leroy, R. Vilmart}

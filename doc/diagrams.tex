@@ -27,7 +27,7 @@ $$\mathcal{N}(\boxed{1}) = \boxed{1}$$
 $$\forall D, G \in \mathscr{P}_f(\mathcal{A}_0 \times \mathcal{D}_n), \mathcal{N}(D, G) = \{d ; (\alpha, d) \in D \cup G\} \cup
 \bigcup_{(\alpha, d) \in D \cup G} \mathcal{N}(d)$$
 
-We also define $\mathcal{N}_i(D) = \mathcal{N}(D) \cap \mathcal{D}_i$ for all $i \in \mathbb{N}$.
+We also define $\mathcal{N}_i(D) = \mathcal{N}(D) \cap \mathcal{D}_i$ for all $i \in \mathbb{N}$ the nodes "at height $i$".
 
 \section{Diagram evaluation}
 
@@ -48,8 +48,61 @@ $$\forall A, B \in \mathcal{D}, A \le B \iff \mathcal{E}(A) \subset \mathcal{E}(
 
 Additionally, we extend the definition of the imprecision function $\mathcal{I}$ to diagrams: $\forall D \in \mathcal{D}, \mathcal{I}(D) = \mathcal{I}(\mathcal{E}(D))$. Note that $\forall A, B \in \mathcal{D}_n, A \le B$ implies that $\mathcal{I}(A) \le \mathcal{I}(B)$ but that the reciprocal is not generally true.
 
+\section{Error estimation}
+
+Let $A, C \in \mathcal{D}_n$. We would like to define a scale $\delta : \mathcal{D}_n \rightarrow X$ with $(X, \prec)$ a partially ordered set, that we would be able to compute in polynomial time and space (i.e. in $O(n^p)$ for a certain $p \in \mathbb{N}$), such that if $A \le C$, $\delta(A) \prec \delta(C)$. Let $X = \mathbb{R}^+ \times \mathcal{A}_0$ and $\delta(A) = (|A|, [A])$ be inductively defined by:
+$$\delta(\boxed{1}) = (1, [1, 1])$$
+$$\forall a, b \in \mathcal{A}_0, \delta(\{(a, \boxed{1})\}, \{(b, \boxed{1})\}) = $$
+$$\forall G, D \in \mathscr{P}_f(\mathcal{A}_0 \times \mathcal{D}_n), |(G, D)|
+= \max\left( \left|\sum_{(l, L) \in G} l |L| \right|, \left|\sum_{(r, R) \in D} r |R| \right|\right)$$
+$$\forall G, D \in \mathscr{P}_f(\mathcal{A}_0 \times \mathcal{D}_n), [(G, D)]
+= \left(\sum_{(l, L) \in G} l |L| [L] \right) \bigsqcup \left(\sum_{(r, R) \in D} r |R| [R]\right)$$
+
+\noindent\underline{\textbf{Proof:}} Let for $n \ge 0$ the property
+$$(\Delta_n)\quad : \quad \forall A, B \in \mathcal{D}_n, A \le B \Rightarrow \delta(A) \prec \delta(B)$$
+
+\noindent\boxed{n = 0} The only zero-height diagram is $\boxed{1}$, the result is trivial.
+
+\noindent\boxed{n = 1} Let $A, B \in \mathcal{D}_1$.
+
+\begin{center}
+% https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZABgBpiBdUkANwEMAbAVxiRAEEQBfU9TXfIRQAmclVqMWbAELdeIDNjwEiZAIzj6zVohAAdPQCMIADxhRgarnL5LBRURupapug8bMWr3ceYDm8ESgAGYAThAAtkhkIDgQSKIS2mx0APoMAH4ZINQMdIYwDAAK-MpCIKFYfgAWODkgDFhgOiBQdHDV5vUFYFBIALQALACcPCHhUYgxcQnOki1ZaaH1eQXFpfa6DDDBddQ9fYgjYyBhkUhq1DOIAMxzybqG6Vkr+YUldiq6lTV7DU0tNodLr7GC9AbHeRnSaXWLxW73VwgLJPZa5N7rT7lba7bpgw7HChcIA
+\begin{tikzcd}
+A \arrow[d, "a_l~~"', dashed, bend right=49] \arrow[d, "~~a_r", bend left=49] &  & B \arrow[d, "b_l~~"', dashed, bend right=49] \arrow[d, "~~b_r", bend left=49] \\
+\boxed{1}                                                                     &  & \boxed{1}
+\end{tikzcd}
+\end{center}
+
+Suppose that $A \le B$, then $a_l \le b_l$ and $a_r \le b_r$, hence $a_l [\boxed{1}] \sqcup a_r [\boxed{1}] = a_l + a_r \le b_l + b_r$, and then $\delta(A) \prec \delta(B)$, so $(\Delta_1)$ is true.
+
+\noindent\boxed{n > 1} Let $n > 1$ such that $(\Delta_{n-1})$ is true. Let $A, B \in \mathcal{D}_n$ such that $A \le B$.
+
+% https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZAJgBoAGAXVJADcBDAGwFcYkQBBEAX1PU1z5CKAKwVqdJq3YAhHnxAZseAkXKkAjBIYs2iEABkA+hvn9lQohs3apew0cK9zg1SjJaaO6foBKJs0UBFWFkAGYbLzt2fwBbQKVXUIAWSMlddmNTZyCLN2QxT3SfBycFRJCiADY073t-bPLgyxQAdlrovyN47gkYKABzeCJQADMAJwh4xHUQHAgkCOK9MGZGRhpGegAjGEYABWa3EEYYUZwQTawweyh6OAALfsCJqaRZ+aRU5aRV9c2dntDnlhCczhccq9ph8FogxD9EH8NidAQcjqDTucXpNoTRPogyAikQDdmiQexMRcrjd2HdHs9ITikNY5rCakS1sitqTgUkKeDLidrrd7k8oNi3ogWfj2hz-iieej+VjqSL6eLGZLpbCABxRDKIzkkoFK-SUiXTbVIACc+p8xIVJvJZoFmumhPxSzqvyNjrJfJdKpAT3o4v0kBpqtpEBwOAZCihXzxsPh3sN8u5ToDYKDIbD4AIbCj+igMbjGoTTMQ7JldpWvsz-sqgapwZgofYEaLQppJbL8bGVb1rJtdZ9GdRvObOdbec7hcFjGF0djDMo3CAA
+\begin{tikzcd}
+                               &     & A \arrow[ld, dashed] \arrow[d] \arrow[rd] \arrow[lld, dashed] &     &                                & B \arrow[ld, dashed] \arrow[d, dashed] \arrow[rd] \arrow[rrd] &                                &     \\
+L_1 \arrow[r, no head, dotted] & L_n & R_1 \arrow[r, no head, dotted]                                & R_m & L_1 \arrow[r, no head, dotted] & L_n                                                           & R_1 \arrow[r, no head, dotted] & R_m
+\end{tikzcd}
+
+Let $a_j = \text{ampl}(j, A)$ and $b_j = \text{ampl}(j, B)$. We know that $A \le B$ so:
+$$\sum_j a_j \mathcal{E}(j) \le \sum_j b_j \mathcal{E}(j)$$
+
+We would like to prove that:
+$$|A \le |B|, ~\text{i.e.}~ \max()$$
+
 \section{Non-additive diagrams}
 
-We can also define non-additive diagrams, which are diagrams that have at most one left child and one right child. We define $\mathcal{D}^* = \bigcup_{n \in \mathbb{N}} \mathcal{D}^*_n$ the set of all non-additive diagrams, with $\mathcal{D}^*_n = \mathscr{S}(\mathcal{A}_0 \times \mathcal{D}^*_{n-1}) \times \mathscr{S}(\mathcal{A}_0 \times \mathcal{D}^*_{n-1})$ and $\mathscr{S}(E) = \{ \{x\} ; x \in E\} \cup \{\emptyset\}$.
+We can also define non-additive diagrams, which are diagrams that have at most one left child and one right child. We define $\mathcal{D}^* = \bigcup_{n \in \mathbb{N}} \mathcal{D}^*_n$ the set of all non-additive diagrams, with $\mathcal{D}^*_n = \mathscr{S}(\mathcal{A}_0 \times \mathcal{D}^*_{n-1}) \times \mathscr{S}(\mathcal{A}_0 \times \mathcal{D}^*_{n-1})$ and $\mathscr{S}(E) = \{ \{x\} ; x \in E\} \cup \{\emptyset\}$. As we will see in the next chapter, non-additive diagrams have convenient properies that are not generally verified in additive diagrams, enabling us to provide a reduction algorithm.
 
-As we will see in the next chapter, non-additive diagrams have convenient properies that are not generally verified in additive diagrams, enabling us to provide a reduction algorithm.
+\begin{wrapfigure}{r}{0pt}
+% https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZABgBpiBdUkANwEMAbAVxiRAEEB9QgX1PUy58hFGQCMVWoxZsAdPJB8B2PASJkATJPrNWiDpzGL+IDCuHrSAZm3S9B4gAIAvI4A6bgEYQAHjCjAYjyKkv4A5vBEoABmAE4QALZIZCA4EEhi1DoyiGBMDAzUDHSeMAwACoKqIiAMMNE4IEVYYPZQdHAAFv5NIKVgUEgAtFbESiBxicnUaRlZdkh5BUUlZZXmavp1Db39g4ij45NJiJmp6Yga87qL+YW1qxVVFlv1jc2tbO1dPdR7w4cTMc5uckFcpDdcncVqUnhsatt3n0YAMkICYvETuDZgdrjklvdirD1kJNrU3r0GC02h1uoM-ij9iMxkDMWCZhcrHi9ASYWtnmTEbtGWixhQeEA
+\begin{tikzpicture}
+\begin{tikzcd}
+    A_n \arrow[d, dashed, bend right] \arrow[d, bend left] \\
+    ... \arrow[d, dashed, bend right] \arrow[d, bend left] \\
+    A_1 \arrow[d, dashed, bend right] \arrow[d, bend left] \\
+    A_0 = \boxed{1}                                       
+\end{tikzcd}
+\end{tikzpicture}
+\end{wrapfigure}
+
+Even more specifically, we define abstract chains as diagrams that have at most one left child and one right child, and if having two children, those two children being equal. We define $\mathcal{D}^{\dagger} = \bigcup_{n \in \mathbb{N}} \mathcal{D}^{\dagger}_n$ the set of all abstract chains, with $\mathcal{D}^{\dagger}_n$ the set of abstract chains of height $n$.

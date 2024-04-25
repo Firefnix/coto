@@ -1,34 +1,4 @@
-We developed a reduction formula to force the merging of two nodes. This is permitted both thanks to abstract interpretation (to merge without amplitudes being colinear) and the additive nature of diagrams. The cost $\mathcal{C}_f : \mathcal{D}_n \rightarrow \mathbb{R}^+$ of applying a global approximation $f$ to a diagram $D \in \mathcal{D}_n$ is defined by:
-
-$$\mathcal{C}_f(D) = \mathcal{I}(f(D)) - \mathcal{I}(D)$$
-
-\section{Merging theorem}
-
-Let $n \in \mathbb{N}^*$, $N \ge n$, and $f$ be a merge approximation. Moreover let $w : \mathcal{D}_N \rightarrow \mathcal{D}_n \times \mathcal{D}_n$ be a choice function at height $n$ in $\mathcal{D}_N$, meaning that $\forall D, w(D) \in \mathcal{N}_n(D) \times \mathcal{N}_n(D)$. Now we define:
-
-$$\function{f | w}{\mathcal{D}_N}{\mathcal{D}_N}{D}{r_N(B, C, r_N(A, C, D))\quad \text{with}~C = f(w(D))}$$
-
-With $\forall i > 0, r_i : \mathcal{D}_n \times \mathcal{D}_n \times \mathcal{D}_i \rightarrow \mathcal{D}_i$ the replacement function defined by:
-$$\begin{cases}
-\forall n > i, \forall A, B \in \mathcal{D}_n, \forall D \in \mathcal{D}_i, r_i(A, B, D) = D \\
-\forall A, B, D \in \mathcal{D}_n, r_n(A, B, D) = \begin{cases}
-B \quad \text{if}~D = A \\
-D \quad \text{otherwise}
-\end{cases} \\
-\forall 1 \le n < i, \forall A, B \in \mathcal{D}_n, \forall \{(\alpha_j, g_j)\}, \{(\beta_k, d_k)\} \in \mathcal{D}_{i-1},\\
-\hfill r_i(A, B, (G, D)) = (\{(\alpha_j, r_{i-1}(g_j))\}, \{(\beta_k, r_{i-1}(d_k))\})
-\end{cases}
-$$
-
-\noindent\underline{\textbf{Merging theorem:}} Let $f$ be a merge approximation at height $n$ and $w$ be a choice function at height $n$ in $\mathcal{D}_N$. $f|w$ is a global approximation in $\mathcal{D}_N$.
-
-\noindent\underline{Proof:} Let $D \in \mathcal{D}_N$, $(A, B) = w(D)$ and $C = f(w(D))$. By ascending induction (in height), it comes that $\forall U, V \in \mathcal{D}_n, U \le V \Rightarrow r_N(U, V, D) \le D$. Meanwhile, $f$ is a merge approximation so $A \le C$, thus $r_N(A, C, D) \le D$.
-
-Proving that $r_N(A, C, D) \le D$ is mostly enough to prove the theorem, because once it is proven we only have let $D' = r_N(A, C, D)$ and use this result on $B$ and $D'$ to conclude that $r_N(B, C, D') \le D'$. The only problem is that we would need $C' = f(w(D'))$ instead of $C$ to reuse the exact same result demonstrated earlier.
-\hfill{} $\boxed{}$
-
-
-\section{One-side case}
+\subsection{One-side case}
 
 To begin, let's consider the simple case where all diagrams only have left children (this case would be useless in practice because it would result in only one interval and zeros). Let's say we want to merge the two diagrams:
 \begin{gather*}
@@ -52,7 +22,7 @@ a_0 \arrow[r, no head, dashed] & a_{l-1} & b_0 \arrow[r, no head, dashed]       
 \noindent with $\delta_j = \beta(A)_j \sqcup \beta(B)_j$. More formally, the merging formula would be:
 $$\text{fm}(A, C) = (\{(\alpha_0, a_0), ..., (\alpha_{l-1}, a_{l-1}), (\delta_0, b_0), ..., (\delta_{n-1}, b_{n-1}), (\gamma_0, c_0), ..., (\gamma_m, c_{m-1})\}, \emptyset)$$
 
-\section{Fully connected case}
+\subsection{Fully connected case}
 
 
 Let's consider another case, where our two nodes $A$ and $B$ have both a common left-descendance and a common right-descendance. We will see later that the general case can always be reduced to this case. The abstract amplitude on the link between two nodes is $\text{ampl}(u, v)$, for example $\text{ampl}(A, l_0)$ or $\text{ampl}(B, l_0)$. Additionally, let $X = \{l_0, ..., l_{k-1}, r_0, ..., r_{m-1}\}$.
@@ -92,43 +62,3 @@ From there it comes that $\forall x \in X, \text{ampl}(A, x) \subset \text{ampl}
 We now have $A \le C$, and since $A$ and $B$ are interchangeable, $B \le C$. Consequently, $f$ is a merge approximation and according to the merging theorem, a global approximation can be derived from it.
 \hfill{} $\boxed{}$
 
-\section{Error estimation}
-
-Let $A, C \in \mathcal{D}_n$. We would like to define a scale $\delta : \mathcal{D}_n \rightarrow X$ with $(X, \prec)$ a partially ordered set, that we would be able to compute in polynomial time and space (i.e. in $O(n^p)$ for a certain $p \in \mathbb{N}$), such that if $A \le C$, $\delta(A) \prec \delta(C)$. Let $X = \mathbb{R}^+ \times \mathcal{A}_0$ and $\delta(A) = (|A|, [A])$ be inductively defined by:
-$$\delta(\boxed{1}) = (1, [1, 1])$$
-$$\forall a, b \in \mathcal{A}_0, \delta(\{(a, \boxed{1})\}, \{(b, \boxed{1})\}) = $$
-$$\forall G, D \in \mathscr{P}_f(\mathcal{A}_0 \times \mathcal{D}_n), |(G, D)|
-= \max\left( \left|\sum_{(l, L) \in G} l |L| \right|, \left|\sum_{(r, R) \in D} r |R| \right|\right)$$
-$$\forall G, D \in \mathscr{P}_f(\mathcal{A}_0 \times \mathcal{D}_n), [(G, D)]
-= \left(\sum_{(l, L) \in G} l |L| [L] \right) \bigsqcup \left(\sum_{(r, R) \in D} r |R| [R]\right)$$
-
-\noindent\underline{\textbf{Proof:}} Let for $n \ge 0$ the property
-$$(\Delta_n)\quad : \quad \forall A, B \in \mathcal{D}_n, A \le B \Rightarrow \delta(A) \prec \delta(B)$$
-
-\noindent\boxed{n = 0} The only zero-height diagram is $\boxed{1}$, the result is trivial.
-
-\noindent\boxed{n = 1} Let $A, B \in \mathcal{D}_1$.
-
-\begin{center}
-% https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZABgBpiBdUkANwEMAbAVxiRAEEQBfU9TXfIRQAmclVqMWbAELdeIDNjwEiZAIzj6zVohAAdPQCMIADxhRgarnL5LBRURupapug8bMWr3ceYDm8ESgAGYAThAAtkhkIDgQSKIS2mx0APoMAH4ZINQMdIYwDAAK-MpCIKFYfgAWODkgDFhgOiBQdHDV5vUFYFBIALQALACcPCHhUYgxcQnOki1ZaaH1eQXFpfa6DDDBddQ9fYgjYyBhkUhq1DOIAMxzybqG6Vkr+YUldiq6lTV7DU0tNodLr7GC9AbHeRnSaXWLxW73VwgLJPZa5N7rT7lba7bpgw7HChcIA
-\begin{tikzcd}
-A \arrow[d, "a_l~~"', dashed, bend right=49] \arrow[d, "~~a_r", bend left=49] &  & B \arrow[d, "b_l~~"', dashed, bend right=49] \arrow[d, "~~b_r", bend left=49] \\
-\boxed{1}                                                                     &  & \boxed{1}
-\end{tikzcd}
-\end{center}
-
-Suppose that $A \le B$, then $a_l \le b_l$ and $a_r \le b_r$, hence $a_l [\boxed{1}] \sqcup a_r [\boxed{1}] = a_l + a_r \le b_l + b_r$, and then $\delta(A) \prec \delta(B)$, so $(\Delta_1)$ is true.
-
-\noindent\boxed{n > 1} Let $n > 1$ such that $(\Delta_{n-1})$ is true. Let $A, B \in \mathcal{D}_n$ such that $A \le B$.
-
-% https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZAJgBoAGAXVJADcBDAGwFcYkQBBEAX1PU1z5CKAKwVqdJq3YAhHnxAZseAkXKkAjBIYs2iEABkA+hvn9lQohs3apew0cK9zg1SjJaaO6foBKJs0UBFWFkAGYbLzt2fwBbQKVXUIAWSMlddmNTZyCLN2QxT3SfBycFRJCiADY073t-bPLgyxQAdlrovyN47gkYKABzeCJQADMAJwh4xHUQHAgkCOK9MGZGRhpGegAjGEYABWa3EEYYUZwQTawweyh6OAALfsCJqaRZ+aRU5aRV9c2dntDnlhCczhccq9ph8FogxD9EH8NidAQcjqDTucXpNoTRPogyAikQDdmiQexMRcrjd2HdHs9ITikNY5rCakS1sitqTgUkKeDLidrrd7k8oNi3ogWfj2hz-iieej+VjqSL6eLGZLpbCABxRDKIzkkoFK-SUiXTbVIACc+p8xIVJvJZoFmumhPxSzqvyNjrJfJdKpAT3o4v0kBpqtpEBwOAZCihXzxsPh3sN8u5ToDYKDIbD4AIbCj+igMbjGoTTMQ7JldpWvsz-sqgapwZgofYEaLQppJbL8bGVb1rJtdZ9GdRvObOdbec7hcFjGF0djDMo3CAA
-\begin{tikzcd}
-                               &     & A \arrow[ld, dashed] \arrow[d] \arrow[rd] \arrow[lld, dashed] &     &                                & B \arrow[ld, dashed] \arrow[d, dashed] \arrow[rd] \arrow[rrd] &                                &     \\
-L_1 \arrow[r, no head, dotted] & L_n & R_1 \arrow[r, no head, dotted]                                & R_m & L_1 \arrow[r, no head, dotted] & L_n                                                           & R_1 \arrow[r, no head, dotted] & R_m
-\end{tikzcd}
-
-Let $a_j = \text{ampl}(j, A)$ and $b_j = \text{ampl}(j, B)$. We know that $A \le B$ so:
-$$\sum_j a_j \mathcal{E}(j) \le \sum_j b_j \mathcal{E}(j)$$
-
-We would like to prove that:
-$$|A \le |B|, ~\text{i.e.}~ \max()$$

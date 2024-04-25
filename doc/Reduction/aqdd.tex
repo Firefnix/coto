@@ -1,0 +1,82 @@
+Non-additive abstract quantum decision diagrams, because they only have at most one left child and one right child, are easier to manipulate than AAQDDs. In this section we show, given an AQDD $A$ of height $n$ and $n$ integers $m_1, ..., m_n$ an algorithm to get an AQDD $A'$ of height $n$ such that $D \le A'$ and that $\forall i \in \{0, ..., n\}, |\mathscr{N}_i(A')| \le |\mathscr{N}_i(A)|$. This implies that $\text{size}(A) > \text{size}(A')$.
+
+
+This algorithm relies on the following transofrmation, that allows us to merge two nodes.
+\begin{center}
+% https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZAJgBoAGAXVJADcBDAGwFcYkQBBEAX1PU1z5CKAGwVqdJq3YcA5Dz4gM2PASIBGUuokMWbRCAAyC-iqFEAzFp1T9IAEomlA1cOQAWazV3SDT5YJqKACsXpJ67P4u5qJhPnYAGlFmQcjkpMQ2EQYAqsmBbpqZ3rbsAGr5rpYZWb4gebymBUSexeF1FY3OKW6hbfHsDYoBVSgA7DUl2SCdEjBQAObwRKAAZgBOEAC2SOkgOBBIZO12HAAEADoX61gLABY49OubAO5nxjSM9ABGMIwACtEgiAbvccCBPlgwHYoPQ4Hd5k4NttdjQDkgrCcZJdrrcHk9XmdHJ8fn9AT12IwYKtwV1kTtEJp9odEGIsQZzldQfjnhA3h8QF9fgCgcIQXjwZDoexYfDETRfmAoEgALTuACcdM2DKZ6NZUzqHC5EoJfKJEMFpJFFIMVJpFsVysQGq1KMQxz1E3ZRhx3MevLeeRJwvJzQMfotjChMLhCOVroZHpZAA4DXZDL6TQGzhVg2TRZTqbTFPSMWiWeq0+x7JmwabA5GraHRuKwZHozLY4iE2XmUh1HsBgYa8a69nc5aQwXbUWkdqkJ4+4hQuywMxGIw89aw4LZ1KYRBmN8qXO3Wy9eomUOQAlazzCUHJ-mba2Hu3pQZZXHTwzzyz1Mc163qO95mhOQrPjudq0pQ3BAA
+\begin{tikzcd}
+    &                                                                       & A \arrow[ld, "A \rightarrow L"', dashed] \arrow[rd, "A \rightarrow R"] &                                                                       &                          &    & A' \arrow[d, "A \rightarrow L"', dashed, bend right=49] \arrow[d, "A\rightarrow R", bend left=49] &   \\
+    & L \arrow[ld, "L \rightarrow U"', dashed] \arrow[d, "L \rightarrow V"] &                                                                        & R \arrow[d, "R \rightarrow U"', dashed] \arrow[rd, "R \rightarrow V"] & {} \arrow[r, Rightarrow] & {} & X \arrow[ld, "X \rightarrow U"', dashed] \arrow[rd, "X \rightarrow V"]                            &   \\
+  U & V                                                                     &                                                                        & U                                                                     & V                        & U  &                                                                                                   & V
+  \end{tikzcd}
+\end{center}
+\vspace{1em}
+\noindent with $X \rightarrow U = (L\rightarrow U) \sqcup (R\rightarrow U)$ and $X \rightarrow V = (L\rightarrow V) \sqcup (R\rightarrow V)$. With $X = f_m(L, R)$, such a defined function $f_m$ is a merge approximation, which makes $A' = f(A, L, R)$ an approximation of $A$ using the merging theorem.
+
+\begin{algorithm}[H]
+  \caption{Chaining of non-additive AQDDs}
+  \begin{algorithmic}
+  \Function{chain}{$A$}
+  \State $L \gets \text{left\_child}(A)$
+  \State $R \gets \text{right\_child}(A)$
+  \If{$\text{children}(L) = \text{children}(R)$}
+    \State $A \gets f(A, L, R)$
+    \State $\text{child}(A) \gets \textsc{chain}(\text{child}(A))$
+  \Else \Comment{We can do better by reducing one child and retrying to merge}
+    \State $L \gets \textsc{chain}(L)$
+    \State $R \gets \textsc{chain}(R)$
+    \State $A \gets \mathsc{zip}(f(A, L, R))$
+  \EndIf
+  \State \Return $A$
+  \EndFunction
+
+  \Function{zip}{$n ; k ; L_k, ..., L_1 ; R_k, ..., R_1 ; X$}
+  \If{$k = 0$}
+    \State \Return $X$
+  \Else
+  \State \Return $\mathsc{zip}(n ; k ; L_k, ..., L_2 ; R_k, ..., R_2 ; f_m(L_1, R_1)) + (X)$
+  \EndIf
+  \EndFunction
+\end{algorithmic}
+\end{algorithm}
+
+\begin{theorem}[Chaining of non-additive AQDDs]
+  $$\forall n \in \mathbb{N}, \begin{cases}
+    \mathsc{chain}(A) \text{ is a chain} \\
+    \mathsc{chain}(A) \le A \\
+  \end{cases}$$
+\end{theorem}
+\begin{proof}
+  The proof is done by induction on the height of the AQDD $A$. The base case is trivial, as the AQDD is a leaf and the algorithm returns the same AQDD. Let us assume that the theorem holds for AQDDs of height $n-1$. We will show that it holds for AQDDs of height $n$.
+
+  \underline{Case 1:} The children of $A$ are the same. In this case $A'$ is
+% https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZABgBpiBdUkANwEMAbAVxiRAEEByEAX1PUy58hFGQCMVWoxZsAOrJwwAHjjgBjYGoAWdLGB4AKAGYB9ALYGAMqQAEAJQCUD3pJhQA5vCKgjAJwhmSGQgOBBIYtT0zKyIHDbyvljuWjh0vv4A7jaWINQMdABGMAwACoJ4BGyJyTi5IAx6MSBQdHBabnVFYFBIALQALACcfD7+gYjBoeGR0k3s8bLVKWmZ9nX5RaXlwmwMMEa11F09iEM8FDxAA
+\begin{tikzcd}
+  A' \arrow[d, "A \rightarrow L"', dashed, bend right=49] \arrow[d, "A \rightarrow R", bend left=49] \\
+  {\textsc{chain}(f_m(L, R))}             
+\end{tikzcd}
+
+Since $f_m(L, R) \in \mathcal{D}_{n-1}$, by induction $\textsc{chain}(f_m(L, R))$ is a chain of AQDDs of height $n-1$. Additionally
+$$\begin{cases}
+  \mathsc{chain}(f_m(L, R)) \le f_m(L, R) \le L \\
+  \mathsc{chain}(f_m(L, R)) \le f_m(L, R) \le R
+\end{cases}
+$$
+\noindent so $(A \rightarrow L) \mathsc{chain}(f_m(L, R)) \le A \rightarrow L) L$ and $(A \rightarrow R) \mathsc{chain}(f_m(L, R)) \le A \rightarrow R) R$.
+
+\underline{Case 2:} The children of $A$ are different. In this case, we have that $A'$ is
+
+\begin{center}
+% https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZABgBoAmAXVJADcBDAGwFcYkQAZAfWDAFoAjAF8QQ0uky58hFOQrU6TVuwBKPfsNHiQGbHgJEyAZgUMWbRCAB0NrRL3SickzTPLLNq3Z2T9M5AKkACymShacXMQABAC8UQA68QBGEAAeMFDAwrFRasTeulIGKIHEoebsAIIA5AW+jihkAuXuEWA5iQC29DgAFnAAxsADvfRYYEIAFBwAlHUOxchyza5hqlztcV09-UMjYxPTc0IKGQDm8ESgAGYAThCdSGQgOBBIciBJMGBQSHxGz0Y43CUHocF6GW8dweSECLzeiCMNC+PyQALEN3uj0QcNeaOR31+iH+gOB7FB4MhGJA0OxSPhSCCBNRiOI1Np+IZiCZn0JfwBNCBYBBYIhv3ZWPeNDx3OZRJJgrJlgpYqhksQHxlPJRRIFICF4TgECB4u0HMQAFZpQiAGyK4Xk0VUs3qq1cgDsEphiDtXOeOv5pIdyqdpsx3t9Mv9fNZ9sNxqwYZp6vd1thcsDccdlKT5tTXLhAdj+qVICNJrV3ueMo+Rb1BvY5cTokoQiAA
+\begin{tikzcd}
+  & A' \arrow[ld, dashed] \arrow[rd] &                                                                            \\
+L_n = \mathsc{chain}(L) \arrow[d, dashed, bend right] \arrow[d, bend left] &                                  & R_n = \mathsc{chain}(L) \arrow[d, dashed, bend right] \arrow[d, bend left] \\
+L_{n-1} \arrow[d, dashed, bend right] \arrow[d, bend left]                 &                                  & R_{n-1} \arrow[d, bend left] \arrow[d, dashed, bend right]                 \\
+... \arrow[rd, dashed, bend right] \arrow[rd, bend left]                   &                                  & ... \arrow[ld, bend left] \arrow[ld, dashed, bend right]                   \\
+  & L_0 = \boxed{1} = R_0            &                                                                           
+\end{tikzcd}
+\end{center}
+
+Now, just like closing a zipper, we will merge the AQDDs $L_{n-1}$ and $R_{i}$ to get $A_i$ and then merge $A_i$ with $L_{i+1}$ and $R_{i+1}$ to get $A_{i+1}$. We will repeat this process until we get $A_n = 1$. This process is guaranteed to terminate because the height of the AQDDs we are merging is increasing at each step and is lower than $n$.
+
+\end{proof}
