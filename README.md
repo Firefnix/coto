@@ -17,6 +17,7 @@ Presentation of this repository's main directories:
 -  `archives` Legacy documents or code, that still should be indexed
 -  `doc` Theory documents (basically, LaTeX)
 -  `include` Code header files (`.h` C++ files)
+-  `presentation` Final presentation (in French)
 -  `ref` References, code or case studies that can be used as examples
 -  `src` Source code (`.cpp` C++ files, not headers)
 -  `test` Test code (`.cpp` C++ files)
