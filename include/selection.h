@@ -19,6 +19,11 @@ namespace selection {
         MIN_NODES      /**< Choose mergees with minimum number of nodes. */
     };
 
+    /**
+     * @brief Struct containing two Diagram pointers.
+     * 
+     * @tparam h The height of the Diagrams.
+     */
     template <size_t h>
     struct mergees
     {
@@ -26,6 +31,15 @@ namespace selection {
         Diagram<h>* b;
     };
 
+    /**
+     * @brief Get the mergees at a certain height in a Diagram.
+     * 
+     * @tparam height The height of the Diagram.
+     * @tparam h The height at which to get the mergees.
+     * @param d The Diagram.
+     * @param strategy The strategy to use for choosing the mergees.
+     * @return struct mergees<h> The mergees.
+     */
     template <size_t height, size_t h>
     struct mergees<h> getMergeesAtHeight(Diagram<height> d, MergeesChoiceStrategy strategy);
 };
