@@ -57,6 +57,17 @@ public:
     /// @brief The number of intervals contained in the evaluation
     /// @return 2 ^ @ref{height}
     size_t size();
+
+    /// @brief The number of nodes at a given height
+    size_t countNodesAtHeight(size_t h);
+
+    /// @brief Get all nodes at a given height
+    template <size_t h>
+    std::vector<Diagram<h>*> getNodePointersAtHeight();
+
+    /// @brief Replace nodes @ref{f1} and @ref{f2} by @ref{r} at a given height
+    template <size_t h>
+    void replaceNodesAtHeight(Diagram<h> *f1, Diagram<h> *f2, Diagram<h> *r);
 };
 
 #include <../src/diagram.cpp>

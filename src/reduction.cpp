@@ -6,9 +6,6 @@ template <size_t height>
 static void forceMergeAtHeight(Diagram<height> d, size_t h);
 
 template <size_t height>
-static Diagram<height> forceMerge(Diagram<height> a, Diagram<height> b);
-
-template <size_t height>
 static absi::Interval childAmplitude(branches<height> brs, Diagram<height - 1> possible_child);
 
 /**
@@ -18,11 +15,11 @@ static absi::Interval childAmplitude(branches<height> brs, Diagram<height - 1> p
  * there is less than `maxNodes[i]` at this level.
  */
 template <size_t height>
-void reduction::maxNodesLevel(Diagram<height> d, std::array<size_t, height> maxNodes)
+void reduction::maxNodesLevel(Diagram<height> d, std::array<size_t, height> maxNodes, selection::MergeesChoiceStrategy strategy)
 {
     for (size_t i = 0; i < height; i++)
     {
-        while (d.nodesAtHeight(i) > maxNodes[i])
+        while (d.countNodesAtHeight(i) > maxNodes[i])
         {
             forceMergeAtHeight(d, i);
         }
@@ -30,9 +27,11 @@ void reduction::maxNodesLevel(Diagram<height> d, std::array<size_t, height> maxN
 }
 
 template <size_t height>
-static void forceMergeAtHeight(Diagram<height> d, size_t h)
+static void forceMergeAtHeight(Diagram<height> d, size_t h, selection::MergeesChoiceStrategy strategy)
 {
-    return;
+    struct mergees hMergees = selection::getMergeesAtHeight<h>(d, strategy);
+    Diagram<height> result = reduction::forceMerge(*hMergees.a, *hMergees.b);
+    d.replaceNodes(*hMergees.a, *hMergees.b, result);
 }
 
 /// @brief An approximation algorithm for non-additive QDDs
@@ -42,13 +41,17 @@ static void forceMergeAtHeight(Diagram<height> d, size_t h)
 template <size_t height>
 void algo1(Diagram<height> d, std::array<size_t, height> maxNodes)
 {
+    for (size_t i = 0; i < height; i++)
+    {
+        while (d.countNodesAtHeight(i) > maxNodes[i])
+        {
+            forceMergeAtHeight(d, i);
+        }
+    }
 }
 
-/**
- * @brief A merging approximation, see the documentation.
- */
 template <size_t height>
-static Diagram<height> forceMerge(Diagram<height> a, Diagram<height> b)
+Diagram<height> reduction::forceMerge(Diagram<height> &a, Diagram<height> &b)
 {
     Diagram<height> result;
     std::set<std::shared_ptr<branch<height>>> leftAOnly, leftBOnly, bothLeft;

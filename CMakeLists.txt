@@ -92,6 +92,9 @@ target_link_libraries(absi_test ${absi_libs} GTest::gtest_main)
 add_executable(diagram_test ${absi_files} test/diagram_test.cpp include/diagram.h)
 target_link_libraries(diagram_test  ${absi_libs} GTest::gtest_main)
 
+# Selection test
+add_library(selection STATIC src/selection.cpp include/diagram.h ${absi_files} src/amplitude.cpp)
+
 # Reduction test
 add_library(reduction STATIC src/reduction.cpp include/diagram.h ${absi_files} src/amplitude.cpp)
 
