@@ -84,6 +84,8 @@ namespace polar
 
         std::string to_string() const;
 
+        polar::real norm();
+
     protected:
         /**
          * @brief Checks if the number is real.

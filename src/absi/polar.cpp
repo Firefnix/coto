@@ -163,6 +163,10 @@ std::string polar::Interval::to_string() const
     return "{mod: " + std::to_string(mod.min) + " " + std::to_string(mod.max) + " arg: " + std::to_string(arg.min) + " " + std::to_string(arg.delta) + "}";
 }
 
+polar::real polar::Interval::norm()
+{
+  return arg.delta * mod.max; // TODO: better approximation
+}
 bool polar::Interval::is_real() const
 {
     return (arg.delta == 0) && (arg.min == 0. || arg.min == 1.);
