@@ -9,6 +9,7 @@
 
 \usepackage{amsmath}
 \usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
 \usepackage{amsfonts}
 \usepackage{xfrac}
 \newcommand{\somme}{\displaystyle\sum}
@@ -61,15 +62,89 @@ Cela nécessite une \textbf{structure de données} adaptée
 \begin{frame}{État de l'art}
 \textbf{État de l'art}
 \begin{itemize}
-    \item Diagrammes de décision quantique
     \item Interprétation abstraite
     \item Arithmétique des intervalles réels
+    \item Diagrammes de décision quantiques
 \end{itemize}
 \pause
 \begin{center}
     Solution : \underline{diagrammes additifs abstraits}
 \end{center}
 \end{frame}
+
+\begin{frame}{Interprétation abstraite}
+    L'\textbf{interprétation abstraite} permet de déterminer des propriétés
+
+    \vspace{1em}
+    \underline{Exemple :} signe d'une expression $e = (3 + 2) \times (-5)$
+    \begin{align*}
+        \text{signe}(e) &= (\text{signe}(3) + \text{signe}(2)) \times \text{signe}(-5) \\
+        &= (\oplus + \oplus) \times \ominus \\
+        &= \oplus \times \ominus \\
+        &= \ominus
+    \end{align*}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Arithmétique des intervalles (1)}
+
+    L'interprétation abstraite est applicable aux \textbf{intervalles réels}
+
+    \begin{alignat*}{2}
+    [1, 2] &* [-1, 1] &=& [-2, 2] \\
+    [1, 2] &+ [-1, 1] &=& [0, 3] \\
+    [1, 2] &\land [-1, 1] &=& [1, 1] \\
+    [1, 2] &\lor [-1, 1] &=& [-1, 2]
+    \end{alignat*}
+\end{frame}
+
+\begin{frame}{Diagrammes de décision}
+    Les \textbf{diagrammes de décision} permettent de représenter des fonctions booléennes
+
+\vspace{1em}
+% https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZAJgBoAGAXVJADcBDAGwFcYkQAPAfQEYACADoDGEAE58AFN2KDh9MFD7cAzAEoQAX1LpMufIRTLSy6nSat2PTdpAZseAkXIVTDFm0QgpvdVp339J1IeV3MPL2lfGzs9RxRnYlD3dm81a39Yg2QeYySLT3J0210HLJyQmjd8zi4ZIUZ5RRUimNKiMkTKsPZmjVMYKABzeCJQADNRCABbJGcQHAgkADYaRiwwcKh6OAALAaKJ6dmaBaQckAAjGAUkZTmq8O5+AF4+Kz8QQ5nEFfnFxAArKt1pttnsoCAuslPNJnoVVvQrowAAolQKeURYQY7HAHSbfX6nRAAdih1Vh7xsXyQpL+SCBIDWG3YW12+zJjy4yj4r0KH2pJJO-3ODx6XOe70oGiAA
+\begin{tikzcd}[ampersand replacement=\&, column sep=small]
+    (x_1) \&                                                                \& x_1 \lor (x_2 \land x_3) \arrow[ld, dashed] \arrow[rddd, "x_1 = 1", bend left] \&   \\
+    (x_2) \& x_2 \land x_3 \arrow[dd, "x_2=0"', dashed] \arrow[rd, "x_2=1"] \&                                                                                \&   \\
+    (x_3) \&                                                                \& x_3 \arrow[ld, "x_3 = 0", dashed] \arrow[rd, "x_3=1"]                          \&   \\
+          \& 0                                                              \&                                                                                \& 1
+    \end{tikzcd}
+\end{frame}
+
+\begin{frame}{États quantiques}
+
+    Un \textbf{état quantique} est une superposition d'états incompatibles
+
+    $$\ket{\psi} = \alpha \ket{0} + \beta \ket{1}$$
+
+    En informatique quantique on note $\ket{0} = \begin{pmatrix} 1 \\ 0 \end{pmatrix}$ et $\ket{1} = \begin{pmatrix} 0 \\ 1 \end{pmatrix}$ d'où
+
+\end{frame}
+
+\begin{frame}{Diagrammes de décision quantiques}
+    \Huge{(Ici, partie sur les diagrammes de décision quantiques)}
+
+\end{frame}
+
+\begin{frame}{État de l'art}
+    \textbf{Retour sur l'état de l'art}
+    \begin{itemize}
+        \item[\checkmark] Interprétation abstraite
+        \item[\checkmark] Arithmétique des intervalles réels
+        \item[\checkmark] Diagrammes de décision quantiques
+        \item[+] Nouveauté : \textbf{additivité}
+    \end{itemize}
+        \onslide<1>{
+            \begin{center}
+                On va utiliser ces concepts \underline{ensemble}
+            \end{center}
+        }
+        \onslide<2>{
+            \begin{center}
+                Solution : \underline{diagrammes additifs abstraits}}
+            \end{center}
+\end{frame}
+
 
 % 2. Présentez les objectifs de votre projet.
 \begin{frame}{Objectifs}
@@ -96,7 +171,20 @@ Objectifs
 }
 \end{frame}
 
+
 % 5. Présentez votre travail et vos éventuels résultats.
+\begin{frame}{Modèle théorique}
+
+    \Huge{(Ici, exemple d'un diagramme abstrait additif)}
+
+\end{frame}
+
+\begin{frame}{Modèle théorique}
+
+    \Huge{(Ici, réduction du précédent diagramme)}
+
+\end{frame}
+
 \begin{frame}{Travail réalisé}
 \textbf{Modèle}
 \begin{itemize}
@@ -125,11 +213,12 @@ Objectifs
             \begin{tikzpicture}[scale=0.8]
                 \begin{axis}[grid=both,
                             xmin=0,ymin=0,
-                          xmax=5, ymax=10,
+                          xmax=10, ymax=100,
                           axis lines=middle,
+                          domain=0:10
                           ]
-                \addplot[blue]  {x} node[left]{$y=x$};
-                \addplot[black]  {2^x} node[above=-1cm] {$y=2^x$};
+                \addplot[blue]  {x} node[near end, above]{$y=x$};
+                \addplot[black]  {2^x} node[at start, above right]{$y=2^x$};
                 \end{axis}
             \end{tikzpicture}
                 \end{column}
