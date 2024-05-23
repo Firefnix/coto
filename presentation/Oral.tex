@@ -283,8 +283,8 @@ Objectifs
     \end{itemize}
     \item Nouveaux concepts
     \begin{itemize}
-        \item Multi-valuation
-        \item Carte locale inversible
+        \item Multi-valuation (QMDD)
+        \item Carte locale inversible (LIMQDD)
     \end{itemize}
 \end{itemize}
 \end{frame}
@@ -394,26 +394,56 @@ Complément sur les césures
 \end{frame}
 
 \begin{frame}{Pile technique}
-Technologies utilisées
-\begin{itemize}
-    \item \textbf{Code}
-    \begin{itemize}
-        \item Langage C++
-        \item CMake
-        \item GNU C Compiler
-    \end{itemize}
-    \item \textbf{Versionnage}
-    \begin{itemize}
-        \item Git
-        \item GitHub
-    \end{itemize}
-    \item \textbf{Tests}
-    \begin{itemize}
-        \item Google Test
-        \item GitHub Actions
-    \end{itemize}
-    \item \textbf{Documentation} Doxygen
-\end{itemize}
+\begin{columns}
+    \begin{column}{0.5\textwidth}
+        Implémentation
+        \begin{itemize}
+            \item \textbf{Code}
+            \begin{itemize}
+                \item Langage C++
+                \item GNU C Compiler (GCC)
+                \item CMake
+            \end{itemize}
+            \item \textbf{Tests}
+            \begin{itemize}
+                \item Google Test
+                \item GitHub Actions
+            \end{itemize}
+        \end{itemize}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+        \begin{center}
+            \includesvg[scale=0.23]{./images/cpp-logo.svg}
+            \includesvg[scale=0.6]{./images/gcc-logo.svg}
+
+            \includegraphics[scale=0.1]{./images/cmake-logo.png}
+        \end{center}
+    \end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Pile technique secondaire}
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            Mise en forme
+            \begin{itemize}
+                \item \textbf{Versionnage}
+                \begin{itemize}
+                    \item Git
+                    \item GitHub
+                \end{itemize}
+                \item \textbf{Documentation} Doxygen
+                \end{itemize}
+            \end{column}
+        \begin{column}{0.5\textwidth}
+            \begin{center}
+                \includesvg[scale=0.6]{./images/git-logo.svg}
+                \includesvg[scale=0.6]{./images/github-logo.svg}
+
+                \includegraphics[scale=0.1]{./images/doxygen-logo.png}
+                \end{center}
+        \end{column}
+    \end{columns}
 \end{frame}
 
 \end{document}
