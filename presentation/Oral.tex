@@ -73,7 +73,7 @@ Cela nécessite une \textbf{structure de données} adaptée
 \end{frame}
 
 \begin{frame}{Interprétation abstraite}
-    L'\textbf{interprétation abstraite} permet de déterminer des propriétés
+    L'\textbf{interprétation abstraite} permet de déterminer des propriétés ou d'accélérer des calculs
 
     \vspace{1em}
     \underline{Exemple :} signe d'une expression $e = (3 + 2) \times (-5)$
@@ -111,19 +111,52 @@ Cela nécessite une \textbf{structure de données} adaptée
     \end{tikzcd}
 \end{frame}
 
+\begin{frame}
+    Les \textbf{diagrammes de décision} permettent de représenter des fonctions booléennes
+
+    \vspace{1em}
+    \begin{center}
+    % https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZARgBoAGAXVJADcBDAGwFcYkQQBfU9TXfQigBMpAMzU6TVu2JceIDNjwEi5MRIYs2iEOTm8lA1aWIap2jtwP8VKMkLNb2XCTCgBzeEVAAzAE4QALZIaiA4EEiiNIxYYBZQ9HAAFm76IP5BITThSGQgAEYwYFCR5FbpAcGIUWERiCIgMXHsCcmp0fSFjAAKfMqCIH5Y7kk4aRlVNTmIACzlE0gz2XUNTfGJKSXzlYvLuZyUnEA
+    \begin{tikzcd}[ampersand replacement=\&, column sep=huge, row sep=large]
+        \& {} \arrow[ld, dashed] \arrow[rddd, bend left] \&   \\
+    {} \arrow[dd, dashed] \arrow[rd] \&                                               \&   \\
+        \& {} \arrow[ld, dashed] \arrow[rd]              \&   \\
+    0                                \&                                               \& 1
+    \end{tikzcd}
+    \end{center}
+\end{frame}
+
 \begin{frame}{États quantiques}
 
     Un \textbf{état quantique} est une superposition d'états incompatibles
 
-    $$\ket{\psi} = \alpha \ket{0} + \beta \ket{1}$$
+    $$\ket{\psi} = \alpha \ket{0} + \beta \ket{1} \quad \text{(un qubit)}$$
 
-    En informatique quantique on note $\ket{0} = \begin{pmatrix} 1 \\ 0 \end{pmatrix}$ et $\ket{1} = \begin{pmatrix} 0 \\ 1 \end{pmatrix}$ d'où
-
+    \pause
+    \begin{center}
+        $n$ qubits $\Rightarrow$ $2^n$ états incompatibles
+    \end{center}
+On note les états sous forme de \textbf{vecteurs}
+$$x \ket {01} + y \ket {11} = \begin{pmatrix}
+    0 \\ x \\ 0 \\ y
+\end{pmatrix}$$
 \end{frame}
 
 \begin{frame}{Diagrammes de décision quantiques}
-    \Huge{(Ici, partie sur les diagrammes de décision quantiques)}
-
+    \begin{columns}
+        \begin{column}{0.7\textwidth}
+            On peut représenter des états avec des \textbf{diagrammes de décision quantiques}
+        \end{column}
+        \begin{column}{0.3\textwidth}
+            % https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZABgBoAmAXVJADcBDAGwFcYkQAdDgIxgHMsYYGgC29HACcsADwC+ARgAEXLouJcYYKMLGSZskLNLpMufIRRkAzNTpNW7LtwjSYURfMPGQGbHgJE8qQ2NAwsbIggXiZ+5kRkxLZhDpFO-II64lJy5MoqanmqWIUcahpamXpyhrZufPBEoABmEhAiSGQgOBBIQSC8WkgAtFadjIIRIFD0cAAWbtEgLW0dNN1I5DTz9FDskGBsRs2t7YhWaz2InQO7Z53Jk1iLy6fnXZfXmrcj9-aT5CAaIx6LxGAAFUz+CwgKR8WY4QEgcYHdjTOYLWSUWRAA
+\begin{tikzcd}[ampersand replacement=\&, column sep=small]
+    \begin{pmatrix}2 \\ 0 \\ i \\ 0\end{pmatrix} \arrow[dd, "i", bend left] \arrow[dd, "2"', dashed, bend right] \&    \\
+                                                                                                                 \&    \\
+    \begin{pmatrix}1 \\ 0\end{pmatrix} \arrow[d, dashed, "1"', bend right]                       \&    \\
+    \boxed 1                                                                                                     \& {}
+    \end{tikzcd}
+        \end{column}
+    \end{columns}
 \end{frame}
 
 \begin{frame}{État de l'art}
@@ -132,17 +165,32 @@ Cela nécessite une \textbf{structure de données} adaptée
         \item[\checkmark] Interprétation abstraite
         \item[\checkmark] Arithmétique des intervalles réels
         \item[\checkmark] Diagrammes de décision quantiques
-        \item[+] Nouveauté : \textbf{additivité}
     \end{itemize}
-        \onslide<1>{
-            \begin{center}
-                On va utiliser ces concepts \underline{ensemble}
-            \end{center}
-        }
-        \onslide<2>{
-            \begin{center}
-                Solution : \underline{diagrammes additifs abstraits}}
-            \end{center}
+    \begin{center}
+        On va utiliser ces concepts ensemble,
+
+        avec une nouveauté : l'\textbf{additivité}
+\vfill
+% https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZARgBoAGAXVJADcBDAGwFcYkQAdDgBWxAF9S6TLnyEU5UsWp0mrdlzQALLAH1iAoSAzY8BImWk0GLNok4dlagEybhusUWtSZJ+ecV9B90fpQBmClc5MwsAGRgAMxwAJywAcyUcehiYiAB3O20RPXFkABYXYxCFSxV1AGpFcttvbIc-ZAA2ItlTUrQvLR1fPIBWIOL2jx4vGRgoePgiUEi0gFskSRAcCCQyEEYsMFCoejglCay5iEXEZdWkZ03t3f3DqGOFpZpLxH86k7OAdle1xAGNx27D2ByOn2eiF+K3+TX4lH4QA
+\begin{tikzcd}[ampersand replacement=\&, column sep=small]
+    \& \Psi \arrow[ld, dashed] \arrow[d, dashed] \arrow[rd] \&      \& \Leftrightarrow \&               \& \Psi \arrow[ld, dashed] \arrow[rd] \&      \\
+\phi_1 \& \phi_2                                               \& \psi \&                 \& \phi_1+\phi_2 \&                                    \& \psi
+\end{tikzcd}
+\end{center}
+\end{frame}
+
+\begin{frame}{Solution proposée}
+    \textbf{Retour sur l'état de l'art}
+    \begin{itemize}
+        \item[\checkmark] Interprétation abstraite
+        \item[\checkmark] Arithmétique des intervalles réels
+        \item[\checkmark] Diagrammes de décision quantiques
+        \item[+] Nouveauté : additivité
+    \end{itemize}
+
+    \begin{center}
+        Solution : \underline{diagrammes additifs abstraits}
+    \end{center}
 \end{frame}
 
 
@@ -174,15 +222,11 @@ Objectifs
 
 % 5. Présentez votre travail et vos éventuels résultats.
 \begin{frame}{Modèle théorique}
-
     \Huge{(Ici, exemple d'un diagramme abstrait additif)}
-
 \end{frame}
 
 \begin{frame}{Modèle théorique}
-
     \Huge{(Ici, réduction du précédent diagramme)}
-
 \end{frame}
 
 \begin{frame}{Travail réalisé}
