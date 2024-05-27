@@ -30,22 +30,5 @@
 \end{frame}
 
 \begin{frame}{Résultats}
-  \begin{columns}
-      \begin{column}{0.6\textwidth}
-          \begin{tikzpicture}[scale=0.8]
-              \begin{axis}[grid=both,
-                          xmin=0,ymin=0,
-                        xmax=10, ymax=100,
-                        axis lines=middle,
-                        domain=0:10
-                        ]
-              \addplot[blue]  {x} node[near end, above]{$y=x$};
-              \addplot[black]  {2^x} node[at start, above right]{$y=2^x$};
-              \end{axis}
-          \end{tikzpicture}
-              \end{column}
-      \begin{column}{0.4\textwidth}
-          L'avantage en nombre de nœuds est \textbf{exponentiel} pour le \textit{proof of concept}
-      \end{column}
-  \end{columns}
+  Le gain en taille est arbitrairement grand.
 \end{frame}

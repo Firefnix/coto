@@ -25,6 +25,14 @@
     \end{align*}
 \end{frame}
 
+\begin{frame}{Intérêts de l'interprétation abstraite}
+    L'interprétation abstraite permet de déterminer des propriétés ou d'\textbf{accélérer des calculs}
+
+    \vspace{1em}
+
+    Elle peut être exacte ou \textbf{approximative}
+\end{frame}
+
 \begin{frame}
     \frametitle{Arithmétique des intervalles (1)}
 
@@ -33,9 +41,37 @@
     \begin{alignat*}{2}
     [1, 2] &* [-1, 1] &=& [-2, 2] \\
     [1, 2] &+ [-1, 1] &=& [0, 3] \\
-    [1, 2] &\land [-1, 1] &=& [1, 1] \\
-    [1, 2] &\lor [-1, 1] &=& [-1, 2]
+    [1, 2] &\land [-1, 1] &=& [1, 1]
     \end{alignat*}
+
+    \small{Le résultat de l'opération est \textbf{le plus petit intervalle} contenant tous les résultats élément par élément}
+\end{frame}
+
+\begin{frame}{Fonctions booléennes}
+
+    Une \textbf{fonction booléenne}
+
+    $$f : \{0, 1\}^n \to \{0, 1\}$$
+
+    peut être représentée par une \textbf{table de vérité}
+
+    \begin{center}
+        \begin{tabular}{c|c|c|c}
+            $x_1$ & $x_2$ & $x_3$ & $f(x_1, x_2)$ \\
+            \hline
+            0 & 0 & 0 & 0 \\
+            0 & 0 & 1 & 0 \\
+            0 & 1 & 0 & 0 \\
+            0 & 1 & 1 & 1 \\
+            1 & 0 & 0 & 1 \\
+            1 & 0 & 1 & 1 \\
+            1 & 1 & 0 & 1 \\
+            1 & 1 & 1 & 1
+        \end{tabular}
+
+        \vspace{1em}
+        \small{for $f(x_1, x_2) = x_1 \lor (x_2 \land x_3)$}
+    \end{center}
 \end{frame}
 
 \begin{frame}{Diagrammes de décision}
@@ -63,6 +99,10 @@
         \& {} \arrow[ld, dashed] \arrow[rd]              \&   \\
     0                                \&                                               \& 1
     \end{tikzcd}
+
+    \vspace{1em}
+
+    On tire parti de la \textbf{structure} de la fonction
     \end{center}
 \end{frame}
 
@@ -85,7 +125,11 @@ $$x \ket {01} + y \ket {11} = \begin{pmatrix}
 \begin{frame}{Diagrammes de décision quantiques}
     \begin{columns}
         \begin{column}{0.7\textwidth}
-            On peut représenter des états avec des \textbf{diagrammes de décision quantiques}
+            Les états peuvent être représentés par des \textbf{diagrammes de décision quantiques}
+
+            \vspace{1em}
+
+            On tire parti de la \textbf{structure} de l'état
         \end{column}
         \begin{column}{0.3\textwidth}
             % https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZABgBoAmAXVJADcBDAGwFcYkQAdDgIxgHMsYYGgC29HACcsADwC+ARgAEXLouJcYYKMLGSZskLNLpMufIRRkAzNTpNW7LtwjSYURfMPGQGbHgJE8qQ2NAwsbIggXiZ+5kRkxLZhDpFO-II64lJy5MoqanmqWIUcahpamXpyhrZufPBEoABmEhAiSGQgOBBIQSC8WkgAtFadjIIRIFD0cAAWbtEgLW0dNN1I5DTz9FDskGBsRs2t7YhWaz2InQO7Z53Jk1iLy6fnXZfXmrcj9-aT5CAaIx6LxGAAFUz+CwgKR8WY4QEgcYHdjTOYLWSUWRAA
@@ -95,6 +139,27 @@ $$x \ket {01} + y \ket {11} = \begin{pmatrix}
     \begin{pmatrix}1 \\ 0\end{pmatrix} \arrow[d, dashed, "1"', bend right]                       \&    \\
     \boxed 1                                                                                                     \& {}
     \end{tikzcd}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Diagrammes de décision quantiques}
+    \begin{columns}
+        \begin{column}{0.7\textwidth}
+            Les états peuvent être représentés par des \textbf{diagrammes de décision quantiques}
+
+            \vspace{1em}
+
+            Dans le pire cela reste \textbf{exponentiel}
+        \end{column}
+    \begin{column}{0.3\textwidth}
+    % https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZABgBoAmAXVJADcBDAGwFcYkQQBfU9TXfQijIBmanSat2AHSkAjCAA8YUAAQBGLjxAZseAkTLExDFm0QdOY5QHN4RUADMAThAC2SMiBwQkamrJgwKCQAWmFPRiwwMxAoejgAC2VNRxd3RHIabw9-QODEcJoTSXMsFJBnNyRMrx9ETwCg0MLxU3ZyEBpGegDGAAU+PUEQJyxrBJxOkEjo9jjE5MtOIA
+    \begin{tikzcd}[column sep=huge, row sep=large]
+        {} \arrow[dd, "i", bend left] \arrow[dd, "2"', dashed, bend right] \\
+\\
+        {} \arrow[d, dashed, bend right]\\
+        \boxed 1
+        \end{tikzcd}
         \end{column}
     \end{columns}
 \end{frame}
