@@ -14,7 +14,7 @@
 \usepackage{xfrac}
 \newcommand{\somme}{\displaystyle\sum}
 
-\usetheme[compress]{Berlin} % {Boadilla}
+\usetheme[compress]{Berlin}
 \beamertemplatenavigationsymbolsempty
 \setbeamertemplate{page number in head/foot}[framenumber]
 \setbeamertemplate{frametitle}{}
@@ -34,29 +34,7 @@
     \titlepage
 \end{frame}
 
-% 1. Replacez votre projet dans son contexte : enjeux scientifiques, enjeux sociétaux et/ou économiques (le cas échéant)
-\begin{frame}{Contexte}
-
-\begin{center}
-Les besoins en puissance de calcul croissent rapidement
-\includesvg[scale=0.4]{./images/artificial-intelligence-training-computation-by-researcher-affiliation.svg}
-
-Les algorithmes classiques sont parfois inefficaces
-
-\pause
-Les \textbf{algorithmes quantiques} permettent de résoudre certains problèmes plus efficacement
-\end{center}
-\end{frame}
-
-\begin{frame}
-Les machines quantiques sont en développement et resteront coûteuses
-$$\Downarrow$$
-Il y a un besoin d'outils de développement et vérification d'algorithmes quantiques
-\pause
-
-\vspace{1em}
-Cela nécessite une \textbf{structure de données} adaptée
-\end{frame}
+\input{contexte.tex}
 
 \input{etat-de-l-art.tex}
 
@@ -118,78 +96,6 @@ Suite du projet
     \end{center}
 \end{frame}
 
-\begin{frame}{Comlément sur les césures}
-Complément sur les césures
-\begin{itemize}
-    \item \textbf{Digital Tech Year}
-    \begin{itemize}
-        \item Semestre au Paris Digital Lab
-        \item Semestre en entreprise à l'international
-    \end{itemize}
-    \item \textbf{Stage}
-    \begin{itemize}
-        \item Entreprise
-        \item Laboratoire
-        \item France ou à international
-    \end{itemize}
-    \item \textbf{Stage en laboratoire}
-    \begin{itemize}
-        \item En France ou à l'international
-    \end{itemize}
-\end{itemize}
-\end{frame}
-
-\begin{frame}{Pile technique}
-\begin{columns}
-    \begin{column}{0.5\textwidth}
-        Implémentation (2,2k lignes de code)
-        \begin{itemize}
-            \item \textbf{Code}
-            \begin{itemize}
-                \item Langage C++
-                \item GNU C Compiler
-                \item CMake
-            \end{itemize}
-            \item \textbf{Tests}
-            \begin{itemize}
-                \item Google Test
-                \item GitHub Actions
-            \end{itemize}
-        \end{itemize}
-    \end{column}
-    \begin{column}{0.5\textwidth}
-        \begin{center}
-            \includesvg[scale=0.23]{./images/cpp-logo.svg}
-            \includesvg[scale=0.6]{./images/gcc-logo.svg}
-
-            \includegraphics[scale=0.1]{./images/cmake-logo.png}
-        \end{center}
-    \end{column}
-\end{columns}
-\end{frame}
-
-\begin{frame}{Pile technique secondaire}
-    \begin{columns}
-        \begin{column}{0.5\textwidth}
-            Mise en forme
-            \begin{itemize}
-                \item \textbf{Versionnage}
-                \begin{itemize}
-                    \item Git
-                    \item GitHub
-                \end{itemize}
-                \item \textbf{Documentation} Doxygen
-                \end{itemize}
-            \end{column}
-        \begin{column}{0.5\textwidth}
-            \begin{center}
-                \includesvg[scale=0.6]{./images/git-logo.svg}
-                \includesvg[scale=0.6]{./images/github-logo.svg}
-
-                \includegraphics[scale=0.1]{./images/doxygen-logo.png}
-                \end{center}
-        \end{column}
-    \end{columns}
-\end{frame}
+\input{annexes.tex}
 
 \end{document}
