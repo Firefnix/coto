@@ -12,12 +12,23 @@
   \end{center}
 \end{frame}
 
-\begin{frame}
-  Les machines quantiques sont en développement et resteront coûteuses
+\begin{frame}{Le besoin}
+  Les machines quantiques sont en développement et resteront coûteuses financièrement
   $$\Downarrow$$
   Il y a un besoin d'outils de développement et vérification d'algorithmes quantiques
-  \pause
+\end{frame}
+
+\begin{frame}{Simulations}
+  Les simulations sont très coûteuses en temps de calcul
+  \begin{table}[]
+    \begin{tabular}{l|l|l|l}
+        \textit{Grover} & Classique & Quantique & Simulation    \\ \hline \rule{0pt}{2.6ex}
+    Complexité & $N$       & $\sqrt N$ & {\color{red}$N \sqrt N$}
+    \end{tabular}
+    % https://arxiv.org/pdf/2005.04635
+  \end{table}
 
   \vspace{1em}
-  Cela nécessite une \textbf{structure de données} adaptée
+
+  Elles nécessitent une \textbf{structure de données} adaptée
 \end{frame}
