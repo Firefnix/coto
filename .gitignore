@@ -11,3 +11,5 @@ doxygen/
 *.out
 *.snm
 svg-inkscape/
+*.bbl
+*.blg
