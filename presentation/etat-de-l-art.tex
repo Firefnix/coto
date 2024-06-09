@@ -70,7 +70,7 @@
         \end{tabular}
 
         \vspace{1em}
-        \small{for $f(x_1, x_2) = x_1 \lor (x_2 \land x_3)$}
+        \small{pour $f(x_1, x_2) = x_1 \lor (x_2 \land x_3)$}
     \end{center}
 \end{frame}
 
@@ -118,8 +118,25 @@
     \end{center}
 On note les états sous forme de \textbf{vecteurs}
 $$x \ket {01} + y \ket {11} = \begin{pmatrix}
-    0 \\ x \\ 0 \\ y
+    x \\ 0 \\ y \\ 0
 \end{pmatrix}$$
+\end{frame}
+
+\begin{frame}{États quantiques (bis)}
+    La représentation usuelle est proche des \textbf{tables de vérité}
+    \begin{center}
+        \begin{tabular}{c|c|c}
+            $x_1$ & $x_2$ & $\braket{x_1 x_2|\psi}$ \\
+            \hline
+            0 & 0 & x \\
+            0 & 1 & 0 \\
+            1 & 0 & y \\
+            1 & 1 & 0
+        \end{tabular}
+
+        \vspace{1em}
+        \small{pour $\ket \psi = x \ket {00} + y \ket {10}$}
+    \end{center}
 \end{frame}
 
 \begin{frame}{Diagrammes de décision quantiques}
