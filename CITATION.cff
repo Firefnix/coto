@@ -1,0 +1,21 @@
+cff-version: 1.2.0
+title: Coto
+message: Abstract additive decision diagrams
+type: software
+authors:
+  - given-names: Malo
+    family-names: Leroy
+    email: malo.leroy@student-cs.fr
+    affiliation: CentraleSupélec & INRIA
+repository-code: 'https://github.com/Firefnix/coto/'
+abstract: >-
+  Abstract additive quantum decision diagrams theoretical
+  model and efficient implementation for quantum states and
+  circuits storage and operating, in the context of
+  simulation, development and verification.
+keywords:
+  - quantum computing
+  - abstract interpretation
+  - programming
+  - decision diagrams
+date-released: '2024-06-12'
