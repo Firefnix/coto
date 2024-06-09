@@ -39,8 +39,18 @@
 \usepackage{tikz}
 \usetikzlibrary{positioning}
 \usepackage{tikz-cd}
+
+% Algorithms
 \usepackage{algorithm}
 \usepackage{algpseudocode}
+
+% No new page after chapter
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd{\chapter}{\if@openright\cleardoublepage\else\clearpage\fi}{
+
+}{}{}
+\makeatother
 
 \newcommand{\RE}{\mathrm{Re}}
 \newcommand{\IM}{\mathrm{Im}}
@@ -101,14 +111,13 @@
 
 \newpage
 
-%récupérer les citation avec "/footnotemark"
-
+% Hide page number for bibliography
+\renewcommand{\thepage}{}
 
 %choix du style de la biblio
 \bibliographystyle{plain}
 %inclusion de la biblio
 \bibliography{bibliographie}
-%voir wiki pour plus d'information sur la syntaxe des entrées d'une bibliographie
 
 \vfill{}
 
