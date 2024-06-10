@@ -1,0 +1,49 @@
+\newpage
+
+\chapter{Modèle théorique}
+\label{ch:Modele}
+
+Le modèle théorique proposé est la structure de données des \textbf{diagrammes de décision quantiques additifs abstraits}.
+
+\section{Arithmétique des intervalles}
+\label{sec:ArithmetiqueIntervalles}
+
+L'arithmétique des intervalles dans le cadre de l'interprétation abstraite est proche de ce l'exemple de calcul sur les signes de la section \ref{sec:Etat}. L'arithmétique des intervalles est utilisée pour déterminer un ensemble de valeurs possibles pour une expression mathématique en utilisant des intervalles pour les valeurs des variables.
+
+L'arithmétique des intervalles réels a été étudiée \cite{Sunaga_2009}, et l'arithmétique des intervalles complexes cartésien a fait l'objet d'études légères par le passé \cite{Rokne_1971}. Au cours de ce projet, un travail a été réalisé pour explorer les possibilités de l'arithmétique des \textbf{intervalles complexes cartésiens et polaires}.
+
+Les intervalles complexes cartésiens sont définis par un intervalle pour la partie réelle et un intervalle pour la partie imaginaire. Les intervalles complexes polaires sont définis par un intervalle pour le module et un intervalle pour l'argument. Dans un cas comme dans l'autre, l'équivalent abstrait d'une \textbf{opération} $*$ est définie sur des éléments $\alpha$ et $\beta$ de l'ensemble des intervalles cartésiens $\mathcal{A}_0$ ou polaires $\mathcal S_0$ par
+$$\alpha * \beta = \bigcap_{\gamma \supset \alpha \circledast \beta\text{ et }\gamma \in \mathcal{A}_0} \gamma \quad \text{où} \quad \alpha \circledast \beta = \{a * b ; a \in \alpha, b \in \beta\}$$
+
+Les opérations de somme, de produit et d'union ainsi construites sont sur-approximées : elles garantissent que l'ensemble des valeurs possibles est inclus dans l'ensemble abstrait, et d'avoir un intervalle pour résultat. Ces opérations ont des propriétés, de distributivité par exemple, parfois très différentes des nombres complexes qu'ils représentent. Des propriétés sur les intervalles cartésiens et polaires sont énoncées et démontrées dans le document annexe \cite{Leroy_2024}.
+
+\section{États abstraits et diagrammes}
+
+Les \textbf{états} abstraits à $n$ qubits sont définis comme des $2^n$-uplets d'intervalles complexes, on note leur ensemble $\mathcal A_n$ ou $\mathcal S_n$. On définit sur les états la relation d'ordre d'inclusion des états par l'inclusion des produits cartésiens des intervalles les composant.
+
+Les \textbf{diagrammes} ont définis de manière récursive. Le seul diagramme de hauteur 0 est $\boxed 1$, puis si l'ensemble $\mathcal D_n$ des diagrammes de hauteur $n$ est défini, les diagrammes de hauteur $n+1$ peuvent avoir un nombre fini de fils gauches dans $\mathcal D_n$ et un nombre fini de fils droits dans $\mathcal D_n$, chacun étant associé à une amplitude abstraite sur la branche dans $\mathcal A_0$
+$$\mathcal{D}_{n+1} = \mathscr{P}_f(\mathcal{A}_0 \times \mathcal{D}_n) \times \mathscr{P}_f(\mathcal{A}_0 \times \mathcal{D}_n)$$
+
+On peut ainsi définir la fonction d'évaluation $\mathcal E : \mathcal D_n \to \mathcal A_n$ sur les diagrammes (une définition similaire est possible en utilisant les intervalles polaires), ce qui permet de définir une relation d'ordre $\le$ sur les diagrammes par inclusion des ensembles abstraits qu'ils représentent.
+
+\section{Approximations}
+
+L'un des objectifs pour cette structure de données est de tranformer un diagramme en un autre incluant le diagramme initial et de taille plus faible. Sur les diagrammes de décision abatraits ont étés développés deux algorithmes, à partir d'une relation de fusion.
+
+Puisque traiter les diagrammes de manière globale est difficile, on réalise les approximations de manière locale. Plus formellement, une \textbf{approximation globale} est une fonction $g : \mathcal D_n \to \mathcal D_n$ telle que
+$$\forall D \in \mathcal D_n, D \le g(D)$$
+
+En pratique, on a surtout développé une \textbf{approximation par fusion}, qui est une fonction $f$ telle que
+$$\begin{cases}
+  \forall A \not= B \in \mathcal{D}_n, A \le f(A, B)~\text{and}~B \le f(A, B) \\
+  \forall A \in \mathcal{D}_n, f(A, A) = A
+\end{cases}
+$$
+
+Le \textbf{théorème de fusion} indique que si l'on dispose d'une approximation par fusion, alors on dispose d'une approximation globale. Il simplifie grandement les preuves ultérieures, puisque l'on peut se contenter de démontrer la propriété d'approximation par fusion pour montrer l'approximation globale.
+
+\section{Réduction}
+
+Deux algorithmes de réduction de diagrammes ont étés développés.
+
+\vfill{}
