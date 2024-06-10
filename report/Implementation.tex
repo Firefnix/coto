@@ -1,0 +1,27 @@
+\chapter{Implémentation}
+\label{ch:Implementation}
+
+L'impémentation a été réalisée en \textbf{langage C++}. Ce choix a été motivé par plusieurs raisons : la performance, la maturité du langage et son utilisation dans plusieurs projets historiques du domaine \cite{Bichsel_2023}, et la proximité avec le langage C, déjà bien connu.
+
+\section{Structure du code}
+
+L'implémentation utilise largement la \textbf{programmation orientée objet}, en définissant des classes pour les objets manipulés. Les classes principales sont les suivantes, du plus bas au plus haut niveau :
+\begin{itemize}
+  \item Intervalles réels (quelconques, de réels positifs ou modulo $2\pi$)
+  \item Intervalles complexes (cartésiens ou polaires)
+  \item \textbf{Diagrammes} (par défaut, additifs et abstraits)
+  \item Les branches, qui contiennent un lien (\textbf{pointeur}) vers un digramme de destination et un intervalle complexe, et dont la définition fortement typée par la hauteur est mutuellement récursive avec celle des diagrammes
+\end{itemize}
+
+Les diagrammes et les branches sont définis avec des templates par rapport à leur taille. Ce point a fait l'objet d'hésitations, et a été retenu pour plusieurs raisons :
+\begin{itemize}
+  \item Le typage des diagrammes est plus fort : un diagramme de hauteur 3 ne peut avoir comme fils que des diagrammes de hauteur 2
+  \item Le typage des fonctions est aussi plus fort (d'interprétation, de sélection ou de réduction, etc.)
+  \item La terminaison du parcours récursif d'un diagramme est garantie : un diagramme de hauteur nulle ne pouvant avoir de fils, et le parcours se faisant souvent par réduction de la hauteur
+\end{itemize}
+
+Les classes sont organisées en \textbf{espaces de noms} pour éviter les conflits de noms, et définies dans des fichiers séparés. Des fonctions de \textbf{réduction} servent ensuite à réduire les diagrammes, en utilisant les fonctions de sélection.
+
+\section{Outils}
+
+Le code source est versionné à l'aide du logiciel \textit{Git}, et est disponible sur la plateforme \textit{GitHub} \cite{Leroy_2024}. Ce projet fait l'objet d'une \textbf{intégration continue} utilisant \textit{GitHub Actions}, automatisant la validation des tests réalisés en utilisant la bibliothèque open-source \textit{Google Test}. Le projet est compilé à l'aide du compilateur \textit{GCC}, ceci étant facilité par l'outil \textit{CMake}.
