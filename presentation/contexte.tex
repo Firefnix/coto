@@ -2,10 +2,33 @@
 \begin{frame}{Contexte}
 
 \begin{center}
-  Les besoins en puissance de calcul croissent rapidement
-  \includesvg[scale=0.4]{./images/artificial-intelligence-training-computation-by-researcher-affiliation.svg}
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+      Les  bases de données croissent rapidement
 
-  Les algorithmes classiques sont parfois inefficaces
+      \vspace{1em}
+      Les algorithmes classiques sont parfois inefficaces
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \begin{tikzpicture}
+        \begin{axis}[
+          width=6cm,height=6cm,
+          x tick label style={
+            /pgf/number format/1000 sep=},
+          xtick = {1998,2008},
+          enlargelimits=0.05,
+          legend style={at={(0.5,0.1)},
+          anchor=north,legend columns=-1},
+        ]
+        \addplot
+          coordinates {(1998,7.414973347970818) (2000,9)
+             (2008,12)};
+        \end{axis}
+      \end{tikzpicture}
+    \end{column}
+    \let\thefootnote\relax\footnotetext{$\log_{10}$ du nombre de pages indexées par Google}
+  \end{columns}
+
 
   \pause
   Les \textbf{algorithmes quantiques} permettent de résoudre certains problèmes plus efficacement
