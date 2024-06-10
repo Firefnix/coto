@@ -26,6 +26,7 @@ La structure de \textbf{diagramme de décision} est une structure de données d�
 Prenons par exemple la fonction $f(x_1, x_2, x_3) = x_1 \lor (x_2 \land x_3)$. La représentation d'une telle fonction se fait dans le cas général à l'aide d'une \textit{table de vérité}. On peut utiliser une représentation plus compacte en utilisant un diagramme de décision, comme le montre la Figure \ref{fig:ExempleDD}, où les fils gauches sont signalés par des flèches pointillées et les fils droits sont signalés par des flèches continues.
 
 \begin{figure}
+  \renewcommand{\arraystretch}{0.8}% Tighter
   \begin{tabular}{c|c|c|c}
     $x_1$ & $x_2$ & $x_3$ & $f(x_1, x_2)$ \\
     \hline
@@ -61,7 +62,7 @@ Prenons par exemple la fonction $f(x_1, x_2, x_3) = x_1 \lor (x_2 \land x_3)$. L
 
 Les diagrammes de décision prennent avantage de la \textbf{structure} interne de la donnée (ici, une fonction booléenne). On note d'une part que les labels ne sont pas nécessaires pour reconstituer les valeurs de prises par la fonction.
 
-D'autre part que dans le pire des cas, c'est-à-dire celui où la fonction ne possède aucune structure permettant une réduction, la taille du diagramme de décision (son nombre de branches) vaut $2^{n+1} - 2$ ce qui comme le nombre de valeurs $2^n$ à stocker dans une table de vérité, est \textbf{exponentiel} en $n$. Dans le pire cas, les diagrammes de décision ne permettent pas d'amélioration, mais ne sont pas non plus asymptotiquement pire que les tables de vérité, ce qui augmente leur intérêt.
+D'autre part que dans le pire des cas, c'est-à-dire celui où la fonction ne possède aucune structure permettant une réduction, la taille du diagramme de décision (son nombre de branches) vaut $2^{n+1} - 2$ ce qui comme le nombre de valeurs $2^n$ à stocker dans une table de vérité, est \textbf{exponentiel} en $n$. Dans le pire cas, les diagrammes de décision ne permettent pas d'amélioration, mais ne sont pas non plus asymptotiquement pire que les tables de vérité.
 
 \subsubsection*{Interprétation abstraite}
 
@@ -78,6 +79,7 @@ Il existe de nombreux cas d'utilisation de l'interprétation abstraite \cite{Ros
 
 Les différents concepts présentés dans l'état de l'art permettent tous d'améliorer la vitesse de calcul ou la taille en mémoire d'une donnée. Il s'agit donc de \textbf{combiner ces concepts} dans ce projet. L'objectif du projet était donc de proposer un modèle de diagrammes de décision quantiques abstraits et additifs, et de les simuler pour en étudier les performances en comparaison d'autres modèle.
 
+De manière préliminaire, une étude des intervalles complexes polaires a été réalisée, ce qui n'avait pas été fait jusqu'à présent.
 Un \textbf{modèle} mathématique de la structure de données et de méthodes de réduction ont été formalisés, et des algorithmes de réduction ont été développés pour simplifier ces diagrammes. Une \textbf{implémentation} de ces algorithmes a été réalisée, sans se baser sur des bibliothèques existantes (mise à part pour les tests unitaires).
 
 \section{Structure du rapport}
