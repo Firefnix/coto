@@ -49,9 +49,7 @@
 % No new page after chapter
 \usepackage{etoolbox}
 \makeatletter
-\patchcmd{\chapter}{\if@openright\cleardoublepage\else\clearpage\fi}{
-
-}{}{}
+\patchcmd{\chapter}{\if@openright\cleardoublepage\else\clearpage\fi}{}{}{}
 \makeatother
 
 \newcommand{\RE}{\mathrm{Re}}
