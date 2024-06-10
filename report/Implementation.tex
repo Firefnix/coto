@@ -2,7 +2,7 @@
 \chapter{Implémentation}
 \label{ch:Implementation}
 
-L'impémentation a été réalisée en \textbf{langage C++}. Ce choix a été motivé par plusieurs raisons : la performance, la maturité du langage et son utilisation dans plusieurs projets historiques du domaine \cite{Bichsel_2023}, et la proximité avec le langage C, déjà bien connu.
+L’implémentation a été réalisée en \textbf{langage C++}. Ce choix a été motivé par plusieurs raisons : la performance, la maturité du langage et son utilisation dans plusieurs projets historiques du domaine \cite{Bichsel_2023}, et la proximité avec le langage C, déjà bien connu.
 
 \section{Structure du code}
 
@@ -14,7 +14,7 @@ L'implémentation utilise largement la \textbf{programmation orientée objet}, e
   \item Les branches, qui contiennent un lien (\textbf{pointeur}) vers un digramme de destination et un intervalle complexe, et dont la définition fortement typée par la hauteur est mutuellement récursive avec celle des diagrammes
 \end{itemize}
 
-Les diagrammes et les branches sont définis avec des templates par rapport à leur taille. Ce point a fait l'objet d'hésitations, et a été retenu pour plusieurs raisons :
+Les diagrammes et les branches sont définis avec des \textbf{templates} par rapport à leur hauteur. Ce point a fait l'objet d'hésitations, et a été retenu pour plusieurs raisons :
 \begin{itemize}
   \item Le typage des diagrammes est plus fort : un diagramme de hauteur 3 ne peut avoir comme fils que des diagrammes de hauteur 2
   \item Le typage des fonctions est aussi plus fort (d'interprétation, de sélection ou de réduction, etc.)

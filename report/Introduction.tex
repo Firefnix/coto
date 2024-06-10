@@ -23,7 +23,7 @@ Les états à $n$ qubits sont peuvent être représentés par des \textbf{vecteu
 
 La structure de \textbf{diagramme de décision} est une structure de données développée à partir des années 1970. Elle est depuis devenue largement utilisée en informatique, notamment pour rendre plus compacte la représentation de \textbf{fonctions binaires} \cite{Minato_1996}.
 
-Prenons par exemple la fonction $f(x_1, x_2, x_3) = x_1 \lor (x_2 \land x_3)$. La représentation d'une telle fonction se fait dans le cas général à l'aide d'une \textit{table de vérité}. On peut utiliser une réprésentation plus compacte en utilisant un diagramme de décision, comme le montre la Figure \ref{fig:ExempleDD}, où les fils gauches sont signalés par des flèches pointillées et les fils droits sont signalés par des flèches continues.
+Prenons par exemple la fonction $f(x_1, x_2, x_3) = x_1 \lor (x_2 \land x_3)$. La représentation d'une telle fonction se fait dans le cas général à l'aide d'une \textit{table de vérité}. On peut utiliser une représentation plus compacte en utilisant un diagramme de décision, comme le montre la Figure \ref{fig:ExempleDD}, où les fils gauches sont signalés par des flèches pointillées et les fils droits sont signalés par des flèches continues.
 
 \begin{figure}
   \begin{tabular}{c|c|c|c}
@@ -61,14 +61,14 @@ Prenons par exemple la fonction $f(x_1, x_2, x_3) = x_1 \lor (x_2 \land x_3)$. L
 
 Les diagrammes de décision prennent avantage de la \textbf{structure} interne de la donnée (ici, une fonction booléenne). On note d'une part que les labels ne sont pas nécessaires pour reconstituer les valeurs de prises par la fonction.
 
-D'autre part que dans le pire des cas, c'est-à-dire celui où la fonction ne possède aucune structure permettant une réduction, la taille du diagramme de décision (son nombre de branches) vaut $2^{n+1} - 2$ ce qui comme le nombre de valeurs $2^n$ à stocker dans une table de vérité, est \textbf{exponentiel} en $n$. Dans le pire cas, les diagrammes de décision ne permettent pas d'amélioration, mais ne sont pas non plus asymptotiquemennt pire que les tables de vérité, ce qui augmente leur intérêt.
+D'autre part que dans le pire des cas, c'est-à-dire celui où la fonction ne possède aucune structure permettant une réduction, la taille du diagramme de décision (son nombre de branches) vaut $2^{n+1} - 2$ ce qui comme le nombre de valeurs $2^n$ à stocker dans une table de vérité, est \textbf{exponentiel} en $n$. Dans le pire cas, les diagrammes de décision ne permettent pas d'amélioration, mais ne sont pas non plus asymptotiquement pire que les tables de vérité, ce qui augmente leur intérêt.
 
 \subsubsection*{Interprétation abstraite}
 
 
 L'interprétation abstraite une méthode générale consistant à traiter des propriétés de programmes informatiques en les abstrayant. Elle a été introduite par Patrick et Radhia Cousot en 1977 \cite{CousotCousot77-1}. Elle peut aussi être utilisée pour résoudre des problèmes ou calculer plus rapidement.
 
-Étudions le problème suivant : on cherche à déterminer le signe de  l'expression -12 * 7 - 13. On pourrait calculer le résultat de cette expression, mais on peut aussi remarquer que -12 * 7 est négatif, et donc que l'expression est négative. Plus formellement, on a défini à partir des \textbf{éléments concrets} que sont -12, 7 et -13 et les remplacer par les \textbf{éléments abstraits} "positif" $\oplus$ et "négatif" $\ominus$, sur lesquels on définit les opérations de sommme et de produit selon les règles bien connues.
+Étudions le problème suivant : on cherche à déterminer le signe de  l'expression -12 * 7 - 13. On pourrait calculer le résultat de cette expression, mais on peut aussi remarquer que -12 et -13 sont négatifs et que 7 est positif, d'où -12 * 7 négatif, ainsi l'expression est négative. Plus formellement, on a défini à partir des \textbf{éléments concrets} que sont -12, 7 et -13 et les remplacer par les \textbf{éléments abstraits} "positif" $\oplus$ et "négatif" $\ominus$, sur lesquels on définit les opérations de somme et de produit selon les règles bien connues.
 
 Il existe de nombreux cas d'utilisation de l'interprétation abstraite \cite{Rosendahl_1995}, pour la compilation de programmes par exemple. Nous l'utiliserons dans ce projet pour simplifier les diagrammes de décision quantiques quitte à perdre une partie de l'information qu'ils contiennent. C'est aussi le cas pour l'exemple précédent : abstraire les éléments par leur signe ne permet pas toujours de déterminer le signe de l'expression.
 
@@ -85,5 +85,5 @@ Un \textbf{modèle} mathématique de la structure de données et de méthodes de
 
 Le Chapitre \ref{ch:Modele} présente le modèle théorique de diagrammes de décision quantiques qui a été développé, y compris les algorithmes de réduction qui accompagnent celui-ci. Ensuite, le Chapitre \ref{ch:Implementation} discute de l'implémentation réalisée. Finalement, une courte conclusion est présentée dans le Chapitre \ref{ch:Conclusion}.
 
-Un document plus complet que ce rapport destiné à être publié et rédigé en anglais, est disponible en ligne. \cite{Leroy_2024} D'éventuels points théoriques succintement présentés dans ce rapport et ou théorèmes dont la preuve n'est pas spécifiée sont détaillés dans ce document.
+Un document plus complet que ce rapport destiné à être publié et rédigé en anglais, est disponible en ligne. \cite{Leroy_2024} D'éventuels points théoriques succinctement présentés dans ce rapport et ou théorèmes dont la preuve n'est pas spécifiée sont détaillés dans ce document.
 
