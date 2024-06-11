@@ -7,16 +7,14 @@ L’implémentation a été réalisée en \textbf{langage C++}. Ce choix a été
 
 L'implémentation utilise largement la \textbf{programmation orientée objet}, en définissant des classes pour les objets manipulés. Les classes principales sont les suivantes, du plus bas au plus haut niveau :
 \begin{itemize}
-  \item Intervalles réels (quelconques, de réels positifs ou modulo $2\pi$)
-  \item Intervalles complexes (cartésiens ou polaires)
+  \item Intervalles réels (quelconques, de réels positifs ou modulo $2\pi$), et complexes (cartésiens ou polaires)
   \item \textbf{Diagrammes} (par défaut, additifs et abstraits)
-  \item Les branches, qui contiennent un lien (\textbf{pointeur}) vers un digramme de destination et un intervalle complexe, et dont la définition fortement typée par la hauteur est mutuellement récursive avec celle des diagrammes
+  \item Les branches, qui contiennent un lien (\textbf{pointeur}) vers un digramme de destination et un intervalle complexe, et dont la définition typée par la hauteur est mutuellement récursive avec celle des diagrammes
 \end{itemize}
 
 Les diagrammes et les branches sont définis avec des \textbf{templates} par rapport à leur hauteur. Ce point a fait l'objet d'hésitations, et a été retenu pour plusieurs raisons :
 \begin{itemize}
-  \item Le typage des diagrammes est plus fort : un diagramme de hauteur 3 ne peut avoir comme fils que des diagrammes de hauteur 2
-  \item Le typage des fonctions est aussi plus fort (d'interprétation, de sélection ou de réduction, etc.)
+  \item Le typage des diagrammes et des fonctions d'interprétation, de sélection ou de réduction est plus fort : un diagramme de hauteur 3 ne peut avoir comme fils que des diagrammes de hauteur 2
   \item La terminaison du parcours récursif d'un diagramme est garantie : un diagramme de hauteur nulle ne pouvant avoir de fils, et le parcours se faisant souvent par réduction de la hauteur
 \end{itemize}
 
