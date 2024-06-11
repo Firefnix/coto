@@ -8,7 +8,7 @@ Le modèle théorique proposé est la structure de données des \textbf{diagramm
 \section{Arithmétique des intervalles}
 \label{sec:ArithmetiqueIntervalles}
 
-L'arithmétique des intervalles dans le cadre de l'interprétation abstraite est proche de ce l'exemple de calcul sur les signes de la section \ref{sec:Etat}. L'arithmétique des intervalles est utilisée pour déterminer un ensemble de valeurs possibles pour une expression mathématique en utilisant des intervalles pour les valeurs des variables.
+L'arithmétique des intervalles dans le cadre de l'interprétation abstraite est proche de l'exemple de calcul sur les signes de la section \ref{sec:Etat}. L'arithmétique des intervalles est utilisée pour déterminer un ensemble de valeurs possibles pour une expression mathématique en utilisant des intervalles pour les valeurs des variables.
 
 L'arithmétique des intervalles réels a été étudiée \cite{Sunaga_2009}, et l'arithmétique des intervalles complexes cartésien a fait l'objet d'études légères par le passé \cite{Rokne_1971}. Au cours de ce projet, un travail a été réalisé pour explorer les possibilités de l'arithmétique des \textbf{intervalles complexes cartésiens et polaires}.
 
@@ -21,14 +21,14 @@ Les opérations de somme, de produit et d'union ainsi construites sont sur-appro
 
 Les \textbf{états} abstraits à $n$ qubits sont définis comme des $2^n$-uplets d'intervalles complexes, on note leur ensemble $\mathcal A_n$ ou $\mathcal S_n$. On définit sur les états la relation d'ordre d'inclusion des états par l'inclusion des produits cartésiens des intervalles les composant.
 
-Les \textbf{diagrammes} ont définis de manière récursive. Le seul diagramme de hauteur 0 est $\boxed 1$, puis si l'ensemble $\mathcal D_n$ des diagrammes de hauteur $n$ est défini, les diagrammes de hauteur $n+1$ peuvent avoir un nombre fini de fils gauches dans $\mathcal D_n$ et un nombre fini de fils droits dans $\mathcal D_n$, chacun étant associé à une amplitude abstraite sur la branche dans $\mathcal A_0$
+Les \textbf{diagrammes} sont définis de manière récursive. Le seul diagramme de hauteur 0 est $\boxed 1$, puis si l'ensemble $\mathcal D_n$ des diagrammes de hauteur $n$ est défini, les diagrammes de hauteur $n+1$ peuvent avoir un nombre fini de fils gauches dans $\mathcal D_n$ et un nombre fini de fils droits dans $\mathcal D_n$, chacun étant associé à une amplitude abstraite sur la branche dans $\mathcal A_0$
 $$\mathcal{D}_{n+1} = \mathscr{P}_f(\mathcal{A}_0 \times \mathcal{D}_n) \times \mathscr{P}_f(\mathcal{A}_0 \times \mathcal{D}_n)$$
 
 On peut ainsi définir la fonction d'évaluation $\mathcal E : \mathcal D_n \to \mathcal A_n$ sur les diagrammes (une définition similaire est possible en utilisant les intervalles polaires), ce qui permet de définir une relation d'ordre $\le$ sur les diagrammes par inclusion des ensembles abstraits qu'ils représentent.
 
 \section{Approximations}
 
-L'un des objectifs pour cette structure de données est de tranformer un diagramme en un autre incluant le diagramme initial et de taille plus faible. Sur les diagrammes de décision abatraits ont étés développés deux algorithmes, à partir d'une relation de fusion.
+L'un des objectifs pour cette structure de données est de tranformer un diagramme en un autre incluant le diagramme initial et de taille plus faible. Sur les diagrammes de décision abstraits ont été développés deux algorithmes, à partir d'une relation de fusion.
 
 Puisque traiter les diagrammes de manière globale est difficile, on réalise les approximations de manière locale. Plus formellement, une \textbf{approximation globale} est une fonction $g : \mathcal D_n \to \mathcal D_n$ telle que
 $$\forall D \in \mathcal D_n, D \le g(D)$$

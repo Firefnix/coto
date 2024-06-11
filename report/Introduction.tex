@@ -12,12 +12,12 @@ L'\textbf{informatique quantique} est un domaine en plein essor. Cette technolog
 
 \subsubsection*{Informatique quantique}
 
-Le premier postulat de la physique quantique, le \textbf{principe de superposition}, énonce que l'espace des états d'un système quantique est un espace de Hilbert. Par conséquent, si un \textit{bit} ne peut classiquement être que dans un état $\ket 0$ ou $\ket 1$, son homologue quantique le \textbf{qubit} peut être dans une superposition de ces deux états.
+Le premier postulat de la physique quantique, le \textbf{principe de superposition}, énonce que l'espace des états d'un système quantique est un espace de Hilbert. Par conséquent, si un \textit{bit} ne peut classiquement être que dans un état $\ket 0$ ou $\ket 1$, son homologue quantique, le \textbf{qubit}, peut être dans une superposition de ces deux états.
 $$\ket \psi = \alpha \ket 0 + \beta \ket 1$$
 
-Où $\alpha, \beta$ sont des coefficients complexes. Le second postulat, le \textit{principe de mesure}, stipule que lorsqu'un qubit est mesuré, il est projeté sur un des états de base $\ket 0$ ou $\ket 1$ avec une probabilité $|\alpha|^2$ ou $|\beta|^2$ respectivement.
+\noindent où $\alpha, \beta$ sont des coefficients complexes. Le second postulat, le \textit{principe de mesure}, stipule que lorsqu'un qubit est mesuré, il est projeté sur un des états de base $\ket 0$ ou $\ket 1$ avec une probabilité $|\alpha|^2$ ou $|\beta|^2$ respectivement.
 
-Les états à $n$ qubits sont peuvent être représentés par des \textbf{vecteurs} de dimension $2^n$, les états de l'ensemble constitué de deux systèmes étant ceux obtenus par produit tensoriel (\textit{produit de Kronecker}) d'un état du premier système et d'un état du second. C'est ce nombre exponentiel de paramètres complexes pour un état à plusieurs qubits rend l'étude classique d'algorithmes quantiques difficile, puisque les états prennent une taille exponentiellement grande en mémoire.
+Les états à $n$ qubits peuvent être représentés par des \textbf{vecteurs} de dimension $2^n$, les états de l'ensemble constitué de deux systèmes étant ceux obtenus par produit tensoriel (\textit{produit de Kronecker}) d'un état du premier système et d'un état du second. C'est ce nombre exponentiel de paramètres complexes pour un état à plusieurs qubits qui rend l'étude classique d'algorithmes quantiques difficile, puisque les états prennent une taille exponentiellement grande en mémoire.
 
 \subsubsection*{Diagrammes de décision}
 
@@ -60,16 +60,16 @@ Prenons par exemple la fonction $f(x_1, x_2, x_3) = x_1 \lor (x_2 \land x_3)$. L
   \label{fig:ExempleDD}
 \end{figure}
 
-Les diagrammes de décision prennent avantage de la \textbf{structure} interne de la donnée (ici, une fonction booléenne). On note d'une part que les labels ne sont pas nécessaires pour reconstituer les valeurs de prises par la fonction.
+Les diagrammes de décision prennent avantage de la \textbf{structure} interne de la donnée (ici, une fonction booléenne). On note d'une part que les labels ne sont pas nécessaires pour reconstituer les valeurs prises par la fonction.
 
-D'autre part que dans le pire des cas, c'est-à-dire celui où la fonction ne possède aucune structure permettant une réduction, la taille du diagramme de décision (son nombre de branches) vaut $2^{n+1} - 2$ ce qui comme le nombre de valeurs $2^n$ à stocker dans une table de vérité, est \textbf{exponentiel} en $n$. Dans le pire cas, les diagrammes de décision ne permettent pas d'amélioration, mais ne sont pas non plus asymptotiquement pire que les tables de vérité.
+D'autre part, dans le pire des cas, c'est-à-dire celui où la fonction ne possède aucune structure permettant une réduction, la taille du diagramme de décision (son nombre de branches) vaut $2^{n+1} - 2$ ce qui comme le nombre de valeurs $2^n$ à stocker dans une table de vérité, est \textbf{exponentiel} en $n$. Dans le pire cas, les diagrammes de décision ne permettent pas d'amélioration, mais ne sont pas non plus asymptotiquement pire que les tables de vérité.
 
 \subsubsection*{Interprétation abstraite}
 
 
-L'interprétation abstraite une méthode générale consistant à traiter des propriétés de programmes informatiques en les abstrayant. Elle a été introduite par Patrick et Radhia Cousot en 1977 \cite{CousotCousot77-1}. Elle peut aussi être utilisée pour résoudre des problèmes ou calculer plus rapidement.
+L'interprétation abstraite est une méthode générale consistant à traiter des propriétés de programmes informatiques en les abstrayant. Elle a été introduite par Patrick et Radhia Cousot en 1977 \cite{CousotCousot77-1}. Elle peut aussi être utilisée pour résoudre des problèmes ou calculer plus rapidement.
 
-Étudions le problème suivant : on cherche à déterminer le signe de  l'expression -12 * 7 - 13. On pourrait calculer le résultat de cette expression, mais on peut aussi remarquer que -12 et -13 sont négatifs et que 7 est positif, d'où -12 * 7 négatif, ainsi l'expression est négative. Plus formellement, on a défini à partir des \textbf{éléments concrets} que sont -12, 7 et -13 et les remplacer par les \textbf{éléments abstraits} "positif" $\oplus$ et "négatif" $\ominus$, sur lesquels on définit les opérations de somme et de produit selon les règles bien connues.
+Étudions le problème suivant : on cherche à déterminer le signe de  l'expression -12 * 7 - 13. On pourrait calculer le résultat de cette expression, mais on peut aussi remarquer que -12 et -13 sont négatifs et que 7 est positif, d'où -12 * 7 négatif, ainsi l'expression est négative. Plus formellement, on est parti des \textbf{éléments concrets} que sont -12, 7 et -13 et on les a remplacés par les \textbf{éléments abstraits} "positif" $\oplus$ et "négatif" $\ominus$, sur lesquels on définit les opérations de somme et de produit selon les règles bien connues.
 
 Il existe de nombreux cas d'utilisation de l'interprétation abstraite \cite{Rosendahl_1995}, pour la compilation de programmes par exemple. Nous l'utiliserons dans ce projet pour simplifier les diagrammes de décision quantiques quitte à perdre une partie de l'information qu'ils contiennent. C'est aussi le cas pour l'exemple précédent : abstraire les éléments par leur signe ne permet pas toujours de déterminer le signe de l'expression.
 
