@@ -12,11 +12,49 @@
 \end{frame}
 
 \begin{frame}{Modèle théorique}
-  \Huge{(Ici, exemple d'un diagramme abstrait additif)}
+
+  On considère l'état $\begin{pmatrix}
+  2+10i \\ 1+4i \\ 2i \\ i
+  \end{pmatrix}$
+
+\end{frame}
+
+\begin{frame}{Modèle théorique} % with colors
+
+  On considère l'état $\begin{pmatrix}
+  2+10i \\ 1+4i \\ 2i \\ i
+  \end{pmatrix}$
+
+\end{frame}
+
+
+\begin{frame}{Modèle théorique}
+  Exemple : réduisons le diagramme
+  \begin{center}
+      % https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZARgBoAGAXVJADcBDAGwFcYkQAREAX1PU1z5CKAEyli1Ok1bsAQjz4gM2PASLlxkhizaIQAQQX8VQomRFbpukAB0bAIwgAPGFAAExHpNcBzeEVAAMwAnCABbJA0QHAgkMikddiwjEBDwyJoYpDEQRiwwayh6OAALVxAabRk9ABZkmkZ6exhGAAUBVWEQYKwfEpwUtIjEKKzEeOawKCQAWhqATgb8wuKy6d4g0OGcsYBmGknpxDnF3OX2ItLyhqaW9pM1PR6+gcqrdjsQ+gBjAFYRQZbOKZWKIfZnAoXVbXBLVEAAm7NNodUxPXr9QHpcYgpDgw5IBYbVJAxA7UG7biUbhAA
+    \begin{tikzcd}[ampersand replacement=\&, column sep=huge, row sep=large]
+      \& D \arrow[rd, "i"] \arrow[ld, "4i"', dashed] \arrow[rd, dashed, bend right=49] \&                                                     \\
+    A \arrow[rd, "\frac52"', dashed, bend right=49] \arrow[rd] \&                                                                               \& B \arrow[ld, "2"', dashed] \arrow[ld, bend left=49] \\
+      \& \boxed 1                                                                      \&
+    \end{tikzcd}
+  \end{center}
 \end{frame}
 
 \begin{frame}{Modèle théorique}
-  \Huge{(Ici, réduction du précédent diagramme)}
+  On peut forcer la fusion de $A$ et $B$
+    % https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZARgBoAGAXVJADcBDAGwFcYkQAREAX1PU1z5CKAEyli1Ok1bsAQjz4gM2PASLlxkhizaIQAQQX8VQomRFbpukAB0bAIwgAPGFAAExHpNcBzeEVAAMwAnCABbJA0QHAgkMikddiwjEBDwyJoYpDEQRiwwayh6OAALVxAabRk9ABZkmkZ6exhGAAUBVWEQYKwfEpwUtIjEKKzEeOawKCQAWhqATgb8wuKy6d4g0OGcsYBmGknpxDnF3OX2ItLyhqaW9pM1PR6+gcqrdjsQ+gBjAFYRQZbOKZWKIfZnAoXVbXBLVEAAm7NNodUxPXr9QHpcYgpDgw5IBYbVJAxA7UG7biUbhAA
+  \begin{tikzcd}[ampersand replacement=\&, column sep=huge, row sep=large]
+    \& D \arrow[rd, "i"] \arrow[ld, "4i"', dashed] \arrow[rd, dashed, bend right=49] \&                                                     \\
+  A \arrow[rd, "\frac52"', dashed, bend right=49] \arrow[rd] \&                                                                               \& B \arrow[ld, "2"', dashed] \arrow[ld, bend left=49] \\
+    \& \boxed 1                                                                      \&
+  \end{tikzcd}
+  $\Rightarrow$
+  % https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZABgBpiBdUkANwEMAbAVxiRABEQBfU9TXfIRRkATFVqMWbADrSARhAAeMKAAIAjN14gM2PASJl14+s1aIQAYW7iVAc3hFQAMwBOEALZIR1HBCTq1HIwYFBIACwAnNSmUhaaPC7uXog+IH4B1AxYYOYgUHRwABYqIEEhYYgAtFExknnIPqqybnQAxgCsYmUgDHTBDAAK-PpCIK5YdkU4WkmeSGTp-qnloUg10b05eQXFpXVmbOFYPX0Dw3qCbBNTM4kgbvOIixkrW7lsuyVhq5UAzMR7o8Ui9lmlgmtELUJIcLCcuBQuEA
+  \begin{tikzcd}[row sep=large]
+    D \arrow[d, "4i"', dashed, bend right=49] \arrow[d, dashed, bend left] \arrow[d, "i", bend left=49] \\
+    C \arrow[d, "1", bend left=49] \arrow[d, "{[2, \frac52]}"', dashed, bend right=49]                  \\
+    \boxed 1
+    \end{tikzcd}
 \end{frame}
 
 \begin{frame}{Travail réalisé}
@@ -31,5 +69,5 @@
 \end{frame}
 
 \begin{frame}{Résultats}
-  Le gain en taille est arbitrairement grand.
+  On peut toujours plus réduire les diagrammes
 \end{frame}
