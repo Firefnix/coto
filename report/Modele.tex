@@ -44,7 +44,7 @@ Le \textbf{théorème de fusion} indique que si l'on dispose d'une approximation
 
 \section{Réduction}
 
-Deux algorithmes de réduction ont été développés. Ils se reposent tous deux sur l'approximation par fusion fm (pour \textbf{force merge}) suivante
+Deux algorithmes de réduction ont été développés, utilisant largement l'approximation par fusion fm (pour \textbf{force merge}) suivante, qui est centrale dans la réduction des diagrammes.
 
 % https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZAJgBoAGAXVJADcBDAGwFcYkQBBEAX1PU1z5CKACwVqdJq3YAhHnxAZseAkXKliEhizaIQjAPrl5-ZUKJlNNbdL2HgYALQBGbicUCVw5GKuSd7ABORu5KgqooAGwaWlK6IMHAALYubrym4d4A7DHWceyGxukeZhHIAJy5-rb6Bg6poZ7mKM7OVTbxwUUKYV5EzgDM7fl6iSmujaXezupUeQF6AMIABAC8ywA6GzgwAB44wABmSdwAFBykyzIAlJOZRNHOsQsgd30oABykT-M1PBIwKAAc3gRFAh0CECSSHUIBwECQZH0WDA8Sg9DgAAtAe4IVCYTR4UghsjUex0ViccU8dDEEiiYgSYwUWiIDgdlAQDRsfROXpIGTqZDaW04Qi6TRmWS9BTsZyhfjEKKGUyWeSMXLccKCWKkCIFSLCeL9QoaTqGQBWA16o1IC3cmC89gCtiStUytkcrWK5Xiq2m7WIaK6xA5Ums9k4h1O-kENjWxBfEOVEA8vngONc8Pkz1UgM+2EMsNStEavPgwMzW2JhNV5O131IZxIks55gAI0YrtTjr5YGYjEYhPoWEYzszv3iWx2+2Ap2O1zS+ZFhfFwdbMrL8so3CAA
 \begin{tikzcd}[column sep=0.7cm]
@@ -53,7 +53,7 @@ Deux algorithmes de réduction ont été développés. Ils se reposent tous deux
 l_0 \arrow[rr, no head, dotted] &  & l_{n-1}                                                               &  & r_0 \arrow[rr, no head, dotted]                                       &  & r_{m-1}                                  & l_0 \arrow[rr, no head, dotted] &    & l_{n-1} &                                                                                           & r_0 \arrow[rr, no head, dotted] &  & r_{m-1}
 \end{tikzcd}
 
-où si ampl(A, $x$) est l'amplitude abstraite sur le lien entre $A$ et $x$, alors les nouvelles amplitudes abstraites sont définies par la formule suivante
+\noindent où si ampl(A, $x$) est l'amplitude abstraite sur le lien entre $A$ et $x$, alors les nouvelles amplitudes abstraites sont définies par la formule suivante
 $$\forall x \in \{l_0, ..., l_{k-1}, r_0, ..., r_{m-1}\}, \text{ampl}(\text{fm}(A, B), x) = \text{ampl}(A, x) \sqcup \text{ampl}(B, x)$$
 
 \noindent où $\sqcup$ est l'opération d'union des intervalles complexes (cartésiens ou polaires). Cette approximation par fusion fonctionne en pratique y compris sur des diagrammes n'ayant a priori pas de descendance commune, puisqu'il suffit d'ajouter des branches avec un poids nul pour se ramener à ce cas.
