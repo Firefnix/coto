@@ -89,6 +89,7 @@ namespace cartesian
     };
 
     inline cartesian::Interval zero = Interval(ampl::zero);
+    inline cartesian::Interval one = Interval(ampl::one);
 }
 
 #endif
