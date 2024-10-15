@@ -7,6 +7,9 @@ using std::size_t;
 template<typename T>
 static std::vector<T> mergeVectorsWithoutDuplicates(std::vector<T> a, std::vector<T> b);
 
+template<size_t height>
+static absi::Interval enclosure_side(Side s, const Diagram<height>& d);
+
 template <size_t height>
 Diagram<height>::Diagram()
 {
@@ -59,7 +62,7 @@ std::array<absi::Interval, 1> Diagram<0>::evaluate()
 template <size_t height>
 std::vector<branch<height - 1>> Diagram<height>::childrenOfSide(Side s)
 {
-    if (s == right) {
+    if (s == Side::right) {
         return left;
     }
     return right;
@@ -110,6 +113,14 @@ size_t Diagram<height>::countNodesAtHeight(size_t h) {
     return n;
 }
 
+template<>
+template<size_t h>
+std::vector<Diagram<h>*> Diagram<0>::getNodePointersAtHeight()
+{
+    std::vector<Diagram<h>*> nodes{};
+    return nodes;
+}
+
 // TODO: Implement this function in-place, not by copying vectors
 template <size_t height>
 template <size_t h>
@@ -121,7 +132,7 @@ std::vector<Diagram<h>*> Diagram<height>::getNodePointersAtHeight()
     }
     if (h == height) {
         // nodes.push_back(reinterpret_cast<Diagram<h>*>(this));
-return nodes;
+        return nodes;
     }
     for (branch<height - 1> b : left) {
         nodes = mergeVectorsWithoutDuplicates(nodes, b.d->template getNodePointersAtHeight<h>());
@@ -168,3 +179,29 @@ Diagram<height>::~Diagram()
     }
 };
 
+template<>
+absi::Interval enclosure(Diagram<0>& d)
+{
+    return absi::one;
+}
+
+template<size_t height>
+absi::Interval enclosure(Diagram<height>& d)
+{
+    absi::Interval l = enclosure_side(Side::left, d);
+    absi::Interval r = enclosure_side(Side::right, d);
+    return l | r;
+}
+
+template<size_t height>
+static absi::Interval enclosure_side(Side s, Diagram<height>& d)
+{
+    absi::Interval rho = absi::zero;
+    for (branch<height-1> b : d.childrenOfSide(s)) {
+        absi::Interval i = b.x;
+        auto j = enclosure(*b.d);
+        auto p = i * j;
+        rho = rho + p;
+    }
+    return rho;
+}

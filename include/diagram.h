@@ -90,6 +90,9 @@ public:
     ~Diagram();
 };
 
+template<size_t height>
+absi::Interval enclosure(Diagram<height>& d);
+
 #include <../src/diagram.cpp>
 
 #include <../src/random-diagram.cpp>

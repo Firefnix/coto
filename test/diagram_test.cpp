@@ -105,3 +105,21 @@ TEST_F(DiagramTest, testRandomAssertBoundaries)
         }
     }
 }
+
+TEST_F(DiagramTest, testEnclosure)
+{
+    const auto n = 3;
+    for (auto i = 0; i < 1000; i++) {
+        auto d = Diagram<n>::random();
+        auto v = d.evaluate();
+
+        auto real_rho = v[0];
+        for (auto i = 1; i < pwrtwo(n); i++) {
+            real_rho = real_rho | v[i];
+        }
+
+        auto rho = enclosure(d);
+        EXPECT_EQ(rho, real_rho);
+    }
+}
+
