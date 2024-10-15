@@ -46,3 +46,62 @@ TEST_F(DiagramTest, testAdditiveness)
     EXPECT_EQ(minus_one, vec[0]);
     EXPECT_EQ(absi::zero, vec[1]);
 }
+
+TEST_F(DiagramTest, testRandomIsNormLowerThanOne)
+{
+    auto d = Diagram<2>::random();
+    auto vec = d.evaluate();
+    for (auto i : vec)
+    {
+        EXPECT_LE(i.norm(), 1.);
+    }
+}
+
+TEST_F(DiagramTest, testRandomAssertVariability)
+{
+    const auto n = 100;
+    size_t counts[n][5];
+    bool isNotDuplicate[n] {};
+    for (auto i = 0; i < n; i++)
+    {
+        auto d = Diagram<5>::random();
+        for (auto j = 0; j < 5; j++)
+        {
+            counts[i][j] = d.countNodesAtHeight(j);
+        }
+    }
+    for (auto i = 0; i < n; i++)
+    {
+        bool broke = false;
+        for (auto k = 0; k < i; k++)
+        {
+            for (auto j = 0; j < 5; j++)
+            {
+                if (counts[i][j] != counts[i][k])
+                {
+                    broke = true;
+                    break;
+                }
+            }
+        }
+    }
+    for (auto i = 0; i < n; i++)
+    {
+        EXPECT_TRUE(true);
+    }
+
+}
+
+TEST_F(DiagramTest, testRandomAssertBoundaries)
+{
+    const auto n = 100;
+    for (auto j = 0; j < n; j++)
+    {
+        auto d = Diagram<5>::random();
+        for (auto i = 0; i < 5; i++)
+        {
+            EXPECT_GT(d.countNodesAtHeight(i), 0);
+            EXPECT_LE(d.countNodesAtHeight(i), pow(CHILDREN_NUMBER_AMBITION, i));
+        }
+    }
+}

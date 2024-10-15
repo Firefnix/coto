@@ -34,6 +34,17 @@ class Diagram
 public:
     Diagram();
 
+    /// @brief Create a random diagram
+    /// Creates a random diagram. The values on the branches always have a
+    /// modulus less than 1. This function is not deterministic. The distributions
+    /// used to choose the number of children and the amplitudes are undefined in this
+    /// interface and are left as an implementation detail that is subject to change.
+    /// @return A random diagram
+    static Diagram<height> random();
+
+    /// @brief Populate the diagram with random values
+    void populate(size_t totalHeight = 0);
+
     /// @brief Left children
     std::vector<branch<height - 1>> left;
 
@@ -71,5 +82,7 @@ public:
 };
 
 #include <../src/diagram.cpp>
+
+#include <../src/random-diagram.cpp>
 
 #endif

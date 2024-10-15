@@ -2,6 +2,8 @@
 #include "diagram.h"
 #include <iostream>
 
+using std::size_t;
+
 template<typename T>
 static std::vector<T> mergeVectorsWithoutDuplicates(std::vector<T> a, std::vector<T> b);
 
