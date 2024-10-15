@@ -8,6 +8,10 @@
 
 #define pwrtwo(x) (1 << (x))
 
+using std::size_t;
+
+enum Side { left, right };
+
 template <size_t height>
 class Diagram;
 
@@ -51,6 +55,9 @@ public:
     /// @brief Right children
     std::vector<branch<height - 1>> right;
 
+    /// @brief Children of side \ref{s}
+    std::vector<branch<height - 1>> childrenOfSide(Side s);
+
     /// @brief Evaluate the diagram
     /// @return A mathematical vector (here an array) of 2^n intervals
     std::array<absi::Interval, pwrtwo(height)> evaluate();
@@ -79,6 +86,8 @@ public:
     /// @brief Replace nodes @ref{f1} and @ref{f2} by @ref{r} at a given height
     template <size_t h>
     void replaceNodesAtHeight(Diagram<h> *f1, Diagram<h> *f2, Diagram<h> *r);
+
+    ~Diagram();
 };
 
 #include <../src/diagram.cpp>

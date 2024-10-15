@@ -57,6 +57,16 @@ std::array<absi::Interval, 1> Diagram<0>::evaluate()
 }
 
 template <size_t height>
+std::vector<branch<height - 1>> Diagram<height>::childrenOfSide(Side s)
+{
+    if (s == right) {
+        return left;
+    }
+    return right;
+}
+
+
+template <size_t height>
 void Diagram<height>::lefto(Diagram<height - 1> *d, absi::Interval x)
 {
     left.push_back(branch<height - 1>{.x = x, .d = d});
@@ -72,6 +82,14 @@ template <size_t height>
 size_t Diagram<height>::size()
 {
     return pwrtwo(height);
+}
+
+template<>
+size_t Diagram<0>::countNodesAtHeight(size_t h) {
+    if (h > 0) {
+        throw std::invalid_argument("Height is greater than the diagram's height");
+    }
+    return 1;
 }
 
 template <size_t height>
@@ -102,13 +120,14 @@ std::vector<Diagram<h>*> Diagram<height>::getNodePointersAtHeight()
         throw std::invalid_argument("Height is greater than the diagram's height");
     }
     if (h == height) {
-        return std::vector<Diagram<h>*>({this});
+        // nodes.push_back(reinterpret_cast<Diagram<h>*>(this));
+return nodes;
     }
     for (branch<height - 1> b : left) {
-        nodes = mergeVectorsWithoutDuplicates(nodes, b.d->getNodePointersAtHeight(h - 1));
+        nodes = mergeVectorsWithoutDuplicates(nodes, b.d->template getNodePointersAtHeight<h>());
     }
     for (branch<height - 1> b : right) {
-        nodes = mergeVectorsWithoutDuplicates(nodes, b.d->getNodePointersAtHeight(h - 1));
+        nodes = mergeVectorsWithoutDuplicates(nodes, b.d->template getNodePointersAtHeight<h>());
     }
     return nodes;
 }
@@ -134,3 +153,18 @@ static std::vector<T> mergeVectorsWithoutDuplicates(std::vector<T> a, std::vecto
     }
     return result;
 }
+
+template<>
+Diagram<0>::~Diagram() = default;
+
+template <std::size_t height>
+Diagram<height>::~Diagram()
+{
+    for (branch<height - 1> b : left) {
+        delete b.d;
+    }
+    for (branch<height - 1> b : right) {
+        delete b.d;
+    }
+};
+
