@@ -21,7 +21,6 @@ namespace selection {
 
     /**
      * @brief Struct containing two Diagram pointers.
-     * 
      * @tparam h The height of the Diagrams.
      */
     template <size_t h>
@@ -41,7 +40,9 @@ namespace selection {
      * @return struct mergees<h> The mergees.
      */
     template <size_t height, size_t h>
-    struct mergees<h> getMergeesAtHeight(Diagram<height> d, MergeesChoiceStrategy strategy);
+    struct mergees<h> getMergeesAtHeight(Diagram<height>& d, MergeesChoiceStrategy strategy);
 };
+
+#include <../src/selection.cpp>
 
 #endif
