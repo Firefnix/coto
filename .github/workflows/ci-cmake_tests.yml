@@ -25,8 +25,7 @@ jobs:
       run: GTEST_OUTPUT=xml:test-results/ GTEST_COLOR=1 ctest -V
 
     - name: Upload test results
-      uses: actions/upload-artifact@v2
-      if: failure()
+      uses: actions/upload-artifact@v4
       with:
         name: test_results_xml
         path: ${{runner.workspace}}/build/test-results/**/*.xml
