@@ -110,3 +110,17 @@ $$\forall \alpha \in \mathcal{A}_0, \alpha - \alpha = 2(\alpha^c) = (2\alpha)^c$
 \alpha - \alpha
 &= \mu(\alpha) + \alpha^c + (\mu(-\alpha) + (-\alpha)^c)\\
 \end{align*}
+
+\subsection{Magnitude}
+
+For all $\alpha \in \mathcal{A}_0$, we introduce $|\alpha| \in \mathbb{R}$ the \textit{magnitude} of $\alpha$
+
+$$|\alpha| = \max \{|x| ; x \in \alpha\}$$
+
+\begin{prop}[magnitude from boundaries]
+    $$\forall x, y \in \mathbb C, \left|[x, y]\right| = \max (|x|, |y|)$$
+\end{prop}
+\begin{proof}
+    Let $x, y \in \mathbb C$. $|x| \in \{|z| ; z \in [x, y]\}$ so $|x| \le \left|[x, y]\right|$ and $|y| \le \left|[x, y]\right|$ thus $\max (|x|, |y|) \le \left|[x, y]\right|$.
+    Now let $z \in [x, y]$. $|\RE(z)| \le \max (|\RE(x)|, |\RE(y)|)$ and equally for the imaginary part, hence $|z| \le \max (|x|, |y|)$ by the triangular inequality, so $|[x, y]| \le \max (|x|, |y|)$.
+\end{proof}
