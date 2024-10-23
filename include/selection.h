@@ -39,8 +39,11 @@ namespace selection {
      * @param strategy The strategy to use for choosing the mergees.
      * @return struct mergees<h> The mergees.
      */
-    template <size_t height, size_t h>
-    struct mergees<h> getMergeesAtHeight(Diagram<height>& d, MergeesChoiceStrategy strategy);
+    template <size_t h, size_t height>
+    mergees<h> getMergeesAtHeight(Diagram<height>& d, MergeesChoiceStrategy strategy);
+
+    template <size_t height>
+    mergees<0> getMergeesAtHeight(Diagram<height>& d, MergeesChoiceStrategy strategy);
 };
 
 #include <../src/selection.cpp>

@@ -1,8 +1,9 @@
 #include <random>
 #include <algorithm>
+#include <iostream>
 
-template <size_t height, size_t h>
-struct selection::mergees<h> selection::getMergeesAtHeight(Diagram<height>& d, MergeesChoiceStrategy strategy)
+template <size_t h, size_t height>
+selection::mergees<h> selection::getMergeesAtHeight(Diagram<height>& d, MergeesChoiceStrategy strategy)
 {
     struct mergees<h> result;
     std::vector<Diagram<h>*> candidates = d.template getNodePointersAtHeight<h>();
@@ -36,6 +37,15 @@ struct selection::mergees<h> selection::getMergeesAtHeight(Diagram<height>& d, M
     }
     throw std::runtime_error("Unreachable code");
 }
+
+
+template<size_t height>
+selection::mergees<0> selection::getMergeesAtHeight(Diagram<height>& d, MergeesChoiceStrategy strategy)
+{
+    selection::mergees<0> m;
+    return m;
+}
+
 
 template <size_t h>
 void getRandomMergees(std::vector<Diagram<h>*> candidates, selection::mergees<h> *m)
