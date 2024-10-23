@@ -28,9 +28,9 @@ TEST_F(DiagramTest, testConstruction)
     eig0->lefto(leaf);
     dgm->lefto(eig0);
     dgm->righto(eig0, two);
-    auto vec = dgm->evaluate();
+    auto vec = dgm->evaluate(); // (1, 0, 2, 0)
     EXPECT_EQ(absi::one, vec[0]);
-    EXPECT_EQ(absi::zero, vec[1]);
+    EXPECT_EQ(absi::zero, vec[1]) << vec[1].to_string() << dgm->right[0].x.to_string();
     EXPECT_EQ(two, vec[2]) << vec[2].to_string() << dgm->right[0].x.to_string();
     EXPECT_EQ(absi::zero, vec[3]) << vec[3].to_string();
 }
