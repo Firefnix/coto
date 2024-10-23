@@ -15,22 +15,23 @@ namespace cartesian
     /// @brief Represents an interval in the Cartesian coordinate system.
     class Interval {
     public:
+        /// @brief The singleton of 0.
+        Interval();
+
+        static Interval real(const ampl::real value);
+
         /// @brief A single point interval.
         /// @param z The complex point.
-        Interval(ampl::Amplitude z)
-            : bottomLeft(z),
-              topRight(z),
-              reals{z.real(), z.real()},
-              imaginaries{z.imag(), z.imag()} {};
+        static Interval singleton(ampl::Amplitude z);
+
+        Interval(const real_interval re, const real_interval im);
 
         /// @brief The interval between two complex points.
         /// @param u The first complex point.
         /// @param v The second complex point.
-        Interval(ampl::Amplitude u, ampl::Amplitude v)
+        Interval(const ampl::Amplitude u, const ampl::Amplitude v)
             : bottomLeft(u),
-              topRight(v),
-              reals{u.real(), v.real()},
-              imaginaries{u.imag(), v.imag()} {};
+              topRight(v) {};
 
         /// @brief The interval between four real numbers.
         /// @param a The first real part number.
@@ -39,9 +40,11 @@ namespace cartesian
         /// @param d The second imaginary part number.
         Interval(ampl::real a, ampl::real b, ampl::real c, ampl::real d)
             : bottomLeft(ampl::Amplitude(a, b)),
-              topRight(ampl::Amplitude(c, d)),
-              reals{a, c},
-              imaginaries{b, d} {};
+              topRight(ampl::Amplitude(c, d)) {};
+
+        /// @brief Tests if two intervals are equal
+        /// @return True if other is equal to the interval, false otherwise.
+        bool operator==(const Interval &other) const;
 
         /// @brief Negates the interval.
         /// @return The negated interval.
@@ -50,7 +53,7 @@ namespace cartesian
         /// @brief Computes the union of two intervals.
         /// @param other The other interval.
         /// @return The union of the two intervals.
-        Interval operator||(const Interval &other) const;
+        Interval operator|(const Interval &other) const;
 
         /// @brief Computes the sum of two intervals.
         /// @param other The other interval.
@@ -77,19 +80,23 @@ namespace cartesian
         /// @return True if the point is contained within the interval, false otherwise.
         bool contains(ampl::Amplitude point) const;
 
+        std::string to_string() const;
+
         /// @brief Computes the norm of the interval.
         /// @return The norm of the interval.
         ampl::real norm() const;
 
+    private:
+        real_interval reals() const;
+        real_interval imaginaries() const;
+
     protected:
-        ampl::Amplitude bottomLeft; ///< The bottom-left complex point of the interval.
-        ampl::Amplitude topRight; ///< The top-right complex point of the interval.
-        real_interval reals; ///< The interval of real numbers.
-        real_interval imaginaries; ///< The interval of imaginary numbers.
+        ampl::Amplitude bottomLeft; /// The bottom-left complex point of the interval.
+        ampl::Amplitude topRight; /// The top-right complex point of the interval.
     };
 
-    inline cartesian::Interval zero = Interval(ampl::zero);
-    inline cartesian::Interval one = Interval(ampl::one);
+    inline cartesian::Interval zero = Interval::singleton(ampl::zero);
+    inline cartesian::Interval one = Interval::singleton(ampl::one);
 }
 
 #endif

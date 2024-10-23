@@ -4,7 +4,7 @@
 class CartesianTest : public testing::Test
 {
 public:
-    cartesian::Interval a = cartesian::Interval(ampl::one);
+    cartesian::Interval a = cartesian::Interval::singleton(ampl::one);
     cartesian::Interval b = cartesian::Interval(ampl::zero, ampl::one + ampl::i);
 };
 
@@ -20,6 +20,19 @@ TEST_F(CartesianTest, Contains)
     EXPECT_FALSE(a.contains(ampl::i));
     EXPECT_TRUE(b.contains(ampl::i));
     EXPECT_FALSE(b.contains(ampl::i * 3.));
+}
+
+TEST_F(CartesianTest, Equal)
+{
+    cartesian::Interval c = cartesian::Interval(ampl::zero, ampl::one + ampl::i);
+    EXPECT_EQ(b, c);
+}
+
+TEST_F(CartesianTest, Join)
+{
+    auto j = cartesian::zero
+    | cartesian::Interval::singleton(ampl::i + ampl::one);
+    EXPECT_EQ(j, b);
 }
 
 class PolarTest : public testing::Test
