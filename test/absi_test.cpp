@@ -66,6 +66,22 @@ TEST_F(PolarTest, Operations)
     EXPECT_NO_THROW(i1 | i2);
 }
 
+TEST_F(PolarTest, PositiveIntervalCreation)
+{
+    auto x = 1.4;
+    auto p = polar::PositiveInterval(x);
+    EXPECT_EQ(p.min, x);
+    EXPECT_EQ(p.max, x);
+}
+
+TEST_F(PolarTest, Add)
+{
+    auto mthree = polar::Interval::real(-3.);
+    auto sum = polar::Interval::real(2.) + mthree;
+    auto ref = polar::Interval::real(2. + (-3.));
+    EXPECT_EQ(sum, ref) << sum.to_string() << " vs " << ref.to_string();
+}
+
 TEST_F(PolarTest, Norm)
 {
     EXPECT_EQ(i1.norm(), 0.);

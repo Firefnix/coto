@@ -2,10 +2,11 @@
 #define POLAR_H 1
 
 #include <math.h>
+#include <amplitude.h>
 
 namespace polar
 {
-    typedef float real;
+    typedef double real;
 
     class Interval;
 
@@ -26,7 +27,7 @@ namespace polar
 
         bool operator==(const PositiveInterval &other) const;
 
-    protected:
+    // protected:
         real min;
         real max;
     };
@@ -70,7 +71,7 @@ namespace polar
 
         Interval(PositiveInterval mod, AngleInterval arg);
 
-        static Interval singleton(real modulus, real argument);
+        static Interval singleton(ampl::Amplitude z);
 
         static Interval real(real value);
 

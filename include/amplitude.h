@@ -10,10 +10,10 @@ namespace ampl
     typedef double real;
 
     /// @brief A real value of zero
-    const double zero_real = 0.;
+    const real zero_real = 0.;
 
     /// @brief A real value of zero
-    const double one_real = 1.;
+    const real one_real = 1.;
 
     /** @brief A general-purpose complex amplitude
      *

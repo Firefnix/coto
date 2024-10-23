@@ -1,7 +1,10 @@
 #include <stdexcept>
+#include <numbers>
 #include <absi/polar.h>
 
 using namespace polar;
+
+static real argument(const ampl::Amplitude& z);
 
 PositiveInterval::PositiveInterval(real a, real b) : min(a), max(b)
 {
@@ -100,26 +103,37 @@ void AngleInterval::set_remainder()
 
 Interval::Interval(PositiveInterval mod, AngleInterval arg) : mod(mod), arg(arg) {}
 
-polar::Interval::Interval() : mod(PositiveInterval(0.)), arg(AngleInterval(0.))
+polar::Interval::Interval() : mod(PositiveInterval(0.)), arg(AngleInterval(0.)) {};
+
+Interval polar::Interval::real(polar::real value)
 {
+    return Interval::singleton(value);
 }
 
-Interval Interval::singleton(polar::real modulus, polar::real argument)
+static real argument(const ampl::Amplitude& z)
 {
+    if (z.imag() == 0) {
+        return z.real() >= 0 ? 0. : 1.;
+    }
+    if (z.real() == 1) {
+        return z.imag() >= 0 ? .5 : 1.5;
+    }
+    return std::arg(z) / std::numbers::pi;
+}
+
+Interval polar::Interval::singleton(ampl::Amplitude z)
+{
+    auto modulus = std::abs(z);
+    auto arg = argument(z);
     if (modulus < 0)
     {
         throw std::range_error("Negative modulus in a polar interval");
     }
-    if (argument < 0 || argument > 2)
+    if (arg < 0 || arg > 2)
     {
-        throw std::range_error("Bad argument in polar interval");
+        throw std::range_error("Bad argument in polar interval: " + std::to_string(arg));
     }
-    return Interval(PositiveInterval(modulus), AngleInterval(argument));
-}
-
-Interval polar::Interval::real(polar::real value)
-{
-    return Interval::singleton(std::abs(value), (value >= 0) ? 0. : 1.);
+    return Interval(PositiveInterval(modulus), AngleInterval(arg));
 }
 
 Interval polar::Interval::operator+(Interval &other) const
@@ -167,6 +181,7 @@ polar::real polar::Interval::norm()
 {
   return arg.delta * mod.max; // TODO: better approximation
 }
+
 bool polar::Interval::is_real() const
 {
     return (arg.delta == 0) && (arg.min == 0. || arg.min == 1.);
@@ -178,5 +193,5 @@ polar::real polar::Interval::to_real() const
     {
         throw std::logic_error("Not a real number");
     }
-    return mod.min * (arg.min == 0 ? 1 : -1);
+    return mod.min * ((arg.min == 0) ? 1 : -1);
 }
