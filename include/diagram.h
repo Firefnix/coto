@@ -74,7 +74,7 @@ public:
 
     /// @brief The number of intervals contained in the evaluation
     /// @return 2 ^ @ref{height}
-    size_t size();
+    constexpr size_t size();
 
     /// @brief The number of nodes at a given height
     size_t countNodesAtHeight(size_t h);

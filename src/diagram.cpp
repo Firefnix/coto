@@ -82,7 +82,7 @@ void Diagram<height>::righto(Diagram<height - 1> *d, absi::Interval x)
 }
 
 template <size_t height>
-size_t Diagram<height>::size()
+constexpr size_t Diagram<height>::size()
 {
     return pwrtwo(height);
 }
