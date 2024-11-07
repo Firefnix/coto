@@ -6,25 +6,47 @@ $$\forall a, b \in \mathbb{R}, [a, b]
 
 From now on, the set of real intervals will be noted $\mathcal{A}_0(\mathbb{R})$. Of course, $\mathcal{A}_0(\mathbb{R}) \subset \mathcal{P}(\mathbb{R}) \subset \mathcal{P}(\mathbb{C})$. While not being sufficient to handle completely our operations on quantum states, caracterized by complex amplitudes, these real intervals will still be useful. Moreover, they are well-known and many papers already studied them.
 
-\subsection{Operations in a general context}
-\label{general-operations}
+\subsection{Closure \& operations}
+\label{closure-operations}
 
-Let $E \subset \mathcal{P}(\mathbb{C})$ a set containing sets of $\mathbb{C}$ (later on, our intervals). On we define the following operations for $\alpha, \beta \in E$.
-$$\alpha \otimes \beta = \{a b ; a \in \alpha, b \in \beta\}$$
-$$\alpha \oplus \beta = \{a + b ; a \in \alpha, b \in \beta\}$$
-\noindent Note that none of these sets are in $E$ in the general case, despite it being the case for $E = \mathcal{A}_0(\mathbb{R})$.
+Let $E \subset \mathcal{P}(\mathbb{C})$ a set containing sets of $\mathbb{C}$ (later on, our intervals).
 
-Additionally, we define the \textbf{join operation $\sqcup$} on real intervals: for all $\alpha, \beta \in \mathcal{A}_0(\mathbb{R})$
-$$\alpha \sqcup \beta = \bigcap_{\gamma \supset \alpha \cup \beta~\text{and}~\gamma \in \mathcal{A}_0(\mathbb{R})} \gamma$$
-\noindent This operation, by definition gives us an element of $\mathcal{A}_0(\mathbb{R})$. This definition will be easily extented on supersets of $\mathcal{A}_0(\mathbb{R})$ in the, the only thing changing being the set all $\gamma$ elements are taken from.
-% TODO: proof of existence
+\begin{definition}[closure]
+    The closure $\mathscr{C}$ of a set $a \in \mathcal P (\mathbb C)$ is defined by
 
-Now,  The definition of the join operation makes us want to define sum and product ($\cdot$) operations that necessarily make an elment of $E$:
-$$\alpha \beta = \bigcap_{\gamma \supset \alpha \otimes \beta~\text{and}~\gamma \in \mathcal{A}_0(\mathbb{R})} \gamma$$
-$$\alpha + \beta = \bigcap_{\gamma \supset \alpha \oplus \beta~\text{and}~\gamma \in \mathcal{A}_0(\mathbb{R})} \gamma$$
+    $$\mathscr{C}(a) = \bigcap_{\gamma \supset a \mand \gamma \in \mathcal{A}_0(\mathbb{C})} \gamma$$
+
+    Additionally, for any operator
+    $\odot : {\mathcal{A}_0}^2 \rightarrow \mathcal{P}(\mathbb C)$,
+    we define the operator
+    $\mathscr C(\odot) : {\mathcal{A}_0}^2 \rightarrow \mathcal{A}_0$
+    such that
+    $$\forall a, b \in \mathcal P (\mathbb C),
+    a ~ \mathscr C(\odot) ~ b = \mathscr C (a \odot b)$$
+\end{definition}
+
+\begin{prop}[colsure]
+    The closure is well-defined.
+    \begin{itemize}
+        \item If $\odot$ is commutative, so is $\cdot$
+        \item 
+    \end{itemize}
+\end{prop}
+
+\begin{definition}[operations]
+    Let $E \subset \mathcal{P}(\mathcal C)$. We define for $\alpha, \beta \in \mathcal{P}(\mathbb C)$ the following operations
+    $$\alpha \otimes \beta = \{a b ; a \in \alpha, b \in \beta\}$$
+    $$\alpha \oplus \beta = \{a + b ; a \in \alpha, b \in \beta\}$$
+
+    Note that none of these sets are in $E$ in the general case, despite it being the case for $E = \mathcal{A}_0(\mathbb{R})$. We define the \textbf{sum} in $\mathcal{A}_0$ to be $+ = \mathscr{C}(\oplus)$ and the \textbf{product} in $\mathcal{A}_0$ to be $\cdot = \mathscr{C}(\oplus)$. Additionally, we define the \textbf{join} $\sqcup = \mathscr{C}(\cup)$.
+\end{definition}
+
 \noindent Remarkably, in + is the same as $\oplus$ and $\cdot$ is the same as $\otimes$. On complex intervals, we will see later that this is not necessarily the case.
 
-We also define the modulus of a complex set $\forall \alpha \in E, |\alpha| = \sup\{|a| ; a \in \alpha\}$.
+\begin{definition}[modulus]
+    For all $\alpha$ in $E$, we define when it exists
+   $\forall \alpha \in E, |\alpha| = \sup\{|a| ; a \in \alpha\}$.
+\end{definition}
 
 This general case on a contextual set $E$ leads to defining a \textbf{partial order $\le$}, which really is the subset relation $\supset$, but implying that the sets are all intervals of the same interval set $E$. We easily get the following properties
 \begin{enumerate}[i]

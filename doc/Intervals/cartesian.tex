@@ -9,33 +9,63 @@ Similarly to what can be done with real intervals, we can see complex numbers as
 \subsection{Operations}
 
 The basic operations on $\mathcal{A}_0$ (sum, product and join) are defined thanks to subsection \ref{general-operations}. Note that the product is \underline{not} associative in $\mathcal{A}_0$, and that the sum is \underline{not} distributive on the product:
-$$\forall \alpha, \beta, \gamma \in \mathcal{A}_0, (\alpha + \beta) \gamma \subset \alpha \gamma + \beta \gamma$$
 
-\noindent \underline{\textbf{Proof:}}
-\begin{align*}
-(\alpha + \beta)\gamma &= \{xc ; x \in \{a + b ; a \in \alpha, b \in \beta\}, c \in \gamma\} \quad \text{(by definition of the product)}\\
-&= \{(a + b)c ; a \in \alpha, b \in \beta, c \in \gamma\} \\
-&= \{ac + bc ; a \in \alpha, b \in \beta, c \in \gamma\} \\
-&\subset \{ac + bd ; a \in \alpha, b \in \beta, c, d \in \gamma\} \\
-&\subset \{ac; a \in \alpha, c \in \gamma\} + \{bc ; b \in \beta, c \in \gamma\} \quad \text{(by definition of the sum)} \\
-&\subset \alpha \gamma + \beta \gamma
-\end{align*}
-\hfill{} $\boxed{}$
+\begin{prop}[growth]
+    $$\forall a, b\in$$
+\end{prop}
+
+\begin{prop}[Sub-distributivity of the product]
+
+    $$\forall \alpha, \beta, \gamma \in \mathcal{A}_0, (\alpha + \beta) \gamma \subset \alpha \gamma + \beta \gamma$$
+
+    \begin{proof}
+        \begin{align*}
+            (\alpha + \beta)\gamma &= \{xc ; x \in \{a + b ; a \in \alpha, b \in \beta\}, c \in \gamma\} \quad \text{(by definition of the product)}\\
+            &= \{(a + b)c ; a \in \alpha, b \in \beta, c \in \gamma\} \\
+            &= \{ac + bc ; a \in \alpha, b \in \beta, c \in \gamma\} \\
+            &\subset \{ac + bd ; a \in \alpha, b \in \beta, c, d \in \gamma\} \\
+            &\subset \{ac; a \in \alpha, c \in \gamma\} + \{bc ; b \in \beta, c \in \gamma\} \quad \text{(by definition of the sum)} \\
+            &\subset \alpha \gamma + \beta \gamma
+        \end{align*}
+    \end{proof}
+\end{prop}
+
+\begin{prop}[Sum]
+    $$\forall \alpha, \beta, \gamma, \delta \in \mathcal{A}_0
+    (\alpha \subset \gamma \mand \beta \subset \delta)
+    \Rightarrow
+    \alpha + \beta \subset \gamma + \delta
+    $$
+    and more generally
+    $$\forall n \in \mathbb N,
+    \forall \alpha_1, ..., \alpha_n,
+    \beta_1, ..., \beta_n \in \mathcal{A}_0,
+    (\forall i \in \{1, ..., n\}, \alpha_i \subset \beta_i)
+    \Rightarrow
+    \sum_{i=1}^n \alpha_i \subset \sum_{i=1}^n \beta_i
+    $$
+
+    \begin{proof}
+        
+    \end{proof}
+\end{prop}
 
 \subsection{Convex conservation}
 
-All complex intervals are convex.
+\begin{prop}[Convex conservation]
 
-\noindent \underline{\textbf{Proof:}} Let $\alpha \in \mathcal{A}_0$ and $a, b \in \alpha$. Additionally let $t \in [0, 1]$.
+    All complex intervals are convex.
 
-\begin{align*}
-\RE(ta+(1-t)b) &= \RE(ta) + \RE((1-t)b) \\
-&\le t\RE(a) + (1-t)\RE(b) \quad (\text{since}~t, 1-t \in \mathbb{R}) \\
-&\le \max(\RE(\alpha)) \quad \text{since}~a, b \in \alpha
-\end{align*}
-
-The corresponding properties with a minimum or the imaginary part are proven very similarly, hence $ta+(1-t)b \in \alpha$.
-\hfill{} $\boxed{}$
+    \begin{proof}
+        Let $\alpha \in \mathcal{A}_0$ and $a, b \in \alpha$. Additionally let $t \in [0, 1]$.
+        \begin{align*}
+        \RE(ta+(1-t)b) &= \RE(ta) + \RE((1-t)b) \\
+        &\le t\RE(a) + (1-t)\RE(b) \quad (\text{since}~t, 1-t \in \mathbb{R}) \\
+        &\le \max(\RE(\alpha)) \quad \text{since}~a, b \in \alpha
+        \end{align*}
+        The corresponding properties with a minimum or the imaginary part are proven very similarly, hence $ta+(1-t)b \in \alpha$.
+    \end{proof}
+\end{prop}
 
 \subsection{The minus operation}
 

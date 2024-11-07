@@ -50,44 +50,49 @@ Additionally, we extend the definition of the imprecision function $\mathcal{I}$
 
 \section{Error estimation}
 
-Let $A, C \in \mathcal{D}_n$. We would like to define a scale $\delta : \mathcal{D}_n \rightarrow X$ with $(X, \prec)$ a partially ordered set, that we would be able to compute in polynomial time and space (i.e. in $O(n^p)$ for a certain $p \in \mathbb{N}$), such that if $A \le C$, $\delta(A) \prec \delta(C)$. Let $X = \mathbb{R}^+ \times \mathcal{A}_0$ and $\delta(A) = (|A|, [A])$ be inductively defined by:
-$$\delta(\boxed{1}) = (1, [1, 1])$$
-$$\forall a, b \in \mathcal{A}_0, \delta(\{(a, \boxed{1})\}, \{(b, \boxed{1})\}) = $$
-$$\forall G, D \in \mathscr{P}_f(\mathcal{A}_0 \times \mathcal{D}_n), |(G, D)|
-= \max\left( \left|\sum_{(l, L) \in G} l |L| \right|, \left|\sum_{(r, R) \in D} r |R| \right|\right)$$
-$$\forall G, D \in \mathscr{P}_f(\mathcal{A}_0 \times \mathcal{D}_n), [(G, D)]
-= \left(\sum_{(l, L) \in G} l |L| [L] \right) \bigsqcup \left(\sum_{(r, R) \in D} r |R| [R]\right)$$
+Let $A, C \in \mathcal{D}_n$.
+We would like to define a scale $\delta : \mathcal{D}_n \rightarrow X$ with $(X, \prec)$ a partially ordered set, that we would be able to compute in polynomial time and space (i.e. in $O(n^p)$ for a certain $p \in \mathbb{N}$), such that if $A \le C$, $\delta(A) \prec \delta(C)$.
+Let $X = \mathcal{A}_0 \times \mathbb{R}^+$ and $\delta(A) = (\rho(A), \varepsilon(A))$ be inductively defined by:
+$$\delta(\boxed{1}) = (\{1\}, 0)$$
 
-\noindent\underline{\textbf{Proof:}} Let for $n \ge 0$ the property
-$$(\Delta_n)\quad : \quad \forall A, B \in \mathcal{D}_n, A \le B \Rightarrow \delta(A) \prec \delta(B)$$
+$$\forall G, D \in \mathscr{P}_f(\mathcal{A}_0 \times \mathcal{D}_n),
+\rho((G, D))
+= \left(\sum_{(l, L) \in G} l \rho(L) \right) \bigsqcup \left(\sum_{(r, R) \in D} r \rho(R) \right)$$
 
-\noindent\boxed{n = 0} The only zero-height diagram is $\boxed{1}$, the result is trivial.
+\begin{multline*}
+\forall G, D \in \mathscr{P}_f(\mathcal{A}_0 \times \mathcal{D}_n),
+\varepsilon((G, D))
+= \left(\sum_{(l, L) \in G} l \max|\rho(L) \ominus \varepsilon(L)| + \varepsilon(L)\right) \\
+\bigsqcup \left(\sum_{(r, R) \in D} r \max|\rho(R) \ominus \varepsilon(R)| + \varepsilon(R)\right)
+\end{multline*}
 
-\noindent\boxed{n = 1} Let $A, B \in \mathcal{D}_1$.
+\begin{prop}
+    The radius $\rho$ of a diagram is bigger than all it's abstract amplitudes, i.e.
 
-\begin{center}
-% https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZABgBpiBdUkANwEMAbAVxiRAEEQBfU9TXfIRQAmclVqMWbAELdeIDNjwEiZAIzj6zVohAAdPQCMIADxhRgarnL5LBRURupapug8bMWr3ceYDm8ESgAGYAThAAtkhkIDgQSKIS2mx0APoMAH4ZINQMdIYwDAAK-MpCIKFYfgAWODkgDFhgOiBQdHDV5vUFYFBIALQALACcPCHhUYgxcQnOki1ZaaH1eQXFpfa6DDDBddQ9fYgjYyBhkUhq1DOIAMxzybqG6Vkr+YUldiq6lTV7DU0tNodLr7GC9AbHeRnSaXWLxW73VwgLJPZa5N7rT7lba7bpgw7HChcIA
-\begin{tikzcd}
-A \arrow[d, "a_l~~"', dashed, bend right=49] \arrow[d, "~~a_r", bend left=49] &  & B \arrow[d, "b_l~~"', dashed, bend right=49] \arrow[d, "~~b_r", bend left=49] \\
-\boxed{1}                                                                     &  & \boxed{1}
-\end{tikzcd}
-\end{center}
+    $$
+        \forall n \in \mathbb N,
+        \forall D \in \mathcal{D}_n
+        \forall i \in \{0, ..., 2^n-1\},
+        \mathcal E(A)[i] \subset \rho(A)
+    $$
 
-Suppose that $A \le B$, then $a_l \le b_l$ and $a_r \le b_r$, hence $a_l [\boxed{1}] \sqcup a_r [\boxed{1}] = a_l + a_r \le b_l + b_r$, and then $\delta(A) \prec \delta(B)$, so $(\Delta_1)$ is true.
+    \begin{proof}
+        $\boxed{n = 0}$
+            Let $d \in \mathcal{D}_0$,
+            then $d = \boxed{1}$
+            hence the property since $\mathcal E(d)[0] = \rho(d) = \{1\}$
 
-\noindent\boxed{n > 1} Let $n > 1$ such that $(\Delta_{n-1})$ is true. Let $A, B \in \mathcal{D}_n$ such that $A \le B$.
-
-% https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZAJgBoAGAXVJADcBDAGwFcYkQBBEAX1PU1z5CKAKwVqdJq3YAhHnxAZseAkXKkAjBIYs2iEABkA+hvn9lQohs3apew0cK9zg1SjJaaO6foBKJs0UBFWFkAGYbLzt2fwBbQKVXUIAWSMlddmNTZyCLN2QxT3SfBycFRJCiADY073t-bPLgyxQAdlrovyN47gkYKABzeCJQADMAJwh4xHUQHAgkCOK9MGZGRhpGegAjGEYABWa3EEYYUZwQTawweyh6OAALfsCJqaRZ+aRU5aRV9c2dntDnlhCczhccq9ph8FogxD9EH8NidAQcjqDTucXpNoTRPogyAikQDdmiQexMRcrjd2HdHs9ITikNY5rCakS1sitqTgUkKeDLidrrd7k8oNi3ogWfj2hz-iieej+VjqSL6eLGZLpbCABxRDKIzkkoFK-SUiXTbVIACc+p8xIVJvJZoFmumhPxSzqvyNjrJfJdKpAT3o4v0kBpqtpEBwOAZCihXzxsPh3sN8u5ToDYKDIbD4AIbCj+igMbjGoTTMQ7JldpWvsz-sqgapwZgofYEaLQppJbL8bGVb1rJtdZ9GdRvObOdbec7hcFjGF0djDMo3CAA
-\begin{tikzcd}
-                               &     & A \arrow[ld, dashed] \arrow[d] \arrow[rd] \arrow[lld, dashed] &     &                                & B \arrow[ld, dashed] \arrow[d, dashed] \arrow[rd] \arrow[rrd] &                                &     \\
-L_1 \arrow[r, no head, dotted] & L_n & R_1 \arrow[r, no head, dotted]                                & R_m & L_1 \arrow[r, no head, dotted] & L_n                                                           & R_1 \arrow[r, no head, dotted] & R_m
-\end{tikzcd}
-
-Let $a_j = \text{ampl}(j, A)$ and $b_j = \text{ampl}(j, B)$. We know that $A \le B$ so:
-$$\sum_j a_j \mathcal{E}(j) \le \sum_j b_j \mathcal{E}(j)$$
-
-We would like to prove that:
-$$|A \le |B|, ~\text{i.e.}~ \max()$$
+        \noindent $\boxed{n > 0}$
+            Let us assume that
+            $$\forall D \in \mathcal{D}_{n-1}
+            \forall i \in \{0, ..., 2^{n-1}-1\},
+            \mathcal E(A)[i] \subset \rho(A)$$
+            Let $(G, D) \in \mathcal{D}_n$, then
+            $$\rho((G, D))
+            = \left(\sum_{(l, L) \in G} l \rho(L) \right) \bigsqcup \left(\sum_{(r, R) \in D} r \rho(R) \right)$$
+            And since
+        \end{proof}
+\end{prop}
 
 \section{Non-additive diagrams}
 
