@@ -3,15 +3,23 @@
 \usepackage[english]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage{geometry}
-\usepackage{amsthm}
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{mathrsfs}
 \usepackage{enumerate}
 
 \usepackage{lmodern}
+
+\usepackage{amsthm}
+\newtheoremstyle{break}
+  {\topsep}{\topsep}%
+  {\itshape}{}%
+  {\bfseries}{}%
+  {\newline}{}%
+\theoremstyle{break}
 \newtheorem{theorem}{Theorem}[chapter]
-\newtheorem{prop}{Proposition}[section]
+\newtheorem{prop}{Proposition}[chapter]
+\newtheorem{definition}{Definition}[chapter]
 
 \usepackage{tikz}
 \usetikzlibrary{positioning}
@@ -27,6 +35,7 @@
 #1: & #2 & \longrightarrow & #3 \\
     & #4 & \longmapsto & #5 \end{array}}
 \newcommand{\mathsc}[1]{{\normalfont\textsc{#1}}}
+\newcommand{\mand}{~\textrm{and}~}
 
 \title{AAQDD -- Abstract additive quantum decision diagrams}
 \author{M. Leroy, R. Vilmart}
