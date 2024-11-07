@@ -10,6 +10,8 @@
 
 namespace cartesian
 {
+    typedef double real;
+
     typedef std::tuple<ampl::real, ampl::real> real_interval;
 
     /// @brief Represents an interval in the Cartesian coordinate system.
