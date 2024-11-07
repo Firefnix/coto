@@ -17,6 +17,14 @@ Diagram<height> Diagram<height>::random()
     return d;
 }
 
+template<size_t height>
+Diagram<height>* Diagram<height>::randomPointer()
+{
+    auto d = new Diagram<height>();
+    d->populate(height);
+    return d;
+}
+
 template <>
 void Diagram<0>::populate(size_t totalHeight)
 {

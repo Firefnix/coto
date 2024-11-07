@@ -48,6 +48,8 @@ public:
     /// @return A random diagram
     static Diagram<height> random();
 
+    static Diagram<height>* randomPointer();
+
     /// @brief Populate the diagram with random values
     void populate(size_t totalHeight = 0);
 
@@ -83,6 +85,12 @@ public:
     template <size_t h>
     void replaceNodesAtHeight(Diagram<h> *f1, Diagram<h> *f2, Diagram<h> *r);
 
+    /// @brief An interval that contains all the intervals of the evaluation.
+    Interval enclosure();
+
+    /// @brief A positive number
+    absi::real imprecision();
+
     ~Diagram();
 
     void markParentsAsToBeUpdated();
@@ -104,7 +112,7 @@ protected:
 };
 
 template<size_t height>
-absi::Interval enclosure(Diagram<height>& d);
+Interval calculateEnclosure(Diagram<height>& d);
 
 #include <../src/diagram.cpp>
 
