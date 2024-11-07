@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <string>
 #include <tuple>
 
 #include <absi/cartesian.h>
@@ -86,7 +87,7 @@ ampl::real Interval::norm() const
 
 std::string Interval::to_string() const
 {
-    return "cartesian interval";
+    return "[" + ampl::to_string(bottomLeft) + ", " + ampl::to_string(topRight) + "]";
 }
 
 static real_interval minMaxOfProduct(const real_interval x, const real_interval y)

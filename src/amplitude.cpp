@@ -6,6 +6,17 @@
 #include <cstdlib>
 #include <ctime>
 
+std::string ampl::to_string(ampl::Amplitude a)
+{
+    if (!a.imag()) {
+        return std::to_string(a.real());
+    }
+    if (!a.real()) {
+        return std::to_string(a.imag());
+    }
+    return std::to_string(a.real()) + "+" + std::to_string(a.imag()) + "i";
+}
+
 ampl::Amplitude ampl::random()
 {
     float r = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);

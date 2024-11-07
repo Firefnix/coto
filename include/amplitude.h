@@ -23,6 +23,8 @@ namespace ampl
      */
     typedef std::complex<real> Amplitude;
 
+    std::string to_string(Amplitude a);
+
     /** @brief Generate a random amplitude
      *
      * Generate a complex number (random real and imaginary parts), normalized to have a module

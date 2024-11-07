@@ -9,6 +9,7 @@
 #define pwrtwo(x) (1 << (x))
 
 using std::size_t;
+using absi::Interval;
 
 enum Side { left, right };
 
@@ -36,6 +37,7 @@ template <size_t height>
 class Diagram
 {
 public:
+    /// @brief Create an empty diagram with no children
     Diagram();
 
     /// @brief Create a random diagram
@@ -49,28 +51,22 @@ public:
     /// @brief Populate the diagram with random values
     void populate(size_t totalHeight = 0);
 
-    /// @brief Left children
-    std::vector<branch<height - 1>> left;
-
-    /// @brief Right children
-    std::vector<branch<height - 1>> right;
-
     /// @brief Children of side \ref{s}
     std::vector<branch<height - 1>> childrenOfSide(Side s);
 
     /// @brief Evaluate the diagram
     /// @return A mathematical vector (here an array) of 2^n intervals
-    std::array<absi::Interval, pwrtwo(height)> evaluate();
+    std::array<Interval, pwrtwo(height)> evaluate();
 
     /// @brief Add @ref{d} to be a left child with amplitude @ref{x}
     /// @param d The child
     /// @param x The amplitude
-    void lefto(Diagram<height - 1> *d, absi::Interval x = absi::one);
+    void lefto(Diagram<height - 1> *d, Interval x = absi::one);
 
     /// @brief Add @ref{d} to be a right child with amplitude @ref{x}
     /// @param d The child
     /// @param x The amplitude
-    void righto(Diagram<height - 1> *d, absi::Interval x = absi::one);
+    void righto(Diagram<height - 1> *d, Interval x = absi::one);
 
     /// @brief The number of intervals contained in the evaluation
     /// @return 2 ^ @ref{height}
@@ -88,6 +84,23 @@ public:
     void replaceNodesAtHeight(Diagram<h> *f1, Diagram<h> *f2, Diagram<h> *r);
 
     ~Diagram();
+
+    void markParentsAsToBeUpdated();
+
+    std::vector<Diagram<height+1> *> parents;
+
+    /// @brief Is the data stored at node-level up-to-date
+    bool isUpToDate = false;
+
+protected:
+    /// @brief Left children
+    std::vector<branch<height - 1>> left;
+
+    /// @brief Right children
+    std::vector<branch<height - 1>> right;
+
+    /// @brief The enclosure value if `isUpToDate` is true
+    Interval cachedEnclosure;
 };
 
 template<size_t height>
