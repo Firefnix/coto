@@ -30,8 +30,8 @@ TEST_F(DiagramTest, testConstruction)
     dgm->righto(eig0, two);
     auto vec = dgm->evaluate(); // (1, 0, 2, 0)
     EXPECT_EQ(absi::one, vec[0]);
-    EXPECT_EQ(absi::zero, vec[1]) << vec[1].to_string() << dgm->right[0].x.to_string();
-    EXPECT_EQ(two, vec[2]) << vec[2].to_string() << dgm->right[0].x.to_string();
+    EXPECT_EQ(absi::zero, vec[1]) << vec[1].to_string();
+    EXPECT_EQ(two, vec[2]) << vec[2].to_string();
     EXPECT_EQ(absi::zero, vec[3]) << vec[3].to_string();
 }
 
@@ -118,8 +118,9 @@ TEST_F(DiagramTest, testEnclosure)
             real_rho = real_rho | v[i];
         }
 
-        auto rho = enclosure(d);
+        auto rho = d.enclosure();
         EXPECT_EQ(rho, real_rho);
+        EXPECT_EQ(rho, d.enclosure());
     }
 }
 
