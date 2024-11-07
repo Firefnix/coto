@@ -20,9 +20,7 @@ std::array<absi::Interval, pwrtwo(height)> Diagram<height>::evaluate()
 {
     const size_t N = pwrtwo(height);
     std::array<absi::Interval, N> arr;
-    std::array<absi::Interval, N / 2> left_array;
-    std::array<absi::Interval, N / 2> right_array;
-    std::array<absi::Interval, N / 2> tmp;
+    std::array<absi::Interval, N / 2> left_array, right_array, tmp;
     for (size_t i = 0; i < N / 2; i++)
     {
         left_array[i] = absi::zero;
@@ -42,7 +40,6 @@ std::array<absi::Interval, pwrtwo(height)> Diagram<height>::evaluate()
         tmp = r.d->evaluate();
         for (size_t i = 0; i < N / 2; i++)
         {
-            std::cout << r.x.to_string() << std::endl;
             right_array[i] = r.x * tmp[i] + right_array[i];
         }
     }
