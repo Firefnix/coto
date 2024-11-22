@@ -13,3 +13,7 @@ doxygen/
 svg-inkscape/
 *.bbl
 *.blg
+_deps/
+CMakeFiles/
+*.cmake
+Testing/
