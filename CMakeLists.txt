@@ -101,8 +101,15 @@ target_link_libraries(selection_test ${absi_libs} selection GTest::gtest_main)
 # Reduction test
 add_library(reduction STATIC src/reduction.cpp include/diagram.h ${absi_files} src/amplitude.cpp)
 
+# QASM library
+FILE(GLOB QasmSources src/qasm/*.cpp)
+add_library(qasm STATIC ${QasmSources})
+add_executable(qasm_test test/qasm/qasm_test.cpp)
+target_link_libraries(qasm_test qasm GTest::gtest_main)
+
 include(GoogleTest)
 gtest_discover_tests(amplitude_test)
 gtest_discover_tests(absi_test)
 gtest_discover_tests(diagram_test)
 # gtest_discover_tests(selection_test)
+gtest_discover_tests(qasm_test)
