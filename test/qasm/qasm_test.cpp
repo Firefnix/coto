@@ -2,6 +2,7 @@
 #include <qasm/read.h>
 #include <qasm/execute.h>
 #include <qasm/error.h>
+#include <qasm/variables.h>
 
 std::ifstream testFile(const unsigned index)
 {
@@ -13,6 +14,7 @@ TEST(QasmTest, getStatementStrings)
     std::string expected[4] = {"OPENQASM 3.0", "bit a", "int b=2", "bit c"};
     auto tf = testFile(0);
     auto statements = getStatementStrings(tf);
+    EXPECT_EQ(statements.size(), 4);
     for (auto i = 0; i < 4; i++)
     {
         EXPECT_EQ(statements[i].content, expected[i]);
@@ -27,6 +29,7 @@ TEST(QasmTest, definition)
 
     auto s = getStatements("int n;");
     execute(s);
+    EXPECT_TRUE(varExists("n"));
 }
 
 TEST(QasmTest, assignment)
@@ -35,7 +38,8 @@ TEST(QasmTest, assignment)
     EXPECT_THROW(getStatements("int a!3=2;"), SyntaxError);
     EXPECT_THROW(getStatements("3a=2;"), SyntaxError);
 
-    EXPECT_NO_THROW(getStatements("int n=2;"));
+    auto s = getStatements("int n=2;");
+    EXPECT_EQ(s.size(), 1);
 }
 
 TEST(QasmTest, version)
