@@ -5,42 +5,23 @@
 std::vector<var<int>> intVars;
 std::vector<var<bit>> bitVars;
 
-bool varExists(const varname &name)
+enum vartype {IntVar, BitVar, NotDefined};
+
+vartype varType(const varname& name)
 {
     for (auto v : intVars) {
-        if (v.name == name) return true;
+        if (v.name == name) return IntVar;
     }
     for (auto v : bitVars) {
-        if (v.name == name) return true;
+        if (v.name == name) return BitVar;
     }
-    return false;
+    return NotDefined;
 }
 
 
-template <typename T>
-var<T> getVar(const varname& name)
+bool varExists(const varname &name)
 {
-    for (var<T> v : getVarStorage<T>()) {
-        if (v.name == name) {
-            return v;
-        }
-    }
-    throw VariableError("Variable not found");
-}
-
-template<typename T>
-void setVar(const varname& name, const T& value)
-{
-    for (var<T>& v : getVarStorage<T>())
-    {
-        if (v.name == name) {
-            if (v.isConst) {
-                throw VariableError("Trying to reassign a const variable.");
-            }
-            v.value = value;
-            v.isAssignedTo = true;
-        }
-    }
+    return varType(name) != NotDefined;
 }
 
 void defineVar(const std::string& typeName, const varname &name, bool isConst)
