@@ -1,7 +1,7 @@
 #include <qasm/statements.h>
-#include <qasm/error.h>
-
+#include <qasm/variables.h>
 #include <vector>
+#include <iostream>
 #include <algorithm>
 #include <optional>
 #include <sstream>
@@ -32,18 +32,24 @@ public:
     }
 
     DefinitionStatement(std::string content)
-        : name(content.substr(0, content.find(' '))),
-          value(content.substr(content.find(' ') + 1))
+        : typeName(content.substr(0, content.find(' '))),
+          name(content.substr(content.find(' ') + 1))
     {
-        if (!isValidIdentifier(value)) {
-            throw SyntaxError("Invalid identifier in definition statement");
+        if (!isValidIdentifier(typeName)) {
+            throw SyntaxError("Invalid type name identifier in definition statement");
+        }
+        if (!isValidIdentifier(name)) {
+            throw SyntaxError("Invalid name identifier in definition statement");
         }
     }
 
-    void execute();
+    void execute() const override
+    {
+        defineVar(typeName, name, false);
+    }
 
+    const std::string typeName;
     const std::string name;
-    const std::string value;
 };
 
 class AssignmentStatement : public Statement {
@@ -77,7 +83,7 @@ public:
         value = content.substr(eqPos + 1);
     }
 
-    void execute();
+    void execute() const override {};
 
     std::optional<std::string> type;
     std::string name;
@@ -111,7 +117,7 @@ public:
         }
     }
 
-    void execute();
+    void execute() const override {};
 
     std::string gateName;
     std::vector<std::string> qubitsNames;
@@ -131,7 +137,7 @@ public:
         return content.starts_with("OPENQASM ");
     }
 
-    void execute();
+    void execute() const override {};
 
     const std::string version;
 };
@@ -145,14 +151,14 @@ public:
         return content.starts_with("include ");
     }
 
-    void execute();
+    void execute() const override {};
 };
 
 class ForBeginStatement : public Statement {
 public:
     ForBeginStatement(const std::string &content) : content(content) {};
 
-    void execute();
+    void execute() const override {};
 
     const std::string content;
 };
@@ -161,59 +167,54 @@ class ForEndStatement : public Statement {
 public:
     ForEndStatement(const std::string &content) : content(content) {};
 
-    void execute();
+    void execute() const override {};
 
     const std::string content;
 };
 
-Statement Statement::parse(const struct statementString &ss)
+std::unique_ptr<Statement> Statement::parse(const struct statementString &ss)
 {
     if (ss.delimiter == ';') {
         if (VersionStatement::is(ss.content)) {
-            return VersionStatement(ss.content);
+            return std::make_unique<VersionStatement>(ss.content);
         }
         if (IncludeStatement::is(ss.content)) {
-            return IncludeStatement(ss.content);
+            return std::make_unique<IncludeStatement>(ss.content);
         }
         if (AssignmentStatement::is(ss.content)) {
-            return AssignmentStatement(ss.content);
+            return std::make_unique<AssignmentStatement>(ss.content);
         }
         if (DefinitionStatement::is(ss.content)) {
-            return DefinitionStatement(ss.content);
+            return std::make_unique<DefinitionStatement>(ss.content);
         }
         if (GateApplyStatement::is(ss.content)) {
-            return GateApplyStatement(ss.content);
+            return std::make_unique<GateApplyStatement>(ss.content);
         }
     } else if (ss.delimiter == '{') {
-        return ForBeginStatement(ss.content);
+        return std::make_unique<ForBeginStatement>(ss.content);
     } else if (ss.delimiter == '}') {
-        return ForEndStatement(ss.content);
+        return std::make_unique<ForEndStatement>(ss.content);
     }
     throw SyntaxError("Invalid statement delimiter");
 }
 
-std::vector<Statement> parseStatements(const std::vector<statementString>& stmtsStrings)
+std::vector<std::unique_ptr<Statement>> parseStatements(const std::vector<statementString>& stmtsStrings)
 {
-    std::vector<Statement> stmts;
+    std::vector<std::unique_ptr<Statement>> stmts;
     for (statementString ss : stmtsStrings) {
         stmts.push_back(Statement::parse(ss));
     }
     return stmts;
 }
 
-std::vector<Statement> getStatements(std::istream& stream)
+std::vector<std::unique_ptr<Statement>> getStatements(std::istream& stream)
 {
     auto stmtsStrings = getStatementStrings(stream);
     return parseStatements(stmtsStrings);
 }
 
-std::vector<Statement> getStatements(const std::string& content)
+std::vector<std::unique_ptr<Statement>> getStatements(const std::string& content)
 {
     std::istringstream stream(content);
     return getStatements(stream);
-}
-
-void Statement::execute()
-{
-    throw UnsupportedError("Statement not supported");
 }

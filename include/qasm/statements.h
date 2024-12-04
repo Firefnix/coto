@@ -1,14 +1,19 @@
 #pragma once
 #include <string>
 #include <vector>
+#include <memory>
 #include <qasm/read.h>
+#include <qasm/error.h>
 
 class Statement {
 public:
-    static Statement parse(const struct statementString &content);
-    void execute();
+    static std::unique_ptr<Statement> parse(const struct statementString &content);
+    virtual ~Statement() = default;
+    virtual void execute() const = 0;
 };
 
-std::vector<Statement> getStatements(std::istream& stream);
 
-std::vector<Statement> getStatements(const std::string& content);
+
+std::vector<std::unique_ptr<Statement>> getStatements(std::istream& stream);
+
+std::vector<std::unique_ptr<Statement>> getStatements(const std::string& content);

@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 #include <qasm/read.h>
-#include <qasm/statements.h>
+#include <qasm/execute.h>
 #include <qasm/error.h>
 
 std::ifstream testFile(const unsigned index)
@@ -24,6 +24,9 @@ TEST(QasmTest, definition)
     EXPECT_THROW(getStatements("bit 6a;"), SyntaxError);
     EXPECT_THROW(getStatements("bit a~8;"), SyntaxError);
     EXPECT_NO_THROW(getStatements("bit my_clean_Bit887121;"));
+
+    auto s = getStatements("int n;");
+    execute(s);
 }
 
 TEST(QasmTest, assignment)
