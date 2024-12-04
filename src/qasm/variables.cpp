@@ -4,24 +4,34 @@
 
 std::vector<var<int>> intVars;
 std::vector<var<bit>> bitVars;
+std::vector<var<qubit>> qubitVars;
 
-enum vartype {IntVar, BitVar, NotDefined};
+enum vartype {IntVar, BitVar, QubitVar, NotDefined};
 
 vartype varType(const varname& name)
 {
-    for (auto v : intVars) {
+    for (const auto& v : intVars) {
         if (v.name == name) return IntVar;
     }
-    for (auto v : bitVars) {
+    for (const auto& v : bitVars) {
         if (v.name == name) return BitVar;
+    }
+    for (const auto& v : qubitVars) {
+        if (v.name == name) return QubitVar;
     }
     return NotDefined;
 }
 
-
 bool varExists(const varname &name)
 {
     return varType(name) != NotDefined;
+}
+
+qubit newQubit()
+{
+    static unsigned counter = 0;
+    counter++;
+    return counter-1;
 }
 
 void defineVar(const std::string& typeName, const varname &name, bool isConst)
@@ -30,6 +40,8 @@ void defineVar(const std::string& typeName, const varname &name, bool isConst)
         intVars.push_back(var<int>{name, isConst, false});
     } else if (typeName == "bit") {
         bitVars.push_back(var<bit>{name, isConst, false});
+    } else if (typeName == "qubit") {
+        qubitVars.push_back(var<qubit>{name, true, true, newQubit()});
     } else {
         throw VariableError("Unsupported variable type in definition: '" + typeName + "'");
     }
@@ -42,6 +54,9 @@ void setValue(const varname& name, std::vector<var<T>> vars, const T& value)
     {
         if (v.name == name)
         {
+            if (v.isConst) {
+                throw VariableError("Trying to assign to const variable " + name);
+            }
             v.value = value;
             return;
         }
@@ -58,6 +73,8 @@ void assignVar(const varname& name, const std::string& value)
         case BitVar:
             setValue(name, bitVars, std::stoi(value) != 0);
             break;
+        case QubitVar:
+            throw VariableError("Trying to assign to qubit " + name);
         default:
             throw VariableError("Trying to assign undefined variable" + name);
     }

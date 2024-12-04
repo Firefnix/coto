@@ -5,6 +5,8 @@ typedef std::string varname;
 
 typedef bool bit;
 
+typedef unsigned qubit;
+
 template <class T>
 struct var {
     varname name;
