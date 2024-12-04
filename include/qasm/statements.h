@@ -12,8 +12,6 @@ public:
     virtual void execute() const = 0;
 };
 
-
-
 std::vector<std::unique_ptr<Statement>> getStatements(std::istream& stream);
 
 std::vector<std::unique_ptr<Statement>> getStatements(const std::string& content);

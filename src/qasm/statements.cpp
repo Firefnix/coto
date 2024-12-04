@@ -71,7 +71,7 @@ public:
             if (!isValidIdentifier(beforeEqual.substr(spacePos + 1))) {
                 throw SyntaxError("Invalid identifier in assignment statement");
             }
-            type = beforeEqual.substr(0, spacePos);
+            typeName = beforeEqual.substr(0, spacePos);
             name = beforeEqual.substr(spacePos + 1);
             value = content.substr(eqPos + 1);
             return;
@@ -83,9 +83,15 @@ public:
         value = content.substr(eqPos + 1);
     }
 
-    void execute() const override {};
+    void execute() const override
+    {
+        if (typeName.has_value()) {
+            defineVar(typeName.value(), name);
+        }
+        assignVar(name, value);
+    };
 
-    std::optional<std::string> type;
+    std::optional<std::string> typeName;
     std::string name;
     std::string value;
 };

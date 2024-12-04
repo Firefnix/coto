@@ -17,5 +17,4 @@ bool varExists(const varname &name);
 
 void defineVar(const std::string& typeName, const varname& name, bool isConst = false);
 
-template <typename T>
-void setVar(const varname &name, const T &value);
+void assignVar(const varname& name, const std::string& value);

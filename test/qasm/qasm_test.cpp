@@ -38,8 +38,8 @@ TEST(QasmTest, assignment)
     EXPECT_THROW(getStatements("int a!3=2;"), SyntaxError);
     EXPECT_THROW(getStatements("3a=2;"), SyntaxError);
 
-    auto s = getStatements("int n=2;");
-    EXPECT_EQ(s.size(), 1);
+    EXPECT_NO_THROW(execute("int n=2;"));
+    EXPECT_TRUE(varExists("n"));
 }
 
 TEST(QasmTest, version)

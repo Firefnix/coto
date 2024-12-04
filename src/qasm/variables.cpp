@@ -34,3 +34,31 @@ void defineVar(const std::string& typeName, const varname &name, bool isConst)
         throw VariableError("Unsupported variable type in definition: '" + typeName + "'");
     }
 }
+
+template<typename T>
+void setValue(const varname& name, std::vector<var<T>> vars, const T& value)
+{
+    for (auto& v : vars)
+    {
+        if (v.name == name)
+        {
+            v.value = value;
+            return;
+        }
+    }
+}
+
+void assignVar(const varname& name, const std::string& value)
+{
+    switch (varType(name))
+    {
+        case IntVar:
+            setValue(name, intVars, std::stoi(value));
+            break;
+        case BitVar:
+            setValue(name, bitVars, std::stoi(value) != 0);
+            break;
+        default:
+            throw VariableError("Trying to assign undefined variable" + name);
+    }
+}
