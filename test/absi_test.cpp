@@ -38,10 +38,10 @@ TEST_F(CartesianTest, Join)
 class PolarTest : public testing::Test
 {
 public:
-    polar::PositiveInterval pa = (5.);
-    polar::PositiveInterval pb = (3., 4.);
-    polar::AngleInterval ra = (-.25, .2);
-    polar::AngleInterval rb = (3);
+    polar::PositiveInterval pa = polar::PositiveInterval(5.);
+    polar::PositiveInterval pb = polar::PositiveInterval(3., 4.);
+    polar::AngleInterval ra = polar::AngleInterval(-.25, .2);
+    polar::AngleInterval rb = polar::AngleInterval(3);
     polar::Interval i1 = polar::Interval(pa, ra);
     polar::Interval i2 = polar::Interval(pb, rb);
 };
@@ -84,6 +84,6 @@ TEST_F(PolarTest, Add)
 
 TEST_F(PolarTest, Norm)
 {
-    EXPECT_EQ(i1.norm(), 0.);
+    EXPECT_EQ(i1.norm(), 1.);
     EXPECT_EQ(i2.norm(), 0.);
 }
