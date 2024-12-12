@@ -1,7 +1,6 @@
-#ifndef AMPLITUDE_H_
-#define AMPLITUDE_H_ 1
-
+#pragma once
 #include <complex>
+#define pow2(n) (1 << n)
 
 /// @brief Handles everything related to complex numbers
 namespace ampl
@@ -23,7 +22,18 @@ namespace ampl
      */
     typedef std::complex<real> Amplitude;
 
-    std::string to_string(Amplitude a);
+    template<size_t size>
+    using State = std::array<ampl::Amplitude, size>;
+
+    /** @brief Randomize a state
+     *
+     * Randomizes an already-allocated state (cheaper than returning by value)
+     */
+    template<size_t size>
+    void randomizeState(ampl::State<size>& state);
+
+    /// @brief String representation of the Amplitude
+    std::string to_string(const ampl::Amplitude a);
 
     /** @brief Generate a random amplitude
      *
@@ -43,12 +53,4 @@ namespace ampl
 
     /// @brief The imaginary number i
     const Amplitude i{0., 1.};
-
-    /// @brief A fast-exponentiation function
-    /// @param n The exponent
-    /// @return 2 to the power of n
-    std::size_t
-    pow2(std::size_t n);
 }
-
-#endif
