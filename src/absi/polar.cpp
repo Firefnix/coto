@@ -1,6 +1,8 @@
+#include <absi/polar.h>
+
 #include <stdexcept>
 #include <numbers>
-#include <absi/polar.h>
+#include <iostream>
 
 using namespace polar;
 
@@ -179,7 +181,7 @@ std::string polar::Interval::to_string() const
 
 polar::real polar::Interval::norm()
 {
-  return arg.delta * mod.max; // TODO: better approximation
+    return arg.delta * mod.max; // TODO: better approximation
 }
 
 bool polar::Interval::is_real() const
