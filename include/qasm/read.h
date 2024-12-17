@@ -11,3 +11,5 @@ struct statementString {
 std::ifstream openFile(const std::string& filePath);
 
 std::vector<struct statementString> getStatementStrings(std::istream& stream);
+
+bool isOnlyEmptyCharacters(const std::string& str);

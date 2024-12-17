@@ -35,6 +35,9 @@ void qasm::fexec(const std::string& filePath)
 
 std::string qasm::eval(const std::string& identifier)
 {
+    if (isOnlyEmptyCharacters(identifier)) {
+        return "";
+    }
     try {
         return gateToString(identifier);
     } catch (const VariableError& e) {

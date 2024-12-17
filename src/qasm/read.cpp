@@ -89,3 +89,8 @@ std::string afterBlockComment(std::string line)
     }
     return line.substr(line.find("*/") + 2);
 }
+
+bool isOnlyEmptyCharacters(const std::string& str)
+{
+    return str.find_first_not_of(" \t\n\v\f\r;") == std::string::npos;
+}
