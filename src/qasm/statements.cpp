@@ -1,10 +1,11 @@
-#include <qasm/statements.h>
-#include <qasm/variables.h>
-#include <vector>
 #include <iostream>
 #include <algorithm>
 #include <optional>
 #include <sstream>
+
+#include <qasm/statements.h>
+#include <qasm/variables.h>
+#include <qasm/gate.h>
 
 bool isValidIdentifier(std::string identifier)
 {
@@ -123,7 +124,11 @@ public:
         }
     }
 
-    void execute() const override {};
+    void execute() const override
+    {
+        auto gate = Gate::byName(gateName);
+        gate->applyTo(qubitsNames);
+    };
 
     std::string gateName;
     std::vector<std::string> qubitsNames;
@@ -150,14 +155,18 @@ public:
 
 class IncludeStatement : public Statement {
 public:
-    IncludeStatement(const std::string& content) {};
+    IncludeStatement(const std::string& content) :
+        filePath(content.substr(9, content.size()-1)) {};
 
     static bool is(const std::string &content)
     {
-        return content.starts_with("include ");
+        return content.starts_with("include \"");
     }
 
     void execute() const override {};
+
+private:
+    const std::string filePath;
 };
 
 class ForBeginStatement : public Statement {

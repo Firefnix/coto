@@ -1,6 +1,9 @@
-#include <vector>
 #include <qasm/error.h>
 #include <qasm/variables.h>
+
+#include <vector>
+#include <set>
+#include <algorithm>
 
 std::vector<var<int>> intVars;
 std::vector<var<bit>> bitVars;
@@ -27,6 +30,26 @@ bool varExists(const varname &name)
     return varType(name) != NotDefined;
 }
 
+template<typename T>
+std::string to_string(const var<T> variable)
+{
+    return variable.typeName + ": " + std::to_string(variable.value);
+}
+
+std::string varToString(const varname& name)
+{
+    for (const auto& v : intVars) {
+        if (v.name == name) return to_string(v);
+    }
+    for (const auto& v : bitVars) {
+        if (v.name == name) return to_string(v);
+    }
+    for (const auto& v : qubitVars) {
+        if (v.name == name) return to_string(v);
+    }
+    throw VariableError("No such variable: " + name);
+}
+
 qubit newQubit()
 {
     static unsigned counter = 0;
@@ -34,14 +57,23 @@ qubit newQubit()
     return counter-1;
 }
 
+bool isReservedName(const varname& name)
+{
+    static const std::set<std::string> reservedNames{"X", "H", "CX", "S"};
+    return reservedNames.contains(name);
+}
+
 void defineVar(const std::string& typeName, const varname &name, bool isConst)
 {
+    if (isReservedName(name)) {
+        throw VariableError("Trying to define a variable with a reserved name: " + name);
+    }
     if (typeName == "int") {
-        intVars.push_back(var<int>{name, isConst, false});
+        intVars.push_back(var<int>{typeName, name, isConst, false});
     } else if (typeName == "bit") {
-        bitVars.push_back(var<bit>{name, isConst, false});
+        bitVars.push_back(var<bit>{typeName, name, isConst, false});
     } else if (typeName == "qubit") {
-        qubitVars.push_back(var<qubit>{name, true, true, newQubit()});
+        qubitVars.push_back(var<qubit>{typeName, name, true, true, newQubit()});
     } else {
         throw VariableError("Unsupported variable type in definition: '" + typeName + "'");
     }
@@ -78,4 +110,14 @@ void assignVar(const varname& name, const std::string& value)
         default:
             throw VariableError("Trying to assign undefined variable" + name);
     }
+}
+
+qubit getQubit(const varname& name)
+{
+    for (auto v : qubitVars) {
+        if (v.name == name) {
+            return v.value;
+        }
+    }
+    throw VariableError("Qubit not defined: " + name);
 }
