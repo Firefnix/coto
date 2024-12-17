@@ -62,6 +62,11 @@ add_library(qasm STATIC ${QasmSources})
 add_executable(qasm_test test/qasm/qasm_test.cpp)
 target_link_libraries(qasm_test qasm GTest::gtest_main)
 
+# Command-line prompt
+add_executable(prompt)
+target_sources(prompt PUBLIC src/prompt.cpp)
+target_link_libraries(prompt qasm)
+
 include(GoogleTest)
 gtest_discover_tests(amplitude_test)
 gtest_discover_tests(absi_test)
