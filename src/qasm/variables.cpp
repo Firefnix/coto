@@ -5,9 +5,9 @@
 #include <set>
 #include <algorithm>
 
-std::vector<var<int>> intVars;
-std::vector<var<bit>> bitVars;
-std::vector<var<qubit>> qubitVars;
+static std::vector<var<int>> intVars;
+static std::vector<var<bit>> bitVars;
+static std::vector<var<qubit>> qubitVars;
 
 enum vartype {IntVar, BitVar, QubitVar, NotDefined};
 
@@ -80,9 +80,9 @@ void defineVar(const std::string& typeName, const varname &name, bool isConst)
 }
 
 template<typename T>
-void setValue(const varname& name, std::vector<var<T>> vars, const T& value)
+void setValue(const varname& name, std::vector<var<T>>* vars, const T& value)
 {
-    for (auto& v : vars)
+    for (auto& v : *vars)
     {
         if (v.name == name)
         {
@@ -100,10 +100,10 @@ void assignVar(const varname& name, const std::string& value)
     switch (varType(name))
     {
         case IntVar:
-            setValue(name, intVars, std::stoi(value));
+            setValue(name, &intVars, std::stoi(value));
             break;
         case BitVar:
-            setValue(name, bitVars, std::stoi(value) != 0);
+            setValue(name, &bitVars, std::stoi(value) != 0);
             break;
         case QubitVar:
             throw VariableError("Trying to assign to qubit " + name);

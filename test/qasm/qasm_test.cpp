@@ -23,10 +23,10 @@ TEST(QasmTest, assignment)
     EXPECT_THROW(exec("3a=2;"), SyntaxError);
 
     exec("int n=2;");
-    EXPECT_NO_THROW(eval("n"));
+    EXPECT_EQ(eval("n"), "int: 2");
 
     exec("bit a=1;");
-    EXPECT_NO_THROW(eval("a"));
+    EXPECT_EQ(eval("a"), "bit: 1");
 
     EXPECT_THROW(exec("qubit q=0;"), VariableError);
 }
