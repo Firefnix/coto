@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include <diagram.h>
+#include <amplitude.h>
 
 class DiagramTest : public testing::Test
 {
@@ -8,6 +9,20 @@ public:
     Diagram<1> *eig0 = new Diagram<1>();
     Diagram<2> *dgm = new Diagram<2>();
 };
+
+TEST_F(DiagramTest, testStateVector)
+{
+    for (auto i = 0; i < 100; i++) {
+        ampl::State<4> state;
+        ampl::randomizeState(state);
+        auto diagram = Diagram<2>::fromStateVector(state);
+        auto evaluatedState = diagram->evaluate();
+        for (auto i = 0; i < state.size(); i++) {
+            EXPECT_EQ(evaluatedState[i], Interval::singleton(state[i]))
+                << "Failed at index " << i << " against " << evaluatedState[i].to_string();
+        }
+    }
+}
 
 TEST_F(DiagramTest, testEvaluate)
 {
@@ -124,3 +139,23 @@ TEST_F(DiagramTest, testEnclosure)
     }
 }
 
+/* TEST_F(DiagramTest, testEnclosureUpdate)
+{
+    const auto n = 2;
+    auto c = Diagram<n-1>::randomPointer();
+    auto d = Diagram<n>::randomPointer();
+    auto rho = d->enclosure();
+
+    // This necessarily adds uncertainty.
+    d->lefto(c);
+    d->righto(c);
+
+    auto v = d->evaluate();
+    auto real_rho = v[0];
+    for (auto i = 1; i < pwrtwo(n); i++) {
+        real_rho = real_rho | v[i];
+    }
+    auto new_rho = d->enclosure();
+    // EXPECT_FALSE(true);
+    EXPECT_EQ(new_rho, real_rho) << new_rho.to_string() << " != " << real_rho.to_string();
+} */

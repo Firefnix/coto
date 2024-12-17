@@ -16,6 +16,40 @@ Diagram<height>::Diagram()
 }
 
 template <size_t height>
+Diagram<height>* Diagram<height>::fromStateVector(const std::span<ampl::Amplitude, pwrtwo(height)> state)
+{
+    auto leftSpan = std::span<ampl::Amplitude, pwrtwo(height-1)>(state.begin(), state.begin()+pwrtwo(height-1));
+    auto rightSpan = std::span<ampl::Amplitude, pwrtwo(height-1)>(state.begin()+pwrtwo(height-1), state.end());
+    auto left = Diagram<height-1>::fromStateVector(leftSpan);
+    auto right = Diagram<height-1>::fromStateVector(rightSpan);
+    auto r = new Diagram<height>();
+    r->lefto(left);
+    r->righto(right);
+    return r;
+}
+
+template <>
+Diagram<0>* Diagram<0>::fromStateVector(const std::span<ampl::Amplitude, pwrtwo(0)> state)
+{
+    auto d = new Diagram<0>();
+    return d;
+}
+
+template <>
+Diagram<1>* Diagram<1>::fromStateVector(const std::span<ampl::Amplitude, pwrtwo(1)> state)
+{
+    auto r = new Diagram<1>();
+    auto unity = new Diagram<0>();
+    if (state[0] != ampl::zero) {
+        r->lefto(unity, Interval::singleton(state[0]));
+    }
+    if (state[1] != ampl::zero) {
+        r->righto(unity, Interval::singleton(state[1]));
+    }
+    return r;
+}
+
+template <size_t height>
 std::array<absi::Interval, pwrtwo(height)> Diagram<height>::evaluate()
 {
     const size_t N = pwrtwo(height);
@@ -70,16 +104,20 @@ template <size_t height>
 void Diagram<height>::lefto(Diagram<height - 1> *d, absi::Interval x)
 {
     left.push_back(branch<height - 1>{.x = x, .d = d});
+    isUpToDate = false;
+    d->parents.push_back(this);
 }
 
 template <size_t height>
 void Diagram<height>::righto(Diagram<height - 1> *d, absi::Interval x)
 {
     right.push_back(branch<height - 1>{.x = x, .d = d});
+    isUpToDate = false;
+    d->parents.push_back(this);
 }
 
 template <size_t height>
-constexpr size_t Diagram<height>::size()
+constexpr size_t Diagram<height>::size() const
 {
     return pwrtwo(height);
 }
@@ -162,6 +200,26 @@ static std::vector<T> mergeVectorsWithoutDuplicates(std::vector<T> a, std::vecto
     return result;
 }
 
+template <size_t height>
+absi::Interval Diagram<height>::enclosure()
+{
+    if (!isUpToDate) {
+        cachedEnclosure = calculateEnclosure(*this);
+        markParentsAsToBeUpdated();
+        isUpToDate = true;
+    }
+    return cachedEnclosure;
+}
+
+template<size_t height>
+void Diagram<height>::markParentsAsToBeUpdated()
+{
+    // for (auto i : parents) {
+    //     i->isUpToDate = false;
+    //     i->markParentsAsToBeUpdated();
+    // }
+}
+
 template<>
 Diagram<0>::~Diagram() = default;
 
@@ -174,16 +232,16 @@ Diagram<height>::~Diagram()
     for (branch<height - 1> b : right) {
         delete b.d;
     }
-};
+}
 
 template<>
-absi::Interval enclosure(Diagram<0>& d)
+absi::Interval calculateEnclosure(Diagram<0>& d)
 {
     return absi::one;
 }
 
 template<size_t height>
-absi::Interval enclosure(Diagram<height>& d)
+absi::Interval calculateEnclosure(Diagram<height>& d)
 {
     absi::Interval l = enclosure_side(Side::left, d);
     absi::Interval r = enclosure_side(Side::right, d);
@@ -196,7 +254,7 @@ static absi::Interval enclosure_side(Side s, Diagram<height>& d)
     absi::Interval rho = absi::zero;
     for (branch<height-1> b : d.childrenOfSide(s)) {
         absi::Interval i = b.x;
-        auto j = enclosure(*b.d);
+        auto j = b.d->enclosure();
         auto p = i * j;
         rho = rho + p;
     }

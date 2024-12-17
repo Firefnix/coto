@@ -1,8 +1,7 @@
-#ifndef DIAGRAM_H
-#define DIAGRAM_H 1
-
+#pragma once
 #include <memory>
 #include <vector>
+#include <span>
 
 #include <absi.h>
 
@@ -40,6 +39,8 @@ public:
     /// @brief Create an empty diagram with no children
     Diagram();
 
+    static Diagram<height>* fromStateVector(const std::span<ampl::Amplitude, pwrtwo(height)> state);
+
     /// @brief Create a random diagram
     /// Creates a random diagram. The values on the branches always have a
     /// modulus less than 1. This function is not deterministic. The distributions
@@ -72,7 +73,7 @@ public:
 
     /// @brief The number of intervals contained in the evaluation
     /// @return 2 ^ @ref{height}
-    constexpr size_t size();
+    constexpr size_t size() const;
 
     /// @brief The number of nodes at a given height
     size_t countNodesAtHeight(size_t h);
@@ -117,5 +118,3 @@ Interval calculateEnclosure(Diagram<height>& d);
 #include <../src/diagram.cpp>
 
 #include <../src/random-diagram.cpp>
-
-#endif

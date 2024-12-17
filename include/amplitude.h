@@ -29,8 +29,13 @@ namespace ampl
      *
      * Randomizes an already-allocated state (cheaper than returning by value)
      */
-    template<size_t size>
-    void randomizeState(ampl::State<size>& state);
+    template<std::size_t size>
+    void randomizeState(State<size>& state)
+    {
+        for (auto i = 0; i < size; i++) {
+            state.at(i) = random();
+        }
+    }
 
     /// @brief String representation of the Amplitude
     std::string to_string(const ampl::Amplitude a);
