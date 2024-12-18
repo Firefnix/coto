@@ -1,9 +1,8 @@
 /**
+ * @file selection.h
  * @brief Contains functions and classes related to selection operations on mergees in diagrams.
  */
-#ifndef SELECTION_H_
-#define SELECTION_H_ 1
-
+#pragma once
 #include <diagram.h>
 
 namespace selection {
@@ -32,7 +31,7 @@ namespace selection {
 
     /**
      * @brief Get the mergees at a certain height in a Diagram.
-     * 
+     *
      * @tparam height The height of the Diagram.
      * @tparam h The height at which to get the mergees.
      * @param d The Diagram.
@@ -47,5 +46,3 @@ namespace selection {
 };
 
 #include <../src/selection.cpp>
-
-#endif

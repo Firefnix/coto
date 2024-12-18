@@ -1,3 +1,7 @@
+/**
+ * @file read.h
+ * @brief Read a QASM file and extract the statements
+ */
 #pragma once
 #include <string>
 #include <vector>

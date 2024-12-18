@@ -1,3 +1,7 @@
+/**
+ * @file variables.h
+ * @brief Handling QASM variables
+ */
 #pragma once
 #include <string>
 #include <set>

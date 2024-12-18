@@ -1,3 +1,7 @@
+/**
+ * @file qasm.h
+ * @brief General header for the QASM library
+ */
 #pragma once
 #include <istream>
 

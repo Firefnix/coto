@@ -1,3 +1,7 @@
+/**
+ * @file diagram.h
+ * @brief Abstract-interpreted additive diagrams
+ */
 #pragma once
 #include <memory>
 #include <vector>

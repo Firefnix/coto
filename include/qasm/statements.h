@@ -1,3 +1,7 @@
+/**
+ * @file statements.h
+ * @brief Parsing statements from QASM strings
+ */
 #pragma once
 #include <string>
 #include <vector>
