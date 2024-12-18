@@ -8,18 +8,21 @@ typedef bool bit;
 
 typedef unsigned qubit;
 
+/**
+ * @brief A template structure representing a variable.
+ *
+ * @tparam T The type of the variable's value.
+ */
 template <class T>
 struct var {
-    varname typeName;
-    varname name;
-    bool isConst;
-    bool isAssignedTo;
-    T value;
+    varname typeName;      /**< The name of the variable's type. */
+    varname name;          /**< The name of the variable. */
+    bool isConst;          /**< Indicates if the variable is constant. */
+    bool isAssignedTo;     /**< Indicates if the variable has been assigned a value. */
+    T value;               /**< The value of the variable. */
 };
 
-bool isReservedName(const varname& name);
-
-bool varExists(const varname &name);
+bool isReservedName(const varname& name) noexcept;
 
 std::string varToString(const varname& name);
 

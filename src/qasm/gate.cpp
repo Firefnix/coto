@@ -6,7 +6,7 @@ Gate::Gate(const std::string &tag, const std::size_t size)
 {
 }
 
-std::string Gate::toString() const
+std::string Gate::toString() const noexcept
 {
     if (tag.has_value()) {
         return "gate: " + tag.value() + "[" + std::to_string(size()) + "]";
@@ -56,7 +56,7 @@ std::string gateToString(const std::string &name)
     throw VariableError("Undefined gate: " + name);
 }
 
-std::size_t Gate::size() const
+std::size_t Gate::size() const noexcept
 {
     return gateSize;
 }

@@ -54,25 +54,25 @@ public:
     /// @brief Populate the diagram with random values
     void populate(size_t totalHeight = 0);
 
-    /// @brief Children of side \ref{s}
+    /// @brief Children of side @p s
     std::vector<branch<height - 1>> childrenOfSide(Side s);
 
     /// @brief Evaluate the diagram
     /// @return A mathematical vector (here an array) of 2^n intervals
     std::array<Interval, pwrtwo(height)> evaluate();
 
-    /// @brief Add @ref{d} to be a left child with amplitude @ref{x}
+    /// @brief Add @p d to be a left child with amplitude @p x
     /// @param d The child
     /// @param x The amplitude
     void lefto(Diagram<height - 1> *d, Interval x = absi::one);
 
-    /// @brief Add @ref{d} to be a right child with amplitude @ref{x}
+    /// @brief Add @p d to be a right child with amplitude @p x
     /// @param d The child
     /// @param x The amplitude
     void righto(Diagram<height - 1> *d, Interval x = absi::one);
 
     /// @brief The number of intervals contained in the evaluation
-    /// @return 2 ^ @ref{height}
+    /// @return 2 ^ @p height
     constexpr size_t size() const;
 
     /// @brief The number of nodes at a given height
@@ -82,7 +82,7 @@ public:
     template <size_t h>
     std::vector<Diagram<h>*> getNodePointersAtHeight();
 
-    /// @brief Replace nodes @ref{f1} and @ref{f2} by @ref{r} at a given height
+    /// @brief Replace nodes @p f1 and @p f2 by @p r at a given height
     template <size_t h>
     void replaceNodesAtHeight(Diagram<h> *f1, Diagram<h> *f2, Diagram<h> *r);
 

@@ -25,11 +25,6 @@ vartype varType(const varname& name)
     return NotDefined;
 }
 
-bool varExists(const varname &name)
-{
-    return varType(name) != NotDefined;
-}
-
 template<typename T>
 std::string to_string(const var<T> variable)
 {
@@ -57,7 +52,7 @@ qubit newQubit()
     return counter-1;
 }
 
-bool isReservedName(const varname& name)
+bool isReservedName(const varname& name) noexcept
 {
     static const std::set<std::string> reservedNames{"X", "H", "CX", "S"};
     return reservedNames.contains(name);
