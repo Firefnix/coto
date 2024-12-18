@@ -16,6 +16,11 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
+    - name: Setup Ninja
+      uses: ashutoshvarma/setup-ninja@master
+      with:
+        version: 1.12.1
+
     - name: Configure CMake
       run: cmake -S $GITHUB_WORKSPACE -B ${{runner.workspace}}/build -GNinja
 
