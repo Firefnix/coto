@@ -17,7 +17,7 @@ jobs:
     - uses: actions/checkout@v4
 
     - name: Configure CMake
-      run: cmake -S $GITHUB_WORKSPACE -B ${{runner.workspace}}/build
+      run: cmake -S $GITHUB_WORKSPACE -B ${{runner.workspace}}/build -GNinja
 
     - name: Build
       working-directory: ${{runner.workspace}}
