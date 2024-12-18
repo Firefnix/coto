@@ -13,10 +13,6 @@ SyntaxError::SyntaxError(const std::string &message) : ParsingError(message)
 {
 }
 
-UnsupportedError::UnsupportedError(const std::string &message) : ParsingError(message)
-{
-}
-
 VersionError::VersionError(const std::string &message) : ParsingError(message)
 {
 }
