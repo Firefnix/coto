@@ -1,4 +1,5 @@
 #pragma once
+#include <array>
 #include <complex>
 #define pow2(n) (1 << n)
 
