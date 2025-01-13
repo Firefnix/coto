@@ -22,7 +22,12 @@ namespace reduction
      * @return Nothing, the reduction is performed in-place.
      */
     template <std::size_t height>
-    void maxNodesLevel(Diagram<height> d, std::array<size_t, height> maxNodes, selection::MergeesChoiceStrategy strategy);
+    void maxNodesLevel(Diagram d, std::array<size_t, height> maxNodes, selection::MergeesChoiceStrategy strategy);
+
+    /**
+     * @brief
+     */
+    ampl::Amplitude getAmpliude(Diagram &d, Diagram &possible_child);
 
     /**
      * @brief Forces the merge of two diagrams.
@@ -33,7 +38,6 @@ namespace reduction
      * @param b The second diagram to be merged.
      * @return The merged diagram.
      */
-    template <size_t height>
-    Diagram<height> forceMerge(Diagram<height> &a, Diagram<height> &b);
+    Diagram forceMerge(Diagram &a, Diagram &b);
 
 };
