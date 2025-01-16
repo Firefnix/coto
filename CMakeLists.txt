@@ -35,28 +35,29 @@ set(sources
 add_library(powarray src/powarray.cpp src/absi/polar.cpp src/absi/cartesian.cpp)
 
 # Amplitude test
-add_library(amplitude STATIC src/amplitude.cpp)
+add_library(amplitude src/amplitude.cpp)
 add_executable(amplitude_test test/amplitude_test.cpp)
-target_link_libraries(amplitude_test amplitude GTest::gtest_main)
+target_link_libraries(amplitude_test cartesian polar amplitude powarray GTest::gtest_main)
 
 # ABStract Interpretation (ABSI) tests
 # Encompasses cartesian intervals test and polar intervals tests
-add_library(cartesian STATIC src/absi/cartesian.cpp)
-add_library(polar STATIC src/absi/polar.cpp)
+add_library(cartesian src/absi/cartesian.cpp)
+add_library(polar src/absi/polar.cpp)
 add_executable(absi_test test/absi_test.cpp)
-target_link_libraries(absi_test ${absi_libs} GTest::gtest_main)
+target_link_libraries(absi_test ${absi_libs} powarray GTest::gtest_main)
 
 # Diagram test
-add_executable(diagram_test ${absi_files} test/diagram_test.cpp include/diagram.h)
-target_link_libraries(diagram_test ${absi_libs} GTest::gtest_main)
+add_library(diagram STATIC src/diagram.cpp src/random-diagram.cpp ${absi_files} src/amplitude.cpp)
+add_executable(diagram_test test/diagram_test.cpp)
+target_link_libraries(diagram_test powarray ${absi_libs} diagram GTest::gtest_main)
 
 # Selection test
-add_library(selection STATIC include/selection.h ${absi_files} src/amplitude.cpp include/diagram.h)
+add_library(selection STATIC src/selection.cpp src/diagram.cpp ${absi_files} src/amplitude.cpp src/powarray.cpp)
 add_executable(selection_test test/selection_test.cpp)
 target_link_libraries(selection_test ${absi_libs} selection GTest::gtest_main)
 
 # Reduction test
-add_library(reduction STATIC src/reduction.cpp include/diagram.h ${absi_files} src/amplitude.cpp)
+add_library(reduction STATIC src/reduction.cpp src/diagram.cpp ${absi_files} src/amplitude.cpp)
 
 # QASM library
 FILE(GLOB QasmSources src/qasm/*.cpp)
@@ -73,5 +74,5 @@ include(GoogleTest)
 gtest_discover_tests(amplitude_test)
 gtest_discover_tests(absi_test)
 gtest_discover_tests(diagram_test)
-# gtest_discover_tests(selection_test)
+gtest_discover_tests(selection_test)
 gtest_discover_tests(qasm_test)
