@@ -63,12 +63,12 @@ add_library(reduction STATIC src/reduction.cpp src/diagram.cpp ${absi_files} src
 FILE(GLOB QasmSources src/qasm/*.cpp)
 add_library(qasm STATIC ${QasmSources} src/diagram.cpp ${absi_files} src/amplitude.cpp src/powarray.cpp src/gateappliers.cpp)
 add_executable(qasm_test test/qasm/qasm_test.cpp)
-target_link_libraries(qasm_test qasm GTest::gtest_main)
+target_link_libraries(qasm_test powarray ${absi_libs} diagram qasm GTest::gtest_main)
 
 # Command-line prompt
 add_executable(prompt)
 target_sources(prompt PUBLIC src/prompt.cpp)
-target_link_libraries(prompt qasm)
+target_link_libraries(prompt powarray ${absi_libs} diagram qasm)
 
 include(GoogleTest)
 gtest_discover_tests(amplitude_test)
