@@ -61,7 +61,7 @@ add_library(reduction STATIC src/reduction.cpp src/diagram.cpp ${absi_files} src
 
 # QASM library
 FILE(GLOB QasmSources src/qasm/*.cpp)
-add_library(qasm STATIC ${QasmSources})
+add_library(qasm STATIC ${QasmSources} src/diagram.cpp ${absi_files} src/amplitude.cpp src/powarray.cpp src/gateappliers.cpp)
 add_executable(qasm_test test/qasm/qasm_test.cpp)
 target_link_libraries(qasm_test qasm GTest::gtest_main)
 
