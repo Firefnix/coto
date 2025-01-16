@@ -53,5 +53,8 @@ TEST(QasmTest, qubits)
 
 TEST(QasmTest, commonGates)
 {
+    EXPECT_EQ(eval("X"), "gate: X[1]");
     EXPECT_EQ(eval("H"), "gate: H[1]");
+    EXPECT_EQ(eval("CX"), "gate: CX[2]");
+    EXPECT_EQ(eval("S"), "gate: S[2]");
 }
