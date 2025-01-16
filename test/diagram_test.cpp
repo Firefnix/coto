@@ -40,6 +40,16 @@ TEST_F(DiagramTest, testEvaluate)
     EXPECT_EQ(absi::zero, c);
 }
 
+TEST_F(DiagramTest, testEig0)
+{
+    auto d = Diagram::eig0(3);
+    auto vec = d->evaluate();
+    for (auto i = 0; i < vec.size(); i++)
+    {
+        EXPECT_EQ(i == 0 ? absi::one : absi::zero, vec[i]);
+    }
+}
+
 TEST_F(DiagramTest, testConstruction)
 {
     auto two = absi::Interval::real(2.);

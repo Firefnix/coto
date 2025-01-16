@@ -16,6 +16,16 @@ Diagram::Diagram(const size_t height) : height(height)
 {
 }
 
+Diagram *Diagram::eig0(const size_t height)
+{
+    auto d = new Diagram(height);
+    if (height != 0)
+    {
+        d->lefto(Diagram::eig0(height - 1));
+    }
+    return d;
+}
+
 Diagram *Diagram::fromStateVector(const ampl::ConcreteState &state)
 {
     if (state.height() == 0)
