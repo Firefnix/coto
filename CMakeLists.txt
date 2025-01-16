@@ -31,6 +31,8 @@ set(sources
     ${test_files}
     )
 
+# PowArray library
+add_library(powarray src/powarray.cpp src/absi/polar.cpp src/absi/cartesian.cpp)
 
 # Amplitude test
 add_library(amplitude STATIC src/amplitude.cpp)
