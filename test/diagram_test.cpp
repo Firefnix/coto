@@ -7,21 +7,20 @@ class DiagramTest : public testing::Test
 public:
     Diagram *leaf = new Diagram(0);
     Diagram *eig0 = new Diagram(1);
+    Diagram *eig1 = new Diagram(1);
     Diagram *dgm = new Diagram(2);
 };
 
 TEST_F(DiagramTest, testStateVector)
 {
-    for (auto i = 0; i < 100; i++) {
+    for (auto i = 0; i < 100; i++)
+    {
         ampl::ConcreteState state(2);
-        std::cout << "Created ConcreteState" << std::endl;
         ampl::randomizeState(state);
-        std::cout << "Randomized ConcreteState" << std::endl;
         auto diagram = Diagram::fromStateVector(state);
-        std::cout << "Created Diagram" << std::endl;
         auto evaluatedState = diagram->evaluate();
-        std::cout << "Evaluated Diagram" << std::endl;
-        for (auto i = 0; i < state.size(); i++) {
+        for (auto i = 0; i < state.size(); i++)
+        {
             EXPECT_EQ(evaluatedState[i], Interval::singleton(state[i]))
                 << "Failed at index " << i << " against " << evaluatedState[i].to_string();
         }
@@ -96,7 +95,7 @@ TEST_F(DiagramTest, testRandomAssertVariability)
 {
     const auto n = 100;
     size_t counts[n][5];
-    bool isNotDuplicate[n] {};
+    bool isNotDuplicate[n];
     for (auto i = 0; i < n; i++)
     {
         auto d = Diagram::random(5);
@@ -124,7 +123,6 @@ TEST_F(DiagramTest, testRandomAssertVariability)
     {
         EXPECT_TRUE(true);
     }
-
 }
 
 TEST_F(DiagramTest, testRandomAssertBoundaries)
@@ -144,12 +142,14 @@ TEST_F(DiagramTest, testRandomAssertBoundaries)
 TEST_F(DiagramTest, testEnclosure)
 {
     const auto n = 3;
-    for (auto i = 0; i < 1000; i++) {
+    for (auto i = 0; i < 1000; i++)
+    {
         auto d = Diagram::random(n);
         auto v = d.evaluate();
 
         auto real_rho = v[0];
-        for (auto i = 1; i < pwrtwo(n); i++) {
+        for (auto i = 1; i < pwrtwo(n); i++)
+        {
             real_rho = real_rho | v[i];
         }
 
@@ -162,8 +162,8 @@ TEST_F(DiagramTest, testEnclosure)
 /* TEST_F(DiagramTest, testEnclosureUpdate)
 {
     const auto n = 2;
-    auto c = Diagram<n-1>::randomPointer();
-    auto d = Diagram<n>::randomPointer();
+    auto c = Diagram::randomPointer(n-1);
+    auto d = Diagram::randomPointer(n);
     auto rho = d->enclosure();
 
     // This necessarily adds uncertainty.
