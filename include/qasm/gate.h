@@ -6,7 +6,6 @@
 #include <qasm/variables.h>
 
 #include <vector>
-#include <optional>
 
 /// @brief A quantum gate
 class Gate {

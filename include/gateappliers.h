@@ -1,3 +1,8 @@
+/**
+ * @file gateappliers.h
+ * @brief Contains functions to apply quantum gates to a diagram
+ */
+
 #include <diagram.h>
 #include <qasm/variables.h>
 

@@ -3,12 +3,9 @@
  * @brief Abstract-interpreted additive diagrams
  */
 #pragma once
-#include <memory>
 #include <vector>
-#include <span>
-
 #include <absi.h>
-#include "amplitude.h"
+#include <amplitude.h>
 
 #define pwrtwo(x) (1 << (x))
 
@@ -52,6 +49,8 @@ public:
     Diagram(const size_t height);
 
     static Diagram *fromStateVector(const ampl::ConcreteState& state);
+
+    static Diagram * eig0(const size_t height);
 
     /// @brief Create a random diagram
     /// Creates a random diagram. The values on the branches always have a
