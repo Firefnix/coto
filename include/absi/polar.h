@@ -1,6 +1,4 @@
-#ifndef POLAR_H
-#define POLAR_H 1
-
+#pragma once
 #include <math.h>
 #include <amplitude.h>
 
@@ -106,4 +104,3 @@ namespace polar
 
     inline Interval one = Interval::real(1.);
 }
-#endif

@@ -2,9 +2,7 @@
  * ABStract Interpretation (AbsI)
  */
 
-#ifndef ABSI_H_
-#define ABSI_H_ 1
-
+#pragma once
 #include <amplitude.h>
 #include <tuple>
 
@@ -100,5 +98,3 @@ namespace cartesian
     inline cartesian::Interval zero = Interval::singleton(ampl::zero);
     inline cartesian::Interval one = Interval::singleton(ampl::one);
 }
-
-#endif
