@@ -21,10 +21,10 @@ public:
 
     std::string toString() const noexcept;
 
+    const std::string name;
 private:
-    Gate(const std::string& tag, const std::size_t size);
+    Gate(const std::string& name, const std::size_t size);
     const std::size_t gateSize;
-    const std::optional<std::string> tag;
 };
 
 std::string gateToString(const std::string& name);

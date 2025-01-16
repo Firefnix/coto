@@ -1,18 +1,15 @@
 #include <qasm/gate.h>
 #include <qasm/error.h>
+#include <qasm/context.h>
 
-Gate::Gate(const std::string &tag, const std::size_t size)
-    : gateSize(size), tag(tag)
+Gate::Gate(const std::string &name, const std::size_t size)
+    : gateSize(size), name(name)
 {
 }
 
 std::string Gate::toString() const noexcept
 {
-    if (tag.has_value())
-    {
-        return "gate: " + tag.value() + "[" + std::to_string(size()) + "]";
-    }
-    return "gate: (anonymous)[" + std::to_string(size()) + "]";
+    return "gate: " + name + "[" + std::to_string(size()) + "]";
 }
 
 bool Gate::exists(const std::string &gateName)
@@ -61,6 +58,7 @@ void Gate::applyTo(const std::vector<qubit> &qubits) const
     {
         throw SizeError("Trying to apply a gate of size " + std::to_string(size()) + " to " + std::to_string(qubits.size()) + " qubits");
     }
+    applyGate(this, qubits);
 }
 
 std::string gateToString(const std::string &name)
