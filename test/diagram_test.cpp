@@ -66,6 +66,22 @@ TEST_F(DiagramTest, testAdditiveness)
     EXPECT_EQ(absi::zero, vec[1]);
 }
 
+TEST_F(DiagramTest, testNodePointersAtHeight)
+{
+    eig0->lefto(leaf);
+    eig1->righto(leaf);
+    dgm->lefto(eig0);
+    dgm->righto(eig1);
+    auto vec = dgm->getNodePointersAtHeight(1);
+    EXPECT_EQ(2, vec.size());
+    if (vec[0] != eig0)
+    {
+        std::swap(vec[0], vec[1]);
+    }
+    EXPECT_EQ(eig0, vec[0]);
+    EXPECT_EQ(eig1, vec[1]);
+}
+
 TEST_F(DiagramTest, testRandomIsNormLowerThanOne)
 {
     auto d = Diagram::random(2);
