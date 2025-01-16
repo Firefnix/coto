@@ -26,12 +26,13 @@ TEST(AmplitudeTest, random)
 
 TEST(AmplitudeTest, randomizeState)
 {
-    ampl::State<1 << 6> state;
-    EXPECT_EQ(state.at(0), state.at(1));
+    ampl::ConcreteState state(6);
+    EXPECT_EQ(state.size(), 1 << 6);
+    EXPECT_EQ(state[0], state[1]);
     EXPECT_NO_THROW(ampl::randomizeState(state));
-    for (auto i = 0; i < (1 << 6); i++) {
+    for (auto i = 0; i < state.size(); i++) {
         for (auto j = 0; j < i; j++) {
-            EXPECT_NE(state.at(i), state.at(j));
+            EXPECT_NE(state[i], state[j]);
         }
     }
 }

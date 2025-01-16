@@ -5,18 +5,22 @@
 class DiagramTest : public testing::Test
 {
 public:
-    Diagram<0> *leaf = new Diagram<0>();
-    Diagram<1> *eig0 = new Diagram<1>();
-    Diagram<2> *dgm = new Diagram<2>();
+    Diagram *leaf = new Diagram(0);
+    Diagram *eig0 = new Diagram(1);
+    Diagram *dgm = new Diagram(2);
 };
 
 TEST_F(DiagramTest, testStateVector)
 {
     for (auto i = 0; i < 100; i++) {
-        ampl::State<4> state;
+        ampl::ConcreteState state(2);
+        std::cout << "Created ConcreteState" << std::endl;
         ampl::randomizeState(state);
-        auto diagram = Diagram<2>::fromStateVector(state);
+        std::cout << "Randomized ConcreteState" << std::endl;
+        auto diagram = Diagram::fromStateVector(state);
+        std::cout << "Created Diagram" << std::endl;
         auto evaluatedState = diagram->evaluate();
+        std::cout << "Evaluated Diagram" << std::endl;
         for (auto i = 0; i < state.size(); i++) {
             EXPECT_EQ(evaluatedState[i], Interval::singleton(state[i]))
                 << "Failed at index " << i << " against " << evaluatedState[i].to_string();
@@ -64,7 +68,7 @@ TEST_F(DiagramTest, testAdditiveness)
 
 TEST_F(DiagramTest, testRandomIsNormLowerThanOne)
 {
-    auto d = Diagram<2>::random();
+    auto d = Diagram::random(2);
     auto vec = d.evaluate();
     for (auto i : vec)
     {
@@ -79,7 +83,7 @@ TEST_F(DiagramTest, testRandomAssertVariability)
     bool isNotDuplicate[n] {};
     for (auto i = 0; i < n; i++)
     {
-        auto d = Diagram<5>::random();
+        auto d = Diagram::random(5);
         for (auto j = 0; j < 5; j++)
         {
             counts[i][j] = d.countNodesAtHeight(j);
@@ -112,7 +116,7 @@ TEST_F(DiagramTest, testRandomAssertBoundaries)
     const auto n = 100;
     for (auto j = 0; j < n; j++)
     {
-        auto d = Diagram<5>::random();
+        auto d = Diagram::random(5);
         for (auto i = 0; i < 5; i++)
         {
             EXPECT_GT(d.countNodesAtHeight(i), 0);
@@ -125,7 +129,7 @@ TEST_F(DiagramTest, testEnclosure)
 {
     const auto n = 3;
     for (auto i = 0; i < 1000; i++) {
-        auto d = Diagram<n>::random();
+        auto d = Diagram::random(n);
         auto v = d.evaluate();
 
         auto real_rho = v[0];

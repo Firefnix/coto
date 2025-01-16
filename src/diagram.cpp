@@ -1,8 +1,11 @@
 #include <array>
 #include "diagram.h"
 #include <iostream>
+#include <algorithm>
 
 using std::size_t;
+
+static Diagram *newHeight1Diagram(const ampl::ConcreteState &state);
 
 template <typename T>
 static std::vector<T> mergeVectorsWithoutDuplicates(std::vector<T> a, std::vector<T> b);
@@ -13,28 +16,25 @@ Diagram::Diagram(const size_t height) : height(height)
 {
 }
 
-template <size_t h>
-Diagram *Diagram::fromStateVector(const std::span<ampl::Amplitude, pwrtwo(h)> state)
+Diagram *Diagram::fromStateVector(const ampl::ConcreteState &state)
 {
-    auto leftSpan = std::span<ampl::Amplitude, pwrtwo(h - 1)>(state.begin(), state.begin() + pwrtwo(h - 1));
-    auto rightSpan = std::span<ampl::Amplitude, pwrtwo(h - 1)>(state.begin() + pwrtwo(h - 1), state.end());
-    auto left = Diagram::fromStateVector<h - 1>(leftSpan);
-    auto right = Diagram::fromStateVector<h - 1>(rightSpan);
-    auto r = new Diagram(h);
+    if (state.height() == 0)
+    {
+        return new Diagram(0);
+    }
+    if (state.height() == 1)
+    {
+        return newHeight1Diagram(state);
+    }
+    auto left = Diagram::fromStateVector(state.firstHalf());
+    auto right = Diagram::fromStateVector(state.secondHalf());
+    auto r = new Diagram(state.height());
     r->lefto(left);
     r->righto(right);
     return r;
 }
 
-template <>
-Diagram *Diagram::fromStateVector<0>(const std::span<ampl::Amplitude, pwrtwo(0)> state)
-{
-    auto d = new Diagram(0);
-    return d;
-}
-
-template <>
-Diagram *Diagram::fromStateVector<1>(const std::span<ampl::Amplitude, pwrtwo(1)> state)
+Diagram *newHeight1Diagram(const ampl::ConcreteState &state)
 {
     auto r = new Diagram(1);
     auto unity = new Diagram(0);
@@ -49,13 +49,18 @@ Diagram *Diagram::fromStateVector<1>(const std::span<ampl::Amplitude, pwrtwo(1)>
     return r;
 }
 
-template <size_t h>
-std::array<absi::Interval, pwrtwo(h)> Diagram::evaluate()
+Evaluation Diagram::evaluate()
 {
-    const size_t N = pwrtwo(h);
-    std::array<absi::Interval, N> arr;
-    std::array<absi::Interval, N / 2> left_array, right_array, tmp;
-    for (size_t i = 0; i < N / 2; i++)
+    if (height == 0)
+    {
+        auto ev = Evaluation(0);
+        ev[0] = Interval::singleton(ampl::one);
+        return ev;
+    }
+    Evaluation arr(height); // to be returned
+    // used for temporary storage
+    Evaluation left_array(height - 1), right_array(height - 1), tmp(height - 1);
+    for (size_t i = 0; i < tmp.size(); i++)
     {
         left_array[i] = absi::zero;
         right_array[i] = absi::zero;
@@ -63,40 +68,30 @@ std::array<absi::Interval, pwrtwo(h)> Diagram::evaluate()
     }
     for (struct branch l : left)
     {
-        tmp = l.d->evaluate<h - 1>();
-        for (size_t i = 0; i < N / 2; i++)
+        tmp = l.d->evaluate();
+        for (size_t i = 0; i < left_array.size(); i++)
         {
             left_array[i] = l.x * tmp[i] + left_array[i];
         }
     }
     for (struct branch r : right)
     {
-        tmp = r.d->evaluate<h - 1>();
-        for (size_t i = 0; i < N / 2; i++)
+        tmp = r.d->evaluate();
+        for (size_t i = 0; i < left_array.size(); i++)
         {
             right_array[i] = r.x * tmp[i] + right_array[i];
         }
     }
-    for (size_t i = 0; i < N; i++)
+    for (size_t i = 0; i < arr.size(); i++)
     {
-        arr[i] = i < N / 2 ? left_array[i] : right_array[i - N / 2];
+        arr[i] = i < left_array.size() ? left_array[i] : right_array[i - left_array.size()];
     }
     return arr;
 }
 
-template <>
-std::array<absi::Interval, 1> Diagram::evaluate<0>()
+std::vector<branch> Diagram::childrenOfSide(Side s) const
 {
-    return std::array<absi::Interval, 1>{absi::one};
-}
-
-std::vector<branch> Diagram::childrenOfSide(Side s)
-{
-    if (s == Side::right)
-    {
-        return left;
-    }
-    return right;
+    return s == Side::right ? left : right;
 }
 
 void Diagram::lefto(Diagram *d, absi::Interval x)
@@ -231,7 +226,7 @@ absi::Interval calculateEnclosure(Diagram &d)
     return l | r;
 }
 
-static absi::Interval enclosure_side(Side s, Diagram &d)
+static absi::Interval enclosure_side(Side s, const Diagram &d)
 {
     absi::Interval rho = absi::zero;
     for (branch b : d.childrenOfSide(s))

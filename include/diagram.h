@@ -8,6 +8,7 @@
 #include <span>
 
 #include <absi.h>
+#include "amplitude.h"
 
 #define pwrtwo(x) (1 << (x))
 
@@ -31,9 +32,16 @@ struct branch
 
     /// @brief (Link to) the destination node
     Diagram *d;
+
+    bool operator<(const branch &b) const
+    {
+        return d < b.d;
+    }
 };
 
 using branches = std::vector<branch>;
+
+using Evaluation = PowArray<Interval>;
 
 /// @brief A general-purpose abstract-interpreted additive diagram
 /// @tparam height The number of levels of the diagram. Implies having `2^height`.
@@ -43,8 +51,7 @@ public:
     /// @brief Create an empty diagram with no children
     Diagram(const size_t height);
 
-    template <size_t h>
-    static Diagram *fromStateVector(const std::span<ampl::Amplitude, pwrtwo(h)> state);
+    static Diagram *fromStateVector(const ampl::ConcreteState& state);
 
     /// @brief Create a random diagram
     /// Creates a random diagram. The values on the branches always have a
@@ -60,12 +67,11 @@ public:
     void populate(const size_t totalHeight = 0);
 
     /// @brief Children of side @p s
-    std::vector<branch> childrenOfSide(Side s);
+    std::vector<branch> childrenOfSide(Side s) const;
 
     /// @brief Evaluate the diagram
     /// @return A mathematical vector (here a std::vector) of 2^n intervals
-    template <size_t h>
-    std::array<Interval, pwrtwo(h)> evaluate();
+    Evaluation evaluate();
 
     /// @brief Add @p d to be a left child with amplitude @p x
     /// @param d The child
@@ -108,10 +114,10 @@ public:
     const size_t height;
 
     /// @brief Left children
-    std::vector<branch> left;
+    branches left;
 
     /// @brief Right children
-    std::vector<branch> right;
+    branches right;
 
 protected:
     /// @brief The enclosure value if `isUpToDate` is true
@@ -120,6 +126,4 @@ protected:
 
 Interval calculateEnclosure(Diagram &d);
 
-#include <../src/diagram.cpp>
-
-#include <../src/random-diagram.cpp>
+const size_t CHILDREN_NUMBER_AMBITION = 5;
