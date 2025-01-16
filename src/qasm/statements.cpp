@@ -6,6 +6,7 @@
 #include <qasm/statements.h>
 #include <qasm/variables.h>
 #include <qasm/gate.h>
+#include <qasm/context.h>
 
 bool isValidIdentifier(std::string identifier)
 {
@@ -207,10 +208,53 @@ public:
     const std::string content;
 };
 
-std::unique_ptr<Statement> Statement::parse(const struct statementString &ss)
+class RunStatement : public Statement
+{
+public:
+    RunStatement(const std::string &content) : content(content) {};
+
+    static bool is(const std::string &content)
+    {
+        // build == inst == instantiate, run == simulate, list == actions, display == evaluate
+        return content.starts_with("@") && isValidIdentifier(content.substr(1));
+    }
+
+    void execute() const override
+    {
+        if (content == "@build" || content == "@inst" || content == "@instantiate")
+        {
+            createDiagram();
+        }
+        else if (content == "@run" || content == "@sim" || content == "@simulate")
+        {
+            simulate();
+        }
+        else if (content == "@list" || content == "@actions")
+        {
+            printListOfActions();
+        }
+        else if (content == "@display" || content == "@evaluate" || content == "@eval")
+        {
+            printEvaluation();
+        }
+        else
+        {
+            throw SyntaxError("Invalid run statement");
+        }
+    };
+
+    const std::string content;
+};
+
+std::unique_ptr<Statement>
+Statement::parse(const struct statementString &ss)
 {
     if (ss.delimiter == ';')
     {
+        if (RunStatement::is(ss.content))
+        {
+            return std::make_unique<RunStatement>(ss.content);
+        }
         if (VersionStatement::is(ss.content))
         {
             return std::make_unique<VersionStatement>(ss.content);

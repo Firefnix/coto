@@ -58,3 +58,11 @@ TEST(QasmTest, commonGates)
     EXPECT_EQ(eval("CX"), "gate: CX[2]");
     EXPECT_EQ(eval("S"), "gate: S[2]");
 }
+
+TEST(QasmTest, applyGate)
+{
+    exec("qubit a;");
+    EXPECT_NO_THROW(exec("X a;"));
+    EXPECT_EQ(eval("a"), "qubit: 0");
+    EXPECT_NO_THROW(exec("@build;"));
+}
