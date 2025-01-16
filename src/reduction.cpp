@@ -3,7 +3,7 @@
 #include <set>
 #include <algorithm>
 
-static void forceMergeAtHeight(Diagram d, const size_t h);
+static void forceMergeAtHeight(Diagram d, const size_t h, selection::MergeesChoiceStrategy strategy);
 
 static absi::Interval childAmplitude(branches brs, Diagram *possible_child);
 
@@ -20,7 +20,7 @@ void reduction::maxNodesLevel(Diagram d, std::array<size_t, height> maxNodes, se
     {
         while (d.countNodesAtHeight(i) > maxNodes[i])
         {
-            forceMergeAtHeight(d, i);
+            forceMergeAtHeight(d, i, strategy);
         }
     }
 }
@@ -38,13 +38,13 @@ static void forceMergeAtHeight(Diagram d, const size_t h, selection::MergeesChoi
 /// @tparam height The height of the diagram we want to reduce
 /// @param d The diagram we want to reduce
 template <size_t height>
-void algo1(Diagram d, std::array<size_t, height> maxNodes)
+void algo1(Diagram d, std::array<size_t, height> maxNodes, selection::MergeesChoiceStrategy strategy)
 {
     for (size_t i = 0; i < height; i++)
     {
         while (d.countNodesAtHeight(i) > maxNodes[i])
         {
-            forceMergeAtHeight(d, i);
+            forceMergeAtHeight(d, i, strategy);
         }
     }
 }
@@ -111,7 +111,6 @@ Diagram reduction::forceMerge(Diagram &a, Diagram &b)
     return result;
 }
 
-template <size_t height>
 static absi::Interval childAmplitude(branches brs, Diagram *possible_child)
 {
     for (branch b : brs)
