@@ -103,7 +103,7 @@ public:
 
     static bool is(const std::string &content)
     {
-        return std::ranges::count(content, ' ') >= 1;
+        return std::ranges::count(content, ' ') >= 1 && Gate::exists(content.substr(0, content.find(' ')));
     }
 
     GateApplyStatement(const std::string &content)

@@ -11,6 +11,7 @@
 /// @brief A quantum gate
 class Gate {
 public:
+    static bool exists(const std::string& gateName);
     static const Gate* byName(const std::string& gateName);
     void applyTo(const std::vector<varname>& qubitsNames) const;
     void applyTo(const std::vector<qubit>& qubits) const;

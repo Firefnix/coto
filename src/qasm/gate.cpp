@@ -14,6 +14,11 @@ std::string Gate::toString() const noexcept
     return "gate: (anonymous)[" + std::to_string(size()) + "]";
 }
 
+bool Gate::exists(const std::string& gateName)
+{
+    return isReservedName(gateName);
+}
+
 const Gate *Gate::byName(const std::string &gateName)
 {
     static const Gate X = Gate("X", 1);
