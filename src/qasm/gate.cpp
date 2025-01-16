@@ -8,13 +8,14 @@ Gate::Gate(const std::string &tag, const std::size_t size)
 
 std::string Gate::toString() const noexcept
 {
-    if (tag.has_value()) {
+    if (tag.has_value())
+    {
         return "gate: " + tag.value() + "[" + std::to_string(size()) + "]";
     }
     return "gate: (anonymous)[" + std::to_string(size()) + "]";
 }
 
-bool Gate::exists(const std::string& gateName)
+bool Gate::exists(const std::string &gateName)
 {
     return isReservedName(gateName);
 }
@@ -25,13 +26,20 @@ const Gate *Gate::byName(const std::string &gateName)
     static const Gate H = Gate("H", 1);
     static const Gate CX = Gate("CX", 2);
     static const Gate S = Gate("S", 2);
-    if (gateName =="X") {
+    if (gateName == "X")
+    {
         return &X;
-    } else if (gateName == "H") {
+    }
+    else if (gateName == "H")
+    {
         return &H;
-    } else if (gateName == "CX") {
+    }
+    else if (gateName == "CX")
+    {
         return &CX;
-    } else if (gateName == "S") {
+    }
+    else if (gateName == "S")
+    {
         return &S;
     }
     throw VariableError("Undefined gate " + gateName);
@@ -40,7 +48,8 @@ const Gate *Gate::byName(const std::string &gateName)
 void Gate::applyTo(const std::vector<varname> &qubitsNames) const
 {
     std::vector<qubit> qubits;
-    for (auto name : qubitsNames) {
+    for (auto name : qubitsNames)
+    {
         qubits.push_back(getQubit(name));
     }
     applyTo(qubits);
@@ -48,14 +57,16 @@ void Gate::applyTo(const std::vector<varname> &qubitsNames) const
 
 void Gate::applyTo(const std::vector<qubit> &qubits) const
 {
-    if (size() != qubits.size()) {
+    if (size() != qubits.size())
+    {
         throw SizeError("Trying to apply a gate of size " + std::to_string(size()) + " to " + std::to_string(qubits.size()) + " qubits");
     }
 }
 
 std::string gateToString(const std::string &name)
 {
-    if (isReservedName(name)) {
+    if (isReservedName(name))
+    {
         return Gate::byName(name)->toString();
     }
     throw VariableError("Undefined gate: " + name);
