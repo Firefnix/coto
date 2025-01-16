@@ -16,4 +16,6 @@ void simulate();
 
 void printListOfActions();
 
+void printEvaluation();
+
 void freeDiagram();

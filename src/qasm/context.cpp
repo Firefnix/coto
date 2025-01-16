@@ -78,6 +78,16 @@ void printListOfActions()
     }
 }
 
+void printEvaluation()
+{
+    Evaluation eval = diagram->evaluate();
+    for (auto &amp : eval)
+    {
+        std::cout << "( " << amp.to_string() << " )\n";
+    }
+    std::cout << std::flush;
+}
+
 void freeDiagram()
 {
     delete diagram;
