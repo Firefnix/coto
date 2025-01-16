@@ -1,3 +1,8 @@
+/**
+ * @file error.h
+ * @brief Internal errors of the QASM parser
+ */
+
 #pragma once
 #include <stdexcept>
 

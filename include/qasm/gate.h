@@ -1,3 +1,7 @@
+/**
+ * @file gate.h
+ * @brief Handling QASM gates
+ */
 #pragma once
 #include <qasm/variables.h>
 

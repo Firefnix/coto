@@ -1,12 +1,11 @@
 #include <reduction.h>
 
 #include <set>
+#include <algorithm>
 
-template <size_t height>
-static void forceMergeAtHeight(Diagram<height> d, size_t h);
+static void forceMergeAtHeight(Diagram d, const size_t h);
 
-template <size_t height>
-static absi::Interval childAmplitude(branches<height> brs, Diagram<height - 1> possible_child);
+static absi::Interval childAmplitude(branches brs, Diagram *possible_child);
 
 /**
  * @brief Reduces the diagram according to the sizes in @ref{maxNodes}.
@@ -15,7 +14,7 @@ static absi::Interval childAmplitude(branches<height> brs, Diagram<height - 1> p
  * there is less than `maxNodes[i]` at this level.
  */
 template <size_t height>
-void reduction::maxNodesLevel(Diagram<height> d, std::array<size_t, height> maxNodes, selection::MergeesChoiceStrategy strategy)
+void reduction::maxNodesLevel(Diagram d, std::array<size_t, height> maxNodes, selection::MergeesChoiceStrategy strategy)
 {
     for (size_t i = 0; i < height; i++)
     {
@@ -27,11 +26,11 @@ void reduction::maxNodesLevel(Diagram<height> d, std::array<size_t, height> maxN
 }
 
 template <size_t height>
-static void forceMergeAtHeight(Diagram<height> d, size_t h, selection::MergeesChoiceStrategy strategy)
+static void forceMergeAtHeight(Diagram d, const size_t h, selection::MergeesChoiceStrategy strategy)
 {
-    struct mergees hMergees = selection::getMergeesAtHeight<h>(d, strategy);
-    Diagram<height> result = reduction::forceMerge(*hMergees.a, *hMergees.b);
-    d.replaceNodes(*hMergees.a, *hMergees.b, result);
+    struct mergees hMergees = selection::getMergeesAtHeight(h, d, strategy);
+    Diagram result = reduction::forceMerge(*hMergees.a, *hMergees.b);
+    d.replaceNodesAtHeight(h, *hMergees.a, *hMergees.b, result);
 }
 
 /// @brief An approximation algorithm for non-additive QDDs
@@ -39,7 +38,7 @@ static void forceMergeAtHeight(Diagram<height> d, size_t h, selection::MergeesCh
 /// @tparam height The height of the diagram we want to reduce
 /// @param d The diagram we want to reduce
 template <size_t height>
-void algo1(Diagram<height> d, std::array<size_t, height> maxNodes)
+void algo1(Diagram d, std::array<size_t, height> maxNodes)
 {
     for (size_t i = 0; i < height; i++)
     {
@@ -50,75 +49,72 @@ void algo1(Diagram<height> d, std::array<size_t, height> maxNodes)
     }
 }
 
-template <size_t height>
-Diagram<height> reduction::forceMerge(Diagram<height> &a, Diagram<height> &b)
+Diagram reduction::forceMerge(Diagram &a, Diagram &b)
 {
-    Diagram<height> result;
-    std::set<std::shared_ptr<branch<height>>> leftAOnly, leftBOnly, bothLeft;
-    for (branch<height - 1> ch : a.left)
+    if (a.height != b.height)
     {
-        auto x = get_amplitude(b, ch.d);
+        throw std::invalid_argument("Trying to merge diagrams with different heights");
+    }
+    Diagram result(a.height);
+    std::set<branch> leftAOnly, leftBOnly, bothLeft;
+    for (branch aBranch : a.left)
+    {
+        auto x = childAmplitude(b.left, aBranch.d);
         if (x != absi::zero)
         {
-            bothLeft.insert((ch.x | x, ch.d));
+            bothLeft.insert({aBranch.x | x, aBranch.d});
         }
         else
         {
-            leftAOnly.insert(ch);
+            leftAOnly.insert(aBranch);
         }
     }
-    for (branch<height - 1> ch : a.left)
+    for (branch bBranch : a.left)
     {
-        if (not a.left.has_child(ch.d))
+        if (childAmplitude(a.left, bBranch.d) == absi::zero)
         {
-            leftAOnly.insert(ch.d);
+            leftBOnly.insert(bBranch);
         }
     }
-    std::set<std::shared_ptr<branch<height>>> rightAOnly, rightBOnly, bothRight;
-    for (branch<height - 1> ch : a.right)
+    std::set<branch> rightAOnly, rightBOnly, bothRight;
+    for (branch aBranch : a.right)
     {
-        auto x = get_amplitude(b, ch.d);
+        auto x = childAmplitude(b.right, aBranch.d);
         if (x != absi::zero)
         {
-            bothRight.insert((ch.x | x, ch.d));
+            bothRight.insert({aBranch.x | x, aBranch.d});
         }
         else
         {
-            rightAOnly.insert(ch);
+            rightAOnly.insert(aBranch);
         }
     }
-    for (branch<height - 1> ch : b.right)
+    for (branch bBranch : a.right)
     {
-        if (getAmplitude(a.right, ch.d) == absi::zero)
+        if (childAmplitude(a.right, bBranch.d) == absi::zero)
         {
-            rightAOnly.insert(ch);
+            rightBOnly.insert(bBranch);
         }
     }
-    leftAOnly.insert(
-        leftAOnly.end(),
-        leftBOnly.begin(),
-        leftBOnly.end());
-    leftAOnly.insert(
-        leftAOnly.end(),
-        bothLeft.begin(),
-        bothLeft.end());
-    rightAOnly.insert(
-        rightAOnly.end(),
-        rightBOnly.begin(),
-        rightBOnly.end());
-    rightAOnly.insert(
-        rightAOnly.end(),
-        bothRight.begin(),
-        bothRight.end());
-    result.left = leftAOnly;
-    result.right = rightAOnly;
+    leftAOnly.insert(leftBOnly.begin(), leftBOnly.end());
+    leftAOnly.insert(bothLeft.begin(), bothLeft.end());
+    rightAOnly.insert(rightBOnly.begin(), rightBOnly.end());
+    rightAOnly.insert(bothRight.begin(), bothRight.end());
+    for (auto cBranch : leftAOnly)
+    {
+        result.left.push_back(cBranch);
+    }
+    for (auto cBranch : rightAOnly)
+    {
+        result.right.push_back(cBranch);
+    }
     return result;
 }
 
 template <size_t height>
-static absi::Interval childAmplitude(branches<height> brs, Diagram<height - 1> possible_child)
+static absi::Interval childAmplitude(branches brs, Diagram *possible_child)
 {
-    for (branch<height> b : brs)
+    for (branch b : brs)
     {
         if (b.d == possible_child)
         {

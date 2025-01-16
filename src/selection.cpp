@@ -1,54 +1,8 @@
 #include <random>
 #include <algorithm>
-#include <iostream>
+#include <selection.h>
 
-template <size_t h, size_t height>
-selection::mergees<h> selection::getMergeesAtHeight(Diagram<height>& d, MergeesChoiceStrategy strategy)
-{
-    struct mergees<h> result;
-    std::vector<Diagram<h>*> candidates = d.template getNodePointersAtHeight<h>();
-    switch (strategy)
-    {
-        case RANDOM:
-        {
-            getRandomMergees(candidates, &result);
-            break;
-        }
-        case MAX_AMPLITUDE:
-        {
-            getMergeesWithMaxAmplitude(candidates, &result);
-            break;
-        }
-        case MIN_AMPLITUDE:
-        {
-            getMergeesWithMinAmplitude(candidates, &result);
-            break;
-        }
-        case MAX_NODES:
-        {
-            getMergeesWithMaxNodes(candidates, &result);
-            break;
-        }
-        case MIN_NODES:
-        {
-            getMergeesWithMinNodes(candidates, &result);
-            break;
-        }
-    }
-    throw std::runtime_error("Unreachable code");
-}
-
-
-template<size_t height>
-selection::mergees<0> selection::getMergeesAtHeight(Diagram<height>& d, MergeesChoiceStrategy strategy)
-{
-    selection::mergees<0> m;
-    return m;
-}
-
-
-template <size_t h>
-void getRandomMergees(std::vector<Diagram<h>*> candidates, selection::mergees<h> *m)
+void getRandomMergees(std::vector<Diagram *> candidates, selection::mergees *m)
 {
     std::random_device rd;
     std::mt19937 g(rd());
@@ -57,26 +11,61 @@ void getRandomMergees(std::vector<Diagram<h>*> candidates, selection::mergees<h>
     m->b = candidates[1];
 }
 
-template <size_t h>
-void getMergeesWithMaxAmplitude(std::vector<Diagram<h>*> candidates, selection::mergees<h> *m)
+void getMergeesWithMaxAmplitude(std::vector<Diagram *> candidates, selection::mergees *m)
 {
     throw std::runtime_error("Not implemented");
 }
 
-template <size_t h>
-void getMergeesWithMinAmplitude(std::vector<Diagram<h>*> candidates, selection::mergees<h> *m)
+void getMergeesWithMinAmplitude(std::vector<Diagram *> candidates, selection::mergees *m)
 {
     throw std::runtime_error("Not implemented");
 }
 
-template <size_t h>
-void getMergeesWithMaxNodes(std::vector<Diagram<h>*> candidates, selection::mergees<h> *m)
+void getMergeesWithMaxNodes(std::vector<Diagram *> candidates, selection::mergees *m)
 {
     throw std::runtime_error("Not implemented");
 }
 
-template <size_t h>
-void getMergeesWithMinNodes(std::vector<Diagram<h>*> candidates, selection::mergees<h> *m)
+void getMergeesWithMinNodes(std::vector<Diagram *> candidates, selection::mergees *m)
 {
     throw std::runtime_error("Not implemented");
+}
+
+selection::mergees selection::getMergeesAtHeight(const size_t h, Diagram &d, MergeesChoiceStrategy strategy)
+{
+    if (h == 0)
+    {
+        throw std::invalid_argument("0-height diagrams have no mergees");
+    }
+    struct mergees result;
+    std::vector<Diagram *> candidates = d.getNodePointersAtHeight(h);
+    switch (strategy)
+    {
+    case RANDOM:
+    {
+        getRandomMergees(candidates, &result);
+        break;
+    }
+    case MAX_AMPLITUDE:
+    {
+        getMergeesWithMaxAmplitude(candidates, &result);
+        break;
+    }
+    case MIN_AMPLITUDE:
+    {
+        getMergeesWithMinAmplitude(candidates, &result);
+        break;
+    }
+    case MAX_NODES:
+    {
+        getMergeesWithMaxNodes(candidates, &result);
+        break;
+    }
+    case MIN_NODES:
+    {
+        getMergeesWithMinNodes(candidates, &result);
+        break;
+    }
+    }
+    return result;
 }

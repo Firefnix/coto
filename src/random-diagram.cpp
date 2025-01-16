@@ -3,37 +3,29 @@
 
 using engine = std::mt19937;
 
-const size_t CHILDREN_NUMBER_AMBITION = 5;
-
 static size_t maxChildrenNumber(size_t height, size_t totalHeight);
 
 static size_t minChildrenNumber(size_t height, size_t totalHeight);
 
-template <size_t height>
-Diagram<height> Diagram<height>::random()
+Diagram Diagram::random(const size_t height)
 {
-    Diagram<height> d;
+    Diagram d(height);
     d.populate(height);
     return d;
 }
 
-template<size_t height>
-Diagram<height>* Diagram<height>::randomPointer()
+Diagram* Diagram::randomPointer(const size_t height)
 {
-    auto d = new Diagram<height>();
+    auto d = new Diagram(height);
     d->populate(height);
     return d;
 }
 
-template <>
-void Diagram<0>::populate(size_t totalHeight)
+void Diagram::populate(const size_t totalHeight)
 {
-    return;
-}
-
-template <size_t height>
-void Diagram<height>::populate(size_t totalHeight)
-{
+    if (height == 0) {
+        return;
+    }
     static std::random_device dev;
     static engine rng(dev());
     std::uniform_real_distribution<double> amplRng(0.0, 1.0);
@@ -43,13 +35,13 @@ void Diagram<height>::populate(size_t totalHeight)
     );
     for (size_t i = 0; i < childrenNumberRng(rng); i++)
     {
-        auto *d = new Diagram<height - 1>();
+        auto *d = new Diagram(height - 1);
         d->populate(totalHeight ? totalHeight - 1 : 0);
         lefto(d, absi::Interval::real(amplRng(rng)));
     }
     for (size_t i = 0; i < childrenNumberRng(rng); i++)
     {
-        auto *d = new Diagram<height - 1>();
+        auto *d = new Diagram(height - 1);
         d->populate(totalHeight ? totalHeight - 1 : 0);
         righto(d, absi::Interval::real(amplRng(rng)));
     }

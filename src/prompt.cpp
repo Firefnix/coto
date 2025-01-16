@@ -2,6 +2,7 @@
 #include <qasm.h>
 
 void printPrompt();
+void printResult(const std::string& result);
 
 /// @brief Process a line of input
 /// @param line The line to process
@@ -28,6 +29,13 @@ void printPrompt()
     std::cout << "| " << std::flush;;
 }
 
+void printResult(const std::string& result)
+{
+    if (result != "") {
+        std::cout << "- " << result << std::endl;
+    }
+}
+
 bool processLine(const std::string& line)
 {
     if (isQuitLine(line)) {
@@ -49,10 +57,7 @@ bool processLine(const std::string& line)
         if (line == "quit" || line == "exit") {
             return true;
         }
-        const std::string result = qasm::eval(line);
-        if (result != "") {
-            std::cout << result << std::endl;
-        }
+        printResult(qasm::eval(line));
     }
     catch(const std::runtime_error& e)
     {

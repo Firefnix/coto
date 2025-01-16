@@ -1,9 +1,8 @@
 /**
+ * @file selection.h
  * @brief Contains functions and classes related to selection operations on mergees in diagrams.
  */
-#ifndef SELECTION_H_
-#define SELECTION_H_ 1
-
+#pragma once
 #include <diagram.h>
 
 namespace selection {
@@ -23,29 +22,20 @@ namespace selection {
      * @brief Struct containing two Diagram pointers.
      * @tparam h The height of the Diagrams.
      */
-    template <size_t h>
     struct mergees
     {
-        Diagram<h>* a;
-        Diagram<h>* b;
+        Diagram* a;
+        Diagram* b;
     };
 
     /**
      * @brief Get the mergees at a certain height in a Diagram.
-     * 
+     *
      * @tparam height The height of the Diagram.
      * @tparam h The height at which to get the mergees.
      * @param d The Diagram.
      * @param strategy The strategy to use for choosing the mergees.
      * @return struct mergees<h> The mergees.
      */
-    template <size_t h, size_t height>
-    mergees<h> getMergeesAtHeight(Diagram<height>& d, MergeesChoiceStrategy strategy);
-
-    template <size_t height>
-    mergees<0> getMergeesAtHeight(Diagram<height>& d, MergeesChoiceStrategy strategy);
+    mergees getMergeesAtHeight(const size_t h, Diagram& d, MergeesChoiceStrategy strategy);
 };
-
-#include <../src/selection.cpp>
-
-#endif

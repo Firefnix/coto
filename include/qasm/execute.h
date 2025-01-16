@@ -1,3 +1,7 @@
+/**
+ * @file execute.h
+ * @brief Execution of QASM statements as strings
+ */
 
 #pragma once
 #include <qasm/statements.h>

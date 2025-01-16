@@ -1,6 +1,8 @@
 #pragma once
-#include <array>
+#include <vector>
 #include <complex>
+#include "powarray.h"
+
 #define pow2(n) (1 << n)
 
 /// @brief Handles everything related to complex numbers
@@ -23,20 +25,13 @@ namespace ampl
      */
     typedef std::complex<real> Amplitude;
 
-    template<size_t size>
-    using State = std::array<ampl::Amplitude, size>;
+    using ConcreteState = PowArray<Amplitude>;
 
     /** @brief Randomize a state
      *
      * Randomizes an already-allocated state (cheaper than returning by value)
      */
-    template<std::size_t size>
-    void randomizeState(State<size>& state)
-    {
-        for (auto i = 0; i < size; i++) {
-            state.at(i) = random();
-        }
-    }
+    void randomizeState(ConcreteState& state);
 
     /// @brief String representation of the Amplitude
     std::string to_string(const ampl::Amplitude a);
