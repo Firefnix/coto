@@ -21,7 +21,7 @@ static qubit updateQubit(bool addOne)
     {
         count++;
     }
-    return count;
+    return count + 1;
 }
 
 void addQubit()
@@ -48,7 +48,7 @@ void createDiagram()
     {
         delete diagram;
     }
-    diagram = Diagram::eig0(updateQubit(false));
+    diagram = Diagram::eig0(updateQubit(false)+1);
 }
 
 void simulate()
