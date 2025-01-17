@@ -10,7 +10,7 @@ void addQubit();
 
 void applyGate(const Gate* gate, const std::vector<qubit>& qubits);
 
-void createDiagram();
+void createDiagram(bool implicit = false);
 
 void simulate();
 

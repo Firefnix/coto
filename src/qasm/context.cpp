@@ -42,17 +42,24 @@ void applyGate(const Gate *gate, const std::vector<qubit> &qubits)
     updateAction({gate, qubits[0]});
 }
 
-void createDiagram()
+void createDiagram(bool implicit)
 {
     if (diagram != nullptr)
     {
         delete diagram;
+        std::cout << "(Deleted the previous diagram)" << std::endl;
     }
-    diagram = Diagram::eig0(updateQubit(false)+1);
+    if (implicit)
+        std::cout << "(Built the diagram)" << std::endl;
+    diagram = Diagram::eig0(updateQubit(false) + 1);
 }
 
 void simulate()
 {
+    if (diagram == nullptr)
+    {
+        createDiagram(true);
+    }
     for (struct action a : *updateAction(NO_ACTION))
     {
         if (a.gate->name == "X")
@@ -80,12 +87,15 @@ void printListOfActions()
 
 void printEvaluation()
 {
+    if (diagram == nullptr)
+        createDiagram(true);
     Evaluation eval = diagram->evaluate();
+    std::cout << "\n";
     for (auto &amp : eval)
     {
-        std::cout << "( " << amp.to_string() << " )\n";
+        std::cout << "  ( " << amp.to_string() << " )\n";
     }
-    std::cout << std::flush;
+    std::cout << std::endl;
 }
 
 void freeDiagram()
