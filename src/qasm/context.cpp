@@ -21,12 +21,12 @@ static qubit updateQubit(bool addOne)
     {
         count++;
     }
-    return count + 1;
+    return count ? count - 1 : count;
 }
 
-void addQubit()
+qubit addQubit()
 {
-    updateQubit(true);
+    return updateQubit(true);
 }
 
 std::vector<struct action> *updateAction(struct action a)

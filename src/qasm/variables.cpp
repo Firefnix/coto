@@ -1,5 +1,6 @@
 #include <qasm/error.h>
 #include <qasm/variables.h>
+#include <qasm/context.h>
 
 #include <vector>
 #include <set>
@@ -63,13 +64,6 @@ std::string varToString(const varname &name)
     throw VariableError("No such variable: " + name);
 }
 
-qubit newQubit()
-{
-    static unsigned counter = 0;
-    counter++;
-    return counter - 1;
-}
-
 bool isReservedName(const varname &name) noexcept
 {
     static const std::set<std::string> reservedNames{"X", "H", "CX", "S"};
@@ -92,7 +86,7 @@ void defineVar(const std::string &typeName, const varname &name, bool isConst)
     }
     else if (typeName == "qubit")
     {
-        qubitVars.push_back(var<qubit>{typeName, name, true, true, newQubit()});
+        qubitVars.push_back(var<qubit>{typeName, name, true, true, addQubit()});
     }
     else
     {

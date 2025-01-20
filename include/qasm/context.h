@@ -6,7 +6,7 @@
 #include <qasm/gate.h>
 #include <diagram.h>
 
-void addQubit();
+qubit addQubit();
 
 void applyGate(const Gate* gate, const std::vector<qubit>& qubits);
 
