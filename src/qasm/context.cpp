@@ -103,3 +103,14 @@ void freeDiagram()
     delete diagram;
     diagram = nullptr;
 }
+
+void printRunStatementsHelp()
+{
+    std::cout << "Available run statements:\n"
+              << "  @build, @inst, @instantiate - create a new diagram\n"
+              << "  @run, @sim, @simulate - simulate the current diagram\n"
+              << "  @list, @actions - list the actions to be performed\n"
+              << "  @display, @evaluate, @eval - display the evaluation of the current diagram\n"
+              << "  @help, @man, @manual - display this help message\n"
+              << std::endl;
+}

@@ -215,7 +215,6 @@ public:
 
     static bool is(const std::string &content)
     {
-        // build == inst == instantiate, run == simulate, list == actions, display == evaluate
         return content.starts_with("@") && isValidIdentifier(content.substr(1));
     }
 
@@ -236,6 +235,10 @@ public:
         else if (content == "@display" || content == "@evaluate" || content == "@eval")
         {
             printEvaluation();
+        }
+        else if (content == "@help" || content == "@man" || content == "@manual")
+        {
+            printRunStatementsHelp();
         }
         else
         {
