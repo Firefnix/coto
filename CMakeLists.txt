@@ -56,6 +56,11 @@ add_library(selection STATIC src/selection.cpp src/diagram.cpp ${absi_files} src
 add_executable(selection_test test/selection_test.cpp)
 target_link_libraries(selection_test ${absi_libs} selection GTest::gtest_main)
 
+# Gate appliers test
+add_library(gateappliers STATIC src/gateappliers.cpp src/diagram.cpp ${absi_files} src/amplitude.cpp src/powarray.cpp)
+add_executable(gateappliers_test test/gateappliers_test.cpp)
+target_link_libraries(gateappliers_test ${absi_libs} gateappliers GTest::gtest_main)
+
 # Reduction test
 add_library(reduction STATIC src/reduction.cpp src/diagram.cpp ${absi_files} src/amplitude.cpp)
 
@@ -74,5 +79,6 @@ include(GoogleTest)
 gtest_discover_tests(amplitude_test)
 gtest_discover_tests(absi_test)
 gtest_discover_tests(diagram_test)
+gtest_discover_tests(gateappliers_test)
 gtest_discover_tests(selection_test)
 gtest_discover_tests(qasm_test)
