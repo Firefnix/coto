@@ -11,6 +11,7 @@ struct action
 };
 
 const struct action NO_ACTION = {nullptr, 0};
+const struct action CLEAR_ACTION = {nullptr, 1};
 
 static Diagram *diagram = nullptr;
 
@@ -32,8 +33,15 @@ qubit addQubit()
 std::vector<struct action> *updateAction(struct action a)
 {
     static std::vector<struct action> actions;
-    if (a.gate != nullptr)
+    if (a.gate == nullptr)
+    {
+        if (a.q == CLEAR_ACTION.q)
+            actions.clear();
+    }
+    else
+    {
         actions.push_back(a);
+    }
     return &actions;
 }
 
@@ -75,6 +83,7 @@ void simulate()
             std::cout << "Unimplemented gate application in context handling: " << a.gate->name << std::endl;
         }
     }
+    updateAction(CLEAR_ACTION);
 }
 
 void printListOfActions()
