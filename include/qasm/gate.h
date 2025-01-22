@@ -13,7 +13,7 @@ public:
     static bool exists(const std::string& gateName);
     static const Gate* byName(const std::string& gateName);
     void applyTo(const std::vector<varname>& qubitsNames) const;
-    void applyTo(const std::vector<qubit>& qubits) const;
+    virtual void applyTo(const std::vector<qubit>& qubits) const;
 
     /// @brief The number of qubits of the gate
     std::size_t size() const noexcept;
@@ -21,7 +21,7 @@ public:
     std::string toString() const noexcept;
 
     const std::string name;
-private:
+protected:
     Gate(const std::string& name, const std::size_t size);
     const std::size_t gateSize;
 };

@@ -59,6 +59,14 @@ TEST(QasmTest, commonGates)
     EXPECT_EQ(eval("S"), "gate: S[2]");
 }
 
+TEST(QasmTest, phaseGate)
+{
+    EXPECT_EQ(eval("p(pi/4)"), "gate: p(pi/4)[1]");
+    exec("qubit q;");
+    EXPECT_NO_THROW(exec("p(pi/4) q;"));
+    EXPECT_NO_THROW(exec("@run;"));
+}
+
 TEST(QasmTest, applyGate)
 {
     exec("qubit a;");
