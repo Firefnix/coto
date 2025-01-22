@@ -68,27 +68,27 @@ bool Gate::exists(const std::string &gateName)
 
 const Gate *Gate::byName(const std::string &gateName)
 {
-    static const Gate X = Gate("X", 1);
-    static const Gate H = Gate("H", 1);
-    static const Gate CX = Gate("CX", 2);
-    static const Gate S = Gate("S", 2);
+    static const Gate X = Gate("x", 1);
+    static const Gate H = Gate("h", 1);
+    static const Gate CX = Gate("cx", 2);
+    static const Gate S = Gate("s", 2);
     if (PhaseGate::is(gateName))
     {
         return new PhaseGate(gateName);
     }
-    else if (gateName == "X")
+    else if (gateName == X.name)
     {
         return &X;
     }
-    else if (gateName == "H")
+    else if (gateName == H.name)
     {
         return &H;
     }
-    else if (gateName == "CX")
+    else if (gateName == CX.name)
     {
         return &CX;
     }
-    else if (gateName == "S")
+    else if (gateName == S.name)
     {
         return &S;
     }

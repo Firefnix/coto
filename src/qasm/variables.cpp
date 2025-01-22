@@ -66,7 +66,7 @@ std::string varToString(const varname &name)
 
 bool isReservedName(const varname &name) noexcept
 {
-    static const std::set<std::string> reservedNames{"X", "H", "CX", "S"};
+    static const std::set<std::string> reservedNames{"x", "h", "cx", "s"};
     return reservedNames.contains(name);
 }
 

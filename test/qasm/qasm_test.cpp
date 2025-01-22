@@ -13,7 +13,7 @@ TEST(QasmTest, definition)
     exec("int n;");
     EXPECT_NO_THROW(eval("n"));
 
-    EXPECT_THROW(exec("int X;"), VariableError);
+    EXPECT_THROW(exec("int x;"), VariableError);
 }
 
 TEST(QasmTest, assignment)
@@ -53,10 +53,10 @@ TEST(QasmTest, qubits)
 
 TEST(QasmTest, commonGates)
 {
-    EXPECT_EQ(eval("X"), "gate: X[1]");
-    EXPECT_EQ(eval("H"), "gate: H[1]");
-    EXPECT_EQ(eval("CX"), "gate: CX[2]");
-    EXPECT_EQ(eval("S"), "gate: S[2]");
+    EXPECT_EQ(eval("x"), "gate: x[1]");
+    EXPECT_EQ(eval("h"), "gate: h[1]");
+    EXPECT_EQ(eval("cx"), "gate: cx[2]");
+    EXPECT_EQ(eval("s"), "gate: s[2]");
 }
 
 TEST(QasmTest, phaseGate)
@@ -70,7 +70,7 @@ TEST(QasmTest, phaseGate)
 TEST(QasmTest, applyGate)
 {
     exec("qubit a;");
-    EXPECT_NO_THROW(exec("X a;"));
+    EXPECT_NO_THROW(exec("x a;"));
     EXPECT_EQ(eval("a"), "qubit: 0");
-    EXPECT_NO_THROW(exec("@build;"));
+    EXPECT_NO_THROW(exec("@run;"));
 }
