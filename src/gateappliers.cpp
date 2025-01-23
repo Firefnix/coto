@@ -49,5 +49,12 @@ void gateappliers::applyCX(Diagram *d, qubit a, qubit b)
 void gateappliers::applyPhase(Diagram *d, qubit q, int phaseDenominator)
 {
     assertQubitIsValid(d, q);
-    throw std::runtime_error("Not implemented");
+    const auto phaseShift = absi::Interval::exp2iPiOver(phaseDenominator);
+    for (auto &d : d->getNodePointersAtHeight(d->height - q))
+    {
+        for (auto &g : d->right)
+        {
+            g.x = phaseShift * g.x;
+        }
+    }
 }
