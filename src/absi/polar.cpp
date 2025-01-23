@@ -138,6 +138,11 @@ Interval polar::Interval::singleton(ampl::Amplitude z)
     return Interval(PositiveInterval(modulus), AngleInterval(arg));
 }
 
+Interval polar::Interval::exp2iPiOver(int n)
+{
+    return Interval(PositiveInterval(1.), AngleInterval(2. / n));
+}
+
 Interval polar::Interval::operator+(Interval &other) const
 {
     if (*this == zero)

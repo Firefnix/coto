@@ -56,7 +56,7 @@ namespace polar
 
         /// @brief The wideness/uncertainty of the interval
         /// Values in the interval are between @ref min and @ref min + @ref delta
-        /// Moreover, 0 < @ref delta <= 2
+        /// Moreover, 0 <= @ref delta <= 2
         real delta;
         void set_remainder();
     };
@@ -72,6 +72,8 @@ namespace polar
         static Interval singleton(ampl::Amplitude z);
 
         static Interval real(real value);
+
+        static Interval exp2iPiOver(int n);
 
         Interval operator+(Interval &other) const;
 

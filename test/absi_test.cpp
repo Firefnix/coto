@@ -87,3 +87,12 @@ TEST_F(PolarTest, Norm)
     EXPECT_EQ(i1.norm(), 1.);
     EXPECT_EQ(i2.norm(), 0.);
 }
+
+TEST_F(PolarTest, exp2iPiOver)
+{
+    auto m = polar::Interval::exp2iPiOver(2);
+    auto mref = polar::Interval::real(-1.);
+    auto i = polar::Interval::exp2iPiOver(4);
+    EXPECT_EQ(m, mref);
+    EXPECT_EQ(i, polar::Interval::singleton(ampl::i));
+}
