@@ -26,4 +26,15 @@ protected:
     const std::size_t gateSize;
 };
 
+/// @brief A phase gate
+class PhaseGate : public Gate {
+public:
+    static bool is(const std::string& gateName);
+    PhaseGate(const std::string& gateName);
+
+    const int phase;
+protected:
+    PhaseGate(int phase);
+};
+
 std::string gateToString(const std::string& name);

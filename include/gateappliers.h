@@ -15,4 +15,6 @@ namespace gateappliers
     void applyS(Diagram *d, qubit a, qubit b);
 
     void applyCX(Diagram *d, qubit a, qubit b);
+
+    void applyPhase(Diagram *d, qubit q, int phaseDenominator);
 }

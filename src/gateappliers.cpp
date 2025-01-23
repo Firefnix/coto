@@ -45,3 +45,9 @@ void gateappliers::applyCX(Diagram *d, qubit a, qubit b)
     assertQubitIsValid(d, b);
     throw std::runtime_error("Not implemented");
 }
+
+void gateappliers::applyPhase(Diagram *d, qubit q, int phaseDenominator)
+{
+    assertQubitIsValid(d, q);
+    throw std::runtime_error("Not implemented");
+}

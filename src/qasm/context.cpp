@@ -70,13 +70,18 @@ void simulate()
     }
     for (struct action a : *updateAction(NO_ACTION))
     {
-        if (a.gate->name == "X")
+        if (a.gate->name == "x")
         {
             gateappliers::applyX(diagram, a.q);
         }
-        else if (a.gate->name == "H")
+        else if (a.gate->name == "h")
         {
             gateappliers::applyH(diagram, a.q);
+        }
+        else if (a.gate->name[0] == 'p')
+        {
+            int phase = dynamic_cast<const PhaseGate *>(a.gate)->phase;
+            gateappliers::applyPhase(diagram, a.q, phase);
         }
         else
         {

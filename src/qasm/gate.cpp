@@ -30,36 +30,24 @@ static int getPhaseGatePhase(const std::string &gateName)
     }
 }
 
-class PhaseGate : public Gate
+bool PhaseGate::is(const std::string &gateName)
 {
-public:
-    static bool is(const std::string &gateName)
-    {
-        if (!gateName.starts_with("p(pi/") || gateName.length() < 6 || gateName[gateName.length() - 1] != ')')
-            return false;
-        auto base = gateName[5] == '-' ? 6 : 5;
-        return std::all_of(gateName.begin() + base, gateName.end() - 1, [](char c)
-                           { return std::isdigit(static_cast<unsigned char>(c)); });
-    }
+    if (!gateName.starts_with("p(pi/") || gateName.length() < 6 || gateName[gateName.length() - 1] != ')')
+        return false;
+    auto base = gateName[5] == '-' ? 6 : 5;
+    return std::all_of(gateName.begin() + base, gateName.end() - 1, [](char c)
+                       { return std::isdigit(static_cast<unsigned char>(c)); });
+}
 
-    PhaseGate(const std::string &gateName)
-        : PhaseGate(getPhaseGatePhase(gateName))
-    {
-    }
+PhaseGate::PhaseGate(const std::string &gateName)
+    : PhaseGate(getPhaseGatePhase(gateName))
+{
+}
 
-    void applyTo(const std::vector<qubit> &qubits) const override
-    {
-        Gate::applyTo(qubits);
-    }
-
-    const int phase;
-
-protected:
-    PhaseGate(int phase)
-        : Gate("p(pi/" + std::to_string(phase) + ")", 1), phase(phase)
-    {
-    }
-};
+PhaseGate::PhaseGate(int phase)
+    : Gate("p(pi/" + std::to_string(phase) + ")", 1), phase(phase)
+{
+}
 
 bool Gate::exists(const std::string &gateName)
 {
