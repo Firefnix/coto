@@ -17,3 +17,4 @@ _deps/
 CMakeFiles/
 *.cmake
 Testing/
+__pycache__/
