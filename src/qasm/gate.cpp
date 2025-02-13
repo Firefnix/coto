@@ -18,7 +18,11 @@ static int getPhaseGatePhase(const std::string &gateName)
 {
     try
     {
-        return std::stoi(gateName.substr(5, gateName.length() - 6));
+        if (gateName.starts_with("p(2pi/"))
+        {
+            return std::stoi(gateName.substr(6, gateName.length() - 7));
+        }
+        return 2 * std::stoi(gateName.substr(5, gateName.length() - 6));
     }
     catch (std::invalid_argument &e)
     {
@@ -30,8 +34,29 @@ static int getPhaseGatePhase(const std::string &gateName)
     }
 }
 
+static std::string getPhaseGateName(int phase)
+{
+    if (phase == 1)
+        return "p(0)";
+    if (phase == 2)
+        return "p(pi)";
+    if (phase % 2 == 0)
+        return "p(pi/" + std::to_string(phase / 2) + ")";
+    return "p(2pi/" + std::to_string(phase) + ")";
+}
+
 bool PhaseGate::is(const std::string &gateName)
 {
+    if (gateName == "p(0)" || gateName == "p(pi)" || gateName == "p(2pi)")
+        return true;
+    if (gateName.starts_with("p(2pi/"))
+    {
+        if (gateName.length() < 7 || gateName[gateName.length() - 1] != ')')
+            return false;
+        auto base = gateName[5] == '-' ? 7 : 6;
+        return std::all_of(gateName.begin() + base, gateName.end() - 1, [](char c)
+                           { return std::isdigit(static_cast<unsigned char>(c)); });
+    }
     if (!gateName.starts_with("p(pi/") || gateName.length() < 6 || gateName[gateName.length() - 1] != ')')
         return false;
     auto base = gateName[5] == '-' ? 6 : 5;
@@ -45,7 +70,7 @@ PhaseGate::PhaseGate(const std::string &gateName)
 }
 
 PhaseGate::PhaseGate(int phase)
-    : Gate("p(pi/" + std::to_string(phase) + ")", 1), phase(phase)
+    : Gate(getPhaseGateName(phase), 1), phase(phase)
 {
 }
 
