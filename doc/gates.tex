@@ -1,0 +1,76 @@
+To use our diagrams in real-world cases, it is not only sufficient to be able to store them effectively, but also to be able to apply quantum gates on our states. Our first goal was to implement a short list of the most commonly used gates:
+\begin{itemize}
+    \item 1-qubit gates: Pauli gates, Hadamard gate, rotation and phase gates
+    \item 2-qubit gates: particularly CNOT and SWAP
+\end{itemize}
+
+\section{Preliminary considerations}
+
+Let a diagram $D \in \mathcal{D}_m$ and a $k$-qubit gate $P$. We would like to apply $P$ on the qubits $q = (q_1, ..., q_k)$ with $\forall i, 0 \le q_i \le m-1$ of $D$, and note the result $P_{q}(D)$.
+
+The usual representation of $P$ is a square matrix of size $2^k$, which we can interprate as a matrix of elements of $\mathcal{A}_0$. When using this representation, applying $P$ on $D$ is equivalent to applying the matrix $P$ on the vector $\mathcal{E}(D)$.
+
+Obviously, we would like gate application on diagrams to follow gate application on matrices.
+
+\begin{definition}[valid gate application]
+    A gate application $P_q$ is valid if and only if
+    $$\mathcal{E}(P_q(D)) = P_q \mathcal{E}(D)$$
+\end{definition}
+
+In the case of consecutive qubits ($q_{i+1} = q_i+1$), since in matrix form
+$$P_q = \left(\bigotimes^{q_1-1} I\right) \otimes P \otimes \left(\bigotimes^{m-k-q_1-1} I\right)$$
+we expect the application of $P_q$ to be able to be performed "locally" on the diagram, i.e. without having to consider the whole diagram but only the qubits of $q$.
+
+\section{Single-qubit gates}
+
+\subsection{$X$ gate}
+
+The $X$ gate is a Pauli gate that acts as a bit-flip on the qubit. It is represented by the following matrix:
+
+\[
+X = \begin{pmatrix}
+0 & 1 \\
+1 & 0
+\end{pmatrix}
+\]
+
+For a given diagram $D \in \mathcal{D}_m$, this gate can be applied to any qubit $0 \le n \le m-1$. We note the result $X_n D$. For the application to be valid, we expect
+$$\mathcal E (X_n D) = X_n (\mathcal E (D))$$
+
+Thus, we define the gate application as follows:
+$$X_n(L, R) = \begin{cases}
+    (R, L) \quad &\text{if } n = 0 \\
+    (\{(a_l, X_{n-1}) l ; (a_l, l) \in L\}, \{(a_r, X_{n-1}) r ; (a_r, r) \in R\}) \quad &\text{otherwise}
+\end{cases}$$
+
+Visually, this corresponds to flipping the direction of all branches on level $n$.
+
+\subsection{General case}
+
+While intuitive, the above case cannot handle more complex 1-qubit gates, and notably the Hadamard gate. Let $M$ be a matrix representing a 1-qubit quantum gate.
+$$M = \begin{pmatrix}
+    m_{00} & m_{01} \\
+    m_{10} & m_{11}
+\end{pmatrix}$$
+
+The application of $M$ on a qubit $n$ of a diagram $D$ is defined as follows:
+
+\begin{center}
+% https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZAJgBoAGAXVJADcBDAGwFcYkQAdDgYywCduIAL6l0mXPkIoA7BWp0mrdl14DhokBmx4CRAMykAjPIYs2iEOrHbJRAKxGTi85ZHWJulOVLEnZ9owA+oZWmuI6UsiGPn5KFkEA1qFaHpEGvjSmcSB8wcnhtigALDGZzuy5aPk2nsgOGQr+8XluYTWRAGyljdmJ1alEABzdWS65Ia0pEUQAnCPlFpXC8jBQAObwRKAAZnwQALZI3iA4EEglPS70eTSM9ABGMIwACgWeOVhrABY4ILdYYBcUHocC+q1CuwORxopyQDku7GuSVuDyer3aARg21+-0B7GBoPBrUhh0Qx1hiC6CIs9xuIDujxebykH2+v2Je1J5LOiFk1JAtKqKMZ6IG8Sx7I0JKQ0ROPLm-KR+0CwHI5CEf3pqKZGIsAOwsE1jABQJBYKgEM5MphPOGiuCAAJlar1UbtaLpotPj8jSb8WbwTRHmALYgALR6dVSq2IWUUhWjRGBBLOwyu4Vo5nsfVYQ1BmAhpCRjlQ2M2pB2xMWa6GVPprUirN6sAGtgl0lxnlpspNAXBZ3kQwajM6sUgHN5+l+iwE82a4OhiNRnYxzsy2VVvtoVNDt2N3X0iXzguh4vR0tr2PHTe02sqwy7kcewrjlu5tvnjvl2MbhZbgePg2mYHhObC4qahIWu2SBkHKRY9tkACye7AWOjBHuB+IQMw9zoZapYXBS8JVmAzCMIwT5Noe2KamC9ChuABBgVOeIzhAOA4ESn5IFSFJ8iRZEUUBo6etROIgHRDGQHimFsRxXErqWdrxgh5ikeRlEHuhNE0JJ7DScxxqsSAUDsZxUHcVe34PqpSDqUJDKoaJ2niXpFgGb6xmmfJUGUEIQA
+\begin{tikzcd}
+    &     & \circ \arrow[lldd, "a_1"', dashed] \arrow[ldd, "a_k", dashed] \arrow[rdd, "b_1"'] \arrow[rrdd, "b_p"] &                                &     &                                &     & \circ \arrow[ldd, "a_km_{00}" description, dashed] \arrow[lldd, "a_1 m_{00}"', dashed, bend right] \arrow[ldd, "a_km_{10}" description, bend left] \arrow[lldd, "a_1m_{10}" description] \arrow[rdd, "b_1m_{01}" description, dashed, bend right] \arrow[rrdd, "b_pm_{11}", bend left] \arrow[rdd, "b_1m_{11}" description] \arrow[rrdd, "b_pm_{01}" description, dashed] &                                &     \\
+    &     &                                                                                                       & {} \arrow[rr, "M", Rightarrow] &     & {}                             &     &                                                                                                                                                                                                                                                                                                                                                                           &                                &     \\
+l_1 \arrow[r, no head, dotted] & l_k &                                                                                                       & r_1 \arrow[r, no head, dotted] & r_p & l_1 \arrow[r, no head, dotted] & l_k &                                                                                                                                                                                                                                                                                                                                                                           & r_1 \arrow[r, no head, dotted] & r_p
+\end{tikzcd}
+\end{center}
+
+\section{2-qubit gates}
+
+\begin{center}
+% https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZABgBpiBdUkANwEMAbAVxiRBAF9T1Nd9CUARnJVajFm07cQGbHgJEAzCOr1mrROy485-IgBYVY9ZO0ze8gcgCsRtRM1SdfBSgBsd8Rq3TZLqwDsniaOZn6WRAAcwQ4+zhEoAEykgqL23gA6GQDGWABO2U7muq7IyqmqXqa+FnoohhXGsUXhdTYpaVWaWbkFLbWlHo3pbD35hWEDgR2VISBjfZMlVtHDXfM54-3LRLaJnXMAsgD6wMTEHNv+RB77s7EnZ4KXS9coQXdN3o+CF1cJyGinxGmh+z04ohgUAA5vAiKAAGZ5CAAWyQZBAOAgSGiXyQYCYDAY1AYdAARjAGAAFKZsBgwBE4EAkrBgbxQOhwAAWUKKSNR6OoWKQwjxiAJRJJ5MpNJ2mnpjOZIB5dCgbEgbKVDFZ7IgOBwvLM-LRiFFwsQuJBEuJIFJFOptPlDKZLM1mg53MN0mNSGSmOxFvuGmtUvtsretudfORJr95uUYpDtulDrlkcV1BVas0GtYrt1+q9iJjSAT5stXSTdpljvTTKNJcQhn9ItFIJAdGOgi1KfDCRAeSw0K5LttOrYHp5aobAqbQoDgj97c73dDNbTCvr3sbzfNtkThJt1dTEc3Sqz6oIebHbpAUD1Bun29n+-Ngjb607hDXJ-7Z-zE6clO0YvvOIpLp+xzfsmYa1meM4mh4Lamgm7Zkl2PawRuUYAe6QFFiAPqIEhb7NmhGE-n2dR1iBiFgYgQQHpKMHrqeOHKjAqqXpquF3g+BFEYxb6oes6HQceVGuDRvGTgJjZCQuZGiVBmGsX+UYIUgACc9G-EGowZBS0KssAaAonQOCDgAHhwjznBwAAEABkDl2c8DlZFkrmnL8jkuWCHBZDAYBQKZ5mWVgNmqb+1H-jeupMGS9K0SKr4Lh+IRVr2cHsdqt73olyWaaaJELhBmWHpROUZvFE4QIVrDFYICkiiJFXMRJ1WjnlCVJY1z4moIuKkfp4qVSxMVSXFPV1Q1EIcEAA
+\begin{tikzcd}
+{} \arrow[rrd, dashed] \arrow[r, no head, dotted] & {} \arrow[rd, dashed] &       & {} \arrow[ld] \arrow[r, no head, dotted]                                                   & {} \arrow[lld] & {} \arrow[d, "a_1"', dashed] \arrow[rd, "a_1"] \arrow[r, no head, dotted] & {} \arrow[ld, "a_n", dashed] \arrow[d, "a_n"] & {} \arrow[d, "b_1", dashed] \arrow[rd, "b_1"] \arrow[r, no head, dotted] & {} \arrow[ld, "b_n", dashed] \arrow[d, "b_n"] \\
+                                                  &                       & \circ & {} \arrow[r, "M", Rightarrow] & {}             & \circ                                                                     & \circ                                         & \circ                                                                    & \circ                                         \\
+                                                  &                       &       &                                                                                            &                & M_{00} \arrow[u, Rightarrow]                                              & M_{01} \arrow[u, Rightarrow]                  & M_{10} \arrow[u, Rightarrow]                                             & M_{11} \arrow[u, Rightarrow]
+\end{tikzcd}
+\end{center}
