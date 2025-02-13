@@ -48,9 +48,9 @@ public:
     /// @brief Create an empty diagram with no children
     Diagram(const size_t height);
 
-    static Diagram *fromStateVector(const ampl::ConcreteState& state);
+    static Diagram *fromStateVector(const ampl::ConcreteState &state);
 
-    static Diagram * eig0(const size_t height);
+    static Diagram *eig0(const size_t height);
 
     /// @brief Create a random diagram
     /// Creates a random diagram. The values on the branches always have a
@@ -71,6 +71,10 @@ public:
     /// @brief Evaluate the diagram
     /// @return A mathematical vector (here a std::vector) of 2^n intervals
     Evaluation evaluate();
+
+    /// @brief Clone the diagram
+    /// @return A new diagram with the same structure
+    Diagram *clone();
 
     /// @brief Add @p d to be a left child with amplitude @p x
     /// @param d The child

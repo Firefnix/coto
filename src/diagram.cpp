@@ -99,6 +99,20 @@ Evaluation Diagram::evaluate()
     return arr;
 }
 
+Diagram *Diagram::clone()
+{
+    auto d = new Diagram(height);
+    for (branch b : left)
+    {
+        d->lefto(b.d->clone(), b.x);
+    }
+    for (branch b : right)
+    {
+        d->righto(b.d->clone(), b.x);
+    }
+    return d;
+}
+
 std::vector<branch> Diagram::childrenOfSide(Side s) const
 {
     return s == Side::right ? left : right;

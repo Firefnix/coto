@@ -63,6 +63,28 @@ TEST_F(DiagramTest, testConstruction)
     EXPECT_EQ(absi::zero, vec[3]) << vec[3].to_string();
 }
 
+TEST_F(DiagramTest, testClone)
+{
+    eig0->lefto(leaf);
+    dgm->lefto(eig0);
+    dgm->righto(eig0);
+    auto clone = dgm->clone();
+    auto dgmEval = dgm->evaluate();
+    auto cloneEval = clone->evaluate();
+    for (auto i = 0; i < dgmEval.size(); i++)
+    {
+        EXPECT_EQ(dgmEval[i], cloneEval[i]) << "Evaluations not initially equal at index " << i;
+    }
+    clone->left[0].x = absi::Interval::real(2.);
+    dgmEval = dgm->evaluate();
+    cloneEval = clone->evaluate();
+    EXPECT_NE(dgmEval[0], cloneEval[0]);
+    for (auto i = 1; i < dgmEval.size(); i++)
+    {
+        EXPECT_EQ(dgmEval[i], cloneEval[i]) << "Evaluations not equal after change at index " << i;
+    }
+}
+
 TEST_F(DiagramTest, testAdditiveness)
 {
     auto two = absi::Interval::real(2.);
