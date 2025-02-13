@@ -25,6 +25,7 @@
 var NAVTREE =
 [
   [ "Coto", "index.html", [
+    [ "Coto - Abstract Additive Quantum Decision Diagrams", "index.html", "index" ],
     [ "Namespaces", "namespaces.html", [
       [ "Namespace List", "namespaces.html", "namespaces_dup" ],
       [ "Namespace Members", "namespacemembers.html", [
