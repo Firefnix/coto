@@ -1,0 +1,11 @@
+<map id="Diagram" name="Diagram">
+<area shape="rect" id="Node000001" title="A general&#45;purpose abstract&#45;interpreted additive diagram." alt="" coords="66,181,145,207"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="38,93,98,119"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="79,131,89,156,101,180,96,182,84,158,74,133"/>
+<area shape="rect" id="Node000003" href="$classpolar_1_1Interval.html" title=" " alt="" coords="122,93,235,119"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="162,131,118,183,114,179,158,127"/>
+<area shape="rect" id="Node000004" href="$classpolar_1_1PositiveInterval.html" title=" " alt="" coords="5,5,171,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="112,38,168,91,164,95,108,42"/>
+<area shape="rect" id="Node000005" href="$classpolar_1_1AngleInterval.html" title=" " alt="" coords="195,5,346,31"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="250,42,193,95,190,91,246,38"/>
+</map>

@@ -1,0 +1,11 @@
+<map id="include/diagram.h" name="include/diagram.h">
+<area shape="rect" id="Node000001" title="Abstract&#45;interpreted additive diagrams." alt="" coords="214,5,353,31"/>
+<area shape="rect" id="Node000002" href="$gateappliers_8h.html" title="Contains functions to apply quantum gates to a diagram." alt="" coords="5,79,172,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="240,38,121,81,120,76,239,33"/>
+<area shape="rect" id="Node000003" href="$context_8h.html" title="Interface between the QASM interpreter and diagrams." alt="" coords="196,79,371,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="286,44,286,79,281,79,281,44"/>
+<area shape="rect" id="Node000004" href="$selection_8h.html" title="Contains functions and classes related to selection operations on mergees in diagrams." alt="" coords="395,79,539,104"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="327,33,438,76,436,81,325,38"/>
+<area shape="rect" id="Node000005" href="$reduction_8h.html" title="Reducing abstract&#45;interpreted additive diagrams." alt="" coords="394,152,541,177"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="470,118,470,152,465,152,465,118"/>
+</map>

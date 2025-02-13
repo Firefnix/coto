@@ -1,0 +1,13 @@
+<map id="include/absi.h" name="include/absi.h">
+<area shape="rect" id="Node000001" title="This file includes the necessary headers for working with ABStract Interpretation." alt="" coords="227,5,339,31"/>
+<area shape="rect" id="Node000002" href="$diagram_8h.html" title="Abstract&#45;interpreted additive diagrams." alt="" coords="214,79,353,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="286,44,286,79,281,79,281,44"/>
+<area shape="rect" id="Node000003" href="$gateappliers_8h.html" title="Contains functions to apply quantum gates to a diagram." alt="" coords="5,152,172,177"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="240,111,121,154,120,149,239,106"/>
+<area shape="rect" id="Node000004" href="$context_8h.html" title="Interface between the QASM interpreter and diagrams." alt="" coords="196,152,371,177"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="286,118,286,152,281,152,281,118"/>
+<area shape="rect" id="Node000005" href="$selection_8h.html" title="Contains functions and classes related to selection operations on mergees in diagrams." alt="" coords="395,152,539,177"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="327,106,438,149,436,154,325,111"/>
+<area shape="rect" id="Node000006" href="$reduction_8h.html" title="Reducing abstract&#45;interpreted additive diagrams." alt="" coords="394,225,541,251"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="470,191,470,225,465,225,465,191"/>
+</map>

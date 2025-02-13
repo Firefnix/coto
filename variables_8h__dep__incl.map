@@ -1,0 +1,9 @@
+<map id="include/qasm/variables.h" name="include/qasm/variables.h">
+<area shape="rect" id="Node000001" title="Handling QASM variables." alt="" coords="88,5,273,31"/>
+<area shape="rect" id="Node000002" href="$gateappliers_8h.html" title="Contains functions to apply quantum gates to a diagram." alt="" coords="5,79,172,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="157,41,105,81,102,76,154,37"/>
+<area shape="rect" id="Node000003" href="$gate_8h.html" title="Handling QASM gates." alt="" coords="197,79,351,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="208,37,260,76,257,81,205,41"/>
+<area shape="rect" id="Node000004" href="$context_8h.html" title="Interface between the QASM interpreter and diagrams." alt="" coords="187,152,361,177"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="277,118,277,152,271,152,271,118"/>
+</map>
