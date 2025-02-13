@@ -64,6 +64,7 @@ TEST(QasmTest, phaseGate)
     EXPECT_EQ(eval("p(pi/4)"), "gate: p(pi/4)[1]");
     exec("qubit q;");
     EXPECT_NO_THROW(exec("p(pi/4) q;"));
+    EXPECT_NO_THROW(exec("p(2pi/3) q;"));
     EXPECT_NO_THROW(exec("@run;"));
 }
 
