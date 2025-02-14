@@ -13,6 +13,7 @@ var hierarchy =
     [ "qdd::Node", "classqdd_1_1Node.html", null ],
     [ "polar::PositiveInterval", "classpolar_1_1PositiveInterval.html", null ],
     [ "PowArray< T >", "classPowArray.html", null ],
+    [ "PowMatrix< T >", "classPowMatrix.html", null ],
     [ "qdd::QDD", "classqdd_1_1QDD.html", null ],
     [ "std::runtime_error", null, [
       [ "ParsingError", "classParsingError.html", [

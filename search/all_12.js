@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['value_0',['value',['../structvar.html#a9de9ee0ba945af6da1275012d708e6d7',1,'var']]],
+  ['value_0',['value',['../structvar.html#a9de9ee0ba945af6da1275012d708e6d7',1,'var::value'],['../classPowMatrix.html#a4dfebe1d85bc1bea2a1e4fa9788d7498',1,'PowMatrix::value()']]],
   ['var_1',['var',['../structvar.html',1,'']]],
   ['variableerror_2',['VariableError',['../classVariableError.html',1,'']]],
   ['variables_2eh_3',['variables.h',['../variables_8h.html',1,'']]],

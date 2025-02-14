@@ -7,6 +7,7 @@ var dir_d44c64559bbebec7f509842c48db8b23 =
     [ "diagram.h", "diagram_8h.html", "diagram_8h" ],
     [ "gateappliers.h", "gateappliers_8h.html", null ],
     [ "powarray.h", "powarray_8h_source.html", null ],
+    [ "powmatrix.h", "powmatrix_8h_source.html", null ],
     [ "qasm.h", "qasm_8h.html", null ],
     [ "qdd.h", "qdd_8h_source.html", null ],
     [ "reduction.h", "reduction_8h.html", "reduction_8h" ],

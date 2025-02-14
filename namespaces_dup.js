@@ -7,6 +7,7 @@ var namespaces_dup =
       [ "randomizeState", "namespaceampl.html#a2c9e6ace1ee46566d3a3b918a05022c5", null ],
       [ "to_string", "namespaceampl.html#ad8308fd980b9bcbc3df1d71e48b66f8d", null ],
       [ "i", "namespaceampl.html#a36ef764fd8febfd86b28d4696e9ef11d", null ],
+      [ "invSqrt2", "namespaceampl.html#a5a8165767e3b93305faf3dcfc5ad2f05", null ],
       [ "one", "namespaceampl.html#a7c7aff998408e7e5556f85d34c243d15", null ],
       [ "one_real", "namespaceampl.html#a94632408b35437d1b5083d4e425199ad", null ],
       [ "sqrt2", "namespaceampl.html#aa5678d49b109abd9245f1114198f938c", null ],
