@@ -24,6 +24,7 @@ set(absi_libs cartesian polar amplitude)
 set(src_files src/amplitude.cpp ${absi_files} src/selection.cpp src/reduction.cpp)
 set(header_files include/amplitude.h include/qdd.h include/absi.h)
 set(test_files test/amplitude_test.cpp test/qdd_test.cpp test/absi_test.cpp test/selection_test.cpp test/reduction_test.cpp test/diagram_test.cpp)
+set(pasrc src/powarray.cpp src/powmatrix.cpp)
 
 set(sources
     ${src_files}
@@ -32,7 +33,7 @@ set(sources
     )
 
 # PowArray library
-add_library(powarray src/powarray.cpp src/absi/polar.cpp src/absi/cartesian.cpp)
+add_library(powarray ${pasrc} src/absi/polar.cpp src/absi/cartesian.cpp)
 
 # Amplitude test
 add_library(amplitude src/amplitude.cpp)
@@ -52,21 +53,21 @@ add_executable(diagram_test test/diagram_test.cpp)
 target_link_libraries(diagram_test powarray ${absi_libs} diagram GTest::gtest_main)
 
 # Selection test
-add_library(selection STATIC src/selection.cpp src/diagram.cpp ${absi_files} src/amplitude.cpp src/powarray.cpp)
+add_library(selection STATIC src/selection.cpp src/diagram.cpp ${absi_files} src/amplitude.cpp ${pasrc})
 add_executable(selection_test test/selection_test.cpp)
 target_link_libraries(selection_test ${absi_libs} selection GTest::gtest_main)
 
 # Gate appliers test
-add_library(gateappliers STATIC src/gateappliers.cpp src/diagram.cpp ${absi_files} src/amplitude.cpp src/powarray.cpp)
+add_library(gateappliers STATIC src/gateappliers.cpp src/diagram.cpp ${absi_files} src/amplitude.cpp ${pasrc})
 add_executable(gateappliers_test test/gateappliers_test.cpp)
-target_link_libraries(gateappliers_test ${absi_libs} gateappliers GTest::gtest_main)
+target_link_libraries(gateappliers_test powarray ${absi_libs} diagram gateappliers GTest::gtest_main)
 
 # Reduction test
 add_library(reduction STATIC src/reduction.cpp src/diagram.cpp ${absi_files} src/amplitude.cpp)
 
 # QASM library
 FILE(GLOB QasmSources src/qasm/*.cpp)
-add_library(qasm STATIC ${QasmSources} src/diagram.cpp ${absi_files} src/amplitude.cpp src/powarray.cpp src/gateappliers.cpp)
+add_library(qasm STATIC ${QasmSources} src/diagram.cpp ${absi_files} src/amplitude.cpp ${pasrc} src/gateappliers.cpp)
 add_executable(qasm_test test/qasm/qasm_test.cpp)
 target_link_libraries(qasm_test powarray ${absi_libs} diagram qasm GTest::gtest_main)
 
