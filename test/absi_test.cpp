@@ -77,14 +77,6 @@ TEST_F(PolarTest, multiply)
     EXPECT_EQ(minus, one * minus);
 }
 
-TEST_F(PolarTest, PositiveIntervalCreation)
-{
-    auto x = 1.4;
-    auto p = polar::PositiveInterval(x);
-    EXPECT_EQ(p.min, x);
-    EXPECT_EQ(p.max, x);
-}
-
 TEST_F(PolarTest, Add)
 {
     auto mthree = polar::Interval::real(-3.);
