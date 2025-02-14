@@ -107,6 +107,11 @@ Interval::Interval(PositiveInterval mod, AngleInterval arg) : mod(mod), arg(arg)
 
 polar::Interval::Interval() : mod(PositiveInterval(0.)), arg(AngleInterval(0.)) {};
 
+polar::Interval::Interval(polar::real value) : mod(PositiveInterval(std::abs(value))),
+                                               arg(AngleInterval(value < 0. ? 1. : 0.)) {}
+
+polar::Interval::Interval(ampl::Amplitude z) : mod(PositiveInterval(std::abs(z))), arg(argument(z)) {}
+
 Interval polar::Interval::real(polar::real value)
 {
     return Interval::singleton(value);

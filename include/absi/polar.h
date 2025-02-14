@@ -67,6 +67,12 @@ namespace polar
         /// @brief The singleton of 0.
         Interval();
 
+        /// @brief The singleton of a real number.
+        Interval(real value);
+
+        /// @brief The singleton of an amplitude.
+        Interval(ampl::Amplitude z);
+
         Interval(PositiveInterval mod, AngleInterval arg);
 
         static Interval singleton(ampl::Amplitude z);
