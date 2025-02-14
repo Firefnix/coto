@@ -5,9 +5,12 @@
 
 #include <diagram.h>
 #include <qasm/variables.h>
+#include <powmatrix.h>
 
 namespace gateappliers
 {
+    using GateMatrix = PowMatrix<absi::Interval>;
+
     void applyX(Diagram *d, qubit q);
 
     void applyH(Diagram *d, qubit q);
@@ -17,4 +20,6 @@ namespace gateappliers
     void applyCX(Diagram *d, qubit a, qubit b);
 
     void applyPhase(Diagram *d, qubit q, int phaseDenominator);
+
+    void applyGateMatrix(Diagram *d, qubit q, const GateMatrix &m);
 }
