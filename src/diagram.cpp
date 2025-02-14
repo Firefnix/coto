@@ -5,6 +5,8 @@
 
 using std::size_t;
 
+Diagram *leaf = new Diagram(0);
+
 static Diagram *newHeight1Diagram(const ampl::ConcreteState &state);
 
 template <typename T>
@@ -18,11 +20,12 @@ Diagram::Diagram(const size_t height) : height(height)
 
 Diagram *Diagram::eig0(const size_t height)
 {
-    auto d = new Diagram(height);
-    if (height != 0)
+    if (height == 0)
     {
-        d->lefto(Diagram::eig0(height - 1));
+        return leaf;
     }
+    auto d = new Diagram(height);
+    d->lefto(Diagram::eig0(height - 1));
     return d;
 }
 
@@ -30,7 +33,7 @@ Diagram *Diagram::fromStateVector(const ampl::ConcreteState &state)
 {
     if (state.height() == 0)
     {
-        return new Diagram(0);
+        return leaf;
     }
     if (state.height() == 1)
     {
@@ -47,14 +50,13 @@ Diagram *Diagram::fromStateVector(const ampl::ConcreteState &state)
 Diagram *newHeight1Diagram(const ampl::ConcreteState &state)
 {
     auto r = new Diagram(1);
-    auto unity = new Diagram(0);
     if (state[0] != ampl::zero)
     {
-        r->lefto(unity, Interval::singleton(state[0]));
+        r->lefto(leaf, Interval::singleton(state[0]));
     }
     if (state[1] != ampl::zero)
     {
-        r->righto(unity, Interval::singleton(state[1]));
+        r->righto(leaf, Interval::singleton(state[1]));
     }
     return r;
 }
@@ -101,6 +103,10 @@ Evaluation Diagram::evaluate()
 
 Diagram *Diagram::clone()
 {
+    if (height == 0)
+    {
+        return this;
+    }
     auto d = new Diagram(height);
     for (branch b : left)
     {
