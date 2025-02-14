@@ -181,8 +181,13 @@ bool polar::Interval::operator==(const Interval &other) const
     return (mod == other.mod) && (arg == other.arg);
 }
 
-std::string polar::Interval::to_string() const
+std::string polar::Interval::to_string(bool strict) const
 {
+    if (!strict)
+    {
+        if (is_real())
+            return std::to_string(to_real());
+    }
     return "{mod: " + std::to_string(mod.min) + " " + std::to_string(mod.max) + " arg: " + std::to_string(arg.min) + " " + std::to_string(arg.delta) + "}";
 }
 

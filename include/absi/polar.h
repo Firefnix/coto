@@ -83,7 +83,7 @@ namespace polar
 
         bool operator==(const Interval &other) const;
 
-        std::string to_string() const;
+        std::string to_string(bool strict = false) const;
 
         polar::real norm();
 
