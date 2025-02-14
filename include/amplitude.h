@@ -31,7 +31,7 @@ namespace ampl
      *
      * Randomizes an already-allocated state (cheaper than returning by value)
      */
-    void randomizeState(ConcreteState& state);
+    void randomizeState(ConcreteState &state);
 
     /// @brief String representation of the Amplitude
     std::string to_string(const ampl::Amplitude a);
@@ -51,6 +51,9 @@ namespace ampl
 
     /// @brief The complex number, square root of two
     const Amplitude sqrt2{std::sqrt(2), 0.};
+
+    /// @brief The complex number, one over the square root of two
+    const Amplitude invSqrt2{std::sqrt(1. / 2), 0.};
 
     /// @brief The imaginary number i
     const Amplitude i{0., 1.};

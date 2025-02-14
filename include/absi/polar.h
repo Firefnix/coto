@@ -25,7 +25,7 @@ namespace polar
 
         bool operator==(const PositiveInterval &other) const;
 
-    // protected:
+    protected:
         real min;
         real max;
     };

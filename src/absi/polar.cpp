@@ -6,7 +6,7 @@
 
 using namespace polar;
 
-static real argument(const ampl::Amplitude& z);
+static real argument(const ampl::Amplitude &z);
 
 PositiveInterval::PositiveInterval(real a, real b) : min(a), max(b)
 {
@@ -112,12 +112,14 @@ Interval polar::Interval::real(polar::real value)
     return Interval::singleton(value);
 }
 
-static real argument(const ampl::Amplitude& z)
+static real argument(const ampl::Amplitude &z)
 {
-    if (z.imag() == 0) {
+    if (z.imag() == 0)
+    {
         return z.real() >= 0 ? 0. : 1.;
     }
-    if (z.real() == 1) {
+    if (z.real() == 1)
+    {
         return z.imag() >= 0 ? .5 : 1.5;
     }
     return std::arg(z) / std::numbers::pi;
@@ -200,5 +202,5 @@ polar::real polar::Interval::to_real() const
     {
         throw std::logic_error("Not a real number");
     }
-    return mod.min * ((arg.min == 0) ? 1 : -1);
+    return mod.min * ((arg.min == 0.) ? 1. : -1.);
 }
