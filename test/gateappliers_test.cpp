@@ -168,3 +168,31 @@ TEST_F(GateAppliersTest, gateMatrixHadamardOnQubit1)
             << ", expected " << expected[i];
     }
 }
+
+TEST_F(GateAppliersTest, applyH)
+{
+    auto h = gateappliers::GateMatrix(1);
+    h(0, 0) = ampl::invSqrt2;
+    h(0, 1) = ampl::invSqrt2;
+    h(1, 0) = ampl::invSqrt2;
+    h(1, 1) = -ampl::invSqrt2;
+
+    const auto numberOfQubits = 4;
+    for (auto q = 0; q < numberOfQubits; q++)
+    {
+        auto d0 = Diagram::randomPointer(numberOfQubits);
+        auto d1 = d0->clone();
+        gateappliers::applyGateMatrix(d0, q, h);
+        gateappliers::applyH(d1, q);
+
+        auto e0 = d0->evaluate();
+        auto e1 = d1->evaluate();
+        for (auto i = 0; i < e0.size(); i++)
+        {
+            EXPECT_EQ(e0[i], e1[i])
+                << "Failed applying H on qubit " << q << "  at index " << i
+                << ", e0 " << e0[i].to_string()
+                << ", e1 " << e1[i].to_string();
+        }
+    }
+}

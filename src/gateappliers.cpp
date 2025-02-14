@@ -28,8 +28,18 @@ void gateappliers::applyX(Diagram *d, qubit q)
 
 void gateappliers::applyH(Diagram *d, qubit q)
 {
+    static gateappliers::GateMatrix hadamardGate(1);
+    static bool didInit = false;
     assertQubitIsValid(d, q);
-    throw std::runtime_error("Not implemented");
+    if (!didInit)
+    {
+        hadamardGate(0, 0) = absi::Interval::singleton(ampl::invSqrt2);
+        hadamardGate(0, 1) = absi::Interval::singleton(ampl::invSqrt2);
+        hadamardGate(1, 0) = absi::Interval::singleton(ampl::invSqrt2);
+        hadamardGate(1, 1) = absi::Interval::singleton(-ampl::invSqrt2);
+        didInit = true;
+    }
+    applyGateMatrix(d, q, hadamardGate);
 }
 
 void gateappliers::applyS(Diagram *d, qubit a, qubit b)
