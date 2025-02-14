@@ -18,6 +18,8 @@ void printListOfActions();
 
 void printEvaluation();
 
+void printDiagramDescription();
+
 void freeDiagram();
 
 void printRunStatementsHelp();

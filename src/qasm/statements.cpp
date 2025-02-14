@@ -236,6 +236,10 @@ public:
         {
             printEvaluation();
         }
+        else if (content == "@describe" || content == "@desc")
+        {
+            printDiagramDescription();
+        }
         else if (content == "@help" || content == "@man" || content == "@manual")
         {
             printRunStatementsHelp();

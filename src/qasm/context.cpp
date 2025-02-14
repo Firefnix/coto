@@ -112,6 +112,57 @@ void printEvaluation()
     std::cout << std::endl;
 }
 
+static void registerNodes(Diagram *d, std::set<Diagram *> &seen)
+{
+    seen.insert(d);
+    for (auto &b : d->left)
+    {
+        if (seen.find(b.d) == seen.end())
+        {
+            seen.insert(b.d);
+            registerNodes(b.d, seen);
+        }
+    }
+    for (auto &b : d->right)
+    {
+        if (seen.find(b.d) == seen.end())
+        {
+            seen.insert(b.d);
+            registerNodes(b.d, seen);
+        }
+    }
+}
+
+static size_t getBranchCount(Diagram *d)
+{
+    size_t count = 0;
+    for (auto &b : d->left)
+    {
+        count += getBranchCount(b.d);
+        count++;
+    }
+    for (auto &b : d->right)
+    {
+        count += getBranchCount(b.d);
+        count++;
+    }
+    return count;
+}
+
+void printDiagramDescription()
+{
+    if (diagram == nullptr)
+    {
+        std::cout << "(null)" << std::endl;
+        return;
+    }
+    std::set<Diagram *> seen;
+    registerNodes(diagram, seen);
+    std::cout << "~ height " << diagram->height << std::endl;
+    std::cout << "~ nodes " << seen.size() << std::endl;
+    std::cout << "~ branches " << getBranchCount(diagram) << std::endl;
+}
+
 void freeDiagram()
 {
     delete diagram;
@@ -125,6 +176,7 @@ void printRunStatementsHelp()
               << "  @run, @sim, @simulate - simulate the current diagram\n"
               << "  @list, @actions - list the actions to be performed\n"
               << "  @display, @evaluate, @eval - display the evaluation of the current diagram\n"
+              << "  @describe, @desc - display the description of the current diagram\n"
               << "  @help, @man, @manual - display this help message\n"
               << std::endl;
 }
