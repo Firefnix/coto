@@ -18,6 +18,8 @@ public:
     /// @brief Constructor: initializes the array with size 2^n
     explicit PowArray(size_t n);
 
+    explicit PowArray(size_t n, T *data);
+
     /// @brief Access element
     T &operator[](size_t index);
 

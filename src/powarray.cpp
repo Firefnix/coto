@@ -13,6 +13,22 @@ PowArray<T>::PowArray(size_t n)
 }
 
 template <typename T>
+PowArray<T>::PowArray(size_t n, T *data)
+{
+    if (n >= sizeof(size_t) * 8)
+    {
+        throw std::overflow_error("Exponent too large"); // Prevent overflow
+    }
+    height_ = n;
+    size_ = static_cast<size_t>(1) << n; // Compute 2^n
+    data_ = std::make_unique<T[]>(size_);
+    for (size_t i = 0; i < size_; i++)
+    {
+        data_[i] = data[i];
+    }
+}
+
+template <typename T>
 T &PowArray<T>::operator[](size_t index)
 {
     if (index >= size_)
