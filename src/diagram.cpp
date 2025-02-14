@@ -126,6 +126,10 @@ std::vector<branch> Diagram::childrenOfSide(Side s) const
 
 void Diagram::lefto(Diagram *d, absi::Interval x)
 {
+    if (x == absi::zero)
+    {
+        return;
+    }
     left.push_back(branch{.x = x, .d = d});
     isUpToDate = false;
     d->parents.push_back(this);
@@ -133,6 +137,10 @@ void Diagram::lefto(Diagram *d, absi::Interval x)
 
 void Diagram::righto(Diagram *d, absi::Interval x)
 {
+    if (x == absi::zero)
+    {
+        return;
+    }
     right.push_back(branch{.x = x, .d = d});
     isUpToDate = false;
     d->parents.push_back(this);
