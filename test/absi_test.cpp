@@ -26,6 +26,8 @@ TEST_F(CartesianTest, Equal)
 {
     cartesian::Interval c = cartesian::Interval(ampl::zero, ampl::one + ampl::i);
     EXPECT_EQ(b, c);
+    EXPECT_EQ(ampl::zero, ampl::zero * ampl::one);
+    EXPECT_EQ(ampl::zero, ampl::one * ampl::zero);
 }
 
 TEST_F(CartesianTest, Join)
@@ -64,6 +66,15 @@ TEST_F(PolarTest, Operations)
 {
     EXPECT_NO_THROW(i1 * i2);
     EXPECT_NO_THROW(i1 | i2);
+    EXPECT_EQ(polar::zero, polar::zero * polar::one);
+}
+
+TEST_F(PolarTest, multiply)
+{
+    auto one = polar::Interval::real(1.);
+    auto minus = polar::Interval::real(-1.);
+    EXPECT_EQ(one * minus, minus);
+    EXPECT_EQ(minus, one * minus);
 }
 
 TEST_F(PolarTest, PositiveIntervalCreation)
