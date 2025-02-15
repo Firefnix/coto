@@ -78,6 +78,14 @@ void simulate()
         {
             gateappliers::applyH(diagram, a.q);
         }
+        else if (a.gate->name == "s")
+        {
+            gateappliers::applyS(diagram, a.q, a.q + 1);
+        }
+        else if (a.gate->name == "cx")
+        {
+            gateappliers::applyCX(diagram, a.q, a.q + 1);
+        }
         else if (a.gate->name[0] == 'p')
         {
             int phase = dynamic_cast<const PhaseGate *>(a.gate)->phase;
