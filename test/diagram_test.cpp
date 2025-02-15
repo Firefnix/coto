@@ -40,6 +40,17 @@ TEST_F(DiagramTest, testEvaluate)
     EXPECT_EQ(absi::zero, c);
 }
 
+TEST_F(DiagramTest, doubleEvaluation)
+{
+    auto d = Diagram::random(3);
+    auto v1 = d.evaluate();
+    auto v2 = d.evaluate();
+    for (auto i = 0; i < v1.size(); i++)
+    {
+        EXPECT_EQ(v1[i], v2[i]);
+    }
+}
+
 TEST_F(DiagramTest, testEig0)
 {
     auto d = Diagram::eig0(3);
