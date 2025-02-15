@@ -153,24 +153,8 @@ constexpr size_t Diagram::size() const
 
 size_t Diagram::countNodesAtHeight(size_t h)
 {
-    if (h > height)
-    {
-        throw std::invalid_argument("Height is greater than the diagram's height");
-    }
-    if (h == 0 || h == height)
-    {
-        return 1;
-    }
-    size_t n = 0;
-    for (branch b : left)
-    {
-        n += b.d->countNodesAtHeight(h - 1);
-    }
-    for (branch b : right)
-    {
-        n += b.d->countNodesAtHeight(h - 1);
-    }
-    return n;
+    auto pointers = getNodePointersAtHeight(h);
+    return pointers.size();
 }
 
 // TODO: Implement this function in-place, not by copying vectors

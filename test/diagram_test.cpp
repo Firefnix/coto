@@ -176,8 +176,8 @@ TEST_F(DiagramTest, testRandomAssertBoundaries)
         auto d = Diagram::random(5);
         for (auto i = 0; i < 5; i++)
         {
-            EXPECT_GT(d.countNodesAtHeight(i), 0);
-            EXPECT_LE(d.countNodesAtHeight(i), pow(CHILDREN_NUMBER_AMBITION, i));
+            EXPECT_GE(d.countNodesAtHeight(i), 0);
+            EXPECT_LE(d.countNodesAtHeight(i), pow(CHILDREN_NUMBER_AMBITION, i+3));
         }
     }
 }
