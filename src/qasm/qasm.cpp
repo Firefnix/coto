@@ -5,6 +5,7 @@
 #include <qasm/read.h>
 #include <qasm/gate.h>
 
+#include <iostream>
 #include <filesystem>
 
 void qasm::exec(const std::string &content)
@@ -30,9 +31,16 @@ void qasm::fexec(const std::string &filePath)
             return;
         }
     }
-    auto f = openFile(filePath);
-    exec(f);
-    f.close();
+    try
+    {
+        auto f = openFile(filePath);
+        exec(f);
+        f.close();
+    }
+    catch (const FileError &e)
+    {
+        std::cerr << e.what() << '\n';
+    }
 }
 
 std::string qasm::eval(const std::string &identifier)
