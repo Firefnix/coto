@@ -1,6 +1,9 @@
 #include <iostream>
 #include <qasm.h>
 
+/// @brief Main loop for the interpreter (interative mode)
+void interpreterMainLoop();
+
 void printPrompt();
 void printResult(const std::string &result);
 
@@ -11,12 +14,27 @@ bool processLine(const std::string &line);
 
 bool isQuitLine(const std::string &line);
 
-int main(int argc, char* argv[])
+int main(int argc, char *argv[])
+{
+    if (argc > 1)
+    {
+        qasm::fexec(argv[1]);
+    }
+    else
+    {
+        interpreterMainLoop();
+    }
+    return 0;
+}
+
+void interpreterMainLoop()
 {
     std::cout << "Coto QASM Interpreter" << std::endl;
     printPrompt();
-    for (std::string line; std::getline(std::cin, line);) {
-        if (processLine(line)) {
+    for (std::string line; std::getline(std::cin, line);)
+    {
+        if (processLine(line))
+        {
             break;
         }
         printPrompt();
