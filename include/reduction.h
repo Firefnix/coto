@@ -11,6 +11,14 @@
 namespace reduction
 {
     /**
+     * @brief Cut dead branches from a diagram.
+     *
+     * @param d The quantum diagram we want to reduce.
+     * @return Nothing, the reduction is performed in-place.
+     */
+    void cutDeadBranches(Diagram *d);
+
+    /**
      * @brief Reduces the number of nodes at each level of the QDD so that level i
      * contains less than (or equal) `maxNodes[i]`.
      *

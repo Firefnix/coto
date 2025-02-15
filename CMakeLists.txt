@@ -63,7 +63,9 @@ add_executable(gateappliers_test test/gateappliers_test.cpp)
 target_link_libraries(gateappliers_test powarray ${absi_libs} diagram gateappliers GTest::gtest_main)
 
 # Reduction test
-add_library(reduction STATIC src/reduction.cpp src/diagram.cpp ${absi_files} src/amplitude.cpp)
+add_library(reduction STATIC src/reduction.cpp src/selection.cpp src/diagram.cpp ${absi_files} src/amplitude.cpp)
+add_executable(reduction_test test/reduction_test.cpp)
+target_link_libraries(reduction_test ${absi_libs} diagram selection reduction GTest::gtest_main)
 
 # QASM library
 FILE(GLOB QasmSources src/qasm/*.cpp)
@@ -82,4 +84,5 @@ gtest_discover_tests(absi_test)
 gtest_discover_tests(diagram_test)
 gtest_discover_tests(gateappliers_test)
 gtest_discover_tests(selection_test)
+gtest_discover_tests(reduction_test)
 gtest_discover_tests(qasm_test)
