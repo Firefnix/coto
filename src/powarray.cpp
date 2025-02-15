@@ -13,7 +13,7 @@ PowArray<T>::PowArray(size_t n)
 }
 
 template <typename T>
-PowArray<T>::PowArray(size_t n, T *data)
+PowArray<T>::PowArray(size_t n, const T *data)
 {
     if (n >= sizeof(size_t) * 8)
     {
