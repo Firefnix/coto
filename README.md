@@ -13,15 +13,63 @@
 
 Theoretical research, experiments and implementation of _abstract additive quantum decision diagrams_, as part of a student research project.
 
+## Building
+
+To build the project, you must have CLang, CMake and Ninja installed. The code uses some C++23 features, so a recent version of CLang++ is required. *Other versions probably work*, but I personally use the following on my machine:
+* CLang 19.1.6
+* CMake 3.31.3
+* Ninja 1.12.1
+
+1. Configure the project
+```bash
+export CXX=$(which clang++)
+cmake -S . -B build -GNinja
+```
+2. Build the project
+```bash
+cmake --build build
+```
+3. To run the tests (optional)
+```bash
+cd build
+ctest
+```
+
+## QASM interactive interpreter
+
+After building the project (steps 1. and 2. above), simply run `./build/prompt`. You can then enter QASM instructions, for example
+```
+qubit a;
+qubit b;
+h a;
+p(pi/3) b;
+cx a b;
+h b;
+```
+
+This prompt utility comes with a few available **run statements** that should be `;`-terminated:
+* `@build`, `@inst`, `@instantiate` - create a new diagram
+* `@run`, `@sim`, `@simulate` - simulate the current diagram
+* `@list`, `@actions` - list the actions (gate applicaitons) to be performed
+* `@display`, `@evaluate`, `@eval` - display the evaluation of the current diagram
+* `@describe`, `@desc` - display the description of the current diagram
+* `@help`, `@man`, `@manual` - display a help message
+
+Applying gates to qubits is not performed immediately after the statement is entered, and should be triggered by a `@run;`.
+
+The `prompt` executable can also take a `.qasm` file path as an argument, in this case it quits after executing all statements in the file, without entering interactive mode.
+
 ## Repository architecture
 
 Presentation of this repository's main directories:
--  `.github/workflows` GitHub actions continuous integration (CI) configuration files. Runs the unit tests that are in the `test` directory and marked as ready for testing in `CMakeLists.txt`
+-  `.github/workflows` GitHub actions continuous integration (CI) and continous deployment (CD) configuration files
+    - Runs the unit tests that are in the `test` directory and marked as ready for testing in `CMakeLists.txt`
+    - Generate the docs using Doxygen and publish them to [firefnix.github.io/coto](https://firefnix.github.io/coto/) using GitHub Pages
 -  `archives` Legacy documents or code, that still should be indexed
 -  `doc` Theory documents (basically, LaTeX)
 -  `include` Code header files (`.h` C++ files)
--  `presentation` Final presentation (in French for now, an English version will be available afterwards)
 -  `ref` References, code or case studies that can be used as examples
--  `report` Final report (in French for now, an English version will be available afterwards)
+-  `s6` Final report and presentation for semester 6 (in French)
+-  `s7` Final report and presentation for semester 6 (in French)
 -  `src` Source code (`.cpp` C++ files, not headers)
 -  `test` Test code (`.cpp` C++ files)
