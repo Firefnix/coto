@@ -7,7 +7,7 @@ var searchData=
   ['reduction_4',['reduction',['../namespacereduction.html',1,'']]],
   ['reduction_2eh_5',['reduction.h',['../reduction_8h.html',1,'']]],
   ['replacenodesatheight_6',['replaceNodesAtHeight',['../classDiagram.html#a60b8e6bb5d77c0ea3c676521cf57421e',1,'Diagram']]],
-  ['repository_20architecture_7',['Repository architecture',['../index.html#autotoc_md1',1,'']]],
+  ['repository_20architecture_7',['Repository architecture',['../index.html#autotoc_md3',1,'']]],
   ['right_8',['right',['../classDiagram.html#a27da99bca3d5b94df1b2612e9571701c',1,'Diagram']]],
   ['righto_9',['righto',['../classDiagram.html#a119d3b313db835850925b1bb0d7eb575',1,'Diagram']]]
 ];

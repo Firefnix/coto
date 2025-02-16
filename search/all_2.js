@@ -8,5 +8,6 @@ var searchData=
   ['contains_5',['contains',['../classcartesian_1_1Interval.html#a2b00f04fcd5b7f7c837b3a797c5c2761',1,'cartesian::Interval']]],
   ['context_2eh_6',['context.h',['../context_8h.html',1,'']]],
   ['coto_20abstract_20additive_20quantum_20decision_20diagrams_7',['Coto - Abstract Additive Quantum Decision Diagrams',['../index.html',1,'']]],
-  ['countnodesatheight_8',['countNodesAtHeight',['../classDiagram.html#a5876537d83ceecc4cd9a90862643a150',1,'Diagram']]]
+  ['countnodesatheight_8',['countNodesAtHeight',['../classDiagram.html#a5876537d83ceecc4cd9a90862643a150',1,'Diagram']]],
+  ['cutdeadbranches_9',['cutDeadBranches',['../namespacereduction.html#add9ed6efeb061cb78a9c0cc32692a5b9',1,'reduction']]]
 ];

@@ -97,15 +97,54 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 <div class="textblock"><p><a class="anchor" id="md_README"></a> <a href="https://github.com/Firefnix/coto"><img src="https://img.shields.io/badge/GitHub-%23121011.svg?logo=github&amp;logoColor=white" alt="GitHub" style="pointer-events: none;" class="inline"/></a> <a href="https://github.com/Firefnix/coto/actions"><img src="https://img.shields.io/badge/GitHub_Actions-2088FF?logo=github-actions&amp;logoColor=white" alt="GitHub Actions" class="inline"/></a> <a href="https://github.com/Firefnix/coto/actions?query=workflow%3A" title="CMake%20Tests"><img src="https://github.com/Firefnix/coto/workflows/CMake%20Tests/badge.svg" alt="Build Status (GitHub Actions)" style="pointer-events: none;" class="inline"/></a> <a href="https://en.cppreference.com/w/cpp/23"><img src="https://img.shields.io/badge/C++-%2300599C.svg?logo=c%2B%2B&amp;logoColor=white" alt="C++" style="pointer-events: none;" class="inline"/></a> <a href="https://gitmoji.dev"><img src="https://img.shields.io/badge/gitmoji-%20😜%20😍-FFDD67.svg?style=flat-square" alt="Gitmoji" style="pointer-events: none;" class="inline"/> </a></p>
 <p>Theoretical research, experiments and implementation of <em>abstract additive quantum decision diagrams</em>, as part of a student research project.</p>
 <h1><a class="anchor" id="autotoc_md1"></a>
+Building</h1>
+<p>To build the project, you must have CLang, CMake and Ninja installed. The code uses some C++23 features, so a recent version of CLang++ is required. <em>Other versions probably work</em>, but I personally use the following on my machine:</p><ul>
+<li>CLang 19.1.6</li>
+<li>CMake 3.31.3</li>
+<li>Ninja 1.12.1</li>
+</ul>
+<ol type="1">
+<li>Configure the project <div class="fragment"><div class="line">export CXX=$(which clang++)</div>
+<div class="line">cmake -S . -B build -GNinja</div>
+</div><!-- fragment --></li>
+<li>Build the project <div class="fragment"><div class="line">cmake --build build</div>
+</div><!-- fragment --></li>
+<li>To run the tests (optional) <div class="fragment"><div class="line">cd build</div>
+<div class="line">ctest</div>
+</div><!-- fragment --></li>
+</ol>
+<h1><a class="anchor" id="autotoc_md2"></a>
+QASM interactive interpreter</h1>
+<p>After building the project (steps 1. and 2. above), simply run <code>./build/prompt</code>. You can then enter QASM instructions, for example </p><div class="fragment"><div class="line">qubit a;</div>
+<div class="line">qubit b;</div>
+<div class="line">h a;</div>
+<div class="line">p(pi/3) b;</div>
+<div class="line">cx a b;</div>
+<div class="line">h b;</div>
+</div><!-- fragment --><p>This prompt utility comes with a few available <b>run statements</b> that should be <code>;</code>-terminated:</p><ul>
+<li><code>@build</code>, <code>@inst</code>, <code>@instantiate</code> - create a new diagram</li>
+<li><code>@run</code>, <code>@sim</code>, <code>@simulate</code> - simulate the current diagram</li>
+<li><code>@list</code>, <code>@actions</code> - list the actions (gate applicaitons) to be performed</li>
+<li><code>@display</code>, <code>@evaluate</code>, <code>@eval</code> - display the evaluation of the current diagram</li>
+<li><code>@describe</code>, <code>@desc</code> - display the description of the current diagram</li>
+<li><code>@help</code>, <code>@man</code>, <code>@manual</code> - display a help message</li>
+</ul>
+<p>Applying gates to qubits is not performed immediately after the statement is entered, and should be triggered by a <code>@run;</code>.</p>
+<p>The <code>prompt</code> executable can also take a <code>.qasm</code> file path as an argument, in this case it quits after executing all statements in the file, without entering interactive mode.</p>
+<h1><a class="anchor" id="autotoc_md3"></a>
 Repository architecture</h1>
 <p>Presentation of this repository's main directories:</p><ul>
-<li><code>.github/workflows</code> GitHub actions continuous integration (CI) configuration files. Runs the unit tests that are in the <code>test</code> directory and marked as ready for testing in <code>CMakeLists.txt</code></li>
+<li><code>.github/workflows</code> GitHub actions continuous integration (CI) and continous deployment (CD) configuration files<ul>
+<li>Runs the unit tests that are in the <code>test</code> directory and marked as ready for testing in <code>CMakeLists.txt</code></li>
+<li>Generate the docs using Doxygen and publish them to <a href="https://firefnix.github.io/coto/">firefnix.github.io/coto</a> using GitHub Pages</li>
+</ul>
+</li>
 <li><code>archives</code> Legacy documents or code, that still should be indexed</li>
 <li><code>doc</code> Theory documents (basically, LaTeX)</li>
 <li><code>include</code> Code header files (<code>.h</code> C++ files)</li>
-<li><code>presentation</code> Final presentation (in French for now, an English version will be available afterwards)</li>
 <li><code>ref</code> References, code or case studies that can be used as examples</li>
-<li><code>report</code> Final report (in French for now, an English version will be available afterwards)</li>
+<li><code>s6</code> Final report and presentation for semester 6 (in French)</li>
+<li><code>s7</code> Final report and presentation for semester 6 (in French)</li>
 <li><code>src</code> Source code (<code>.cpp</code> C++ files, not headers)</li>
 <li><code>test</code> Test code (<code>.cpp</code> C++ files) </li>
 </ul>

@@ -6,5 +6,5 @@ var searchData=
   ['ampl_3',['ampl',['../namespaceampl.html',1,'']]],
   ['amplitude_4',['Amplitude',['../namespaceampl.html#aec208a573e8df0a8f823d674479dbf1b',1,'ampl']]],
   ['angleinterval_5',['AngleInterval',['../classpolar_1_1AngleInterval.html',1,'polar']]],
-  ['architecture_6',['Repository architecture',['../index.html#autotoc_md1',1,'']]]
+  ['architecture_6',['Repository architecture',['../index.html#autotoc_md3',1,'']]]
 ];

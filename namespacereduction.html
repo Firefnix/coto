@@ -102,6 +102,9 @@ $(document).ready(function(){initNavTree('namespacereduction.html',''); initResi
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:add9ed6efeb061cb78a9c0cc32692a5b9" id="r_add9ed6efeb061cb78a9c0cc32692a5b9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacereduction.html#add9ed6efeb061cb78a9c0cc32692a5b9">cutDeadBranches</a> (<a class="el" href="classDiagram.html">Diagram</a> *d)</td></tr>
+<tr class="memdesc:add9ed6efeb061cb78a9c0cc32692a5b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cut dead branches from a diagram.  <br /></td></tr>
+<tr class="separator:add9ed6efeb061cb78a9c0cc32692a5b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adbc46d4571ba8698ef879d5dd2b7be6e" id="r_adbc46d4571ba8698ef879d5dd2b7be6e"><td class="memTemplParams" colspan="2">template&lt;std::size_t height&gt; </td></tr>
 <tr class="memitem:adbc46d4571ba8698ef879d5dd2b7be6e"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacereduction.html#adbc46d4571ba8698ef879d5dd2b7be6e">maxNodesLevel</a> (<a class="el" href="classDiagram.html">Diagram</a> d, std::array&lt; size_t, height &gt; maxNodes, <a class="el" href="selection_8h.html#acc252c6649511c21e22b3ba732769528">selection::MergeesChoiceStrategy</a> strategy)</td></tr>
 <tr class="memdesc:adbc46d4571ba8698ef879d5dd2b7be6e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reduces the number of nodes at each level of the QDD so that level i contains less than (or equal) <code>maxNodes[i]</code>.  <br /></td></tr>
@@ -116,6 +119,33 @@ Functions</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A module packaging multiple reduction methods for quantum decision diagrams. </p>
 </div><h2 class="groupheader">Function Documentation</h2>
+<a id="add9ed6efeb061cb78a9c0cc32692a5b9" name="add9ed6efeb061cb78a9c0cc32692a5b9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#add9ed6efeb061cb78a9c0cc32692a5b9">&#9670;&#160;</a></span>cutDeadBranches()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void reduction::cutDeadBranches </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classDiagram.html">Diagram</a> *&#160;</td>
+          <td class="paramname"><em>d</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Cut dead branches from a diagram. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">d</td><td>The quantum diagram we want to reduce. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Nothing, the reduction is performed in-place. </dd></dl>
+
+</div>
+</div>
 <a id="a3b7663ec477ed5748fb3aab82c49d8a5" name="a3b7663ec477ed5748fb3aab82c49d8a5"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a3b7663ec477ed5748fb3aab82c49d8a5">&#9670;&#160;</a></span>forceMerge()</h2>
 
