@@ -263,3 +263,56 @@ TEST_F(GateAppliersTest, applyH)
             << ", expected " << afterH[i];
     }
 }
+
+/*
+TEST_F(GateAppliersTest, debug)
+{
+    const ampl::Amplitude v[] = {1, 0, 0, 0};
+    const ampl::Amplitude afterH[] = {ampl::invSqrt2, 0, ampl::invSqrt2, 0};
+    const Interval expected[] = {ampl::invSqrt2, 0, 0, ampl::invSqrt2};
+    const ampl::ConcreteState base(2, v);
+    std::cout << "- - - - - Creating d - - - - -" << std::endl;
+    auto d = Diagram::fromStateVector(base);
+    std::cout << "- - - - - Creating d2 - - - - -" << std::endl;
+    auto d2 = Diagram::fromStateVector(ampl::ConcreteState(2, afterH));
+
+    std::cout << "- - - - - Applying H - - - - -" << std::endl;
+    gateappliers::applyH(d, 0);
+    auto ev = d->evaluate();
+    auto ev2 = d2->evaluate();
+
+    for (auto i = 0; i < base.size(); i++)
+    {
+        EXPECT_EQ(ev[i], ev2[i])
+            << "Failed applying H in debug (after H) at index " << i
+            << ", got " << ev[i].to_string()
+            << ", expected " << ev2[i].to_string();
+    }
+
+    std::cout << "- - - - - Applying CX on d - - - - -" << std::endl;
+    // reduction::cutDeadBranches(d);
+    gateappliers::applyCX(d, 0, 1);
+    // reduction::cutDeadBranches(d);
+    std::cout << "- - - - - Applying CX on d2 - - - - -" << std::endl;
+
+    gateappliers::applyCX(d2, 0, 1);
+    auto evcx = d->evaluate();
+    auto evcx2 = d2->evaluate();
+
+    for (auto i = 0; i < base.size(); i++)
+    {
+        EXPECT_EQ(evcx2[i], expected[i])
+            << "Failed applying H and CX in debug at index " << i
+            << ", got " << evcx2[i].to_string()
+            << ", expected " << expected[i].to_string();
+    }
+
+    for (auto i = 0; i < base.size(); i++)
+    {
+        EXPECT_EQ(evcx[i], expected[i])
+            << "Failed applying H and CX in debug at index " << i
+            << ", got " << evcx[i].to_string()
+            << ", expected " << expected[i].to_string();
+    }
+}
+// */
