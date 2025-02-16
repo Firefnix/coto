@@ -124,18 +124,15 @@ TEST_F(GateAppliersTest, gateMatrixIdentity)
 
 TEST_F(GateAppliersTest, gateMatrixHadamardOnQubit0)
 {
-    auto m = gateappliers::GateMatrix(1);
-    m(0, 0) = 1;
-    m(0, 1) = 1;
-    m(1, 0) = 1;
-    m(1, 1) = -1;
+    absi::Interval coefficients[] = {1, 1, 1, -1};
+    gateappliers::GateMatrix gate(1, coefficients);
 
     ampl::Amplitude v[] = {1, 2, 3, 4};
     ampl::ConcreteState base(2, v);
 
     auto d = Diagram::fromStateVector(base);
 
-    gateappliers::applyGateMatrix(d, 0, m);
+    gateappliers::applyGateMatrix(d, 0, gate);
 
     auto ev = d->evaluate();
     EXPECT_EQ(ev[0], Interval::real(4)) << ev[0].to_string() << " != 4";
@@ -169,7 +166,7 @@ TEST_F(GateAppliersTest, gateMatrixHadamardOnQubit1)
     }
 }
 
-TEST_F(GateAppliersTest, applyH)
+TEST_F(GateAppliersTest, applyHConsistency)
 {
     auto h = gateappliers::GateMatrix(1);
     h(0, 0) = ampl::invSqrt2;
@@ -194,5 +191,75 @@ TEST_F(GateAppliersTest, applyH)
                 << ", e0 " << e0[i].to_string()
                 << ", e1 " << e1[i].to_string();
         }
+    }
+}
+
+TEST_F(GateAppliersTest, applyS)
+{
+    ampl::Amplitude v[] = {1, 2, 3, 4};
+    ampl::ConcreteState base(2, v);
+
+    auto d = Diagram::fromStateVector(base);
+
+    gateappliers::applyS(d, 0, 1);
+
+    auto ev = d->evaluate();
+    EXPECT_EQ(ev[0], 1) << ev[0].to_string() << " != 1";
+    EXPECT_EQ(ev[1], 3) << ev[1].to_string() << " != 3";
+    EXPECT_EQ(ev[2], 2) << ev[2].to_string() << " != 2";
+    EXPECT_EQ(ev[3], 4) << ev[3].to_string() << " != 4";
+}
+
+TEST_F(GateAppliersTest, applyCX)
+{
+    ampl::Amplitude v[] = {1, 2, 3, 4};
+    ampl::ConcreteState base(2, v);
+
+    auto d = Diagram::fromStateVector(base);
+
+    gateappliers::applyCX(d, 0, 1);
+
+    auto ev = d->evaluate();
+    EXPECT_EQ(ev[0], 1) << ev[0].to_string() << " != 1";
+    EXPECT_EQ(ev[1], 2) << ev[1].to_string() << " != 2";
+    EXPECT_EQ(ev[2], 4) << ev[2].to_string() << " != 4";
+    EXPECT_EQ(ev[3], 3) << ev[3].to_string() << " != 3";
+}
+
+TEST_F(GateAppliersTest, applyCXOnQubit1and2)
+{
+    ampl::Amplitude v[] = {1, 2, 3, 4, 5, 6, 7, 8};
+    ampl::ConcreteState base(3, v);
+
+    auto d = Diagram::fromStateVector(base);
+
+    gateappliers::applyCX(d, 1, 2);
+
+    auto ev = d->evaluate();
+    ampl::Amplitude expected[] = {1, 2, 4, 3, 5, 6, 8, 7};
+    for (auto i = 0; i < 8; i++)
+    {
+        EXPECT_EQ(ev[i], expected[i])
+            << "Failed applying CX on qubit 1 and 2 at index " << i
+            << ", got " << ev[i].to_string()
+            << ", expected " << expected[i];
+    }
+}
+
+TEST_F(GateAppliersTest, applyH)
+{
+    const ampl::Amplitude v[] = {1, 0, 0, 0};
+    const ampl::Amplitude afterH[] = {ampl::invSqrt2, 0, ampl::invSqrt2, 0};
+    const ampl::ConcreteState base(2, v);
+    auto d = Diagram::fromStateVector(base);
+
+    gateappliers::applyH(d, 0);
+    auto ev = d->evaluate();
+    for (auto i = 0; i < ev.size(); i++)
+    {
+        EXPECT_EQ(ev[i], afterH[i])
+            << "Failed applying H in debug (after H) at index " << i
+            << ", got " << ev[i].to_string()
+            << ", expected " << afterH[i];
     }
 }

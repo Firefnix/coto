@@ -28,32 +28,47 @@ void gateappliers::applyX(Diagram *d, qubit q)
 
 void gateappliers::applyH(Diagram *d, qubit q)
 {
-    static gateappliers::GateMatrix hadamardGate(1);
-    static bool didInit = false;
+    static const absi::Interval hCoefficients[] = {
+        ampl::invSqrt2, ampl::invSqrt2,
+        ampl::invSqrt2, -ampl::invSqrt2};
+    static const gateappliers::GateMatrix hGate(1, hCoefficients);
     assertQubitIsValid(d, q);
-    if (!didInit)
-    {
-        hadamardGate(0, 0) = absi::Interval::singleton(ampl::invSqrt2);
-        hadamardGate(0, 1) = absi::Interval::singleton(ampl::invSqrt2);
-        hadamardGate(1, 0) = absi::Interval::singleton(ampl::invSqrt2);
-        hadamardGate(1, 1) = absi::Interval::singleton(-ampl::invSqrt2);
-        didInit = true;
-    }
-    applyGateMatrix(d, q, hadamardGate);
+    applyGateMatrix(d, q, hGate);
 }
 
 void gateappliers::applyS(Diagram *d, qubit a, qubit b)
 {
+    static const absi::Interval sCoefficients[] = {
+        1, 0, 0, 0,
+        0, 0, 1, 0,
+        0, 1, 0, 0,
+        0, 0, 0, 1};
+    static const gateappliers::GateMatrix sGate(2, sCoefficients);
     assertQubitIsValid(d, a);
     assertQubitIsValid(d, b);
-    throw std::runtime_error("Not implemented");
+
+    if (b != a + 1)
+    {
+        throw std::runtime_error("Gate applying on non-contiguous qubit is not implemented yet");
+    }
+    applyGateMatrix(d, a, sGate);
 }
 
 void gateappliers::applyCX(Diagram *d, qubit a, qubit b)
 {
+    static const absi::Interval cxCoefficients[] = {
+        1, 0, 0, 0,
+        0, 1, 0, 0,
+        0, 0, 0, 1,
+        0, 0, 1, 0};
+    static const gateappliers::GateMatrix cxGate(2, cxCoefficients);
     assertQubitIsValid(d, a);
     assertQubitIsValid(d, b);
-    throw std::runtime_error("Not implemented");
+    if (b != a + 1)
+    {
+        throw std::runtime_error("Gate applying on non-contiguous qubits is not implemented yet");
+    }
+    applyGateMatrix(d, a, cxGate);
 }
 
 void gateappliers::applyPhase(Diagram *d, qubit q, int phaseDenominator)
@@ -95,39 +110,61 @@ static void apply1QubitGateOnQubit0(Diagram *diagram, const gateappliers::GateMa
     }
 }
 
-void gateappliers::applyGateMatrix(Diagram *d, qubit q, const GateMatrix &m)
+static branches cloneBranches(const branches &brs)
 {
-    assertQubitIsValid(d, q);
-    const auto k = d->height - q; // 0 <= k < d->height
-
-    if (m.height() == 1)
+    branches cloned;
+    for (const auto &g : brs)
     {
-        for (auto &g : d->getNodePointersAtHeight(k))
-        {
-            apply1QubitGateOnQubit0(g, m);
-        }
+        cloned.push_back({.x = g.x, .d = g.d->clone()});
+    }
+    return cloned;
+}
+
+static void applyGateOnFirstQubits(Diagram *diagram, const gateappliers::GateMatrix &matrix)
+{
+    if (matrix.height() == 1)
+    {
+        apply1QubitGateOnQubit0(diagram, matrix);
         return;
     }
-    throw std::runtime_error("Not implemented");
 
-    for (auto &baseNode : d->getNodePointersAtHeight(k))
+    auto m00 = matrix.topLeft();
+    auto m01 = matrix.topRight();
+    auto m10 = matrix.bottomLeft();
+    auto m11 = matrix.bottomRight();
+    auto clonedLeft = cloneBranches(diagram->left);
+    for (auto &g : diagram->left)
     {
-        auto d00 = baseNode; // No need to clone
-        auto d01 = baseNode->clone();
-        auto d10 = baseNode->clone();
-        auto d11 = baseNode->clone();
-        for (const auto &g : d->left)
-        {
-            g.d->righto(d01, g.x);
-        }
-        for (auto &r : d->right)
-        {
-            r.d->lefto(d10, r.x);
-            r.d = d11;
-        }
-        applyGateMatrix(d00, q - 1, m.topLeft());
-        applyGateMatrix(d01, q - 1, m.topRight());
-        applyGateMatrix(d10, q - 1, m.bottomLeft());
-        applyGateMatrix(d11, q - 1, m.bottomRight());
+        applyGateOnFirstQubits(g.d, m00);
+    }
+    for (auto &d : diagram->right)
+    {
+        auto clone = d.d->clone();
+        applyGateOnFirstQubits(clone, m01);
+        diagram->lefto(clone, d.x);
+
+        applyGateOnFirstQubits(d.d, m11);
+    }
+    for (auto &g : clonedLeft)
+    {
+        auto clone = g.d->clone();
+        applyGateOnFirstQubits(clone, m10);
+        diagram->righto(clone, g.x);
+    }
+}
+
+void gateappliers::applyGateMatrix(Diagram *diagram, qubit q, const GateMatrix &matrix)
+{
+    assertQubitIsValid(diagram, q);
+    const auto k = diagram->height - q; // 0 <= k < d->height
+
+    if (q == 0)
+    {
+        applyGateOnFirstQubits(diagram, matrix);
+        return;
+    }
+    for (auto &g : diagram->getNodePointersAtHeight(k))
+    {
+        applyGateOnFirstQubits(g, matrix);
     }
 }
