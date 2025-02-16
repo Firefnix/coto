@@ -4,6 +4,13 @@
 
 \usepackage[french]{babel}
 \usepackage[utf8]{inputenc}
+
+\usepackage[sorting=none]{biblatex}
+%choix du style de la biblio
+% \bibliographystyle{plain}
+\bibliography{bibliographie}
+
+
 %pour gérer les positionnement d'images
 \usepackage{float}
 \usepackage{amsmath}
@@ -48,13 +55,36 @@
 \usetikzlibrary{positioning}
 \usetikzlibrary{calc}
 \usepackage{tikz-cd}
-\usepackage{circuitikz}
-\def\centerarc[#1](#2)(#3:#4:#5)% Syntax: [draw options] (center) (initial angle:final angle:radius)
-    { \draw[#1] ($(#2)+({#5*cos(#3)},{#5*sin(#3)})$) arc (#3:#4:#5); }
 
 % Algorithms
 \usepackage{algorithm}
 \usepackage{algpseudocode}
+\usepackage{listings}
+\renewcommand\lstlistingname{Programme}
+\renewcommand\lstlistlistingname{Liste des programmes}
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\lstdefinestyle{mystyle}{
+    commentstyle=\color{ups},
+    keywordstyle=\color{cs},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{ups},
+    basicstyle=\ttfamily,
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbersep=5pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=2
+}
+
+\lstset{style=mystyle}
+
 
 % No new page after chapter
 \usepackage{etoolbox}
@@ -112,13 +142,17 @@
 \setcounter{page}{0}
 \newpage
 
-
-
 \input{Introduction.tex}
+
+\newpage
 
 \input{Modele.tex}
 
+\newpage
+
 \input{Implementation.tex}
+
+\newpage
 
 \input{Conclusion.tex}
 
@@ -127,13 +161,9 @@
 % Hide page number for bibliography
 \renewcommand{\thepage}{}
 
-%choix du style de la biblio
-\bibliographystyle{plain}
-%inclusion de la biblio
-\bibliography{bibliographie}
 
-\vfill{}
+\printbibliography
 
 \HRule \\[0.4cm]
-\hfill{} \textsc{Malo \textsc{Leroy}} -- \textsc{CentraleSupélec} -- \today
+\hfill{} \textsc{Malo \textsc{Leroy}} -- \textsc{CentraleSupélec} -- 17 février 2025
 \end{document}
