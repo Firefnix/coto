@@ -1,0 +1,128 @@
+% 5. Présentez votre travail et vos éventuels résultats.
+\begin{frame}{Travail réalisé}
+  \textbf{Modèle}
+  \begin{itemize}
+      \item[\checkmark] Intervalles de $\mathbb C$ cartésiens \& polaires
+      \item[\checkmark] Diagrammes
+      \item[\checkmark] Approximation locale, globale
+      \item[\checkmark] Erreur
+      \item[\checkmark] Fusion forcée
+      \item[\checkmark] Algorithmes de réduction
+      \item[\checkmark] Application de portes
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Modèle théorique}
+
+  Exemple : on considère l'état $\begin{pmatrix}
+    10i+2 \\ 4i+1 \\ 2i \\ i
+  \end{pmatrix}$
+
+  \vspace{2em}
+
+\end{frame}
+
+\begin{frame}[noframenumbering]{Modèle théorique} % with colors
+
+  Exemple : on considère l'état $\begin{pmatrix}
+  \color{blue}10i \color{black} + \color{cs} 2 \\
+  \color{blue}4i  \color{black} + \color{cs} 1 \\
+  \color{cs}  2i \\
+  \color{cs}  i
+  \end{pmatrix}$
+
+  \vspace{1em}
+  Il existe des \textbf{régularités}.
+\end{frame}
+
+\begin{frame}[noframenumbering]{Modèle théorique} % with colors and schema
+
+  Exemple : on considère l'état $\begin{pmatrix}
+    \color{blue} \begin{pmatrix} 10i \\ 4i \end{pmatrix} \color{black} + \color{cs} \begin{pmatrix} 2 \\ 1 \end{pmatrix}
+  \\ \color{black} i \color{cs} \begin{pmatrix} 2 \\ 1 \end{pmatrix}
+  \end{pmatrix}$
+
+  \vspace{1em}
+  Il existe des \textbf{régularités}.
+\end{frame}
+
+\begin{frame}[noframenumbering]{Modèle théorique} % with colors and schema and faith
+
+  Exemple : on considère l'état $\begin{pmatrix}
+    4i \color{blue} \begin{pmatrix} 5/2 \\ 1 \end{pmatrix} \color{black} + \color{cs} \begin{pmatrix} 2 \\ 1 \end{pmatrix}
+  \\ \color{black} i \color{cs} \begin{pmatrix} 2 \\ 1 \end{pmatrix}
+  \end{pmatrix}$
+
+  \vspace{1em}
+  Il existe des \textbf{régularités}.
+\end{frame}
+
+\begin{frame}{Modèle théorique}
+  Exemple : on obtient le diagramme additif
+  \begin{center}
+      % https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZARgBoAGAXVJADcBDAGwFcYkQAREAX1PU1z5CKAEyli1Ok1bsAQjz4gM2PASLlxkhizaIQAQQX8VQomRFbpukAB0bAIwgAPGFAAExHpNcBzeEVAAMwAnCABbJA0QHAgkMikddiwjEBDwyJoYpDEQRiwwayh6OAALVxAabRk9ABZkmkZ6exhGAAUBVWEQYKwfEpwUtIjEKKzEeOawKCQAWhqATgb8wuKy6d4g0OGcsYBmGknpxDnF3OX2ItLyhqaW9pM1PR6+gcqrdjsQ+gBjAFYRQZbOKZWKIfZnAoXVbXBLVEAAm7NNodUxPXr9QHpcYgpDgw5IBYbVJAxA7UG7biUbhAA
+    \begin{tikzcd}[ampersand replacement=\&, column sep=huge, row sep=large]
+      \& D \arrow[rd, "i"] \arrow[ld, "4i"', dashed] \arrow[rd, dashed, bend right=49] \&                                                     \\
+    \color{blue}{A} \arrow[rd, "\frac52"', dashed, bend right=49, blue] \arrow[rd, blue] \&                                                                               \& \color{cs}{B} \arrow[ld, "2"', dashed, cs] \arrow[ld, bend left=49, cs] \\
+      \& \boxed 1                                                                      \&
+    \end{tikzcd}
+  \end{center}
+
+  \pause
+  \textbf{Réduisons} ce diagramme
+\end{frame}
+
+\begin{frame}{Modèle théorique}
+  On peut forcer la fusion de $A$ et $B$
+  % https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZARgBoAGAXVJADcBDAGwFcYkQAREAX1PU1z5CKAEyli1Ok1bsAQjz4gM2PASLlxkhizaIQAQQX8VQomRFbpukAB0bAIwgAPGFAAExHpNcBzeEVAAMwAnCABbJA0QHAgkMikddiwjEBDwyJoYpDEQRiwwayh6OAALVxAabRk9ABZkmkZ6exhGAAUBVWEQYKwfEpwUtIjEKKzEeOawKCQAWhqATgb8wuKy6d4g0OGcsYBmGknpxDnF3OX2ItLyhqaW9pM1PR6+gcqrdjsQ+gBjAFYRQZbOKZWKIfZnAoXVbXBLVEAAm7NNodUxPXr9QHpcYgpDgw5IBYbVJAxA7UG7biUbhAA
+  \begin{tikzcd}[ampersand replacement=\&, column sep=huge, row sep=large]
+    \& D \arrow[rd, "i"] \arrow[ld, "4i"', dashed] \arrow[rd, dashed, bend right=49] \&                                                     \\
+  \color{blue}{A} \arrow[rd, "\frac52"', dashed, bend right=49, blue] \arrow[rd, blue] \&                                                                               \& \color{cs}{B} \arrow[ld, "2"', dashed, cs] \arrow[ld, bend left=49, cs] \\
+    \& \boxed 1                                                                      \&
+  \end{tikzcd}
+  $\Rightarrow$
+  % https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZABgBpiBdUkANwEMAbAVxiRABEQBfU9TXfIRRkATFVqMWbADrSARhAAeMKAAIAjN14gM2PASJl14+s1aIQAYW7iVAc3hFQAMwBOEALZIR1HBCTq1HIwYFBIACwAnNSmUhaaPC7uXog+IH4B1AxYYOYgUHRwABYqIEEhYYgAtFExknnIPqqybnQAxgCsYmUgDHTBDAAK-PpCIK5YdkU4WkmeSGTp-qnloUg10b05eQXFpXVmbOFYPX0Dw3qCbBNTM4kgbvOIixkrW7lsuyVhq5UAzMR7o8Ui9lmlgmtELUJIcLCcuBQuEA
+  \begin{tikzcd}[row sep=large]
+    D \arrow[d, "4i"', dashed, bend right=49] \arrow[d, dashed, bend left] \arrow[d, "i", bend left=49] \\
+    \color{violet}{C} \arrow[d, violet, bend left=49] \arrow[d, "{[2, \frac52]}"', dashed, bend right=49, violet]                  \\
+    \boxed 1
+    \end{tikzcd}
+\end{frame}
+
+\begin{frame}[noframenumbering]{Modèle théorique}
+  On peut forcer la fusion de $A$ et $B$
+  % https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZARgBoAGAXVJADcBDAGwFcYkQAREAX1PU1z5CKAEyli1Ok1bsAQjz4gM2PASLlxkhizaIQAQQX8VQomRFbpukAB0bAIwgAPGFAAExHpNcBzeEVAAMwAnCABbJA0QHAgkMikddiwjEBDwyJoYpDEQRiwwayh6OAALVxAabRk9ABZkmkZ6exhGAAUBVWEQYKwfEpwUtIjEKKzEeOawKCQAWhqATgb8wuKy6d4g0OGcsYBmGknpxDnF3OX2ItLyhqaW9pM1PR6+gcqrdjsQ+gBjAFYRQZbOKZWKIfZnAoXVbXBLVEAAm7NNodUxPXr9QHpcYgpDgw5IBYbVJAxA7UG7biUbhAA
+  \begin{tikzcd}[ampersand replacement=\&, column sep=huge, row sep=large]
+    \& D \arrow[rd, "i"] \arrow[ld, "4i"', dashed] \arrow[rd, dashed, bend right=49] \&                                                     \\
+  \color{blue}{A} \arrow[rd, "\frac52"', dashed, bend right=49, blue] \arrow[rd, blue] \&                                                                               \& \color{cs}{B} \arrow[ld, "2"', dashed, cs] \arrow[ld, bend left=49, cs] \\
+    \& \boxed 1                                                                      \&
+  \end{tikzcd}
+  $\Rightarrow$
+% https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZABgBpiBdUkANwEMAbAVxiRABEQBfU9TXfIRRkAjFVqMWbAMLdeIDNjwEiZAEzj6zVohAAdPQCMIADxhQABCO7jzAc3hFQAMwBOEALZIyIHBCQi1FpSugAsWADU1tQMdIYwDAAK-MpCIK5YdgAWOCAxWGA6IFB0cFnmeSDxYFBIALShAJw8Lu5eiD5+AUGSRViVsfFJKYJsDDDOudTVtYhNLSBunt2+-ohqPdps0SCDCclKo7rjk5UzSPPyS+2Bq0gbElu6yBsWBm50AMYArBoDcfsRipdBlslNdgUiiUyhVpjAavV5hQuEA
+\begin{tikzcd}
+  D \arrow[d, "4i+1"', dashed, bend right=49] \arrow[d, "i", bend left=49]           \\
+  \color{violet}{C} \arrow[d, bend left=49, violet] \arrow[d, "{[2, \frac52]}"', dashed, bend right=49, violet] \\
+  \boxed 1
+  \end{tikzcd}
+\end{frame}
+
+\begin{frame}{Résultats}
+  On peut toujours plus réduire les diagrammes
+  $$\Downarrow$$
+  Gain en espace arbitrairement grand (jusqu'à exponentiel)
+\end{frame}
+
+\begin{frame}{Erreur}
+  
+\end{frame}
+
+\begin{frame}{Travail réalisé}
+  \textbf{Implémentation}
+  \begin{itemize}
+      \item[\checkmark] Intervalles de $\mathbb C$ cartésiens \& polaires
+      \item[\checkmark] Diagrammes : construction, évaluation
+      \item[\checkmark] Diagrammes aléatoires
+      \item[\checkmark] Fusion forcée
+      \item[$\sim$] Algorithmes de réduction
+  \end{itemize}
+\end{frame}
