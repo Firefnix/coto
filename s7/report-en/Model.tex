@@ -1,16 +1,16 @@
 \newpage
 
-\chapter{Modèle théorique}
+\chapter{Theoretical model}
 \label{ch:Modele}
 
-Le modèle théorique proposé est celui des \textbf{diagrammes de décision quantiques additifs abstraits}.
+The proposed theoretical model is that of \textbf{abstract additive quantum decision diagrams}.
 
-\section{Arithmétique des intervalles}
+\section{Interval arithmetic}
 \label{sec:ArithmetiqueIntervalles}
 
-L'arithmétique des intervalles dans le cadre de l'interprétation abstraite est proche de l'exemple de calcul sur les signes de la \autoref{sec:Etat}. L'arithmétique des intervalles est utilisée pour déterminer un ensemble de valeurs possibles pour une expression mathématique en utilisant des intervalles pour les valeurs des variables.
+Interval arithmetic in the context of abstract interpretation is similar to the example of calculating the signs of the \autoref{sec:Etat}. Interval arithmetic is used to determine a set of possible values for a mathematical expression using intervals for variable values.
 
-L'arithmétique des intervalles réels a été étudiée \cite{Sunaga_2009}, et l'arithmétique des intervalles complexes cartésien a fait l'objet d'études légères par le passé \cite{Rokne_1971}. Au cours de ce projet, un travail a été réalisé pour explorer les possibilités de l'arithmétique des \textbf{intervalles complexes cartésiens et polaires}.
+Real interval arithmetic has been studied \cite{Sunaga_2009}, and Cartesian complex interval arithmetic has been lightly studied in the past \cite{Rokne_1971}. In the course of this project, work has been carried out to explore the possibilities of \textbf{Cartesian and polar complex interval arithmetic}.
 
 \begin{figure}
   \centering
@@ -49,49 +49,50 @@ L'arithmétique des intervalles réels a été étudiée \cite{Sunaga_2009}, et 
     -- cycle;
   \end{tikzpicture}
   }
-  \caption{Exemple d'intervalles complexes cartésiens et polaires}
+  \caption{Example of Cartesian and polar complex intervals}
   \label{fig:intervalles}
 \end{figure}
 
-Les intervalles complexes cartésiens sont définis par un intervalle pour la partie réelle et un intervalle pour la partie imaginaire. De manière équivalente, ils sont définis comme le plus petit rectangle dans le plan complexe (orienté selon les axes réel et imaginaire) contenant deux complexes. Les intervalles complexes polaires sont définis par un intervalle pour le module et un intervalle pour l'argument. Ces deux types d'intervalles ont des représentations différentes dans le plan complexe, comme le montre la \autoref{fig:intervalles}. Dans un cas comme dans l'autre, l'équivalent abstrait d'une \textbf{opération} $*$ est défini sur des éléments $\alpha$ et $\beta$ de l'ensemble des intervalles cartésiens $\mathcal{A}_0$ ou polaires $\mathcal S_0$ par
+Cartesian complex intervals are defined by an interval for the real part and an interval for the imaginary part. Equivalently, they are defined as the smallest rectangle in the complex plane (oriented along the real and imaginary axes) containing two given complex numbers. Polar complex intervals are defined by an interval for the modulus and an interval for the argument. These two types of interval have different representations in the complex plane, as shown in \autoref{fig:intervalles}. In either case, the abstract equivalent of a \textbf{operation} $*$ is defined on elements $\alpha$ and $\beta$ of the set of Cartesian intervals $\mathcal{A}_0$ or polar intervals $\mathcal S_0$ by
 $$\alpha * \beta = \bigcap_{\gamma \supset \alpha \circledast \beta\text{ et }\gamma \in \mathcal{A}_0} \gamma \quad \text{où} \quad \alpha \circledast \beta = \{a * b ; a \in \alpha, b \in \beta\}$$
 
-Les opérations de somme, de produit et d'union ainsi construites sont \textbf{sur-approximées} : elles garantissent que l'ensemble des valeurs possibles est inclus dans l'ensemble abstrait, et d'avoir un intervalle pour résultat. Ces opérations ont des propriétés, de distributivité par exemple, parfois très différentes des nombres complexes qu'ils représentent. Des propriétés sur les intervalles cartésiens et polaires sont énoncées et démontrées dans le document annexe \cite{Leroy_2025}.
+The sum, product and union operations thus constructed are \textbf{over-approximated}: they guarantee that the set of possible values is included in the abstract set, and have an interval as a result. These operations have properties, such as distributivity, which are sometimes very different from the complex numbers they represent. Properties of Cartesian and polar intervals are set out and demonstrated in the accompanying document \cite{Leroy_2025}.
 
-D'un point de vue pratique, les intervalles cartésiens sont généralement plus simples à manipuler que les intervalles polaires, et sont largement plus adaptés à une structure additive. Les intervalles polaires ont des avantages pour les opérations de multiplication et de division, mais rendent la somme coûteuse en calculs et en perte de précision.
+From a practical point of view, Cartesian intervals are generally simpler to handle than polar intervals, and are largely more suited to an additive structure. Polar intervals have advantages for multiplication and division operations, but make summation computationally expensive and often result in a huge loss of precision in this case.
 
-\section{États abstraits et diagrammes}
+\section{Abstract states and diagrams}
 
-Les \textbf{états} abstraits à $n$ qubits sont définis comme des $2^n$-uplets d'intervalles complexes, on note leur ensemble $\mathcal A_n$.
-Il peut s'agit des intervalles cartésiens ou polaires, puisque les opérations sont définies de manière similaire, mais en pratique on se limite souvent aux intervalles cartésiens.
-On définit sur les états la relation d'ordre d'inclusion des états par l'inclusion des produits cartésiens des intervalles les composant.
+Abstract $n$-qubit \textbf{states} are defined as $2^n$-uplets of complex intervals, and their set $\mathcal A_n$ is noted.
+These can be Cartesian or polar intervals, since the operations are defined in a similar way, but in practice we often restrict ourselves to Cartesian intervals.
+The inclusion order relation of states is defined by the inclusion of the Cartesian products of their component intervals.
 
-Les \textbf{diagrammes} sont définis de manière récursive. Le seul diagramme de hauteur 0 est $\boxed 1$, puis si l'ensemble $\mathcal D_n$ des diagrammes de hauteur $n$ est défini, les diagrammes de hauteur $n+1$ peuvent avoir un nombre fini de fils gauches dans $\mathcal D_n$ et un nombre fini de fils droits dans $\mathcal D_n$, chacun étant associé à une amplitude abstraite sur la branche dans $\mathcal A_0$
+The \textbf{diagrams} are defined recursively. The only diagram of height 0 is $\boxed 1$, then if the set $\mathcal D_n$ of diagrams of height $n$ is defined, diagrams of height $n+1$ can have a finite number of left-hand threads in $\mathcal D_n$ and a finite number of right-hand threads in $\mathcal D_n$, each associated with an abstract amplitude on the branch in $\mathcal A_0$.
 $$\mathcal{D}_{n+1} = \mathscr{P}_f(\mathcal{A}_0 \times \mathcal{D}_n) \times \mathscr{P}_f(\mathcal{A}_0 \times \mathcal{D}_n)$$
 
-On peut ainsi définir la fonction d'évaluation $\mathcal E : \mathcal D_n \to \mathcal A_n$ sur les diagrammes (une définition similaire est possible en utilisant les intervalles polaires), ce qui permet de définir une relation d'ordre $\le$ sur les diagrammes par inclusion des ensembles abstraits qu'ils représentent.
+That way, a diagram in $\mathcal D_n$ represents $n$ qubits.
+We can thus define the evaluation function $\mathcal E : \mathcal D_n \to \mathcal A_n$ on the diagrams (a similar definition is possible using polar intervals), which makes it possible to define a relation of order $\le$ on the diagrams by inclusion of the abstract sets they represent.
 
 \section{Approximations}
 
-L'un des objectifs pour cette structure de données est de transformer un diagramme en un autre incluant le diagramme initial et de taille plus faible. Sur les diagrammes de décision abstraits ont été développés deux algorithmes, à partir d'une relation de fusion.
+One of the aims of this data structure is to transform one diagram into another, including the initial diagram, but of smaller size. Two algorithms have been developed for abstract decision diagrams, based on a merge relation.
 
-Puisque traiter les diagrammes de manière globale est difficile, on réalise les approximations de manière locale. Plus formellement, une \textbf{approximation globale} est une fonction $g : \mathcal D_n \to \mathcal D_n$ telle que
+Since dealing with diagrams globally is difficult, approximations are performed locally. More formally, a \textbf{global approximation} is a function $g : \mathcal D_n \to \mathcal D_n$ such that
 $$\forall D \in \mathcal D_n, D \le g(D)$$
 
-En pratique, on a surtout développé une \textbf{approximation par fusion}, qui est une fonction $f : \mathcal D_n \times \mathcal D_n \rightarrow \mathcal D_n$ telle que
+In practice, we have mainly developed a \textbf{approximation by fusion}, which is a function $f : \mathcal D_n \times \mathcal D_n \rightarrow \mathcal D_n$ such that
 $$\begin{cases}
   \forall A \not= B \in \mathcal{D}_n, A \le f(A, B)~\text{and}~B \le f(A, B) \\
   \forall A \in \mathcal{D}_n, f(A, A) = A
 \end{cases}
 $$
 
-Le \textbf{théorème de fusion} indique que si l'on dispose d'une approximation par fusion, alors on dispose d'une approximation globale. Il simplifie grandement les preuves ultérieures, puisque l'on peut se contenter de démontrer la propriété d'approximation par fusion pour montrer l'approximation globale.
+The \textbf{fusion theorem} states that if we have a fusion approximation, then we have a global approximation. It greatly simplifies subsequent proofs, since we can simply demonstrate the fusion approximation property to show the global approximation.
 
-D'un point de vue computationnel, les approximations par fusion ont aussi l'avantage de pouvoir s'appliquer à des sous-diagrammes : pour réduire un diagramme $D$, il suffira alors de réaliser une approximation par fusion sur deux sous-diagrammes de $D$. Il est alors possible de réduire un diagramme de manière locale, ce qui est plus efficace que de considérer le diagramme parent directement.
+From a computational point of view, fusion approximations also have the advantage of being applicable to subdiagrams: to reduce a $D$ diagram, it will then suffice to perform a fusion approximation on two subdiagrams of $D$. It is then possible to reduce a diagram locally, which is more efficient than considering the parent diagram directly.
 
-\section{Réduction}
+\section{Reduction}
 
-Deux algorithmes de réduction ont été développés, utilisant largement l'approximation par fusion fm (pour \textbf{force merge}) de la \autoref{fig:fm}, qui est centrale dans la réduction des diagrammes.
+Two reduction algorithms have been developed, making extensive use of the fm fusion approximation (for \textbf{force merge}) of the \autoref{fig:fm}, which is central to diagram reduction.
 
 \begin{figure}[H]
   \centering
@@ -101,20 +102,20 @@ Deux algorithmes de réduction ont été développés, utilisant largement l'app
   &  &                                                                       &  &                                                                       &  & {} \arrow[rr, "\text{(fm)}", Rightarrow] &                                 & {} &         &                                                                                           &                                 &  &         \\
 l_0 \arrow[rr, no head, dotted] &  & l_{n-1}                                                               &  & r_0 \arrow[rr, no head, dotted]                                       &  & r_{m-1}                                  & l_0 \arrow[rr, no head, dotted] &    & l_{n-1} &                                                                                           & r_0 \arrow[rr, no head, dotted] &  & r_{m-1}
 \end{tikzcd}
-\caption{Approximation par fusion forcée}
+\caption{Approximation by forced merge}
 \label{fig:fm}
 \end{figure}
 
-\noindent où si ampl(A, $x$) est l'amplitude abstraite sur le lien entre $A$ et $x$, alors les nouvelles amplitudes abstraites sont définies par la formule suivante
+\noindent where if ampl(A, $x$) is the abstract amplitude on the link between $A$ and $x$, then the new abstract amplitudes are defined by the following formula
 $$\forall x \in \{l_0, ..., l_{k-1}, r_0, ..., r_{m-1}\},~\text{ampl}(\text{fm}(A, B), x) = \text{ampl}(A, x) \sqcup \text{ampl}(B, x)$$
 
-\noindent où $\sqcup$ est l'opération d'union des intervalles complexes (cartésiens ou polaires). Cette approximation par fusion fonctionne en pratique y compris sur des diagrammes n'ayant a priori pas de descendance commune, puisqu'il suffit d'ajouter des branches avec un poids nul pour se ramener à ce cas. On remarque que cette généralisation ne fonctionne que dans le cas où on permet l'utilisation de diagrammes additifs.
+\noindent where $\sqcup$ is the complex interval union operation (Cartesian or polar). In practice, this fusion approximation works even on diagrams with no common descent, since it's enough to add branches with zero weight to bring us back to this case. Note that this generalization only works when additive diagrams are allowed.
 
 \begin{multicols}{2}
-  \section{Exemple d'approximation}
-  Considérons le diagramme suivant, où tous les fils (gauche ou droit) sont $\boxed 1$ et où les branches sans amplitude écrite sont d'amplitude 1. Appliquer fm sur $A$ et $B$ permet fait passer le diagramme additif initial à un diagramme additif abstrait $D' \ge D$.
+  \section{Example of approximation}
+  Consider the following diagram, where all children (left or right) are $\boxed 1$ and branches with no written amplitude are amplitude 1. Applying fm to $A$ and $B$ turns the initial additive diagram into an abstract additive diagram $D' \ge D$.
 
-  Ici, la fusion permettrait ensuite de fusionner les deux branches gauches de $D'$ pour obtenir un diagramme non additif, comme le montre la \autoref{fig:exemple_fusion}.
+  Here, merging would then merge the two left-hand branches of $D'$ to obtain a non-additive diagram, as shown in \autoref{fig:exemple_fusion}.
 
   \columnbreak
   \begin{figure}[H]
@@ -132,7 +133,7 @@ $$\forall x \in \{l_0, ..., l_{k-1}, r_0, ..., r_{m-1}\},~\text{ampl}(\text{fm}(
     C \arrow[d, "1", bend left=49] \arrow[d, "{[2, \frac52]}"', dashed, bend right=49]                  \\
     \boxed 1
   \end{tikzcd}
-  \caption{Fusion de $A$ et $B$}
+  \caption{Merger of $A$ and $B$}
   \label{fig:exemple_fusion}
   \end{figure}
 
@@ -140,7 +141,7 @@ $$\forall x \in \{l_0, ..., l_{k-1}, r_0, ..., r_{m-1}\},~\text{ampl}(\text{fm}(
 
 \section{Erreur}
 
-S'il est possible de réaliser des fusions sur n'importe quelle paire de diagrammes de même hauteur, savoir lesquels fusionner afin de réduire le diagramme sans causer de trop grande perte de précision est un enjeu majeur. On a donc développé une grandeur d'\textbf{erreur}, qui permet de déterminer si une fusion est intéressante ou non. Cette grandeur se distingue en deux intervalles : $\rho$ et $\varepsilon$, définis inductivement sur les diagrammes de hauteur $n$ par
+If it's possible to perform merges on any pair of diagrams of the same height, knowing which ones to merge in order to reduce the diagram without causing too great a loss of accuracy is a major issue. We have therefore developed a scale of \textbf{error}, which can be used to determine whether a merge is interesting or not. This variable can be divided into two intervals: $\rho$ and $\varepsilon$, defined inductively on diagrams of height $n$ by
 $$\rho(\boxed{1}) = \{1\}$$
 $$\varepsilon(\boxed{1}) = \{0\})$$
 
@@ -155,16 +156,16 @@ $$\forall G, D \in \mathscr{P}_f(\mathcal{A}_0 \times \mathcal{D}_n),
 \bigsqcup \left(\sum_{(r, R) \in D} r \max|\rho(R) \ominus \varepsilon(R)| + \varepsilon(R)\right)
 \end{multline*}
 
-\noindent où $\alpha^c$ est la version centrée d'un intervalle cartésien et où $\ominus$ est l'opération de « rognage » illustrée \autoref{fig:rognage} et définie lorsque $\alpha \subset \beta$ telle que
+\noindent where $\alpha^c$ is the centered version of a Cartesian interval and where $\ominus$ is the “cropping” operation illustrated in \autoref{fig:rognage} and defined when $\alpha \subset \beta$ such that
 $$\forall \alpha, \beta \in \mathcal A_0, (\alpha \ominus \beta) + \beta = \alpha$$
 
-Arriver à cette définition pour la grandeur d'erreur a nécessité des recherches conséquentes au cours du semestre. Plusieurs autres définitions ont été mises à l'épreuve, mais celle-ci a été retenue comme la plus prometteuse.
+Arriving at this definition for the error quantity required considerable research over the course of the semester. Several other definitions were put to the test, but this was selected as the most promising.
 
-Ceci pourra faire l'objet de recherches ultérieures plus expérimentales, fondées sur des \textit{benchmarks} de réduction de diagrammes.
-Le choix de cette définition fait respecter à ces grandeurs plusieurs propriétés intéressantes, en particulier $\rho$ contient tous les autres intervalles de l'évaluation
+This could be the subject of further, more experimental research, based on \textit{benchmarks} of diagram reduction.
+The choice of this definition gives these variables several interesting properties, in particular $\rho$ contains all the other evaluation intervals
 $$\forall D \in \mathcal D_n, \forall i \in \{0,...,2^n-1\}, \mathcal E(D)[i] \subset \rho(D)$$
 
-\noindent ou le fait que l'intervalle $\varepsilon$ soit toujours centré. Le calcul de ces grandeurs, s'il est correctement stocké dans la structure de données, n'induit pas de temps de calcul rédhibitoire puisqu'il ne nécessite pas de calculer l'évaluation entière à chaque changement (il suffit de « propager » un changement dans un diagramme fils aux parents).
+\noindent and $\varepsilon$ is always centered on zero. The calculation of these quantities, if correctly stored in the data structure, doesn't induce any prohibitive calculation time, since it doesn't require calculating the entire evaluation for each change (it's enough to “propagate” a change in a child diagram to the parents).
 
 \begin{figure}[ht]
   \centering
@@ -199,18 +200,18 @@ $$\forall D \in \mathcal D_n, \forall i \in \{0,...,2^n-1\}, \mathcal E(D)[i] \s
     \node [violet] at (-1,0.2) {\large [};
     \node [violet] at (2,0.2) {\large ]};
   \end{tikzpicture}
-  \caption{Opération de « rognage » $\ominus$ dans le cas des réels}
+  \caption{“Cropping” operation $\ominus$ in the case of real intervals}
   \label{fig:rognage}
 \end{figure}
 
-\section{Application de portes}
+\section{Gate application}
 \label{sec:Portes}
 
-Il n'existe pas par défaut de formalisation des portes quantiques dans le cas de diagrammes de décision quantiques additifs abstraits, puisque cette structure de données est nouvelle. On a donc défini une application de portes $M \in \mathcal M_{2^n, 2^n}(\mathbb C)$ à un diagramme $D \in \mathcal D_n$ préservant ce qu'on attend comme effet sur l'évaluation des diagrammes, c'est-à-dire
+By default, there is no formalization of quantum gates in the case of abstract additive quantum decision diagrams, since this data structure is new. We therefore defined an application of gates $M \in \mathcal M_{2^n, 2^n}(\mathbb C)$ to a diagram $D \in \mathcal D_n$ preserving what we expect to be the effect on diagram evaluation, i.e.
 $$\mathcal E(M(D)) = M \cdot \mathcal E(D)$$
 
-\noindent où $\cdot$ est le produit matriciel basé sur le produit dans $\mathcal A_0$.
-On note que, sans perte de généralité, on peut supposer que les coefficients de $M$ sont eux-mêmes des intervalles complexes. Réalisons un exemple d'application de porte sur un diagramme $D \in \mathcal D_n$.
+\noindent where $\cdot$ is the matrix product based on the product in $\mathcal A_0$.
+Note that, without loss of generality, we can assume that the coefficients of $M$ are themselves complex intervals. Let's take an example of a gate application on a diagram $D \in \mathcal D_n$.
 
 \begin{figure}[ht]
   \centering
@@ -223,18 +224,18 @@ L_1 \arrow[r, no head, dotted] & L_p &                                          
 \label{fig:D_avant_porte}
 \end{figure}
 
-En pratique, pour appliquer une porte $M$ à un diagramme $D$
+In practice, to apply a gate $M$ to a diagram $D$
 \begin{enumerate}
-  \item On sépare $M$ en 4 sous-matrices
+  \item We split $M$ into 4 sub-matrices
   $$M = \begin{pmatrix}
     M_{00} & M_{01} \\
     M_{10} & M_{11}
   \end{pmatrix}$$
-  \item On crée pour chaque branche gauche de $D$ une branche droite  de même amplitude et pour chaque branche droite de $D$ une branche gauche de même amplitude.
-  \item On applique $M_{00}$ à chaque branche gauche (hors celles créées à l'étape 2)
-  \item On applique $M_{01}$ à chaque branche gauche (uniquement celles créées à l'étape 2)
-  \item On applique $M_{10}$ à chaque branche droite (uniquement celles créées à l'étape 2)
-  \item On applique $M_{11}$ à chaque branche droite (hors celles créées à l'étape 2)
+  \item For each left-hand branch of $D$, a right-hand branch of the same amplitude is created, and for each right-hand branch of $D$, a left-hand branch of the same amplitude is created.
+  \item We apply $M_{00}$ to each left branch (except those generated at step 2)
+  \item We apply $M_{01}$ to each left branch (only those generated at step 2)
+  \item We apply $M_{10}$ to each right branch (only those generated at step 2)
+  \item We apply $M_{11}$ to each right branch (except those generated at step 2)
 \end{enumerate}
 
 \begin{figure}[H]
@@ -244,20 +245,20 @@ En pratique, pour appliquer une porte $M$ à un diagramme $D$
   &             &                                        &             & M(D) \arrow[lld, dashed] \arrow[ld, dashed] \arrow[rd] \arrow[rrd] \arrow[llld, dashed] \arrow[lllld, dashed] \arrow[rrrd] \arrow[rrrrd] &                                        &             &                                        &             \\
 M_{00}(L_1) \arrow[r, no head, dotted] & M_{00}(L_p) & M_{01}(R_1) \arrow[r, no head, dotted] & M_{01}(R_m) &                                                                                                                                          & M_{10}(L_1) \arrow[r, no head, dotted] & M_{10}(L_p) & M_{11}(R_1) \arrow[r, no head, dotted] & M_{11}(R_m)
 \end{tikzcd}
-  \caption {Diagramme $M(D)$}
+  \caption {Diagram $M(D)$}
   \label{fig:D_apres_porte}
 \end{figure}
 
-L'évaluation de $M(D)$ avec cet algorithme est correcte, puisque comme décrit sur la \autoref{fig:D_apres_porte}, on a
+The evaluation of $M(D)$ with this algorithm is correct, since like described by \autoref{fig:D_apres_porte}, we have
 $$\mathcal E(M(D)) = \begin{pmatrix}
   \sum l_i M_{00} \mathcal E (L_i) + \sum r_j M_{01} \mathcal E (R_j) \\
   \sum l_i M_{10} \mathcal E (L_i) + \sum r_j M_{11} \mathcal E (R_j)
 \end{pmatrix} = M \cdot \mathcal E (D)$$
-\noindent ce qui correspond bien à l'effet attendu de l'application de la porte $M$ sur le diagramme $D$. Le cas de base (une matrice de taille 1, c'est-à-dire un scalaire) est traité simplement en multipliant les poids des branches par ce scalaire.
+\noindent which is the expected effect of applying the $M$ gate to the $D$ diagram. The basic case (a matrix of size 1, i.e. a scalar) is treated simply by multiplying the branch weights by this scalar.
 
-On a traité ici le cas d'une porte s'appliquant à tous les qubits. Plus généralement, considérant une porte s'appliquant seulement à $k$ qubits contigus (disons les qubits $Q ={q, ..., q+k-1}$). Pour un état $v$ à $n$ qubits, appliquer la porte $P \in \mathcal M_{2^k, 2^k}(\mathbb C)$ à aux qubits $Q$ de $v$ revient à appliquer à $v$ tout entier la porte
+We have dealt here with the case of a gate applying to all qubits. More generally, consider a gate applying only to $k$ contiguous qubits (say the $Q ={q, ..., q+k-1}$ qubits). For a state $v$ of $n$ qubits, applying a gate $P \in \mathcal M_{2^k, 2^k}(\mathbb C)$ to the qubits $Q$ of $v$ returns to applying to the whole $v$ state vector the matrix
 
 $$M = \left(\bigotimes^{q-1} I\right) \otimes P \otimes \left(\bigotimes^{n-k-q-1} I\right)$$
 
-On remarque donc que l'application d'une porte à un nombre restreint de qubits peut être vue comme l'application d'une porte à tous les qubits, mais avec des matrices identités à la place des matrices de la porte.
-De plus, utiliser des portes $S$ afin d'échanger la place de qubits permet de traiter avec l'algorithme présenté précédemment tous les cas d'application de portes logiques à un sous-ensemble quelconque des qubits du circuit.
+We can therefore see that the application of a gate to a restricted number of qubits can be seen as the application of a gate to all qubits, but with identity matrices instead of gate matrices.
+Moreover, using $S$ gates to swap the place of qubits enables the algorithm presented above to handle all cases of logic gates being applied to any subset of the circuit's qubits.

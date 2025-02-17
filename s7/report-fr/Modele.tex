@@ -69,6 +69,7 @@ On définit sur les états la relation d'ordre d'inclusion des états par l'incl
 Les \textbf{diagrammes} sont définis de manière récursive. Le seul diagramme de hauteur 0 est $\boxed 1$, puis si l'ensemble $\mathcal D_n$ des diagrammes de hauteur $n$ est défini, les diagrammes de hauteur $n+1$ peuvent avoir un nombre fini de fils gauches dans $\mathcal D_n$ et un nombre fini de fils droits dans $\mathcal D_n$, chacun étant associé à une amplitude abstraite sur la branche dans $\mathcal A_0$
 $$\mathcal{D}_{n+1} = \mathscr{P}_f(\mathcal{A}_0 \times \mathcal{D}_n) \times \mathscr{P}_f(\mathcal{A}_0 \times \mathcal{D}_n)$$
 
+Ainsi, un diagramme de $\mathcal D_n$ représente $n$ qubits.
 On peut ainsi définir la fonction d'évaluation $\mathcal E : \mathcal D_n \to \mathcal A_n$ sur les diagrammes (une définition similaire est possible en utilisant les intervalles polaires), ce qui permet de définir une relation d'ordre $\le$ sur les diagrammes par inclusion des ensembles abstraits qu'ils représentent.
 
 \section{Approximations}
@@ -164,7 +165,7 @@ Ceci pourra faire l'objet de recherches ultérieures plus expérimentales, fond�
 Le choix de cette définition fait respecter à ces grandeurs plusieurs propriétés intéressantes, en particulier $\rho$ contient tous les autres intervalles de l'évaluation
 $$\forall D \in \mathcal D_n, \forall i \in \{0,...,2^n-1\}, \mathcal E(D)[i] \subset \rho(D)$$
 
-\noindent ou le fait que l'intervalle $\varepsilon$ soit toujours centré. Le calcul de ces grandeurs, s'il est correctement stocké dans la structure de données, n'induit pas de temps de calcul rédhibitoire puisqu'il ne nécessite pas de calculer l'évaluation entière à chaque changement (il suffit de « propager » un changement dans un diagramme fils aux parents).
+\noindent ou le fait que l'intervalle $\varepsilon$ soit toujours centré sur zéro. Le calcul de ces grandeurs, s'il est correctement stocké dans la structure de données, n'induit pas de temps de calcul rédhibitoire puisqu'il ne nécessite pas de calculer l'évaluation entière à chaque changement (il suffit de « propager » un changement dans un diagramme fils aux parents).
 
 \begin{figure}[ht]
   \centering
