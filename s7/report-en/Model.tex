@@ -5,7 +5,7 @@
 
 The proposed theoretical model is that of \textbf{abstract additive quantum decision diagrams}.
 
-\section{Interval arithmetic}
+\section{Arithmetics of intervals}
 \label{sec:ArithmetiqueIntervalles}
 
 Interval arithmetic in the context of abstract interpretation is similar to the example of calculating the signs of the \autoref{sec:Etat}. Interval arithmetic is used to determine a set of possible values for a mathematical expression using intervals for variable values.
@@ -74,25 +74,25 @@ We can thus define the evaluation function $\mathcal E : \mathcal D_n \to \mathc
 
 \section{Approximations}
 
-One of the aims of this data structure is to transform one diagram into another, including the initial diagram, but of smaller size. Two algorithms have been developed for abstract decision diagrams, based on a merge relation.
+One of the aims of this data structure is to transform one diagram into another, including (as a “subset”) the initial diagram, but of smaller size. Two algorithms have been developed for abstract decision diagrams, based on a merge function.
 
 Since dealing with diagrams globally is difficult, approximations are performed locally. More formally, a \textbf{global approximation} is a function $g : \mathcal D_n \to \mathcal D_n$ such that
 $$\forall D \in \mathcal D_n, D \le g(D)$$
 
-In practice, we have mainly developed a \textbf{approximation by fusion}, which is a function $f : \mathcal D_n \times \mathcal D_n \rightarrow \mathcal D_n$ such that
+In practice, we have mainly developed a \textbf{merge approximation}, which is a function $f : \mathcal D_n \times \mathcal D_n \rightarrow \mathcal D_n$ such that
 $$\begin{cases}
   \forall A \not= B \in \mathcal{D}_n, A \le f(A, B)~\text{and}~B \le f(A, B) \\
   \forall A \in \mathcal{D}_n, f(A, A) = A
 \end{cases}
 $$
 
-The \textbf{fusion theorem} states that if we have a fusion approximation, then we have a global approximation. It greatly simplifies subsequent proofs, since we can simply demonstrate the fusion approximation property to show the global approximation.
+The \textbf{fusion theorem} states that if we have a merge approximation, it gives us a global approximation. It greatly simplifies subsequent proofs, since we can simply demonstrate the merge approximation property to show the global approximation.
 
-From a computational point of view, fusion approximations also have the advantage of being applicable to subdiagrams: to reduce a $D$ diagram, it will then suffice to perform a fusion approximation on two subdiagrams of $D$. It is then possible to reduce a diagram locally, which is more efficient than considering the parent diagram directly.
+From a computational point of view, merge approximations also have the advantage of being applicable to subdiagrams: to reduce a $D$ diagram, it will then suffice to perform a merge approximation on two subdiagrams of $D$. It is then possible to reduce a diagram locally, which is more efficient than considering the parent diagram directly.
 
 \section{Reduction}
 
-Two reduction algorithms have been developed, making extensive use of the fm fusion approximation (for \textbf{force merge}) of the \autoref{fig:fm}, which is central to diagram reduction.
+Two reduction algorithms have been developed, making extensive use of the fm merge approximation (for \textbf{force merge}) of the \autoref{fig:fm}, which is central to diagram reduction.
 
 \begin{figure}[H]
   \centering
@@ -109,7 +109,7 @@ l_0 \arrow[rr, no head, dotted] &  & l_{n-1}                                    
 \noindent where if ampl(A, $x$) is the abstract amplitude on the link between $A$ and $x$, then the new abstract amplitudes are defined by the following formula
 $$\forall x \in \{l_0, ..., l_{k-1}, r_0, ..., r_{m-1}\},~\text{ampl}(\text{fm}(A, B), x) = \text{ampl}(A, x) \sqcup \text{ampl}(B, x)$$
 
-\noindent where $\sqcup$ is the complex interval union operation (Cartesian or polar). In practice, this fusion approximation works even on diagrams with no common descent, since it's enough to add branches with zero weight to bring us back to this case. Note that this generalization only works when additive diagrams are allowed.
+\noindent where $\sqcup$ is the complex interval union operation (Cartesian or polar). In practice, this merge approximation works even on diagrams with no common descent, since it's enough to add branches with zero weight to bring us back to this case. Note that this generalization only works when additive diagrams are allowed.
 
 \begin{multicols}{2}
   \section{Example of approximation}
@@ -139,9 +139,9 @@ $$\forall x \in \{l_0, ..., l_{k-1}, r_0, ..., r_{m-1}\},~\text{ampl}(\text{fm}(
 
   \end{multicols}
 
-\section{Erreur}
+\section{Error}
 
-If it's possible to perform merges on any pair of diagrams of the same height, knowing which ones to merge in order to reduce the diagram without causing too great a loss of accuracy is a major issue. We have therefore developed a scale of \textbf{error}, which can be used to determine whether a merge is interesting or not. This variable can be divided into two intervals: $\rho$ and $\varepsilon$, defined inductively on diagrams of height $n$ by
+If it is possible to perform merges on any pair of diagrams of the same height, knowing which ones to merge in order to reduce the diagram without causing too great a loss of accuracy is a major issue. We have therefore developed a scale of \textbf{error}, which can be used to determine whether a merge is interesting or not. This variable can be divided into two intervals: $\rho$ and $\varepsilon$, defined inductively on diagrams of height $n$ by
 $$\rho(\boxed{1}) = \{1\}$$
 $$\varepsilon(\boxed{1}) = \{0\})$$
 

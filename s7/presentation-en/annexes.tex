@@ -53,3 +53,17 @@
         \end{column}
     \end{columns}
 \end{frame}
+
+\begin{frame}{Error}
+    $$\rho(\boxed{1}) = \{1\}$$
+    $$\varepsilon(\boxed{1}) = \{0\})$$
+    $$\forall G, D \in \mathscr{P}_f(\mathcal{A}_0 \times \mathcal{D}_n),
+    \rho((G, D))
+    = \left(\sum_{(l, L) \in G} l \rho(L) \right) \bigsqcup \left(\sum_{(r, R) \in D} r \rho(R) \right)$$
+    $$
+    \forall G, D \in \mathscr{P}_f(\mathcal{A}_0 \times \mathcal{D}_n),$$
+    $$\varepsilon((G, D))
+    = \left(\sum_{(l, L) \in G} l \max|\rho(L) \ominus \varepsilon(L)| + \varepsilon(L)\right)
+    \bigsqcup \left(\sum_{(r, R) \in D} r \max|\rho(R) \ominus \varepsilon(R)| + \varepsilon(R)\right)
+    $$
+\end{frame}
