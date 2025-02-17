@@ -4,17 +4,17 @@
 \begin{center}
   \begin{columns}
     \begin{column}{0.5\textwidth}
-      Les  bases de données croissent rapidement
+      Databases grow rapidly in size
 
       \vspace{1em}
-      Les algorithmes classiques sont parfois inefficaces
+      Classical algorithms are sometimes not efficient enough
     \end{column}
     \begin{column}{0.5\textwidth}
       \begin{tikzpicture}
         \begin{axis}[
           width=6cm,height=6cm,
           xlabel=Date,
-          ylabel=Nombre de mots,
+          ylabel=Number of words,
           ymode=log, % Logarithmic y-axis
           date coordinates in=x, % Parse x-axis as dates
           % date format={YYYY-MM-DD}, % Date format in CSV
@@ -39,31 +39,31 @@
       \end{axis}
       \end{tikzpicture}
     \end{column}
-    \let\thefootnote\relax\footnotetext{Nombre de mots utilisés pour l'entraînement des modèles de langage}
+    \let\thefootnote\relax\footnotetext{Number of words used to train language models}
   \end{columns}
 
   \pause
-  Les \textbf{algorithmes quantiques} permettent de résoudre certains problèmes plus efficacement
+  \textbf{Quantum algorithms} enable us to solve some probels faster
   \end{center}
 \end{frame}
 
-\begin{frame}{Le besoin}
-  Les machines quantiques sont en développement et resteront coûteuses financièrement
+\begin{frame}{The need}
+  Quantum machines are still in development and will remain expensive
   $$\Downarrow$$
-  Il y a un besoin d'outils de simulation et de vérification d'algorithmes quantiques
+  There is a need for quantum algorithm \textbf{simulation} and verification tools
 \end{frame}
 
 \begin{frame}{Simulations}
-  Les simulations sont très coûteuses en temps de calcul
+  Simulations are very costly in terms of computation time
   \begin{table}[]
     \begin{tabular}{l|l|l|l}
-        \textit{Grover} & Classique & Quantique & Simulation    \\ \hline \rule{0pt}{2.6ex}
-    Complexité & $N$       & $\sqrt N$ & {\color{cs}$N \sqrt N$}
+        \textit{Grover} & Classical & Quantum & Simulation    \\ \hline \rule{0pt}{2.6ex}
+    Complexity & $N$       & $\sqrt N$ & {\color{cs}$N \sqrt N$}
     \end{tabular}
     % https://arxiv.org/pdf/2005.04635
   \end{table}
 
   \vspace{1em}
 
-  Elles nécessitent une \textbf{structure de données} adaptée
+  Simulation requires adapted \textbf{data structures}
 \end{frame}

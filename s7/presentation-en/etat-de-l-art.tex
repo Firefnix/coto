@@ -1,22 +1,22 @@
 % État de l'art (ce qui a été déjà fait par d'autres)
-\begin{frame}{État de l'art}
-    \textbf{État de l'art}
+\begin{frame}{State of the art}
+    \textbf{State of the art}
     \begin{itemize}
-        \item Interprétation abstraite
-        \item Arithmétique des intervalles réels
-        \item Diagrammes de décision quantiques
+        \item Abstract interpretation
+        \item Arithmetics of real intervals
+        \item Quantum decision diagrams
     \end{itemize}
     \pause
     \begin{center}
-        Solution : \underline{diagrammes additifs abstraits}
+        Solution : \underline{abstract additive decision diagrams}
     \end{center}
 \end{frame}
 
-\begin{frame}{Interprétation abstraite}
-    L'\textbf{interprétation abstraite} permet de déterminer des propriétés ou d'accélérer des calculs
+\begin{frame}{Abstract interpretation}
+    \textbf{Abstract interpretation} enables us to determine mathematical properties or to speed up calculations
 
     \vspace{1em}
-    \underline{Exemple :} signe d'une expression $e = (3 + 2) \times (-5)$
+    \underline{Example :} sign of an expression $e = (3 + 2) \times (-5)$
     \begin{align*}
         \text{signe}(e) &= (\text{signe}(3) + \text{signe}(2)) \times \text{signe}(-5) \\
         &= (\oplus + \oplus) \times \ominus \\
@@ -25,18 +25,18 @@
     \end{align*}
 \end{frame}
 
-\begin{frame}{Intérêts de l'interprétation abstraite}
-    L'interprétation abstraite permet de déterminer des propriétés ou d'\textbf{accélérer des calculs}
+\begin{frame}{Benefits of abstract interpretation}
+    Abstract interpretation enables us to determine mathematical properties or to \textbf{speed up calculations}
 
     \vspace{1em}
 
-    Elle peut être exacte ou \textbf{approximative}
+    It can be exact or \textbf{approximate}
 \end{frame}
 
 \begin{frame}
-    \frametitle{Arithmétique des intervalles (1)}
+    \frametitle{Arithmetics of intervals (1)}
 
-    L'interprétation abstraite est applicable aux \textbf{intervalles réels}
+    Abstract interpretation can be applied to \textbf{real intervals}
 
     \begin{alignat*}{2}
     [1, 2] &* [-1, 1] &=& [-2, 2] \\
@@ -44,16 +44,16 @@
     [1, 2] &\land [-1, 1] &=& [1, 1]
     \end{alignat*}
 
-    \small{Le résultat de l'opération est \textbf{le plus petit intervalle} contenant tous les résultats élément par élément}
+    \small{The result of the operation is \textbf{the smallest interval} containing all the possible 1-to-1 results}
 \end{frame}
 
-\begin{frame}{Fonctions booléennes}
+\begin{frame}{Boolean functions}
 
-    Une \textbf{fonction booléenne}
+    Una \textbf{Boolean function}
 
     $$f : \{0, 1\}^n \to \{0, 1\}$$
 
-    peut être représentée par une \textbf{table de vérité}
+    can be represented by a \textbf{truth table}
 
     \begin{center}
         \begin{tabular}{c|c|c|c}
@@ -70,12 +70,12 @@
         \end{tabular}
 
         \vspace{1em}
-        \small{pour $f(x_1, x_2) = x_1 \lor (x_2 \land x_3)$}
+        \small{for $f(x_1, x_2) = x_1 \lor (x_2 \land x_3)$}
     \end{center}
 \end{frame}
 
-\begin{frame}{Diagrammes de décision}
-    Les \textbf{diagrammes de décision} permettent de représenter des fonctions booléennes
+\begin{frame}{Decision diagrams}
+    \textbf{Decision diagrams} can represent Boolean functions
 
 \vspace{1em}
 % https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZAJgBoAGAXVJADcBDAGwFcYkQAPAfQEYACADoDGEAE58AFN2KDh9MFD7cAzAEoQAX1LpMufIRTLSy6nSat2PTdpAZseAkXIVTDFm0QgpvdVp339J1IeV3MPL2lfGzs9RxRnYlD3dm81a39Yg2QeYySLT3J0210HLJyQmjd8zi4ZIUZ5RRUimNKiMkTKsPZmjVMYKABzeCJQADNRCABbJGcQHAgkADYaRiwwcKh6OAALAaKJ6dmaBaQckAAjGAUkZTmq8O5+AF4+Kz8QQ5nEFfnFxAArKt1pttnsoCAuslPNJnoVVvQrowAAolQKeURYQY7HAHSbfX6nRAAdih1Vh7xsXyQpL+SCBIDWG3YW12+zJjy4yj4r0KH2pJJO-3ODx6XOe70oGiAA
@@ -88,7 +88,7 @@
 \end{frame}
 
 \begin{frame}
-    Les \textbf{diagrammes de décision} permettent de représenter des fonctions booléennes
+    \textbf{Decision diagrams} can represent Boolean functions
 
     \vspace{1em}
     \begin{center}
@@ -102,28 +102,28 @@
 
     \vspace{1em}
 
-    On tire parti de la \textbf{structure} de la fonction
+    We make use of the internal \textbf{structure} of the function
     \end{center}
 \end{frame}
 
-\begin{frame}{États quantiques}
+\begin{frame}{Quantum states}
 
-    Un \textbf{état quantique} est une superposition d'états incompatibles
+    A \textbf{quantum state} is a superposition of incompatible states
 
     $$\ket{\psi} = \alpha \ket{0} + \beta \ket{1} \quad \text{(un qubit)}$$
 
     \pause
     \begin{center}
-        $n$ qubits $\Rightarrow$ $2^n$ états incompatibles
+        $n$ qubits $\Rightarrow$ $2^n$ incompatible states
     \end{center}
-On note les états sous forme de \textbf{vecteurs}
-$$\alpha \ket {01} + \beta \ket {10} = \begin{pmatrix}
+    The states are noted in the form of \textbf{vecteurs}
+    $$\alpha \ket {01} + \beta \ket {10} = \begin{pmatrix}
     \alpha \\ 0 \\ \beta \\ 0
-\end{pmatrix}$$
+    \end{pmatrix}$$
 \end{frame}
 
-\begin{frame}{États quantiques (bis)}
-    La représentation usuelle est proche des \textbf{tables de vérité}
+\begin{frame}{Quantum states (bis)}
+    The usual representation is similar to \textbf{truth tables}
     \begin{center}
         \begin{tabular}{c|c|c}
             $x_1$ & $x_2$ & $\braket{x_1 x_2|\psi}$ \\
@@ -135,18 +135,18 @@ $$\alpha \ket {01} + \beta \ket {10} = \begin{pmatrix}
         \end{tabular}
 
         \vspace{1em}
-        \small{pour $\ket \psi = \alpha \ket {00} + \beta \ket {10}$}
+        \small{for $\ket \psi = \alpha \ket {00} + \beta \ket {10}$}
     \end{center}
 \end{frame}
 
-\begin{frame}{Diagrammes de décision quantiques}
+\begin{frame}{Quantum decision diagrams}
     \begin{columns}
         \begin{column}{0.7\textwidth}
-            Les états peuvent être représentés par des \textbf{diagrammes de décision quantiques}
+            States can be represented by \textbf{quantum decision diagrams}
 
             \vspace{1em}
 
-            On tire parti de la \textbf{structure} de l'état
+            We make use of the internal \textbf{structure} of the state
         \end{column}
         \begin{column}{0.3\textwidth}
             % https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZABgBoAmAXVJADcBDAGwFcYkQAdDgIxgHMsYYGgC29HACcsADwC+ARgAEXLouJcYYKMLGSZskLNLpMufIRRkAzNTpNW7LtwjSYURfMPGQGbHgJE8qQ2NAwsbIggXiZ+5kRkxLZhDpFO-II64lJy5MoqanmqWIUcahpamXpyhrZufPBEoABmEhAiSGQgOBBIQSC8WkgAtFadjIIRIFD0cAAWbtEgLW0dNN1I5DTz9FDskGBsRs2t7YhWaz2InQO7Z53Jk1iLy6fnXZfXmrcj9-aT5CAaIx6LxGAAFUz+CwgKR8WY4QEgcYHdjTOYLWSUWRAA
@@ -160,14 +160,14 @@ $$\alpha \ket {01} + \beta \ket {10} = \begin{pmatrix}
     \end{columns}
 \end{frame}
 
-\begin{frame}{Diagrammes de décision quantiques}
+\begin{frame}{Quantum decision diagrams}
     \begin{columns}
         \begin{column}{0.7\textwidth}
-            Les états peuvent être représentés par des \textbf{diagrammes de décision quantiques}
+            States can be represented by \textbf{quantum decision diagrams}
 
             \vspace{1em}
 
-            Dans le pire cela reste \textbf{exponentiel}
+            In the worst case it is still space-\textbf{exponential} in $n$
         \end{column}
     \begin{column}{0.3\textwidth}
     % https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZABgBoAmAXVJADcBDAGwFcYkQQBfU9TXfQijIBmanSat2AHSkAjCAA8YUAAQBGLjxAZseAkTLExDFm0QdOY5QHN4RUADMAThAC2SMiBwQkamrJgwKCQAWmFPRiwwMxAoejgAC2VNRxd3RHIabw9-QODEcJoTSXMsFJBnNyRMrx9ETwCg0MLxU3ZyEBpGegDGAAU+PUEQJyxrBJxOkEjo9jjE5MtOIA
@@ -181,17 +181,17 @@ $$\alpha \ket {01} + \beta \ket {10} = \begin{pmatrix}
     \end{columns}
 \end{frame}
 
-\begin{frame}{État de l'art}
-    \textbf{Retour sur l'état de l'art}
+\begin{frame}{State of the art}
+    \textbf{Look back at the state of the art}
     \begin{itemize}
-        \item[\checkmark] Interprétation abstraite
-        \item[\checkmark] Arithmétique des intervalles réels
-        \item[\checkmark] Diagrammes de décision quantiques
+        \item[\checkmark] Abstract interpretation
+        \item[\checkmark] Arithmetics of real intervals
+        \item[\checkmark] Quantum decision diagrams
     \end{itemize}
     \begin{center}
-        On va utiliser ces concepts \underline{ensemble},
+        We will use these concepts \underline{together},
 
-        avec une nouveauté : l'\textbf{additivité}
+        with an innovation : l'\textbf{additivity}
 \vfill
 % https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZARgBoAGAXVJADcBDAGwFcYkQAdDgBWxAF9S6TLnyEU5UsWp0mrdlzQALLAH1iAoSAzY8BImWk0GLNok4dlagEybhusUWtSZJ+ecV9B90fpQBmClc5MwsAGRgAMxwAJywAcyUcehiYiAB3O20RPXFkABYXYxCFSxV1AGpFcttvbIc-ZAA2ItlTUrQvLR1fPIBWIOL2jx4vGRgoePgiUEi0gFskSRAcCCQyEEYsMFCoejglCay5iEXEZdWkZ03t3f3DqGOFpZpLxH86k7OAdle1xAGNx27D2ByOn2eiF+K3+TX4lH4QA
 \begin{tikzcd}[ampersand replacement=\&, column sep=small]
@@ -201,16 +201,16 @@ $$\alpha \ket {01} + \beta \ket {10} = \begin{pmatrix}
 \end{center}
 \end{frame}
 
-\begin{frame}{Solution proposée}
-    \textbf{Retour sur l'état de l'art}
+\begin{frame}{Proposed solution}
+    \textbf{Look back at the state of the art}
     \begin{itemize}
-        \item[\checkmark] Interprétation abstraite
-        \item[\checkmark] Arithmétique des intervalles réels
-        \item[\checkmark] Diagrammes de décision quantiques
-        \item[+] Nouveauté : additivité
+        \item[\checkmark] Abstract interpretation
+        \item[\checkmark] Arithmetics of real intervals
+        \item[\checkmark] Quantum decision diagrams
+        \item[+] Innovation : additivity
     \end{itemize}
 
     \begin{center}
-        Solution : \underline{diagrammes additifs abstraits}
+        Solution : \underline{abstract additive decision diagrams}
     \end{center}
 \end{frame}
