@@ -1,0 +1,263 @@
+\newpage
+
+\chapter{Modèle théorique}
+\label{ch:Modele}
+
+Le modèle théorique proposé est celui des \textbf{diagrammes de décision quantiques additifs abstraits}.
+
+\section{Arithmétique des intervalles}
+\label{sec:ArithmetiqueIntervalles}
+
+L'arithmétique des intervalles dans le cadre de l'interprétation abstraite est proche de l'exemple de calcul sur les signes de la \autoref{sec:Etat}. L'arithmétique des intervalles est utilisée pour déterminer un ensemble de valeurs possibles pour une expression mathématique en utilisant des intervalles pour les valeurs des variables.
+
+L'arithmétique des intervalles réels a été étudiée \cite{Sunaga_2009}, et l'arithmétique des intervalles complexes cartésien a fait l'objet d'études légères par le passé \cite{Rokne_1971}. Au cours de ce projet, un travail a été réalisé pour explorer les possibilités de l'arithmétique des \textbf{intervalles complexes cartésiens et polaires}.
+
+\begin{figure}
+  \centering
+  \resizebox{.5\textwidth}{!}{
+  \begin{tikzpicture}
+    \coordinate (c) at (0,0);
+    \tikzstyle{every node}=[font=\Huge]
+    \draw [fill=cs] (12,4) rectangle (17,7);
+    \node at (14.5,3) {[12+4i, 17+7i]};
+    \draw (-5,0) -- (19,0);
+    \draw (0,-5) -- (0,8);
+
+    \draw (4,-.2) -- (4,.2);
+    \node at (4.5,-.5) {4};
+
+    \draw (-.2,4) -- (.2,4);
+    \node at (-.5, 4.5) {4i};
+
+    \draw (-.2, 7) -- (.2, 7);
+    \node at (-.5,7) {7i};
+
+    \draw (12,-.2) -- (12,.2);
+    \node at (12,-.5) {12};
+
+    \draw (17,-.2) -- (17,.2);
+    \node at (17,-.5) {17};
+
+    \node at (-.5,-.5) {0};
+
+    \draw [color=ups,dashed] (c) circle (4cm);
+    \node at (3.5,5.5) {$[3, 4]e^{i\pi[\frac 1 3, 1]}$};
+    \draw[fill=ups]
+    ($(c) + (60:4cm)$) arc (60:180:4cm)
+    --
+    ($(c) + (180:3cm)$) arc (180:60:3cm)
+    -- cycle;
+  \end{tikzpicture}
+  }
+  \caption{Exemple d'intervalles complexes cartésiens et polaires}
+  \label{fig:intervalles}
+\end{figure}
+
+Les intervalles complexes cartésiens sont définis par un intervalle pour la partie réelle et un intervalle pour la partie imaginaire. De manière équivalente, ils sont définis comme le plus petit rectangle dans le plan complexe (orienté selon les axes réel et imaginaire) contenant deux complexes. Les intervalles complexes polaires sont définis par un intervalle pour le module et un intervalle pour l'argument. Ces deux types d'intervalles ont des représentations différentes dans le plan complexe, comme le montre la \autoref{fig:intervalles}. Dans un cas comme dans l'autre, l'équivalent abstrait d'une \textbf{opération} $*$ est défini sur des éléments $\alpha$ et $\beta$ de l'ensemble des intervalles cartésiens $\mathcal{A}_0$ ou polaires $\mathcal S_0$ par
+$$\alpha * \beta = \bigcap_{\gamma \supset \alpha \circledast \beta\text{ et }\gamma \in \mathcal{A}_0} \gamma \quad \text{où} \quad \alpha \circledast \beta = \{a * b ; a \in \alpha, b \in \beta\}$$
+
+Les opérations de somme, de produit et d'union ainsi construites sont \textbf{sur-approximées} : elles garantissent que l'ensemble des valeurs possibles est inclus dans l'ensemble abstrait, et d'avoir un intervalle pour résultat. Ces opérations ont des propriétés, de distributivité par exemple, parfois très différentes des nombres complexes qu'ils représentent. Des propriétés sur les intervalles cartésiens et polaires sont énoncées et démontrées dans le document annexe \cite{Leroy_2025}.
+
+D'un point de vue pratique, les intervalles cartésiens sont généralement plus simples à manipuler que les intervalles polaires, et sont largement plus adaptés à une structure additive. Les intervalles polaires ont des avantages pour les opérations de multiplication et de division, mais rendent la somme coûteuse en calculs et en perte de précision.
+
+\section{États abstraits et diagrammes}
+
+Les \textbf{états} abstraits à $n$ qubits sont définis comme des $2^n$-uplets d'intervalles complexes, on note leur ensemble $\mathcal A_n$.
+Il peut s'agit des intervalles cartésiens ou polaires, puisque les opérations sont définies de manière similaire, mais en pratique on se limite souvent aux intervalles cartésiens.
+On définit sur les états la relation d'ordre d'inclusion des états par l'inclusion des produits cartésiens des intervalles les composant.
+
+Les \textbf{diagrammes} sont définis de manière récursive. Le seul diagramme de hauteur 0 est $\boxed 1$, puis si l'ensemble $\mathcal D_n$ des diagrammes de hauteur $n$ est défini, les diagrammes de hauteur $n+1$ peuvent avoir un nombre fini de fils gauches dans $\mathcal D_n$ et un nombre fini de fils droits dans $\mathcal D_n$, chacun étant associé à une amplitude abstraite sur la branche dans $\mathcal A_0$
+$$\mathcal{D}_{n+1} = \mathscr{P}_f(\mathcal{A}_0 \times \mathcal{D}_n) \times \mathscr{P}_f(\mathcal{A}_0 \times \mathcal{D}_n)$$
+
+On peut ainsi définir la fonction d'évaluation $\mathcal E : \mathcal D_n \to \mathcal A_n$ sur les diagrammes (une définition similaire est possible en utilisant les intervalles polaires), ce qui permet de définir une relation d'ordre $\le$ sur les diagrammes par inclusion des ensembles abstraits qu'ils représentent.
+
+\section{Approximations}
+
+L'un des objectifs pour cette structure de données est de transformer un diagramme en un autre incluant le diagramme initial et de taille plus faible. Sur les diagrammes de décision abstraits ont été développés deux algorithmes, à partir d'une relation de fusion.
+
+Puisque traiter les diagrammes de manière globale est difficile, on réalise les approximations de manière locale. Plus formellement, une \textbf{approximation globale} est une fonction $g : \mathcal D_n \to \mathcal D_n$ telle que
+$$\forall D \in \mathcal D_n, D \le g(D)$$
+
+En pratique, on a surtout développé une \textbf{approximation par fusion}, qui est une fonction $f : \mathcal D_n \times \mathcal D_n \rightarrow \mathcal D_n$ telle que
+$$\begin{cases}
+  \forall A \not= B \in \mathcal{D}_n, A \le f(A, B)~\text{and}~B \le f(A, B) \\
+  \forall A \in \mathcal{D}_n, f(A, A) = A
+\end{cases}
+$$
+
+Le \textbf{théorème de fusion} indique que si l'on dispose d'une approximation par fusion, alors on dispose d'une approximation globale. Il simplifie grandement les preuves ultérieures, puisque l'on peut se contenter de démontrer la propriété d'approximation par fusion pour montrer l'approximation globale.
+
+D'un point de vue computationnel, les approximations par fusion ont aussi l'avantage de pouvoir s'appliquer à des sous-diagrammes : pour réduire un diagramme $D$, il suffira alors de réaliser une approximation par fusion sur deux sous-diagrammes de $D$. Il est alors possible de réduire un diagramme de manière locale, ce qui est plus efficace que de considérer le diagramme parent directement.
+
+\section{Réduction}
+
+Deux algorithmes de réduction ont été développés, utilisant largement l'approximation par fusion fm (pour \textbf{force merge}) de la \autoref{fig:fm}, qui est centrale dans la réduction des diagrammes.
+
+\begin{figure}[H]
+  \centering
+% https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZAJgBoAGAXVJADcBDAGwFcYkQBBEAX1PU1z5CKACwVqdJq3YAhHnxAZseAkXKliEhizaIQjAPrl5-ZUKJlNNbdL2HgYALQBGbicUCVw5GKuSd7ABORu5KgqooAGwaWlK6IMHAALYubrym4d4A7DHWceyGxukeZhHIAJy5-rb6Bg6poZ7mKM7OVTbxwUUKYV5EzgDM7fl6iSmujaXezupUeQF6AMIABAC8ywA6GzgwAB44wABmSdwAFBykyzIAlJOZRNHOsQsgd30oABykT-M1PBIwKAAc3gRFAh0CECSSHUIBwECQZH0WDA8Sg9DgAAtAe4IVCYTR4UghsjUex0ViccU8dDEEiiYgSYwUWiIDgdlAQDRsfROXpIGTqZDaW04Qi6TRmWS9BTsZyhfjEKKGUyWeSMXLccKCWKkCIFSLCeL9QoaTqGQBWA16o1IC3cmC89gCtiStUytkcrWK5Xiq2m7WIaK6xA5Ums9k4h1O-kENjWxBfEOVEA8vngONc8Pkz1UgM+2EMsNStEavPgwMzW2JhNV5O131IZxIks55gAI0YrtTjr5YGYjEYhPoWEYzszv3iWx2+2Ap2O1zS+ZFhfFwdbMrL8so3CAA
+\begin{tikzcd}[column sep=0.6cm]
+  &  & A \arrow[lldd, dashed] \arrow[dd, dashed] \arrow[rrdd] \arrow[rrrrdd] &  & B \arrow[lllldd, dashed] \arrow[lldd, dashed] \arrow[dd] \arrow[rrdd] &  &                                          &                                 &    &         & {\text{fm}(A, B)} \arrow[ldd, dashed] \arrow[rdd] \arrow[rrrdd] \arrow[llldd, dashed] &                                 &  &         \\
+  &  &                                                                       &  &                                                                       &  & {} \arrow[rr, "\text{(fm)}", Rightarrow] &                                 & {} &         &                                                                                           &                                 &  &         \\
+l_0 \arrow[rr, no head, dotted] &  & l_{n-1}                                                               &  & r_0 \arrow[rr, no head, dotted]                                       &  & r_{m-1}                                  & l_0 \arrow[rr, no head, dotted] &    & l_{n-1} &                                                                                           & r_0 \arrow[rr, no head, dotted] &  & r_{m-1}
+\end{tikzcd}
+\caption{Approximation par fusion forcée}
+\label{fig:fm}
+\end{figure}
+
+\noindent où si ampl(A, $x$) est l'amplitude abstraite sur le lien entre $A$ et $x$, alors les nouvelles amplitudes abstraites sont définies par la formule suivante
+$$\forall x \in \{l_0, ..., l_{k-1}, r_0, ..., r_{m-1}\},~\text{ampl}(\text{fm}(A, B), x) = \text{ampl}(A, x) \sqcup \text{ampl}(B, x)$$
+
+\noindent où $\sqcup$ est l'opération d'union des intervalles complexes (cartésiens ou polaires). Cette approximation par fusion fonctionne en pratique y compris sur des diagrammes n'ayant a priori pas de descendance commune, puisqu'il suffit d'ajouter des branches avec un poids nul pour se ramener à ce cas. On remarque que cette généralisation ne fonctionne que dans le cas où on permet l'utilisation de diagrammes additifs.
+
+\begin{multicols}{2}
+  \section{Exemple d'approximation}
+  Considérons le diagramme suivant, où tous les fils (gauche ou droit) sont $\boxed 1$ et où les branches sans amplitude écrite sont d'amplitude 1. Appliquer fm sur $A$ et $B$ permet fait passer le diagramme additif initial à un diagramme additif abstrait $D' \ge D$.
+
+  Ici, la fusion permettrait ensuite de fusionner les deux branches gauches de $D'$ pour obtenir un diagramme non additif, comme le montre la \autoref{fig:exemple_fusion}.
+
+  \columnbreak
+  \begin{figure}[H]
+    \centering
+  % https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZARgBoAGAXVJADcBDAGwFcYkQAREAX1PU1z5CKAEyli1Ok1bsAQjz4gM2PASLlxkhizaIQAQQX8VQomRFbpukAB0bAIwgAPGFAAExHpNcBzeEVAAMwAnCABbJA0QHAgkMikddiwjEBDwyJoYpDEQRiwwayh6OAALVxAabRk9ABZkmkZ6exhGAAUBVWEQYKwfEpwUtIjEKKzEeOawKCQAWhqATgb8wuKy6d4g0OGcsYBmGknpxDnF3OX2ItLyhqaW9pM1PR6+gcqrdjsQ+gBjAFYRQZbOKZWKIfZnAoXVbXBLVEAAm7NNodUxPXr9QHpcYgpDgw5IBYbVJAxA7UG7biUbhAA
+  \begin{tikzcd}
+    & D \arrow[rd, "i"] \arrow[ld, "4i"', dashed] \arrow[rd, dashed, bend right=49] &                                                     \\
+  A \arrow[rd, "\frac52"', dashed, bend right=49] \arrow[rd] &                                                                               & B \arrow[ld, "2"', dashed] \arrow[ld, bend left=49] \\
+    & \boxed 1                                                                      &
+  \end{tikzcd}
+  $\Rightarrow$
+  % https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZABgBpiBdUkANwEMAbAVxiRABEQBfU9TXfIRRkATFVqMWbADrSARhAAeMKAAIAjN14gM2PASJl14+s1aIQAYW7iVAc3hFQAMwBOEALZIR1HBCTq1HIwYFBIACwAnNSmUhaaPC7uXog+IH4B1AxYYOYgUHRwABYqIEEhYYgAtFExknnIPqqybnQAxgCsYmUgDHTBDAAK-PpCIK5YdkU4WkmeSGTp-qnloUg10b05eQXFpXVmbOFYPX0Dw3qCbBNTM4kgbvOIixkrW7lsuyVhq5UAzMR7o8Ui9lmlgmtELUJIcLCcuBQuEA
+  \begin{tikzcd}[row sep=large]
+    D' \arrow[d, "4i"', dashed, bend right=49] \arrow[d, dashed, bend left] \arrow[d, "i", bend left=49] \\
+    C \arrow[d, "1", bend left=49] \arrow[d, "{[2, \frac52]}"', dashed, bend right=49]                  \\
+    \boxed 1
+  \end{tikzcd}
+  \caption{Fusion de $A$ et $B$}
+  \label{fig:exemple_fusion}
+  \end{figure}
+
+  \end{multicols}
+
+\section{Erreur}
+
+S'il est possible de réaliser des fusions sur n'importe quelle paire de diagrammes de même hauteur, savoir lesquels fusionner afin de réduire le diagramme sans causer de trop grande perte de précision est un enjeu majeur. On a donc développé une grandeur d'\textbf{erreur}, qui permet de déterminer si une fusion est intéressante ou non. Cette grandeur se distingue en deux intervalles : $\rho$ et $\varepsilon$, définis inductivement sur les diagrammes de hauteur $n$ par
+$$\rho(\boxed{1}) = \{1\}$$
+$$\varepsilon(\boxed{1}) = \{0\})$$
+
+$$\forall G, D \in \mathscr{P}_f(\mathcal{A}_0 \times \mathcal{D}_n),
+\rho((G, D))
+= \left(\sum_{(l, L) \in G} l \rho(L) \right) \bigsqcup \left(\sum_{(r, R) \in D} r \rho(R) \right)$$
+
+\begin{multline*}
+\forall G, D \in \mathscr{P}_f(\mathcal{A}_0 \times \mathcal{D}_n), \\
+\varepsilon((G, D))
+= \left(\sum_{(l, L) \in G} l \max|\rho(L) \ominus \varepsilon(L)| + \varepsilon(L)\right)
+\bigsqcup \left(\sum_{(r, R) \in D} r \max|\rho(R) \ominus \varepsilon(R)| + \varepsilon(R)\right)
+\end{multline*}
+
+\noindent où $\alpha^c$ est la version centrée d'un intervalle cartésien et où $\ominus$ est l'opération de « rognage » illustrée \autoref{fig:rognage} et définie lorsque $\alpha \subset \beta$ telle que
+$$\forall \alpha, \beta \in \mathcal A_0, (\alpha \ominus \beta) + \beta = \alpha$$
+
+Arriver à cette définition pour la grandeur d'erreur a nécessité des recherches conséquentes au cours du semestre. Plusieurs autres définitions ont été mises à l'épreuve, mais celle-ci a été retenue comme la plus prometteuse.
+
+Ceci pourra faire l'objet de recherches ultérieures plus expérimentales, fondées sur des \textit{benchmarks} de réduction de diagrammes.
+Le choix de cette définition fait respecter à ces grandeurs plusieurs propriétés intéressantes, en particulier $\rho$ contient tous les autres intervalles de l'évaluation
+$$\forall D \in \mathcal D_n, \forall i \in \{0,...,2^n-1\}, \mathcal E(D)[i] \subset \rho(D)$$
+
+\noindent ou le fait que l'intervalle $\varepsilon$ soit toujours centré. Le calcul de ces grandeurs, s'il est correctement stocké dans la structure de données, n'induit pas de temps de calcul rédhibitoire puisqu'il ne nécessite pas de calculer l'évaluation entière à chaque changement (il suffit de « propager » un changement dans un diagramme fils aux parents).
+
+\begin{figure}[ht]
+  \centering
+  \begin{tikzpicture}
+    \draw (-4,0) -- (4,0);
+
+    \draw (0,-.15) -- (0,.15);
+    \draw (-1,-.15) -- (-1,.15);
+    \draw (-2,-.15) -- (-2,.15);
+    \draw (1,-.15) -- (1,.15);
+    \draw (2,-.15) -- (2,.15);
+    \draw (3,-.15) -- (3,.15);
+    \node at (0,-.5) {0};
+    \node at (-1,-.5) {-1};
+    \node at (1,-.5) {1};
+    \node at (2,-.5) {2};
+    \node at (3,-.5) {3};
+    \node at (-2,-.5) {-2};
+
+    \draw [cs] (-2,0.1) -- (3,0.1);
+    \node [cs] at (3,.5) {$\rho$};
+    \node [cs] at (-2,0.1) {\large [};
+    \node [cs] at (3,0.1) {\large ]};
+
+    \draw [blue,, dashed] (-1,-0.1) -- (1,-0.1);
+    \node [blue] at (-.5,-.5) {$\varepsilon$};
+    \node [blue] at (-1,-0.1) {\large [};
+    \node [blue] at (1,-0.1) {\large ]};
+
+    \draw [violet,, dashed] (-1,0.2) -- (2,0.2);
+    \node [violet] at (.5,.5) {$\rho \ominus \varepsilon$};
+    \node [violet] at (-1,0.2) {\large [};
+    \node [violet] at (2,0.2) {\large ]};
+  \end{tikzpicture}
+  \caption{Opération de « rognage » $\ominus$ dans le cas des réels}
+  \label{fig:rognage}
+\end{figure}
+
+\section{Application de portes}
+\label{sec:Portes}
+
+Il n'existe pas par défaut de formalisation des portes quantiques dans le cas de diagrammes de décision quantiques additifs abstraits, puisque cette structure de données est nouvelle. On a donc défini une application de portes $M \in \mathcal M_{2^n, 2^n}(\mathbb C)$ à un diagramme $D \in \mathcal D_n$ préservant ce qu'on attend comme effet sur l'évaluation des diagrammes, c'est-à-dire
+$$\mathcal E(M(D)) = M \cdot \mathcal E(D)$$
+
+\noindent où $\cdot$ est le produit matriciel basé sur le produit dans $\mathcal A_0$.
+On note que, sans perte de généralité, on peut supposer que les coefficients de $M$ sont eux-mêmes des intervalles complexes. Réalisons un exemple d'application de porte sur un diagramme $D \in \mathcal D_n$.
+
+\begin{figure}[ht]
+  \centering
+% https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZAJgBoAGAXVJADcBDAGwFcYkQAREAX1PU1z5CKcqQCM1Ok1bsAMgH0xPPiAzY8BImPGSGLNohAK0y-uqFEAzDpp6ZhgEqLTqgRuHIALDan72TgFseSRgoAHN4IlAAMwAnCCDEURAcCCRtX3sQRmcaRnoAIxhGAAU3C0NYrDCACxwQPKwwAxAoejga0Jc4hKRk1KQyTJackzzC4rLzTUNGGGj6xub2No6u3hj4xP60xGth9ljc7InS8pmQKtr6jZAe7ZoBxG8Dyvkg8aKz6eFs+ZuVPd0o9dkM7AYwMxGIxPpNzr85gsGiBOvQoOxIMsli0oBAcDh1oCtkh9k8XuCkJDobDvoILojFiiYGiMQQ2NiVniCejuJRuEA
+\begin{tikzcd}
+  &     & D \arrow[lld, "l_1"', dashed] \arrow[ld, "l_p", dashed] \arrow[rd, "r_1"'] \arrow[rrd, "r_m"] &                                &     \\
+L_1 \arrow[r, no head, dotted] & L_p &                                                                                               & R_1 \arrow[r, no head, dotted] & R_m
+\end{tikzcd}
+\caption{Diagramme $D$}
+\label{fig:D_avant_porte}
+\end{figure}
+
+En pratique, pour appliquer une porte $M$ à un diagramme $D$
+\begin{enumerate}
+  \item On sépare $M$ en 4 sous-matrices
+  $$M = \begin{pmatrix}
+    M_{00} & M_{01} \\
+    M_{10} & M_{11}
+  \end{pmatrix}$$
+  \item On crée pour chaque branche gauche de $D$ une branche droite  de même amplitude et pour chaque branche droite de $D$ une branche gauche de même amplitude.
+  \item On applique $M_{00}$ à chaque branche gauche (hors celles créées à l'étape 2)
+  \item On applique $M_{01}$ à chaque branche gauche (uniquement celles créées à l'étape 2)
+  \item On applique $M_{10}$ à chaque branche droite (uniquement celles créées à l'étape 2)
+  \item On applique $M_{11}$ à chaque branche droite (hors celles créées à l'étape 2)
+\end{enumerate}
+
+\begin{figure}[H]
+  \centering
+  % https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZAFgBoAGAXVJADcBDAGwFcYkQBZACgBEBKEAF9S6TLnyEU5UgEZqdJq3YcA+sHLlBXADIqZA4aOx4CRGbPkMWbRJzUatutAZEgMxiUQBMFmlaW2quoyWgBKei5G4qYoAMy+CtbK9iFc4QC2kW5iJpLIAKwJ-jZ2wDKaOhFCru7ReQBsRYolQeWOKs7VUblEAOxNSYFqMqnh+l3ZHjHIABwDAaUjYSqZQvIwUADm8ESgAGYAThDpSNIgOBBI8YkBYMyMjDSM9ABGMIwACjmetowwezgQE8sGASlB6HAABYbCaHY6nGgXJBkG42O4PJ6vd5fKaSEB-AFA-EgsEQ6FQWFHE6IM5IxCFVFIdGPfFYz7fGL4-6AwwgOHU2mXRCNRmIZmYt7s3HsAk81z8hHnIU+UXi1mSnF1GXcomMEnscFQmG8hU0xFC8yq+4s54ajl42W6-W2Q3kynws1KpD9K0Y9XY+3awkmqmKulzX02tmanq-HUhj2Wukq4pM60SgPSuOEmjQ+gU2yQUFO4suiA4HDG+WhxDXOko1Ni9P+qVa7OA3MwfPsItsYGlkBQcuVikJ6kMukixtq22ZttcnMgPMF8AEPvEgdDitV-Y1n3hvzNNN+2et2MLjtLrsr3slsHD42UQRAA
+\begin{tikzcd}[column sep=0.4cm, row sep=1.2cm]
+  &             &                                        &             & M(D) \arrow[lld, dashed] \arrow[ld, dashed] \arrow[rd] \arrow[rrd] \arrow[llld, dashed] \arrow[lllld, dashed] \arrow[rrrd] \arrow[rrrrd] &                                        &             &                                        &             \\
+M_{00}(L_1) \arrow[r, no head, dotted] & M_{00}(L_p) & M_{01}(R_1) \arrow[r, no head, dotted] & M_{01}(R_m) &                                                                                                                                          & M_{10}(L_1) \arrow[r, no head, dotted] & M_{10}(L_p) & M_{11}(R_1) \arrow[r, no head, dotted] & M_{11}(R_m)
+\end{tikzcd}
+  \caption {Diagramme $M(D)$}
+  \label{fig:D_apres_porte}
+\end{figure}
+
+L'évaluation de $M(D)$ avec cet algorithme est correcte, puisque comme décrit sur la \autoref{fig:D_apres_porte}, on a
+$$\mathcal E(M(D)) = \begin{pmatrix}
+  \sum l_i M_{00} \mathcal E (L_i) + \sum r_j M_{01} \mathcal E (R_j) \\
+  \sum l_i M_{10} \mathcal E (L_i) + \sum r_j M_{11} \mathcal E (R_j)
+\end{pmatrix} = M \cdot \mathcal E (D)$$
+\noindent ce qui correspond bien à l'effet attendu de l'application de la porte $M$ sur le diagramme $D$. Le cas de base (une matrice de taille 1, c'est-à-dire un scalaire) est traité simplement en multipliant les poids des branches par ce scalaire.
+
+On a traité ici le cas d'une porte s'appliquant à tous les qubits. Plus généralement, considérant une porte s'appliquant seulement à $k$ qubits contigus (disons les qubits $Q ={q, ..., q+k-1}$). Pour un état $v$ à $n$ qubits, appliquer la porte $P \in \mathcal M_{2^k, 2^k}(\mathbb C)$ à aux qubits $Q$ de $v$ revient à appliquer à $v$ tout entier la porte
+
+$$M = \left(\bigotimes^{q-1} I\right) \otimes P \otimes \left(\bigotimes^{n-k-q-1} I\right)$$
+
+On remarque donc que l'application d'une porte à un nombre restreint de qubits peut être vue comme l'application d'une porte à tous les qubits, mais avec des matrices identités à la place des matrices de la porte.
+De plus, utiliser des portes $S$ afin d'échanger la place de qubits permet de traiter avec l'algorithme présenté précédemment tous les cas d'application de portes logiques à un sous-ensemble quelconque des qubits du circuit.
