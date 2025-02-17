@@ -1,46 +1,47 @@
-\chapter{Implémentation}
+\chapter{Implementation}
 \label{ch:Implementation}
 
-L’implémentation a été réalisée en \textbf{langage C++}. Ce choix a été motivé par plusieurs raisons : la performance, la maturité du langage et son utilisation dans plusieurs projets historiques du domaine \cite{Bichsel_2023} \cite{QTranslator}, et la proximité avec le langage C, déjà bien connu.
+The implementation was written in \textbf{C++}. This choice was motivated by several factors: performance, the maturity of the language and its use in several historical projects in the field \cite{Bichsel_2023} \cite{QTranslator}, and its proximity to the well-known C language.
 
 \section{Structure du code}
 
-Le code fait l'objet d'une documentation extensive, disponible en ligne. \cite{Leroy_doc}
-L'implémentation utilise largement la \textbf{programmation orientée objet}, en définissant des classes pour les objets manipulés. Les classes principales sont les suivantes, du plus bas au plus haut niveau :
+The code is the subject of extensive documentation, available online. \cite{Leroy_doc}
+The implementation makes extensive use of \textbf{object-oriented programming}, defining classes for the objects handled.
+Some of the main classes are as follows, from lowest to highest level:
 \begin{itemize}
-  \item Intervalles réels (quelconques, de réels positifs ou modulo $2\pi$), et complexes (cartésiens ou polaires)
-  \item \textbf{Diagrammes} (par défaut, additifs et abstraits)
-  \item Les branches, qui contiennent un lien (\textbf{pointeur}) vers un digramme de destination et un intervalle complexe (cartésien ou polaire)
+  \item Real intervals (any, of positive reals or modulo $2\pi$), and complex intervals (Cartesian or polar)
+  \item \textbf{Diagrams} (by default, additive and abstract)
+  \item Branches, which contain a link (\textbf{pointer}) to a destination digram and a complex interval (Cartesian or polar)
 \end{itemize}
 
-Les classes et fonctions sont organisées en \textbf{espaces de noms} (\textit{namespaces}) pour éviter les conflits de noms, et définies dans des fichiers séparés. Des fonctions de \textbf{réduction} servent ensuite à réduire les diagrammes, en utilisant les fonctions de sélection.
+Classes and functions are organized in \textbf{namespaces} to avoid name conflicts, and defined in separate files. \textbf{reduction} functions are then used to reduce diagrams, using selection functions.
 
-Les définitions des fonctions et méthodes et leur implémentation sont séparées dans des fichiers d'en-tête (\textit{header}) et des fichiers de code source (\textit{source}), respectivement. Afin de tirer parti de la \textbf{compilation séparée}, les fichiers d'en-tête sont inclus dans les fichiers de code source, et les fichiers de code source sont compilés en bibliothèques statiques.
+The definition of functions and methods and their implementation are separated into header files and source code files, respectively. To take advantage of \textbf{separate compilation}, header files are included in source code files, and source code files are compiled into static libraries.
 
-Au cours de ce semestre, un effort a été fait pour améliorer l'\textbf{interchangeabilité} entre les intervalles cartésiens et polaires, et pour rendre le code plus générique, par exemple en définissant des types adaptés et optimisés pour les matrices de portes ou les états (contenant des complexes ou des intervalles).
+During this semester, an effort was made to improve \textbf{interchangeability} between Cartesian and polar intervals, and to make the code more generic, for example by defining adapted and optimized types for gate matrices or states (containing complexes or intervals).
 
 \section{Tests}
 
-Afin de garantir la qualité du code, des \textbf{tests unitaires} ont été écrits pour la plupart des fonctions et méthodes. Ces tests sont écrits en utilisant la bibliothèque open-source \textit{Google Test}, et sont organisés en \textbf{suites de tests} pour chaque classe. \cite{GoogleTest} Les 46 tests, qui s'exécutent en moins d'une demi-seconde et comptent plusieurs milliers d'assertions, permettent de valider le code et de détecter les bugs ou régressions.
+To guarantee code quality, \textbf{unit tests} have been written for most functions and methods. These tests are written using the open-source \textit{Google Test} library, and are organized into \textbf{test suites} for each class. \cite{GoogleTest} The 46 tests, which run in less than half a second and include several thousand assertions, are used to validate code and detect bugs or regressions.
 
-\section{Interpréteur QASM}
+\section{QASM interpreter}
 
-Un \textbf{interpréteur} pour le langage Open QASM a été réalisé au cours de ce semestre. Il permet de lire un fichier QASM définissant des qubits et y appliquant des portes logiques, d'en générer un diagramme et d'y faire les modifications correspondant aux portes qu'on souhaite lui appliquer, et d'en afficher l'évaluation.
+An \textbf{interpreter} for the Open QASM language was developed during this semester. It can be used to read a QASM file defining qubits and applying quantum gates to them, generate a diagram and make the modifications corresponding to the gates you wish to apply to it, and display the evaluation.
 
-Cet interpréteur peut aussi fonctionner en mode interactif, c'est-à-dire en lisant les instructions depuis l'entrée standard. Il ne supporte pas l'ensemble des instructions QASM, seulement les portes logiques de base ($X$, $H$, $CX$, $S$, portes de phase). Toutefois, le \textit{back-end} de cet interpréteur est capable d'appliquer n'importe quelle porte grâce à la méthode détaillée en \autoref{sec:Portes}. Cet interpréteur est constitué d'une bibliothèque qu'on peut inclure avec l'en-tête \texttt{qasm.h} comportant un \textit{namespace} \texttt{qasm} et d'un exécutable \texttt{prompt}.
+This interpreter can also operate in interactive mode, i.e. reading instructions from standard input. It does not support all QASM instructions, only basic logic gates ($X$, $H$, $CX$, $S$, phase gates). However, this interpreter's \textit{back-end} is capable of applying any gate using the method detailed in \autoref{sec:Portes}. This interpreter consists of a library that can be included with the header \texttt{qasm.h} including a \texttt{qasm} namespace and an \texttt{prompt} executable.
 
-Le QASM étant déjà un langage de description de circuits quantiques, il n'a pas été jugé nécessaire de réaliser véritable compilateur comportant un front-end, un middle-end réalisant des optimisations et un back-end transformant la représentation intermédiaire en exécutable. L'interpréteur a été testé avec succès sur plusieurs exemples de circuits quantiques.
+As QASM is already a quantum circuit description language, oppositely to a high-level programming language, it was not considered necessary to build a true compiler comprising a front-end, a middle-end performing optimizations and a back-end transforming the intermediate representation into an executable. The interpreter has been successfully tested on several examples of quantum circuits.
 
-L'exemple du programme \ref{lst:QASM} s'exécute en 2,6 ms. Des \textbf{benchmarks} sur un plus grand nombre de qubits, ou sur des circuits plus complexes, n'ont pas été réalisés. De plus il est probable qu'une partie non négligeable du temps d'exécution soit due à la lecture du fichier ou à l'interprétation du QASM, et non à la génération du diagramme et à sa modification.
+The example program \ref{lst:QASM} runs in 2.6 ms. \textbf{benchmarks} on a larger number of qubits, or on more complex circuits, have not been carried out. Furthermore, it is likely that a significant part of the execution time is due to reading the file or interpreting the QASM, and not to generating the diagram and modifying it.
 
-\section{Outils}
+\section{Tools}
 
-Le code source est versionné à l'aide du logiciel \textit{Git}, et est disponible sur la plateforme \textit{GitHub}. \cite{Git} \cite{GitHub} \cite{Leroy_2025} Ce projet fait l'objet d'une \textbf{intégration continue} utilisant \textit{GitHub Actions}, automatisant la validation des tests.
+The source code is versioned using \textit{Git}, and is available on the \textit{GitHub} platform. \cite{Git} \cite{GitHub} \cite{Leroy_2025} This project is the subject of a \textbf{continuous integration} using \textit{GitHub Actions}, automating test validation.
 
-Ce semestre a vu l'arrivée de l'utilisation de \textit{Clang} comme compilateur à la place de \textit{GCC}, et de \textit{Ninja} à la place de \textit{Make}. \cite{Clang} \cite{Ninja}
-Ces changements ont permis de réduire le temps de compilation, et d'améliorer la lisibilité des messages d'erreur, ainsi que de faciliter l'utilisation de fonctionnalités récentes du langage (datant de C++23).
-Ces outils sont orchestrés par \textit{CMake}. \cite{CMake}
+This semester saw the arrival of \textit{Clang} as a compiler instead of \textit{GCC}, and \textit{Ninja} instead of \textit{Make}. \cite{Clang} \cite{Ninja}
+These changes have reduced compilation time and improved the readability of error messages, as well as facilitating the use of recent language features (dating back to C++23).
+These tools are orchestrated by \textit{CMake}. \cite{CMake}
 
-Compiler le projet (tests exclus) prend environ 8 secondes sur un ordinateur portable récent. Il faut 5 secondes supplémentaires pour compiler les tests. Le projet compte environ 5 000 lignes de code, dont environ 1 000 lignes de tests.
+Compiling the project (excluding tests) takes about 8 seconds on a recent laptop. It takes a further 5 seconds to compile the tests. The project has around 5,000 lines of code, including around 1,000 lines of tests.
 
-Le projet fait aussi l'objet d'une \textbf{documentation}, écrite dans les commentaires des fichiers d'en-tête. Les pages web de documentation sont générées automatiquement par \textit{Doxygen}. \cite{Doxygen} et publiée automatiquement sur \textit{GitHub Pages} à chaque modification à l'aide de \textit{GitHub Actions}. \cite{Leroy_doc}
+The project is also the subject of a \textbf{documentation}, written in the comments of the header files. Documentation web pages are automatically generated by \textit{Doxygen}. \cite{Doxygen} and automatically published on \textit{GitHub Pages} each time they are modified using \textit{GitHub Actions}. \cite{Leroy_doc}

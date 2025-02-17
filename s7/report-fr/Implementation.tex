@@ -6,7 +6,8 @@ L’implémentation a été réalisée en \textbf{langage C++}. Ce choix a été
 \section{Structure du code}
 
 Le code fait l'objet d'une documentation extensive, disponible en ligne. \cite{Leroy_doc}
-L'implémentation utilise largement la \textbf{programmation orientée objet}, en définissant des classes pour les objets manipulés. Les classes principales sont les suivantes, du plus bas au plus haut niveau :
+L'implémentation utilise largement la \textbf{programmation orientée objet}, en définissant des classes pour les objets manipulés.
+Certaines des classes principales sont les suivantes, du plus bas au plus haut niveau :
 \begin{itemize}
   \item Intervalles réels (quelconques, de réels positifs ou modulo $2\pi$), et complexes (cartésiens ou polaires)
   \item \textbf{Diagrammes} (par défaut, additifs et abstraits)
@@ -29,7 +30,7 @@ Un \textbf{interpréteur} pour le langage Open QASM a été réalisé au cours d
 
 Cet interpréteur peut aussi fonctionner en mode interactif, c'est-à-dire en lisant les instructions depuis l'entrée standard. Il ne supporte pas l'ensemble des instructions QASM, seulement les portes logiques de base ($X$, $H$, $CX$, $S$, portes de phase). Toutefois, le \textit{back-end} de cet interpréteur est capable d'appliquer n'importe quelle porte grâce à la méthode détaillée en \autoref{sec:Portes}. Cet interpréteur est constitué d'une bibliothèque qu'on peut inclure avec l'en-tête \texttt{qasm.h} comportant un \textit{namespace} \texttt{qasm} et d'un exécutable \texttt{prompt}.
 
-Le QASM étant déjà un langage de description de circuits quantiques, il n'a pas été jugé nécessaire de réaliser véritable compilateur comportant un front-end, un middle-end réalisant des optimisations et un back-end transformant la représentation intermédiaire en exécutable. L'interpréteur a été testé avec succès sur plusieurs exemples de circuits quantiques.
+Le QASM étant déjà un langage de description de circuits quantiques, à l'opposé d'un langage de programmation de haut niveau, il n'a pas été jugé nécessaire de réaliser véritable compilateur comportant un front-end, un middle-end réalisant des optimisations et un back-end transformant la représentation intermédiaire en exécutable. L'interpréteur a été testé avec succès sur plusieurs exemples de circuits quantiques.
 
 L'exemple du programme \ref{lst:QASM} s'exécute en 2,6 ms. Des \textbf{benchmarks} sur un plus grand nombre de qubits, ou sur des circuits plus complexes, n'ont pas été réalisés. De plus il est probable qu'une partie non négligeable du temps d'exécution soit due à la lecture du fichier ou à l'interprétation du QASM, et non à la génération du diagramme et à sa modification.
 
