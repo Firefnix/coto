@@ -138,6 +138,71 @@ $$\forall x \in \{l_0, ..., l_{k-1}, r_0, ..., r_{m-1}\},~\text{ampl}(\text{fm}(
 
   \end{multicols}
 
+\section{Erreur}
+
+S'il est possible de réaliser des fusions sur n'importe quelle paire de diagrammes de même hauteur, savoir lesquels fusionner afin de réduire le diagramme sans causer de trop grande perte de précision est un enjeu majeur. On a donc développé une grandeur d'\textbf{erreur}, qui permet de déterminer si une fusion est intéressante ou non. Cette grandeur se distingue en deux intervalles : $\rho$ et $\varepsilon$, définis inductivement sur les diagrammes de hauteur $n$ par
+$$\rho(\boxed{1}) = \{1\}$$
+$$\varepsilon(\boxed{1}) = \{0\})$$
+
+$$\forall G, D \in \mathscr{P}_f(\mathcal{A}_0 \times \mathcal{D}_n),
+\rho((G, D))
+= \left(\sum_{(l, L) \in G} l \rho(L) \right) \bigsqcup \left(\sum_{(r, R) \in D} r \rho(R) \right)$$
+
+\begin{multline*}
+\forall G, D \in \mathscr{P}_f(\mathcal{A}_0 \times \mathcal{D}_n), \\
+\varepsilon((G, D))
+= \left(\sum_{(l, L) \in G} l \max|\rho(L) \ominus \varepsilon(L)| + \varepsilon(L)\right)
+\bigsqcup \left(\sum_{(r, R) \in D} r \max|\rho(R) \ominus \varepsilon(R)| + \varepsilon(R)\right)
+\end{multline*}
+
+\noindent où $\alpha^c$ est la version centrée d'un intervalle cartésien et où $\ominus$ est l'opération de « rognage » illustrée \autoref{fig:rognage} et définie lorsque $\alpha \subset \beta$ telle que
+$$\forall \alpha, \beta \in \mathcal A_0, (\alpha \ominus \beta) + \beta = \alpha$$
+
+Arriver à cette définition pour la grandeur d'erreur a nécessité des recherches conséquentes au cours du semestre. Plusieurs autres définitions ont été mises à l'épreuve, mais celle-ci a été retenue comme la plus prometteuse.
+
+Ceci pourra faire l'objet de recherches ultérieures plus expérimentales, fondées sur des \textit{benchmarks} de réduction de diagrammes.
+Le choix de cette définition fait respecter à ces grandeurs plusieurs propriétés intéressantes, en particulier $\rho$ contient tous les autres intervalles de l'évaluation
+$$\forall D \in \mathcal D_n, \forall i \in \{0,...,2^n-1\}, \mathcal E(D)[i] \subset \rho(D)$$
+
+\noindent ou le fait que l'intervalle $\varepsilon$ soit toujours centré. Le calcul de ces grandeurs, s'il est correctement stocké dans la structure de données, n'induit pas de temps de calcul rédhibitoire puisqu'il ne nécessite pas de calculer l'évaluation entière à chaque changement (il suffit de « propager » un changement dans un diagramme fils aux parents).
+
+\begin{figure}[ht]
+  \centering
+  \begin{tikzpicture}
+    \draw (-4,0) -- (4,0);
+
+    \draw (0,-.15) -- (0,.15);
+    \draw (-1,-.15) -- (-1,.15);
+    \draw (-2,-.15) -- (-2,.15);
+    \draw (1,-.15) -- (1,.15);
+    \draw (2,-.15) -- (2,.15);
+    \draw (3,-.15) -- (3,.15);
+    \node at (0,-.5) {0};
+    \node at (-1,-.5) {-1};
+    \node at (1,-.5) {1};
+    \node at (2,-.5) {2};
+    \node at (3,-.5) {3};
+    \node at (-2,-.5) {-2};
+
+    \draw [cs] (-2,0.1) -- (3,0.1);
+    \node [cs] at (3,.5) {$\rho$};
+    \node [cs] at (-2,0.1) {\large [};
+    \node [cs] at (3,0.1) {\large ]};
+
+    \draw [blue,, dashed] (-1,-0.1) -- (1,-0.1);
+    \node [blue] at (-.5,-.5) {$\varepsilon$};
+    \node [blue] at (-1,-0.1) {\large [};
+    \node [blue] at (1,-0.1) {\large ]};
+
+    \draw [violet,, dashed] (-1,0.2) -- (2,0.2);
+    \node [violet] at (.5,.5) {$\rho \ominus \varepsilon$};
+    \node [violet] at (-1,0.2) {\large [};
+    \node [violet] at (2,0.2) {\large ]};
+  \end{tikzpicture}
+  \caption{Opération de « rognage » $\ominus$ dans le cas des réels}
+  \label{fig:rognage}
+\end{figure}
+
 \section{Application de portes}
 \label{sec:Portes}
 
@@ -195,5 +260,4 @@ On a traité ici le cas d'une porte s'appliquant à tous les qubits. Plus géné
 $$M = \left(\bigotimes^{q-1} I\right) \otimes P \otimes \left(\bigotimes^{n-k-q-1} I\right)$$
 
 On remarque donc que l'application d'une porte à un nombre restreint de qubits peut être vue comme l'application d'une porte à tous les qubits, mais avec des matrices identités à la place des matrices de la porte.
-
-On s'attendait donc à ce que l'application d'une porte à un nombre restreint de qubits soit plus efficace que l'application d'une porte à tous les qubits.
+De plus, utiliser des portes $S$ afin d'échanger la place de qubits permet de traiter avec l'algorithme présenté précédemment tous les cas d'application de portes logiques à un sous-ensemble quelconque des qubits du circuit.

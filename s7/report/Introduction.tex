@@ -25,6 +25,8 @@ Les états à $n$ qubits peuvent être représentés par des \textbf{vecteurs} d
 
 Comme en informatique classique, les opérations élémentaires sur la mémoire sont réalisées en informatique quantique par des \textbf{portes}. D'un point de vue mathématique, une porte opérant sur $n$ qubits est couramment représentée par une matrice de taille $2^n \times 2^n$. Appliquer une porte $M$ à un ensemble de qubits $v$ revient alors à multiplier le vecteur d'état par la matrice de la porte.
 
+L'application en parallèle de plusieurs portes sur plusieurs qubits est représentée par le \textbf{produit tensoriel} (produit de Kronecker) des matrices de portes. On note toutefois que l'application de cette manière de portes sur des qubits se fait en un temps exponentiel en fonction du nombre de qubits, ce qui rend l'utilisation naïve d'algorithmes quantiques sur des machines classiques inefficace.
+
 L'application de portes à des qubits est fréquemment représentée sous forme de \textbf{circuits quantiques}, où les qubits sont représentés par des lignes et les portes par des boîtes.
 
 \begin{figure}
@@ -50,7 +52,7 @@ L'application de portes à des qubits est fréquemment représentée sous forme 
   \caption{Circuit à 2 qubits avec les portes $H$, $CX$ et $S$}
 \end{figure}
 
-N'importe quelle matrice \textit{unitaire} et \textit{réversible} peut être utilisée comme porte quantique. Parmi les portes les plus courantes, on compte la porte de Hadamard ($H$), la porte « non » ($X$), la porte « non contrôlée » ($CX$), ou la porte d'échange ($S$ pour \textit{swap}). Ces portes sont avec d'autres utilisées pour réaliser des algorithmes quantiques, comme l'algorithme de Deutsch-Josza \cite{DJ_1992}, l'algorithme de Grover \cite{Grover_1996}, ou encore l'algorithme de Shor \cite{Shor_1997}.
+N'importe quelle matrice \textit{unitaire} et \textit{réversible} peut être utilisée comme porte quantique. Parmi les portes les plus courantes, on compte la porte de Hadamard ($H$), la porte « non » ($X$), la porte « non contrôlée » ($CX$), ou la porte d'échange ($S$ pour \textit{swap}). Ces portes sont avec d'autres utilisées pour réaliser des algorithmes quantiques, comme l'algorithme de Deutsch-Josza \cite{DJ_1992}, l'algorithme de Grover \cite{Grover_1996}, ou encore celui de Shor \cite{Shor_1997}.
 
 \vspace{1em}
 
@@ -64,8 +66,8 @@ Afin de proposer un langage unifié permettant de développer des algorithmes qu
   qubit a;
   qubit b;
   h a;
-  cx a, b;
-  s a, b;
+  cx a b;
+  s a b;
 \end{lstlisting}
 \end{tabular}
 \caption{Exemple de code Open QASM}
