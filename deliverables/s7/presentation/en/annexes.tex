@@ -1,0 +1,69 @@
+% Annexes à la présentation
+\begin{frame}{Technical stack}
+\begin{columns}
+    \begin{column}{0.5\textwidth}
+        Implementation
+        \begin{itemize}
+            \item \textbf{Code} (4.9k lines)
+            \begin{itemize}
+                \item Langage C++
+                \item LLVM / Clang
+                \item Ninja
+                \item CMake
+            \end{itemize}
+            \item \textbf{Tests}
+            \begin{itemize}
+                \item Google Test
+                \item GitHub Actions
+            \end{itemize}
+        \end{itemize}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+        \begin{center}
+            \includesvg[scale=0.23]{./images/cpp-logo.svg}
+            \includegraphics[width=.4\textwidth]{./images/llvm-logo.png}
+
+            \includesvg[scale=0.15]{./images/ninja-logo.svg}
+            \includegraphics[scale=0.1]{./images/cmake-logo.png}
+        \end{center}
+    \end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Secondary tools}
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            Tools
+            \begin{itemize}
+                \item \textbf{Version control}
+                \begin{itemize}
+                    \item Git
+                    \item GitHub
+                \end{itemize}
+                \item \textbf{Documentation} Doxygen
+                \end{itemize}
+            \end{column}
+        \begin{column}{0.5\textwidth}
+            \begin{center}
+                \includesvg[scale=0.6]{./images/git-logo.svg}
+                \includesvg[scale=0.6]{./images/github-logo.svg}
+
+                \includegraphics[scale=0.1]{./images/doxygen-logo.png}
+                \end{center}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Error}
+    $$\rho(\boxed{1}) = \{1\}$$
+    $$\varepsilon(\boxed{1}) = \{0\})$$
+    $$\forall G, D \in \mathscr{P}_f(\mathcal{A}_0 \times \mathcal{D}_n),
+    \rho((G, D))
+    = \left(\sum_{(l, L) \in G} l \rho(L) \right) \bigsqcup \left(\sum_{(r, R) \in D} r \rho(R) \right)$$
+    $$
+    \forall G, D \in \mathscr{P}_f(\mathcal{A}_0 \times \mathcal{D}_n),$$
+    $$\varepsilon((G, D))
+    = \left(\sum_{(l, L) \in G} l \max|\rho(L) \ominus \varepsilon(L)| + \varepsilon(L)\right)
+    \bigsqcup \left(\sum_{(r, R) \in D} r \max|\rho(R) \ominus \varepsilon(R)| + \varepsilon(R)\right)
+    $$
+\end{frame}

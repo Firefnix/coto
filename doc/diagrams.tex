@@ -53,7 +53,7 @@ Additionally, we extend the definition of the imprecision function $\mathcal{I}$
 Let $A, C \in \mathcal{D}_n$.
 We would like to define a scale $\delta : \mathcal{D}_n \rightarrow X$ with $(X, \prec)$ a partially ordered set, that we would be able to compute in polynomial time and space (i.e. in $O(n^p)$ for a certain $p \in \mathbb{N}$), such that if $A \le C$, $\delta(A) \prec \delta(C)$.
 Let $X = \mathcal{A}_0 \times \mathbb{R}^+$ and $\delta(A) = (\rho(A), \varepsilon(A))$ be inductively defined by:
-$$\delta(\boxed{1}) = (\{1\}, 0)$$
+$$\delta(\boxed{1}) = (\{1\}, \{0\})$$
 
 $$\forall G, D \in \mathscr{P}_f(\mathcal{A}_0 \times \mathcal{D}_n),
 \rho((G, D))
@@ -65,6 +65,9 @@ $$\forall G, D \in \mathscr{P}_f(\mathcal{A}_0 \times \mathcal{D}_n),
 = \left(\sum_{(l, L) \in G} l \max|\rho(L) \ominus \varepsilon(L)| + \varepsilon(L)\right) \\
 \bigsqcup \left(\sum_{(r, R) \in D} r \max|\rho(R) \ominus \varepsilon(R)| + \varepsilon(R)\right)
 \end{multline*}
+
+\noindent with $\ominus$ the “crop" operation defined such that
+$$\forall \alpha, \beta \in \mathcal A_0, (\alpha \ominus \beta) + \beta = \alpha$$
 
 \begin{prop}
     The radius $\rho$ of a diagram is bigger than all it's abstract amplitudes, i.e.
@@ -90,7 +93,7 @@ $$\forall G, D \in \mathscr{P}_f(\mathcal{A}_0 \times \mathcal{D}_n),
             Let $(G, D) \in \mathcal{D}_n$, then
             $$\rho((G, D))
             = \left(\sum_{(l, L) \in G} l \rho(L) \right) \bigsqcup \left(\sum_{(r, R) \in D} r \rho(R) \right)$$
-            And since
+            With usual operation properties on the sum and the join, we have the desired result.
         \end{proof}
 \end{prop}
 

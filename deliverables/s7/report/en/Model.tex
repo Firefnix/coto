@@ -1,0 +1,264 @@
+\newpage
+
+\chapter{Theoretical model}
+\label{ch:Modele}
+
+The proposed theoretical model is that of \textbf{abstract additive quantum decision diagrams}.
+
+\section{Arithmetics of intervals}
+\label{sec:ArithmetiqueIntervalles}
+
+Interval arithmetic in the context of abstract interpretation is similar to the example of calculating the signs of the \autoref{sec:Etat}. Interval arithmetic is used to determine a set of possible values for a mathematical expression using intervals for variable values.
+
+Real interval arithmetic has been studied \cite{Sunaga_2009}, and Cartesian complex interval arithmetic has been lightly studied in the past \cite{Rokne_1971}. In the course of this project, work has been carried out to explore the possibilities of \textbf{Cartesian and polar complex interval arithmetic}.
+
+\begin{figure}
+  \centering
+  \resizebox{.5\textwidth}{!}{
+  \begin{tikzpicture}
+    \coordinate (c) at (0,0);
+    \tikzstyle{every node}=[font=\Huge]
+    \draw [fill=cs] (12,4) rectangle (17,7);
+    \node at (14.5,3) {[12+4i, 17+7i]};
+    \draw (-5,0) -- (19,0);
+    \draw (0,-5) -- (0,8);
+
+    \draw (4,-.2) -- (4,.2);
+    \node at (4.5,-.5) {4};
+
+    \draw (-.2,4) -- (.2,4);
+    \node at (-.5, 4.5) {4i};
+
+    \draw (-.2, 7) -- (.2, 7);
+    \node at (-.5,7) {7i};
+
+    \draw (12,-.2) -- (12,.2);
+    \node at (12,-.5) {12};
+
+    \draw (17,-.2) -- (17,.2);
+    \node at (17,-.5) {17};
+
+    \node at (-.5,-.5) {0};
+
+    \draw [color=ups,dashed] (c) circle (4cm);
+    \node at (3.5,5.5) {$[3, 4]e^{i\pi[\frac 1 3, 1]}$};
+    \draw[fill=ups]
+    ($(c) + (60:4cm)$) arc (60:180:4cm)
+    --
+    ($(c) + (180:3cm)$) arc (180:60:3cm)
+    -- cycle;
+  \end{tikzpicture}
+  }
+  \caption{Example of Cartesian and polar complex intervals}
+  \label{fig:intervalles}
+\end{figure}
+
+Cartesian complex intervals are defined by an interval for the real part and an interval for the imaginary part. Equivalently, they are defined as the smallest rectangle in the complex plane (oriented along the real and imaginary axes) containing two given complex numbers. Polar complex intervals are defined by an interval for the modulus and an interval for the argument. These two types of interval have different representations in the complex plane, as shown in \autoref{fig:intervalles}. In either case, the abstract equivalent of a \textbf{operation} $*$ is defined on elements $\alpha$ and $\beta$ of the set of Cartesian intervals $\mathcal{A}_0$ or polar intervals $\mathcal S_0$ by
+$$\alpha * \beta = \bigcap_{\gamma \supset \alpha \circledast \beta\text{ et }\gamma \in \mathcal{A}_0} \gamma \quad \text{où} \quad \alpha \circledast \beta = \{a * b ; a \in \alpha, b \in \beta\}$$
+
+The sum, product and union operations thus constructed are \textbf{over-approximated}: they guarantee that the set of possible values is included in the abstract set, and have an interval as a result. These operations have properties, such as distributivity, which are sometimes very different from the complex numbers they represent. Properties of Cartesian and polar intervals are set out and demonstrated in the accompanying document \cite{Leroy_2025}.
+
+From a practical point of view, Cartesian intervals are generally simpler to handle than polar intervals, and are largely more suited to an additive structure. Polar intervals have advantages for multiplication and division operations, but make summation computationally expensive and often result in a huge loss of precision in this case.
+
+\section{Abstract states and diagrams}
+
+Abstract $n$-qubit \textbf{states} are defined as $2^n$-uplets of complex intervals, and their set $\mathcal A_n$ is noted.
+These can be Cartesian or polar intervals, since the operations are defined in a similar way, but in practice we often restrict ourselves to Cartesian intervals.
+The inclusion order relation of states is defined by the inclusion of the Cartesian products of their component intervals.
+
+The \textbf{diagrams} are defined recursively. The only diagram of height 0 is $\boxed 1$, then if the set $\mathcal D_n$ of diagrams of height $n$ is defined, diagrams of height $n+1$ can have a finite number of left-hand threads in $\mathcal D_n$ and a finite number of right-hand threads in $\mathcal D_n$, each associated with an abstract amplitude on the branch in $\mathcal A_0$.
+$$\mathcal{D}_{n+1} = \mathscr{P}_f(\mathcal{A}_0 \times \mathcal{D}_n) \times \mathscr{P}_f(\mathcal{A}_0 \times \mathcal{D}_n)$$
+
+That way, a diagram in $\mathcal D_n$ represents $n$ qubits.
+We can thus define the evaluation function $\mathcal E : \mathcal D_n \to \mathcal A_n$ on the diagrams (a similar definition is possible using polar intervals), which makes it possible to define a relation of order $\le$ on the diagrams by inclusion of the abstract sets they represent.
+
+\section{Approximations}
+
+One of the aims of this data structure is to transform one diagram into another, including (as a “subset”) the initial diagram, but of smaller size. Two algorithms have been developed for abstract decision diagrams, based on a merge function.
+
+Since dealing with diagrams globally is difficult, approximations are performed locally. More formally, a \textbf{global approximation} is a function $g : \mathcal D_n \to \mathcal D_n$ such that
+$$\forall D \in \mathcal D_n, D \le g(D)$$
+
+In practice, we have mainly developed a \textbf{merge approximation}, which is a function $f : \mathcal D_n \times \mathcal D_n \rightarrow \mathcal D_n$ such that
+$$\begin{cases}
+  \forall A \not= B \in \mathcal{D}_n, A \le f(A, B)~\text{and}~B \le f(A, B) \\
+  \forall A \in \mathcal{D}_n, f(A, A) = A
+\end{cases}
+$$
+
+The \textbf{fusion theorem} states that if we have a merge approximation, it gives us a global approximation. It greatly simplifies subsequent proofs, since we can simply demonstrate the merge approximation property to show the global approximation.
+
+From a computational point of view, merge approximations also have the advantage of being applicable to subdiagrams: to reduce a $D$ diagram, it will then suffice to perform a merge approximation on two subdiagrams of $D$. It is then possible to reduce a diagram locally, which is more efficient than considering the parent diagram directly.
+
+\section{Reduction}
+
+Two reduction algorithms have been developed, making extensive use of the fm merge approximation (for \textbf{force merge}) of the \autoref{fig:fm}, which is central to diagram reduction.
+
+\begin{figure}[H]
+  \centering
+% https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZAJgBoAGAXVJADcBDAGwFcYkQBBEAX1PU1z5CKACwVqdJq3YAhHnxAZseAkXKliEhizaIQjAPrl5-ZUKJlNNbdL2HgYALQBGbicUCVw5GKuSd7ABORu5KgqooAGwaWlK6IMHAALYubrym4d4A7DHWceyGxukeZhHIAJy5-rb6Bg6poZ7mKM7OVTbxwUUKYV5EzgDM7fl6iSmujaXezupUeQF6AMIABAC8ywA6GzgwAB44wABmSdwAFBykyzIAlJOZRNHOsQsgd30oABykT-M1PBIwKAAc3gRFAh0CECSSHUIBwECQZH0WDA8Sg9DgAAtAe4IVCYTR4UghsjUex0ViccU8dDEEiiYgSYwUWiIDgdlAQDRsfROXpIGTqZDaW04Qi6TRmWS9BTsZyhfjEKKGUyWeSMXLccKCWKkCIFSLCeL9QoaTqGQBWA16o1IC3cmC89gCtiStUytkcrWK5Xiq2m7WIaK6xA5Ums9k4h1O-kENjWxBfEOVEA8vngONc8Pkz1UgM+2EMsNStEavPgwMzW2JhNV5O131IZxIks55gAI0YrtTjr5YGYjEYhPoWEYzszv3iWx2+2Ap2O1zS+ZFhfFwdbMrL8so3CAA
+\begin{tikzcd}[column sep=0.6cm]
+  &  & A \arrow[lldd, dashed] \arrow[dd, dashed] \arrow[rrdd] \arrow[rrrrdd] &  & B \arrow[lllldd, dashed] \arrow[lldd, dashed] \arrow[dd] \arrow[rrdd] &  &                                          &                                 &    &         & {\text{fm}(A, B)} \arrow[ldd, dashed] \arrow[rdd] \arrow[rrrdd] \arrow[llldd, dashed] &                                 &  &         \\
+  &  &                                                                       &  &                                                                       &  & {} \arrow[rr, "\text{(fm)}", Rightarrow] &                                 & {} &         &                                                                                           &                                 &  &         \\
+l_0 \arrow[rr, no head, dotted] &  & l_{n-1}                                                               &  & r_0 \arrow[rr, no head, dotted]                                       &  & r_{m-1}                                  & l_0 \arrow[rr, no head, dotted] &    & l_{n-1} &                                                                                           & r_0 \arrow[rr, no head, dotted] &  & r_{m-1}
+\end{tikzcd}
+\caption{Approximation by forced merge}
+\label{fig:fm}
+\end{figure}
+
+\noindent where if ampl(A, $x$) is the abstract amplitude on the link between $A$ and $x$, then the new abstract amplitudes are defined by the following formula
+$$\forall x \in \{l_0, ..., l_{k-1}, r_0, ..., r_{m-1}\},~\text{ampl}(\text{fm}(A, B), x) = \text{ampl}(A, x) \sqcup \text{ampl}(B, x)$$
+
+\noindent where $\sqcup$ is the complex interval union operation (Cartesian or polar). In practice, this merge approximation works even on diagrams with no common descent, since it's enough to add branches with zero weight to bring us back to this case. Note that this generalization only works when additive diagrams are allowed.
+
+\begin{multicols}{2}
+  \section{Example of approximation}
+  Consider the following diagram, where all children (left or right) are $\boxed 1$ and branches with no written amplitude are amplitude 1. Applying fm to $A$ and $B$ turns the initial additive diagram into an abstract additive diagram $D' \ge D$.
+
+  Here, merging would then merge the two left-hand branches of $D'$ to obtain a non-additive diagram, as shown in \autoref{fig:exemple_fusion}.
+
+  \columnbreak
+  \begin{figure}[H]
+    \centering
+  % https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZARgBoAGAXVJADcBDAGwFcYkQAREAX1PU1z5CKAEyli1Ok1bsAQjz4gM2PASLlxkhizaIQAQQX8VQomRFbpukAB0bAIwgAPGFAAExHpNcBzeEVAAMwAnCABbJA0QHAgkMikddiwjEBDwyJoYpDEQRiwwayh6OAALVxAabRk9ABZkmkZ6exhGAAUBVWEQYKwfEpwUtIjEKKzEeOawKCQAWhqATgb8wuKy6d4g0OGcsYBmGknpxDnF3OX2ItLyhqaW9pM1PR6+gcqrdjsQ+gBjAFYRQZbOKZWKIfZnAoXVbXBLVEAAm7NNodUxPXr9QHpcYgpDgw5IBYbVJAxA7UG7biUbhAA
+  \begin{tikzcd}
+    & D \arrow[rd, "i"] \arrow[ld, "4i"', dashed] \arrow[rd, dashed, bend right=49] &                                                     \\
+  A \arrow[rd, "\frac52"', dashed, bend right=49] \arrow[rd] &                                                                               & B \arrow[ld, "2"', dashed] \arrow[ld, bend left=49] \\
+    & \boxed 1                                                                      &
+  \end{tikzcd}
+  $\Rightarrow$
+  % https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZABgBpiBdUkANwEMAbAVxiRABEQBfU9TXfIRRkATFVqMWbADrSARhAAeMKAAIAjN14gM2PASJl14+s1aIQAYW7iVAc3hFQAMwBOEALZIR1HBCTq1HIwYFBIACwAnNSmUhaaPC7uXog+IH4B1AxYYOYgUHRwABYqIEEhYYgAtFExknnIPqqybnQAxgCsYmUgDHTBDAAK-PpCIK5YdkU4WkmeSGTp-qnloUg10b05eQXFpXVmbOFYPX0Dw3qCbBNTM4kgbvOIixkrW7lsuyVhq5UAzMR7o8Ui9lmlgmtELUJIcLCcuBQuEA
+  \begin{tikzcd}[row sep=large]
+    D' \arrow[d, "4i"', dashed, bend right=49] \arrow[d, dashed, bend left] \arrow[d, "i", bend left=49] \\
+    C \arrow[d, "1", bend left=49] \arrow[d, "{[2, \frac52]}"', dashed, bend right=49]                  \\
+    \boxed 1
+  \end{tikzcd}
+  \caption{Merger of $A$ and $B$}
+  \label{fig:exemple_fusion}
+  \end{figure}
+
+  \end{multicols}
+
+\section{Error}
+
+If it is possible to perform merges on any pair of diagrams of the same height, knowing which ones to merge in order to reduce the diagram without causing too great a loss of accuracy is a major issue. We have therefore developed a scale of \textbf{error}, which can be used to determine whether a merge is interesting or not. This variable can be divided into two intervals: $\rho$ and $\varepsilon$, defined inductively on diagrams of height $n$ by
+$$\rho(\boxed{1}) = \{1\}$$
+$$\varepsilon(\boxed{1}) = \{0\})$$
+
+$$\forall G, D \in \mathscr{P}_f(\mathcal{A}_0 \times \mathcal{D}_n),
+\rho((G, D))
+= \left(\sum_{(l, L) \in G} l \rho(L) \right) \bigsqcup \left(\sum_{(r, R) \in D} r \rho(R) \right)$$
+
+\begin{multline*}
+\forall G, D \in \mathscr{P}_f(\mathcal{A}_0 \times \mathcal{D}_n), \\
+\varepsilon((G, D))
+= \left(\sum_{(l, L) \in G} l \max|\rho(L) \ominus \varepsilon(L)| + \varepsilon(L)\right)
+\bigsqcup \left(\sum_{(r, R) \in D} r \max|\rho(R) \ominus \varepsilon(R)| + \varepsilon(R)\right)
+\end{multline*}
+
+\noindent where $\alpha^c$ is the centered version of a Cartesian interval and where $\ominus$ is the “cropping” operation illustrated in \autoref{fig:rognage} and defined when $\alpha \subset \beta$ such that
+$$\forall \alpha, \beta \in \mathcal A_0, (\alpha \ominus \beta) + \beta = \alpha$$
+
+Arriving at this definition for the error quantity required considerable research over the course of the semester. Several other definitions were put to the test, but this was selected as the most promising.
+
+This could be the subject of further, more experimental research, based on \textit{benchmarks} of diagram reduction.
+The choice of this definition gives these variables several interesting properties, in particular $\rho$ contains all the other evaluation intervals
+$$\forall D \in \mathcal D_n, \forall i \in \{0,...,2^n-1\}, \mathcal E(D)[i] \subset \rho(D)$$
+
+\noindent and $\varepsilon$ is always centered on zero. The calculation of these quantities, if correctly stored in the data structure, doesn't induce any prohibitive calculation time, since it doesn't require calculating the entire evaluation for each change (it's enough to “propagate” a change in a child diagram to the parents).
+
+\begin{figure}[ht]
+  \centering
+  \begin{tikzpicture}
+    \draw (-4,0) -- (4,0);
+
+    \draw (0,-.15) -- (0,.15);
+    \draw (-1,-.15) -- (-1,.15);
+    \draw (-2,-.15) -- (-2,.15);
+    \draw (1,-.15) -- (1,.15);
+    \draw (2,-.15) -- (2,.15);
+    \draw (3,-.15) -- (3,.15);
+    \node at (0,-.5) {0};
+    \node at (-1,-.5) {-1};
+    \node at (1,-.5) {1};
+    \node at (2,-.5) {2};
+    \node at (3,-.5) {3};
+    \node at (-2,-.5) {-2};
+
+    \draw [cs] (-2,0.1) -- (3,0.1);
+    \node [cs] at (3,.5) {$\rho$};
+    \node [cs] at (-2,0.1) {\large [};
+    \node [cs] at (3,0.1) {\large ]};
+
+    \draw [blue,, dashed] (-1,-0.1) -- (1,-0.1);
+    \node [blue] at (-.5,-.5) {$\varepsilon$};
+    \node [blue] at (-1,-0.1) {\large [};
+    \node [blue] at (1,-0.1) {\large ]};
+
+    \draw [violet,, dashed] (-1,0.2) -- (2,0.2);
+    \node [violet] at (.5,.5) {$\rho \ominus \varepsilon$};
+    \node [violet] at (-1,0.2) {\large [};
+    \node [violet] at (2,0.2) {\large ]};
+  \end{tikzpicture}
+  \caption{“Cropping” operation $\ominus$ in the case of real intervals}
+  \label{fig:rognage}
+\end{figure}
+
+\section{Gate application}
+\label{sec:Portes}
+
+By default, there is no formalization of quantum gates in the case of abstract additive quantum decision diagrams, since this data structure is new. We therefore defined an application of gates $M \in \mathcal M_{2^n, 2^n}(\mathbb C)$ to a diagram $D \in \mathcal D_n$ preserving what we expect to be the effect on diagram evaluation, i.e.
+$$\mathcal E(M(D)) = M \cdot \mathcal E(D)$$
+
+\noindent where $\cdot$ is the matrix product based on the product in $\mathcal A_0$.
+Note that, without loss of generality, we can assume that the coefficients of $M$ are themselves complex intervals. Let's take an example of a gate application on a diagram $D \in \mathcal D_n$.
+
+\begin{figure}[ht]
+  \centering
+% https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZAJgBoAGAXVJADcBDAGwFcYkQAREAX1PU1z5CKcqQCM1Ok1bsAMgH0xPPiAzY8BImPGSGLNohAK0y-uqFEAzDpp6ZhgEqLTqgRuHIALDan72TgFseSRgoAHN4IlAAMwAnCCDEURAcCCRtX3sQRmcaRnoAIxhGAAU3C0NYrDCACxwQPKwwAxAoejga0Jc4hKRk1KQyTJackzzC4rLzTUNGGGj6xub2No6u3hj4xP60xGth9ljc7InS8pmQKtr6jZAe7ZoBxG8Dyvkg8aKz6eFs+ZuVPd0o9dkM7AYwMxGIxPpNzr85gsGiBOvQoOxIMsli0oBAcDh1oCtkh9k8XuCkJDobDvoILojFiiYGiMQQ2NiVniCejuJRuEA
+\begin{tikzcd}
+  &     & D \arrow[lld, "l_1"', dashed] \arrow[ld, "l_p", dashed] \arrow[rd, "r_1"'] \arrow[rrd, "r_m"] &                                &     \\
+L_1 \arrow[r, no head, dotted] & L_p &                                                                                               & R_1 \arrow[r, no head, dotted] & R_m
+\end{tikzcd}
+\caption{Diagramme $D$}
+\label{fig:D_avant_porte}
+\end{figure}
+
+In practice, to apply a gate $M$ to a diagram $D$
+\begin{enumerate}
+  \item We split $M$ into 4 sub-matrices
+  $$M = \begin{pmatrix}
+    M_{00} & M_{01} \\
+    M_{10} & M_{11}
+  \end{pmatrix}$$
+  \item For each left-hand branch of $D$, a right-hand branch of the same amplitude is created, and for each right-hand branch of $D$, a left-hand branch of the same amplitude is created.
+  \item We apply $M_{00}$ to each left branch (except those generated at step 2)
+  \item We apply $M_{01}$ to each left branch (only those generated at step 2)
+  \item We apply $M_{10}$ to each right branch (only those generated at step 2)
+  \item We apply $M_{11}$ to each right branch (except those generated at step 2)
+\end{enumerate}
+
+\begin{figure}[H]
+  \centering
+  % https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZAFgBoAGAXVJADcBDAGwFcYkQBZACgBEBKEAF9S6TLnyEU5UgEZqdJq3YcA+sHLlBXADIqZA4aOx4CRGbPkMWbRJzUatutAZEgMxiUQBMFmlaW2quoyWgBKei5G4qYoAMy+CtbK9iFc4QC2kW5iJpLIAKwJ-jZ2wDKaOhFCru7ReQBsRYolQeWOKs7VUblEAOxNSYFqMqnh+l3ZHjHIABwDAaUjYSqZQvIwUADm8ESgAGYAThDpSNIgOBBI8YkBYMyMjDSM9ABGMIwACjmetowwezgQE8sGASlB6HAABYbCaHY6nGgXJBkG42O4PJ6vd5fKaSEB-AFA-EgsEQ6FQWFHE6IM5IxCFVFIdGPfFYz7fGL4-6AwwgOHU2mXRCNRmIZmYt7s3HsAk81z8hHnIU+UXi1mSnF1GXcomMEnscFQmG8hU0xFC8yq+4s54ajl42W6-W2Q3kynws1KpD9K0Y9XY+3awkmqmKulzX02tmanq-HUhj2Wukq4pM60SgPSuOEmjQ+gU2yQUFO4suiA4HDG+WhxDXOko1Ni9P+qVa7OA3MwfPsItsYGlkBQcuVikJ6kMukixtq22ZttcnMgPMF8AEPvEgdDitV-Y1n3hvzNNN+2et2MLjtLrsr3slsHD42UQRAA
+\begin{tikzcd}[column sep=0.4cm, row sep=1.2cm]
+  &             &                                        &             & M(D) \arrow[lld, dashed] \arrow[ld, dashed] \arrow[rd] \arrow[rrd] \arrow[llld, dashed] \arrow[lllld, dashed] \arrow[rrrd] \arrow[rrrrd] &                                        &             &                                        &             \\
+M_{00}(L_1) \arrow[r, no head, dotted] & M_{00}(L_p) & M_{01}(R_1) \arrow[r, no head, dotted] & M_{01}(R_m) &                                                                                                                                          & M_{10}(L_1) \arrow[r, no head, dotted] & M_{10}(L_p) & M_{11}(R_1) \arrow[r, no head, dotted] & M_{11}(R_m)
+\end{tikzcd}
+  \caption {Diagram $M(D)$}
+  \label{fig:D_apres_porte}
+\end{figure}
+
+The evaluation of $M(D)$ with this algorithm is correct, since like described by \autoref{fig:D_apres_porte}, we have
+$$\mathcal E(M(D)) = \begin{pmatrix}
+  \sum l_i M_{00} \mathcal E (L_i) + \sum r_j M_{01} \mathcal E (R_j) \\
+  \sum l_i M_{10} \mathcal E (L_i) + \sum r_j M_{11} \mathcal E (R_j)
+\end{pmatrix} = M \cdot \mathcal E (D)$$
+\noindent which is the expected effect of applying the $M$ gate to the $D$ diagram. The basic case (a matrix of size 1, i.e. a scalar) is treated simply by multiplying the branch weights by this scalar.
+
+We have dealt here with the case of a gate applying to all qubits. More generally, consider a gate applying only to $k$ contiguous qubits (say the $Q ={q, ..., q+k-1}$ qubits). For a state $v$ of $n$ qubits, applying a gate $P \in \mathcal M_{2^k, 2^k}(\mathbb C)$ to the qubits $Q$ of $v$ returns to applying to the whole $v$ state vector the matrix
+
+$$M = \left(\bigotimes^{q-1} I\right) \otimes P \otimes \left(\bigotimes^{n-k-q-1} I\right)$$
+
+We can therefore see that the application of a gate to a restricted number of qubits can be seen as the application of a gate to all qubits, but with identity matrices instead of gate matrices.
+Moreover, using $S$ gates to swap the place of qubits enables the algorithm presented above to handle all cases of logic gates being applied to any subset of the circuit's qubits.

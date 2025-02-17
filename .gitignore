@@ -3,9 +3,13 @@ build/
 *.fdb_latexmk
 *.fls
 *synctex.gz
+*.synctex(busy)
 *.log
 *.aux
 *.toc
+*.bcf
+*.run.xml
+*.bbl-SAVE-ERROR
 doxygen/
 *.nav
 *.out

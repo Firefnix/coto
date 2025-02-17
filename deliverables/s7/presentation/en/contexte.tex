@@ -1,0 +1,69 @@
+% 1. Replacez votre projet dans son contexte : enjeux scientifiques, enjeux sociétaux et/ou économiques (le cas échéant)
+\begin{frame}{Contexte}
+
+\begin{center}
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+      Databases grow rapidly in size
+
+      \vspace{1em}
+      Classical algorithms are sometimes not efficient enough
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \begin{tikzpicture}
+        \begin{axis}[
+          width=6cm,height=6cm,
+          xlabel=Date,
+          ylabel=Number of words,
+          ymode=log, % Logarithmic y-axis
+          date coordinates in=x, % Parse x-axis as dates
+          % date format={YYYY-MM-DD}, % Date format in CSV
+          xticklabel style={rotate=45, anchor=north east}, % Rotate date labels
+          xmin=2010-01-01, % Start of x-axis
+          xmax=2025-01-22, % End of x-axis
+          xtick={1990-01-01, 1995-01-01, 2000-01-01, 2005-01-01, 2010-01-01, 2015-01-01, 2020-01-01, 2025-01-01},
+          xticklabel={\year}, % Show only the year for major ticks
+          ]
+          \addplot+ [
+            only marks,
+            mark=+,
+            mark options={
+                color=cs,
+                scale=1.5,
+            },
+        ] table [
+            x index=1,
+            y index=0,
+            col sep=comma
+        ] {data.csv};
+      \end{axis}
+      \end{tikzpicture}
+    \end{column}
+    \let\thefootnote\relax\footnotetext{Number of words used to train language models}
+  \end{columns}
+
+  \pause
+  \textbf{Quantum algorithms} enable us to solve some probels faster
+  \end{center}
+\end{frame}
+
+\begin{frame}{The need}
+  Quantum machines are still in development and will remain expensive
+  $$\Downarrow$$
+  There is a need for quantum algorithm \textbf{simulation} and verification tools
+\end{frame}
+
+\begin{frame}{Simulations}
+  Simulations are very costly in terms of computation time
+  \begin{table}[]
+    \begin{tabular}{l|l|l|l}
+        \textit{Grover} & Classical & Quantum & Simulation    \\ \hline \rule{0pt}{2.6ex}
+    Complexity & $N$       & $\sqrt N$ & {\color{cs}$N \sqrt N$}
+    \end{tabular}
+    % https://arxiv.org/pdf/2005.04635
+  \end{table}
+
+  \vspace{1em}
+
+  Simulation requires adapted \textbf{data structures}
+\end{frame}

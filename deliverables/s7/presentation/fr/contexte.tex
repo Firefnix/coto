@@ -1,0 +1,69 @@
+% 1. Replacez votre projet dans son contexte : enjeux scientifiques, enjeux sociétaux et/ou économiques (le cas échéant)
+\begin{frame}{Contexte}
+
+\begin{center}
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+      Les  bases de données croissent rapidement
+
+      \vspace{1em}
+      Les algorithmes classiques sont parfois inefficaces
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \begin{tikzpicture}
+        \begin{axis}[
+          width=6cm,height=6cm,
+          xlabel=Date,
+          ylabel=Nombre de mots,
+          ymode=log, % Logarithmic y-axis
+          date coordinates in=x, % Parse x-axis as dates
+          % date format={YYYY-MM-DD}, % Date format in CSV
+          xticklabel style={rotate=45, anchor=north east}, % Rotate date labels
+          xmin=2010-01-01, % Start of x-axis
+          xmax=2025-01-22, % End of x-axis
+          xtick={1990-01-01, 1995-01-01, 2000-01-01, 2005-01-01, 2010-01-01, 2015-01-01, 2020-01-01, 2025-01-01},
+          xticklabel={\year}, % Show only the year for major ticks
+          ]
+          \addplot+ [
+            only marks,
+            mark=+,
+            mark options={
+                color=cs,
+                scale=1.5,
+            },
+        ] table [
+            x index=1,
+            y index=0,
+            col sep=comma
+        ] {data.csv};
+      \end{axis}
+      \end{tikzpicture}
+    \end{column}
+    \let\thefootnote\relax\footnotetext{Nombre de mots utilisés pour l'entraînement des modèles de langage}
+  \end{columns}
+
+  \pause
+  Les \textbf{algorithmes quantiques} permettent de résoudre certains problèmes plus efficacement
+  \end{center}
+\end{frame}
+
+\begin{frame}{Le besoin}
+  Les machines quantiques sont en développement et resteront coûteuses financièrement
+  $$\Downarrow$$
+  Il y a un besoin d'outils de simulation et de vérification d'algorithmes quantiques
+\end{frame}
+
+\begin{frame}{Simulations}
+  Les simulations sont très coûteuses en temps de calcul
+  \begin{table}[]
+    \begin{tabular}{l|l|l|l}
+        \textit{Grover} & Classique & Quantique & Simulation    \\ \hline \rule{0pt}{2.6ex}
+    Complexité & $N$       & $\sqrt N$ & {\color{cs}$N \sqrt N$}
+    \end{tabular}
+    % https://arxiv.org/pdf/2005.04635
+  \end{table}
+
+  \vspace{1em}
+
+  Elles nécessitent une \textbf{structure de données} adaptée
+\end{frame}

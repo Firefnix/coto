@@ -1,0 +1,257 @@
+% 5. Présentez votre travail et vos éventuels résultats.
+\begin{frame}{Work completed}
+  \textbf{Model}
+  \begin{itemize}
+      \item[S6] Cartesian \& polar intervals of $\mathbb C$
+      \item[S6] Diagrams
+      \item[S6] Local and global approximations
+      \item[S6] Forced merge
+      \item[S6] Redcution algorithms
+      \item[S7] Error
+      \item[S7] Gate application
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Theoretical model}
+
+  Example : we consider the state $\begin{pmatrix}
+    10i+2 \\ 4i+1 \\ 2i \\ i
+  \end{pmatrix}$
+
+  \vspace{2em}
+
+\end{frame}
+
+\begin{frame}[noframenumbering]{Theoretical model} % with colors
+
+  Example : we consider the state $\begin{pmatrix}
+  \color{blue}10i \color{black} + \color{cs} 2 \\
+  \color{blue}4i  \color{black} + \color{cs} 1 \\
+  \color{cs}  2i \\
+  \color{cs}  i
+  \end{pmatrix}$
+
+  \vspace{1em}
+  There are \textbf{regularities}.
+\end{frame}
+
+\begin{frame}[noframenumbering]{Theoretical model} % with colors and schema
+
+  Example : we consider the state $\begin{pmatrix}
+    \color{blue} \begin{pmatrix} 10i \\ 4i \end{pmatrix} \color{black} + \color{cs} \begin{pmatrix} 2 \\ 1 \end{pmatrix}
+  \\ \color{black} i \color{cs} \begin{pmatrix} 2 \\ 1 \end{pmatrix}
+  \end{pmatrix}$
+
+  \vspace{1em}
+  There are \textbf{regularities}.
+\end{frame}
+
+\begin{frame}[noframenumbering]{Theoretical model} % with colors and schema and faith
+
+  Example : we consider the state $\begin{pmatrix}
+    4i \color{blue} \begin{pmatrix} 5/2 \\ 1 \end{pmatrix} \color{black} + \color{cs} \begin{pmatrix} 2 \\ 1 \end{pmatrix}
+  \\ \color{black} i \color{cs} \begin{pmatrix} 2 \\ 1 \end{pmatrix}
+  \end{pmatrix}$
+
+  \vspace{1em}
+  There are \textbf{regularities}.
+\end{frame}
+
+\begin{frame}{Theoretical model}
+  Example : we get the additive diagram
+  \begin{center}
+      % https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZARgBoAGAXVJADcBDAGwFcYkQAREAX1PU1z5CKAEyli1Ok1bsAQjz4gM2PASLlxkhizaIQAQQX8VQomRFbpukAB0bAIwgAPGFAAExHpNcBzeEVAAMwAnCABbJA0QHAgkMikddiwjEBDwyJoYpDEQRiwwayh6OAALVxAabRk9ABZkmkZ6exhGAAUBVWEQYKwfEpwUtIjEKKzEeOawKCQAWhqATgb8wuKy6d4g0OGcsYBmGknpxDnF3OX2ItLyhqaW9pM1PR6+gcqrdjsQ+gBjAFYRQZbOKZWKIfZnAoXVbXBLVEAAm7NNodUxPXr9QHpcYgpDgw5IBYbVJAxA7UG7biUbhAA
+    \begin{tikzcd}[ampersand replacement=\&, column sep=huge, row sep=large]
+      \& D \arrow[rd, "i"] \arrow[ld, "4i"', dashed] \arrow[rd, dashed, bend right=49] \&                                                     \\
+    \color{blue}{A} \arrow[rd, "\frac52"', dashed, bend right=49, blue] \arrow[rd, blue] \&                                                                               \& \color{cs}{B} \arrow[ld, "2"', dashed, cs] \arrow[ld, bend left=49, cs] \\
+      \& \boxed 1                                                                      \&
+    \end{tikzcd}
+  \end{center}
+
+  \pause
+  Let's \textbf{reduce} this diagram
+\end{frame}
+
+\begin{frame}{Theoretical model}
+  We can force the merge of $A$ and $B$
+  % https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZARgBoAGAXVJADcBDAGwFcYkQAREAX1PU1z5CKAEyli1Ok1bsAQjz4gM2PASLlxkhizaIQAQQX8VQomRFbpukAB0bAIwgAPGFAAExHpNcBzeEVAAMwAnCABbJA0QHAgkMikddiwjEBDwyJoYpDEQRiwwayh6OAALVxAabRk9ABZkmkZ6exhGAAUBVWEQYKwfEpwUtIjEKKzEeOawKCQAWhqATgb8wuKy6d4g0OGcsYBmGknpxDnF3OX2ItLyhqaW9pM1PR6+gcqrdjsQ+gBjAFYRQZbOKZWKIfZnAoXVbXBLVEAAm7NNodUxPXr9QHpcYgpDgw5IBYbVJAxA7UG7biUbhAA
+  \begin{tikzcd}[ampersand replacement=\&, column sep=huge, row sep=large]
+    \& D \arrow[rd, "i"] \arrow[ld, "4i"', dashed] \arrow[rd, dashed, bend right=49] \&                                                     \\
+  \color{blue}{A} \arrow[rd, "\frac52"', dashed, bend right=49, blue] \arrow[rd, blue] \&                                                                               \& \color{cs}{B} \arrow[ld, "2"', dashed, cs] \arrow[ld, bend left=49, cs] \\
+    \& \boxed 1                                                                      \&
+  \end{tikzcd}
+  $\Rightarrow$
+  % https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZABgBpiBdUkANwEMAbAVxiRABEQBfU9TXfIRRkATFVqMWbADrSARhAAeMKAAIAjN14gM2PASJl14+s1aIQAYW7iVAc3hFQAMwBOEALZIR1HBCTq1HIwYFBIACwAnNSmUhaaPC7uXog+IH4B1AxYYOYgUHRwABYqIEEhYYgAtFExknnIPqqybnQAxgCsYmUgDHTBDAAK-PpCIK5YdkU4WkmeSGTp-qnloUg10b05eQXFpXVmbOFYPX0Dw3qCbBNTM4kgbvOIixkrW7lsuyVhq5UAzMR7o8Ui9lmlgmtELUJIcLCcuBQuEA
+  \begin{tikzcd}[row sep=large]
+    D \arrow[d, "4i"', dashed, bend right=49] \arrow[d, dashed, bend left] \arrow[d, "i", bend left=49] \\
+    \color{violet}{C} \arrow[d, violet, bend left=49] \arrow[d, "{[2, \frac52]}"', dashed, bend right=49, violet]                  \\
+    \boxed 1
+    \end{tikzcd}
+\end{frame}
+
+\begin{frame}[noframenumbering]{Theoretical model}
+  We can force the merge of $A$ and $B$
+  % https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZARgBoAGAXVJADcBDAGwFcYkQAREAX1PU1z5CKAEyli1Ok1bsAQjz4gM2PASLlxkhizaIQAQQX8VQomRFbpukAB0bAIwgAPGFAAExHpNcBzeEVAAMwAnCABbJA0QHAgkMikddiwjEBDwyJoYpDEQRiwwayh6OAALVxAabRk9ABZkmkZ6exhGAAUBVWEQYKwfEpwUtIjEKKzEeOawKCQAWhqATgb8wuKy6d4g0OGcsYBmGknpxDnF3OX2ItLyhqaW9pM1PR6+gcqrdjsQ+gBjAFYRQZbOKZWKIfZnAoXVbXBLVEAAm7NNodUxPXr9QHpcYgpDgw5IBYbVJAxA7UG7biUbhAA
+  \begin{tikzcd}[ampersand replacement=\&, column sep=huge, row sep=large]
+    \& D \arrow[rd, "i"] \arrow[ld, "4i"', dashed] \arrow[rd, dashed, bend right=49] \&                                                     \\
+  \color{blue}{A} \arrow[rd, "\frac52"', dashed, bend right=49, blue] \arrow[rd, blue] \&                                                                               \& \color{cs}{B} \arrow[ld, "2"', dashed, cs] \arrow[ld, bend left=49, cs] \\
+    \& \boxed 1                                                                      \&
+  \end{tikzcd}
+  $\Rightarrow$
+% https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZABgBpiBdUkANwEMAbAVxiRABEQBfU9TXfIRRkAjFVqMWbAMLdeIDNjwEiZAEzj6zVohAAdPQCMIADxhQABCO7jzAc3hFQAMwBOEALZIyIHBCQi1FpSugAsWADU1tQMdIYwDAAK-MpCIK5YdgAWOCAxWGA6IFB0cFnmeSDxYFBIALShAJw8Lu5eiD5+AUGSRViVsfFJKYJsDDDOudTVtYhNLSBunt2+-ohqPdps0SCDCclKo7rjk5UzSPPyS+2Bq0gbElu6yBsWBm50AMYArBoDcfsRipdBlslNdgUiiUyhVpjAavV5hQuEA
+\begin{tikzcd}
+  D \arrow[d, "4i+1"', dashed, bend right=49] \arrow[d, "i", bend left=49]           \\
+  \color{violet}{C} \arrow[d, bend left=49, violet] \arrow[d, "{[2, \frac52]}"', dashed, bend right=49, violet] \\
+  \boxed 1
+  \end{tikzcd}
+\end{frame}
+
+\begin{frame}{Results}
+  We can always reduce diagrams more
+  $$\Downarrow$$
+  Arbitrarily large space gain (up to exponential)
+\end{frame}
+
+\begin{frame}{Error}
+  How to choose which diagrams to merge?
+  $$\Downarrow$$
+  \textbf{Error} : we can compute the error induced by a diagram
+\end{frame}
+
+\begin{frame}[noframenumbering]{Gate-basics}
+  Quantum circuits are based on \textbf{gates}
+
+  \vspace{1em}
+  They are represented by \textbf{matrices}
+
+  \pause
+
+  \vspace{1em}
+  Example : Hadamard
+  $$H = \frac{1}{\sqrt{2}}\begin{pmatrix}
+    1 & 1 \\
+    1 & -1
+  \end{pmatrix}$$
+
+  $$H \begin{pmatrix}
+    1 \\ 0
+  \end{pmatrix} = \frac{1}{\sqrt{2}} \begin{pmatrix}
+     1 \\ 1
+  \end{pmatrix}$$
+\end{frame}
+
+\begin{frame}{Gates-evaluation}
+  To apply a gate $M$ to a diagram $D$
+
+  \pause
+
+  \vspace{1em}
+  If $\mathcal E(D) = \text{evaluation of } D$
+
+  \vspace{1em}
+  We \textit{want}
+  $\mathcal E(M(D)) = M~\mathcal E(D)$
+
+  \pause
+
+  $$D = (\{(l_1, L_1), ..., (l_p, L_p)\}, \{(r_1,R_1), ..., (r_m, R_m)\})$$
+\end{frame}
+
+\begin{frame}{Before Gate}
+  \begin{figure}[ht]
+    \centering
+  % https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZAJgBoAGAXVJADcBDAGwFcYkQAREAX1PU1z5CKcqQCM1Ok1bsAMgH0xPPiAzY8BImPGSGLNohAK0y-uqFEAzDpp6ZhgEqLTqgRuHIALDan72TgFseSRgoAHN4IlAAMwAnCCDEURAcCCRtX3sQRmcaRnoAIxhGAAU3C0NYrDCACxwQPKwwAxAoejga0Jc4hKRk1KQyTJackzzC4rLzTUNGGGj6xub2No6u3hj4xP60xGth9ljc7InS8pmQKtr6jZAe7ZoBxG8Dyvkg8aKz6eFs+ZuVPd0o9dkM7AYwMxGIxPpNzr85gsGiBOvQoOxIMsli0oBAcDh1oCtkh9k8XuCkJDobDvoILojFiiYGiMQQ2NiVniCejuJRuEA
+  \begin{tikzcd}[column sep=0.4cm, row sep=2.5cm, ampersand replacement=\&]
+    \&     \& D \arrow[lld, "l_1"', dashed] \arrow[ld, "l_p", dashed] \arrow[rd, "r_1"'] \arrow[rrd, "r_m"] \&                                \&     \\
+  L_1 \arrow[r, no head, dotted] \& L_p \&                                                                                               \& R_1 \arrow[r, no head, dotted] \& R_m
+  \end{tikzcd}
+  \end{figure}
+  \begin{center}
+    {Before application of $M$}
+  \end{center}
+\end{frame}
+
+\begin{frame}[noframenumbering]{During gate 1}
+  \Huge \color{cs}1.\color{black}
+
+  \begin{figure}[H]
+    \tikzcdset{every label/.append style = {font = \large}}
+    \centering
+    \resizebox{1\textwidth}{!}{
+% https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZAFgBoAGAXVJADcBDAGwFcYkQBZACgBEBKEAF9S6TLnyEU5UgEZqdJq3YAZAPoyhIkBmx4CRGbPkMWbRCDVpNo3RKIAmIzRNLzAJXXXtYvZOQBmJwVTdg8AWy8dcX0UAFYglzMQDw1hG2i-ADYExSTwyJ87FAAOHJDzIXkYKABzeCJQADMAJwgIxGkQHAgkQODXMGZGRhpGegAjGEYABUKYkEYYRpwQUawwJKh6OAALaq8WtqRO7qQyfrNB4dGJqdnbecXl1YX1ze29qAPW9pOexGyFyQVxGC1uMzmkgWSxWaRAh1+NFOiEcQMQIJukwhDyhTxWaw27C2u32cIRxyR-0MaIxYKx9wy7DxL0YbyJH1JWnJHUpSHiNKGoLG9MhTJh3yOiGpyNRiWBgsxd1F5mZND29C+5kghIJmwgOBwnKaP16vMQ5zl6IVdKVOLFzzVMA17G1bF1RP1hq+ZJNiH5yMBltpwttjJV4sdzq1BDdr0J5igntJlEEQA
+\begin{tikzcd}[column sep=0.4cm, row sep=3cm, ampersand replacement=\&]
+  \&     \&                                \&     \& M(D) \arrow[lld, dashed] \arrow[ld, dashed] \arrow[rrd] \arrow[llld, dashed] \arrow[lllld, dashed] \arrow[rd] \&                                \&     \&  \&    \\
+L_1 \arrow[r, no head, dotted] \& L_p \& R_1 \arrow[r, no head, dotted] \& R_m \&                                                                                                               \& R_1 \arrow[r, no head, dotted] \& R_m \&  \& {}
+\end{tikzcd}
+    }
+  \end{figure}
+\end{frame}
+
+\begin{frame}{During gate 2}
+  \Huge \color{cs}2.\color{black}
+  \begin{figure}[H]
+    \centering
+    \resizebox{1\textwidth}{!}{
+      % https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZAFgBoAGAXVJADcBDAGwFcYkQBZACgBEBKEAF9S6TLnyEU5UgEZqdJq3YcA+sHLlBXADIqZA4aOx4CRGbPkMWbRJzUatutAZEgMxiUQBMFmlaW2quoyWgBKei5G4qYoAMy+CtbK9iFc4QC2kW5iJpLIAKwJ-jZ2wDKaOhFCru7ReQBsRYolQeWOKs7VUblEAOxNSYFqMqnh+l3ZHjHIABwDAaUjYSqZQvIwUADm8ESgAGYAThDpSNIgOBBI8YkBYMyMjDSM9ABGMIwACjmetowwezgQE8sGASlB6HAABYbCaHY6nGgXJBkG42O4PJ6vd5fKaSEB-AFA-EgsEQ6FQWFHE6IM5IxCFVFIdGPfFYz7fGL4-6AwwgOHU2mXRCNRmIZmYt7s3HsAk81z8hHnIU+UXi1mSnF1GXcomMEnscFQmG8hU0xFC8yq+4s54ajl42W6-W2Q3kynws1KpD9K0Y9XY+3awkmqmKulzX02tmanq-HUhj2Wukq4pM60SgPSuOEmjQ+gU2yQUFO4suiA4HDG+WhxDXOko1Ni9P+qVa7OA3MwfPsItsYGlkBQcuVikJ6kMukixtq22ZttcnMgPMF8AEPvEgdDitV-Y1n3hvzNNN+2et2MLjtLrsr3slsHD42UQRAA
+  \begin{tikzcd}[column sep=0.4cm, row sep=3cm, ampersand replacement=\&]
+    \&             \&                                        \&             \& D \arrow[lld, dashed] \arrow[ld, dashed] \arrow[rd] \arrow[rrd] \arrow[llld, dashed] \arrow[lllld, dashed] \arrow[rrrd] \arrow[rrrrd] \&                                        \&             \&                                        \&             \\
+  L_1 \arrow[r, no head, dotted] \& L_p \& R_1 \arrow[r, no head, dotted] \& R_m \&                                                                                                                                          \& L_1 \arrow[r, no head, dotted] \& L_p \& R_1 \arrow[r, no head, dotted] \& R_m
+  \end{tikzcd}
+    }
+  \end{figure}
+\end{frame}
+
+\begin{frame}[noframenumbering]{After gate}
+  \Huge \color{cs}3.\color{black}\normalsize
+  \begin{figure}[H]
+    \centering
+    \resizebox{1\textwidth}{!}{
+      % https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZAFgBoAGAXVJADcBDAGwFcYkQBZACgBEBKEAF9S6TLnyEU5UgEZqdJq3YcA+sHLlBXADIqZA4aOx4CRGbPkMWbRJzUatutAZEgMxiUQBMFmlaW2quoyWgBKei5G4qYoAMy+CtbK9iFc4QC2kW5iJpLIAKwJ-jZ2wDKaOhFCru7ReQBsRYolQeWOKs7VUblEAOxNSYFqMqnh+l3ZHjHIABwDAaUjYSqZQvIwUADm8ESgAGYAThDpSNIgOBBI8YkBYMyMjDSM9ABGMIwACjmetowwezgQE8sGASlB6HAABYbCaHY6nGgXJBkG42O4PJ6vd5fKaSEB-AFA-EgsEQ6FQWFHE6IM5IxCFVFIdGPfFYz7fGL4-6AwwgOHU2mXRCNRmIZmYt7s3HsAk81z8hHnIU+UXi1mSnF1GXcomMEnscFQmG8hU0xFC8yq+4s54ajl42W6-W2Q3kynws1KpD9K0Y9XY+3awkmqmKulzX02tmanq-HUhj2Wukq4pM60SgPSuOEmjQ+gU2yQUFO4suiA4HDG+WhxDXOko1Ni9P+qVa7OA3MwfPsItsYGlkBQcuVikJ6kMukixtq22ZttcnMgPMF8AEPvEgdDitV-Y1n3hvzNNN+2et2MLjtLrsr3slsHD42UQRAA
+  \begin{tikzcd}[column sep=0.4cm, row sep=3cm, ampersand replacement=\&]
+    \&             \&                                        \&             \& M(D) \arrow[lld, dashed] \arrow[ld, dashed] \arrow[rd] \arrow[rrd] \arrow[llld, dashed] \arrow[lllld, dashed] \arrow[rrrd] \arrow[rrrrd] \&                                        \&             \&                                        \&             \\
+  M_{00}(L_1) \arrow[r, no head, dotted] \& M_{00}(L_p) \& M_{01}(R_1) \arrow[r, no head, dotted] \& M_{01}(R_m) \&                                                                                                                                          \& M_{10}(L_1) \arrow[r, no head, dotted] \& M_{10}(L_p) \& M_{11}(R_1) \arrow[r, no head, dotted] \& M_{11}(R_m)
+  \end{tikzcd}
+    }
+    $$M = \begin{pmatrix}
+      M_{00} & M_{01} \\
+      M_{10} & M_{11}
+    \end{pmatrix}$$
+    \end{figure}
+\end{frame}
+
+\begin{frame}{After after gate}
+  \Huge \color{cs}3.\color{black}\normalsize
+  \begin{figure}[H]
+    \centering
+    \resizebox{1\textwidth}{!}{
+      % https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZAFgBoAGAXVJADcBDAGwFcYkQBZACgBEBKEAF9S6TLnyEU5UgEZqdJq3YcA+sHLlBXADIqZA4aOx4CRGbPkMWbRJzUatutAZEgMxiUQBMFmlaW2quoyWgBKei5G4qYoAMy+CtbK9iFc4QC2kW5iJpLIAKwJ-jZ2wDKaOhFCru7ReQBsRYolQeWOKs7VUblEAOxNSYFqMqnh+l3ZHjHIABwDAaUjYSqZQvIwUADm8ESgAGYAThDpSNIgOBBI8YkBYMyMjDSM9ABGMIwACjmetowwezgQE8sGASlB6HAABYbCaHY6nGgXJBkG42O4PJ6vd5fKaSEB-AFA-EgsEQ6FQWFHE6IM5IxCFVFIdGPfFYz7fGL4-6AwwgOHU2mXRCNRmIZmYt7s3HsAk81z8hHnIU+UXi1mSnF1GXcomMEnscFQmG8hU0xFC8yq+4s54ajl42W6-W2Q3kynws1KpD9K0Y9XY+3awkmqmKulzX02tmanq-HUhj2Wukq4pM60SgPSuOEmjQ+gU2yQUFO4suiA4HDG+WhxDXOko1Ni9P+qVa7OA3MwfPsItsYGlkBQcuVikJ6kMukixtq22ZttcnMgPMF8AEPvEgdDitV-Y1n3hvzNNN+2et2MLjtLrsr3slsHD42UQRAA
+  \begin{tikzcd}[column sep=0.4cm, row sep=3cm, ampersand replacement=\&]
+    \&             \&                                        \&             \& M(D) \arrow[lld, dashed] \arrow[ld, dashed] \arrow[rd] \arrow[rrd] \arrow[llld, dashed] \arrow[lllld, dashed] \arrow[rrrd] \arrow[rrrrd] \&                                        \&             \&                                        \&             \\
+  M_{00}(L_1) \arrow[r, no head, dotted] \& M_{00}(L_p) \& M_{01}(R_1) \arrow[r, no head, dotted] \& M_{01}(R_m) \&                                                                                                                                          \& M_{10}(L_1) \arrow[r, no head, dotted] \& M_{10}(L_p) \& M_{11}(R_1) \arrow[r, no head, dotted] \& M_{11}(R_m)
+  \end{tikzcd}
+    }
+
+    \begingroup
+    \renewcommand*{\arraystretch}{1.5}
+    % your pmatrix expression
+        $$\mathcal E(M(D)) = \begin{pmatrix}
+  \sum l_i M_{00} \mathcal E (L_i) + \sum r_j M_{01} \mathcal E (R_j) \\
+  \sum l_i M_{10} \mathcal E (L_i) + \sum r_j M_{11} \mathcal E (R_j)
+\end{pmatrix} = M ~ \mathcal E (D)$$
+\endgroup
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Work completed}
+  \textbf{Implementation}
+  \begin{itemize}
+      \item[S6] Cartesian \& polar intervals of $\mathbb C$
+      \item[S6] Diagrams : building, evaluation
+      \item[S6] Forced merge
+      \item[S6] Redcution algorithms
+      \item[S7] Random diagrams
+      \item[S7] Error
+      \item[S7] Gate application
+      \item[S7] QASM
+  \end{itemize}
+\end{frame}

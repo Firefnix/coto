@@ -1,0 +1,47 @@
+\chapter{Implémentation}
+\label{ch:Implementation}
+
+L’implémentation a été réalisée en \textbf{langage C++}. Ce choix a été motivé par plusieurs raisons : la performance, la maturité du langage et son utilisation dans plusieurs projets historiques du domaine \cite{Bichsel_2023} \cite{QTranslator}, et la proximité avec le langage C, déjà bien connu.
+
+\section{Structure du code}
+
+Le code fait l'objet d'une documentation extensive, disponible en ligne. \cite{Leroy_doc}
+L'implémentation utilise largement la \textbf{programmation orientée objet}, en définissant des classes pour les objets manipulés.
+Certaines des classes principales sont les suivantes, du plus bas au plus haut niveau :
+\begin{itemize}
+  \item Intervalles réels (quelconques, de réels positifs ou modulo $2\pi$), et complexes (cartésiens ou polaires)
+  \item \textbf{Diagrammes} (par défaut, additifs et abstraits)
+  \item Les branches, qui contiennent un lien (\textbf{pointeur}) vers un digramme de destination et un intervalle complexe (cartésien ou polaire)
+\end{itemize}
+
+Les classes et fonctions sont organisées en \textbf{espaces de noms} (\textit{namespaces}) pour éviter les conflits de noms, et définies dans des fichiers séparés. Des fonctions de \textbf{réduction} servent ensuite à réduire les diagrammes, en utilisant les fonctions de sélection.
+
+Les définitions des fonctions et méthodes et leur implémentation sont séparées dans des fichiers d'en-tête (\textit{header}) et des fichiers de code source (\textit{source}), respectivement. Afin de tirer parti de la \textbf{compilation séparée}, les fichiers d'en-tête sont inclus dans les fichiers de code source, et les fichiers de code source sont compilés en bibliothèques statiques.
+
+Au cours de ce semestre, un effort a été fait pour améliorer l'\textbf{interchangeabilité} entre les intervalles cartésiens et polaires, et pour rendre le code plus générique, par exemple en définissant des types adaptés et optimisés pour les matrices de portes ou les états (contenant des complexes ou des intervalles).
+
+\section{Tests}
+
+Afin de garantir la qualité du code, des \textbf{tests unitaires} ont été écrits pour la plupart des fonctions et méthodes. Ces tests sont écrits en utilisant la bibliothèque open-source \textit{Google Test}, et sont organisés en \textbf{suites de tests} pour chaque classe. \cite{GoogleTest} Les 46 tests, qui s'exécutent en moins d'une demi-seconde et comptent plusieurs milliers d'assertions, permettent de valider le code et de détecter les bugs ou régressions.
+
+\section{Interpréteur QASM}
+
+Un \textbf{interpréteur} pour le langage Open QASM a été réalisé au cours de ce semestre. Il permet de lire un fichier QASM définissant des qubits et y appliquant des portes logiques, d'en générer un diagramme et d'y faire les modifications correspondant aux portes qu'on souhaite lui appliquer, et d'en afficher l'évaluation.
+
+Cet interpréteur peut aussi fonctionner en mode interactif, c'est-à-dire en lisant les instructions depuis l'entrée standard. Il ne supporte pas l'ensemble des instructions QASM, seulement les portes logiques de base ($X$, $H$, $CX$, $S$, portes de phase). Toutefois, le \textit{back-end} de cet interpréteur est capable d'appliquer n'importe quelle porte grâce à la méthode détaillée en \autoref{sec:Portes}. Cet interpréteur est constitué d'une bibliothèque qu'on peut inclure avec l'en-tête \texttt{qasm.h} comportant un \textit{namespace} \texttt{qasm} et d'un exécutable \texttt{prompt}.
+
+Le QASM étant déjà un langage de description de circuits quantiques, à l'opposé d'un langage de programmation de haut niveau, il n'a pas été jugé nécessaire de réaliser véritable compilateur comportant un front-end, un middle-end réalisant des optimisations et un back-end transformant la représentation intermédiaire en exécutable. L'interpréteur a été testé avec succès sur plusieurs exemples de circuits quantiques.
+
+L'exemple du programme \ref{lst:QASM} s'exécute en 2,6 ms. Des \textbf{benchmarks} sur un plus grand nombre de qubits, ou sur des circuits plus complexes, n'ont pas été réalisés. De plus il est probable qu'une partie non négligeable du temps d'exécution soit due à la lecture du fichier ou à l'interprétation du QASM, et non à la génération du diagramme et à sa modification.
+
+\section{Outils}
+
+Le code source est versionné à l'aide du logiciel \textit{Git}, et est disponible sur la plateforme \textit{GitHub}. \cite{Git} \cite{GitHub} \cite{Leroy_2025} Ce projet fait l'objet d'une \textbf{intégration continue} utilisant \textit{GitHub Actions}, automatisant la validation des tests.
+
+Ce semestre a vu l'arrivée de l'utilisation de \textit{Clang} comme compilateur à la place de \textit{GCC}, et de \textit{Ninja} à la place de \textit{Make}. \cite{Clang} \cite{Ninja}
+Ces changements ont permis de réduire le temps de compilation, et d'améliorer la lisibilité des messages d'erreur, ainsi que de faciliter l'utilisation de fonctionnalités récentes du langage (datant de C++23).
+Ces outils sont orchestrés par \textit{CMake}. \cite{CMake}
+
+Compiler le projet (tests exclus) prend environ 8 secondes sur un ordinateur portable récent. Il faut 5 secondes supplémentaires pour compiler les tests. Le projet compte environ 5 000 lignes de code, dont environ 1 000 lignes de tests.
+
+Le projet fait aussi l'objet d'une \textbf{documentation}, écrite dans les commentaires des fichiers d'en-tête. Les pages web de documentation sont générées automatiquement par \textit{Doxygen}. \cite{Doxygen} et publiée automatiquement sur \textit{GitHub Pages} à chaque modification à l'aide de \textit{GitHub Actions}. \cite{Leroy_doc}

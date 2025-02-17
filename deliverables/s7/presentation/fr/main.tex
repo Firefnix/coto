@@ -1,0 +1,140 @@
+\documentclass[french, 12pt]{beamer}
+
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{url}
+
+\DecimalMathComma
+\usepackage{braket}
+
+\usepackage{svg}
+\svgsetup{inkscapelatex=false}
+
+\usepackage{amsmath}
+\usepackage{pgfplots}
+
+\pgfplotsset{compat=1.18}
+\usepackage{amsfonts}
+\usepackage{mathrsfs}
+
+\usepackage{xcolor}
+\definecolor{ups}{RGB}{86,08,59}
+\definecolor{cs}{RGB}{148,13,56}
+
+\usepackage{xfrac}
+\newcommand{\somme}{\displaystyle\sum}
+
+\usetheme[compress]{Berlin}
+\beamertemplatenavigationsymbolsempty
+\setbeamercolor*{palette primary}{bg=cs, fg=white}
+\setbeamercolor*{palette secondary}{bg=ups, fg=white}
+
+\setbeamercolor*{enumerate item}{fg=cs}
+\setbeamercolor*{enumerate subitem}{fg=ups}
+\setbeamercolor*{enumerate subsubitem}{fg=cs}
+\setbeamercolor*{itemize item}{fg=cs}
+\setbeamercolor*{itemize subitem}{fg=ups}
+\setbeamercolor*{itemize subsubitem}{fg=cs}
+
+\setbeamertemplate{page number in head/foot}[framenumber]
+\setbeamertemplate{frametitle}{}
+\useoutertheme{split}
+
+\title{Autour des diagrammes de décision quantiques}
+\author{Malo Leroy}
+\institute{Parcours recherche -- CentraleSupélec}
+
+% Figures and diagrams
+\usepackage{tikz}
+\usetikzlibrary{positioning}
+\usetikzlibrary{
+    pgfplots.dateplot,
+}
+\usepackage{tikz-cd}
+
+\begin{document}
+
+\begin{frame}
+    \titlepage
+\end{frame}
+
+\input{contexte.tex}
+
+\input{etat-de-l-art.tex}
+
+% 2. Présentez les objectifs de votre projet.
+\begin{frame}{Objectifs}
+    Objectifs
+    \begin{itemize}
+        \item \textbf{Modèle formel} de diagrammes de décision additifs abstraits
+        \item \textbf{Implémentation} du modèle
+    \end{itemize}
+\end{frame}
+
+% 4. Développez la méthodologie que vous avez mise en œuvre durant ces premiers mois, en la justifiant.
+\begin{frame}{Méthodologie de travail}
+\underline{\textbf{Méthodologie}}
+\small{
+\begin{center}
+% https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZABgBpiBdUkANwEMAbAVxiRBAF9T1Nd9CUARnJVajFmwA6knDAAeOYABEIAYyYBbGGBx08BDp24gM2fQOQBmEdXrNWiENNkLgAUTkwNaBvENceM34iACZSENE7CUdneUUAFQALAEuIACcsGH9jUz4CIgAWcMjxBycZOOAASW8GZK0dPX5-URgoAHN4IlAAMzSIDSQyEBwIJGExeyQwJgYGagY6ACMYBgAFXnM2Xx6cI17+wcQJ0aQwyejyl0VVOjgAAiY4FgY4QwXl1Y2g-McdvYCID6A3G1FOiGsFzKsVcyV0OHusHuDAA5HQ0jh3iBFit1ptgo4Mu1EgDjMCjudwZCotCKq4NNAABe+LE4r7434gIkkkDUFZgKBISzEQHkoVgsaIIpQqR0m7QLK87GfPE-ATYmC7fZAw7ikaS8406azebK3HfPLq-5K-mCiEism6xCUyXSo0xOXAWRwHBvJVs1WW7aagEUDhAA
+\begin{tikzcd}[ampersand replacement=\&, column sep=small]
+    {} \arrow[r] \& \text{Documentation} \arrow[rr, "\text{cas usuels}"] \arrow[rdd, "\text{état de l'art}"'] \&                                                                 \& \text{Exemples} \arrow[ldd, "\text{modèle}"', bend left] \arrow[rdd, "\text{tests}"] \&                       \\
+                 \&                                                                                           \&                                                                 \&                                                                                      \&                       \\
+                 \&                                                                                           \& \text{Théorie} \arrow[rr, "\text{code}"] \arrow[ruu, bend left] \&                                                                                      \& \text{Code}
+    \end{tikzcd}
+\end{center}
+}
+\end{frame}
+
+\begin{frame}{Méthodologie (GitHub)}
+    GitHub pour la gestion de projet
+    \begin{itemize}
+        \item \textbf{Issues} pour les tâches et le bugs
+        \item Priorités, tailles, et deadlines
+        \item Branches et \textbf{merge requests}
+    \end{itemize}
+\end{frame}
+
+\input{travail-resultats.tex}
+
+% 7. Exposez la suite prévue du projet, en particulier en 2e année.
+\begin{frame}{Suite du projet}
+Suite du projet
+\begin{itemize}
+    \item \textbf{Implémentation}
+    \begin{itemize}
+        \item Interface graphique
+        \item Benchmarks
+    \end{itemize}
+    \item \textbf{Ajustements}
+    \begin{itemize}
+        \item Fonctions d'erreur
+        \item Algorithmes de réduction
+    \end{itemize}
+    \item Nouveaux concepts
+    \begin{itemize}
+        \item Automates d'arbres
+        \item Diagrammes de décisions et applications localement inversibles (LIMDD)
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\input{cadre-formation.tex}
+
+% 9. Terminez par une conclusion synthétique englobant tous les aspects de votre projet.
+\begin{frame}{Conclusion}
+\begin{center}
+    \huge{Conclusion}
+    % Ce projet m'a permis de faire
+\end{center}
+\end{frame}
+
+\begin{frame}{Conclusion}
+    \begin{center}
+        \huge{Questions}
+    \end{center}
+\end{frame}
+
+\input{annexes.tex}
+
+\end{document}

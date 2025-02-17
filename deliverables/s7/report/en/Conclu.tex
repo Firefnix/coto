@@ -1,0 +1,23 @@
+
+\chapter{Conclusion} % 1 page max
+\label{ch:Conclusion}
+
+\section{Work completed}
+
+The model that has been developed, with reduction algorithms, makes it possible to limit the size of a state in memory as much as desired, at the cost of a loss of precision. A mathematical framework has been clearly defined, and reduction algorithms have been proven on this data structure.
+
+The implementation has not yet produced any significant experimental results as thorough benchmarks have not been run yet, but it is already capable of simulating and reducing quantum decision diagrams. Its robustness is ensured by unit tests.
+
+During this semester, efforts were made on the implementation, among other things to make Cartesian and polar complex intervals interchangable, but also more generally to improve code quality and reusability. Code documentation has been improved, and the main document detailing the theoretical aspects of the project has been completed.
+
+A QASM interpreter was produced during this semester, based on theoretical work which enabled the implementation of the application of gates to diagrams.
+
+The work carried out over this period is therefore promising, and follows on from the work carried out last semester: despite the difficulties encountered, both from a technical point of view in programming and in defining the model, which sometimes led us to go backwards before finding a good definition of the error or a convincing way to apply quantum gates, for example, the theoretical results obtained are promising.
+
+\section{Perspectives}
+
+Several perspectives can be envisaged to extend the work carried out. On the one hand, since several choices in the definition of the model have been made arbitrarily among several possible options, it is relevant to carry out numerous simulations in different configurations in order to determine the most pertinent choices.
+
+In particular, we can carry out performance tests on several error functions, or observe the effect of qubit exchanges on performance in terms of lack of precision. Generally speaking, we lack \textbf{experimental results} and in particular comparisons with other implementations in the literature on usual examples.
+
+We could also extend the model with other concepts, such as tree automata for \textbf{verification} or locally invertible decision diagrams and applications. \cite{Chen_2023} \cite{Vinkhuijzen_2023} Finally, the implementation would benefit from being more user-friendly, for example with a \textbf{graphical user interface} that could enhance the QASM interpreter. If the project is extended, these focus areas can be explored in the future.
