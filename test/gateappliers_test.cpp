@@ -177,12 +177,12 @@ TEST_F(GateAppliersTest, applyHConsistency)
     const auto numberOfQubits = 4;
     for (auto q = 0; q < numberOfQubits; q++)
     {
-        auto d0 = Diagram::randomPointer(numberOfQubits);
-        auto d1 = d0->clone();
-        gateappliers::applyGateMatrix(d0, q, h);
+        auto d0 = Diagram::random(numberOfQubits);
+        auto d1 = d0.clone();
+        gateappliers::applyGateMatrix(&d0, q, h);
         gateappliers::applyH(d1, q);
 
-        auto e0 = d0->evaluate();
+        auto e0 = d0.evaluate();
         auto e1 = d1->evaluate();
         for (auto i = 0; i < e0.size(); i++)
         {
