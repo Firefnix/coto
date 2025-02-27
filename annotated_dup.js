@@ -8,12 +8,6 @@ var annotated_dup =
       [ "Interval", "classpolar_1_1Interval.html", "classpolar_1_1Interval" ],
       [ "PositiveInterval", "classpolar_1_1PositiveInterval.html", null ]
     ] ],
-    [ "qdd", null, [
-      [ "child", "structqdd_1_1child.html", null ],
-      [ "Node", "classqdd_1_1Node.html", null ],
-      [ "QDD", "classqdd_1_1QDD.html", "classqdd_1_1QDD" ],
-      [ "status_vector", "structqdd_1_1status__vector.html", null ]
-    ] ],
     [ "selection", null, [
       [ "mergees", "structselection_1_1mergees.html", null ]
     ] ],

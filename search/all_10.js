@@ -8,6 +8,5 @@ var searchData=
   ['statement_5',['Statement',['../classStatement.html',1,'']]],
   ['statements_2eh_6',['statements.h',['../statements_8h.html',1,'']]],
   ['statementstring_7',['statementString',['../structstatementString.html',1,'']]],
-  ['status_5fvector_8',['status_vector',['../structqdd_1_1status__vector.html',1,'qdd']]],
-  ['syntaxerror_9',['SyntaxError',['../classSyntaxError.html',1,'']]]
+  ['syntaxerror_8',['SyntaxError',['../classSyntaxError.html',1,'']]]
 ];

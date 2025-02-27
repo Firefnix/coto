@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['interval_0',['interval',['../classcartesian_1_1Interval.html',1,'cartesian::Interval'],['../classpolar_1_1Interval.html',1,'polar::Interval']]]
+  ['mergees_0',['mergees',['../structselection_1_1mergees.html',1,'selection']]]
 ];
