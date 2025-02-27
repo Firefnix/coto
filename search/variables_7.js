@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['right_0',['right',['../classDiagram.html#a27da99bca3d5b94df1b2612e9571701c',1,'Diagram']]]
+  ['parents_0',['parents',['../classDiagram.html#ae09372a3bb00f1242f331128f4410817',1,'Diagram']]]
 ];

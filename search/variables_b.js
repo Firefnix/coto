@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['x_0',['x',['../structbranch.html#ae90af722b671793c30348bcc0227e319',1,'branch']]]
+  ['value_0',['value',['../structvar.html#a9de9ee0ba945af6da1275012d708e6d7',1,'var']]]
 ];

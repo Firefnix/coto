@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['sqrt2_0',['sqrt2',['../namespaceampl.html#aa5678d49b109abd9245f1114198f938c',1,'ampl']]]
+  ['right_0',['right',['../classDiagram.html#a27da99bca3d5b94df1b2612e9571701c',1,'Diagram']]]
 ];
