@@ -17,13 +17,13 @@ namespace polar
 
         PositiveInterval(const real a);
 
-        PositiveInterval operator+(PositiveInterval &other) const;
+        PositiveInterval operator+(const PositiveInterval &other) const;
 
-        PositiveInterval operator*(PositiveInterval &other) const;
+        PositiveInterval operator*(const PositiveInterval &other) const;
 
-        PositiveInterval operator|(PositiveInterval &other) const;
+        PositiveInterval operator|(const PositiveInterval &other) const;
 
-        bool operator==(const PositiveInterval &other) const;
+        [[nodiscard]] bool operator==(const PositiveInterval &other) const;
 
     protected:
         real min;
@@ -41,11 +41,11 @@ namespace polar
 
         static AngleInterval min_max(real a, real b);
 
-        AngleInterval operator+(AngleInterval &other) const;
+        AngleInterval operator+(const AngleInterval &other) const;
 
-        AngleInterval operator*(AngleInterval &other) const;
+        AngleInterval operator*(const AngleInterval &other) const;
 
-        AngleInterval operator|(AngleInterval &other) const;
+        AngleInterval operator|(const AngleInterval &other) const;
 
         bool operator==(const AngleInterval &other) const;
 
@@ -77,13 +77,13 @@ namespace polar
 
         static Interval exp2iPiOver(int n);
 
-        Interval operator+(Interval &other) const;
+        Interval operator+(const Interval &other) const;
 
-        Interval operator*(Interval &other) const;
+        Interval operator*(const Interval &other) const;
 
-        Interval operator|(Interval &other) const;
+        Interval operator|(const Interval &other) const;
 
-        bool operator==(const Interval &other) const;
+        [[nodiscard]] bool operator==(const Interval &other) const;
 
         std::string to_string(bool strict = false) const;
 
@@ -95,7 +95,7 @@ namespace polar
          *
          * @return true if the number is real, false otherwise.
          */
-        bool is_real() const;
+        [[nodiscard]] bool is_real() const noexcept;
 
         polar::real to_real() const;
 

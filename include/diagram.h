@@ -58,10 +58,7 @@ public:
     /// used to choose the number of children and the amplitudes are undefined in this
     /// interface and are left as an implementation detail that is subject to change.
     /// @return A random diagram
-    static Diagram random(size_t height);
-
-    /// @brief Populate the diagram with random values
-    void populate(const size_t totalHeight = 0);
+    static Diagram random(const size_t height);
 
     /// @brief Children of side @p s
     std::vector<branch> childrenOfSide(Side s) const;
@@ -120,6 +117,9 @@ public:
     branches right;
 
 protected:
+    /// @brief Populate the diagram with random values
+    void populate(const size_t totalHeight = 0);
+
     /// @brief The enclosure value if `isUpToDate` is true
     Interval cachedEnclosure;
 
