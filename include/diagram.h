@@ -97,9 +97,6 @@ public:
     /// @brief An interval that contains all the intervals of the evaluation.
     Interval enclosure();
 
-    /// @brief A positive number
-    absi::real imprecision();
-
     ~Diagram();
 
     void markParentsAsToBeUpdated();
