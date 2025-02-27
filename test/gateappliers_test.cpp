@@ -14,7 +14,7 @@ TEST(GateAppliersTest, X)
     {
         for (auto qubitToApplyXOn = 0; qubitToApplyXOn < numberOfQubits; qubitToApplyXOn++)
         {
-            PowArray<ampl::Amplitude> base(numberOfQubits);
+            ampl::ConcreteState base(numberOfQubits);
             for (auto i = 0; i < base.size(); i++)
             {
                 base[i] = i;

@@ -38,7 +38,7 @@ struct branch
 
 using branches = std::vector<branch>;
 
-using Evaluation = PowArray<Interval>;
+using Evaluation = ampl::PowArray<Interval>;
 
 /// @brief A general-purpose abstract-interpreted additive diagram
 /// @tparam height The number of levels of the diagram. Implies having `2^height`.
