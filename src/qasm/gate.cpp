@@ -74,7 +74,7 @@ PhaseGate::PhaseGate(int phase)
 {
 }
 
-bool Gate::exists(const std::string &gateName)
+bool Gate::exists(const std::string &gateName) noexcept
 {
     return isReservedName(gateName) || PhaseGate::is(gateName);
 }

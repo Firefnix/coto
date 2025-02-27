@@ -10,7 +10,7 @@
 /// @brief A quantum gate
 class Gate {
 public:
-    static bool exists(const std::string& gateName);
+    [[nodiscard]] static bool exists(const std::string &gateName) noexcept;
     [[nodiscard]] static const Gate byName(const std::string &gateName);
     void applyTo(const std::vector<varname>& qubitsNames) const;
     virtual void applyTo(const std::vector<qubit>& qubits) const;
