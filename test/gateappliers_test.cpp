@@ -8,16 +8,7 @@ size_t flipNthBit(const size_t n, const size_t index)
     return index ^ (1 << n);
 }
 
-class GateAppliersTest : public testing::Test
-{
-public:
-    Diagram *leaf = new Diagram(0);
-    Diagram *eig0 = Diagram::eig0(1);
-    Diagram *eig1 = new Diagram(1);
-    Diagram *dgm = new Diagram(2);
-};
-
-TEST_F(GateAppliersTest, X)
+TEST(GateAppliersTest, X)
 {
     for (auto numberOfQubits = 1; numberOfQubits < MAX_QUBITS; numberOfQubits++)
     {
@@ -50,7 +41,7 @@ TEST_F(GateAppliersTest, X)
     }
 }
 
-TEST_F(GateAppliersTest, phase)
+TEST(GateAppliersTest, phase)
 {
     for (auto numberOfQubits = 1; numberOfQubits < MAX_QUBITS; numberOfQubits++)
     {
@@ -90,7 +81,7 @@ TEST_F(GateAppliersTest, phase)
     }
 }
 
-TEST_F(GateAppliersTest, gateMatrixIdentity)
+TEST(GateAppliersTest, gateMatrixIdentity)
 {
     for (auto numberOfQubits = 1; numberOfQubits < MAX_QUBITS; numberOfQubits++)
     {
@@ -122,7 +113,7 @@ TEST_F(GateAppliersTest, gateMatrixIdentity)
     }
 }
 
-TEST_F(GateAppliersTest, gateMatrixHadamardOnQubit0)
+TEST(GateAppliersTest, gateMatrixHadamardOnQubit0)
 {
     absi::Interval coefficients[] = {1, 1, 1, -1};
     gateappliers::GateMatrix gate(1, coefficients);
@@ -141,7 +132,7 @@ TEST_F(GateAppliersTest, gateMatrixHadamardOnQubit0)
     EXPECT_EQ(ev[3], Interval::real(-2)) << ev[3].to_string() << " != -2";
 }
 
-TEST_F(GateAppliersTest, gateMatrixHadamardOnQubit1)
+TEST(GateAppliersTest, gateMatrixHadamardOnQubit1)
 {
     absi::Interval v[] = {1, 1, 1, -1};
     gateappliers::GateMatrix m(1, v);
@@ -166,7 +157,7 @@ TEST_F(GateAppliersTest, gateMatrixHadamardOnQubit1)
     }
 }
 
-TEST_F(GateAppliersTest, applyHConsistency)
+TEST(GateAppliersTest, applyHConsistency)
 {
     auto h = gateappliers::GateMatrix(1);
     h(0, 0) = ampl::invSqrt2;
@@ -194,7 +185,7 @@ TEST_F(GateAppliersTest, applyHConsistency)
     }
 }
 
-TEST_F(GateAppliersTest, applyS)
+TEST(GateAppliersTest, applyS)
 {
     ampl::Amplitude v[] = {1, 2, 3, 4};
     ampl::ConcreteState base(2, v);
@@ -210,7 +201,7 @@ TEST_F(GateAppliersTest, applyS)
     EXPECT_EQ(ev[3], 4) << ev[3].to_string() << " != 4";
 }
 
-TEST_F(GateAppliersTest, applyCX)
+TEST(GateAppliersTest, applyCX)
 {
     ampl::Amplitude v[] = {1, 2, 3, 4};
     ampl::ConcreteState base(2, v);
@@ -226,7 +217,7 @@ TEST_F(GateAppliersTest, applyCX)
     EXPECT_EQ(ev[3], 3) << ev[3].to_string() << " != 3";
 }
 
-TEST_F(GateAppliersTest, applyCXOnQubit1and2)
+TEST(GateAppliersTest, applyCXOnQubit1and2)
 {
     ampl::Amplitude v[] = {1, 2, 3, 4, 5, 6, 7, 8};
     ampl::ConcreteState base(3, v);
@@ -246,7 +237,7 @@ TEST_F(GateAppliersTest, applyCXOnQubit1and2)
     }
 }
 
-TEST_F(GateAppliersTest, applyH)
+TEST(GateAppliersTest, applyH)
 {
     const ampl::Amplitude v[] = {1, 0, 0, 0};
     const ampl::Amplitude afterH[] = {ampl::invSqrt2, 0, ampl::invSqrt2, 0};
