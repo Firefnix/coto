@@ -225,6 +225,16 @@ void Diagram::markParentsAsToBeUpdated()
     }
 }
 
+void Diagram::forgetChild(Diagram *d) noexcept
+{
+    right.erase(std::remove_if(right.begin(), right.end(), [d](branch b)
+                               { return b.d == d; }),
+                right.end());
+    left.erase(std::remove_if(left.begin(), left.end(), [d](branch b)
+                              { return b.d == d; }),
+               left.end());
+}
+
 Diagram::~Diagram()
 {
     for (branch b : left)
@@ -234,6 +244,12 @@ Diagram::~Diagram()
     for (branch b : right)
     {
         delete b.d;
+    }
+    for (Diagram *p : parents)
+    {
+        p->isUpToDate = false;
+        p->markParentsAsToBeUpdated();
+        p->forgetChild(this);
     }
 }
 

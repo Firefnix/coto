@@ -14,13 +14,6 @@ Diagram Diagram::random(const size_t height)
     return d;
 }
 
-Diagram* Diagram::randomPointer(const size_t height)
-{
-    auto d = new Diagram(height);
-    d->populate(height);
-    return d;
-}
-
 void Diagram::populate(const size_t totalHeight)
 {
     if (height == 0) {

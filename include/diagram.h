@@ -60,8 +60,6 @@ public:
     /// @return A random diagram
     static Diagram random(size_t height);
 
-    static Diagram *randomPointer(size_t height);
-
     /// @brief Populate the diagram with random values
     void populate(const size_t totalHeight = 0);
 
@@ -109,7 +107,6 @@ public:
 
     void markParentsAsToBeUpdated();
 
-    std::vector<Diagram *> parents;
 
     /// @brief Is the data stored at node-level up-to-date
     bool isUpToDate = false;
@@ -125,6 +122,15 @@ public:
 protected:
     /// @brief The enclosure value if `isUpToDate` is true
     Interval cachedEnclosure;
+
+    /** @brief The parents of the node
+     * @details This is used to propagate changes in the children to the parents. righto and lefto
+     * should update the parents of the children.
+    */
+    std::vector<Diagram *> parents;
+
+    /// @brief Forget a child
+    void forgetChild(Diagram *d) noexcept;
 };
 
 Interval calculateEnclosure(Diagram &d);

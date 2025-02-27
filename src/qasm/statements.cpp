@@ -144,7 +144,7 @@ public:
     void execute() const override
     {
         auto gate = Gate::byName(gateName);
-        gate->applyTo(qubitsNames);
+        gate.applyTo(qubitsNames);
     };
 
     std::string gateName;

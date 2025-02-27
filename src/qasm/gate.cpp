@@ -74,36 +74,24 @@ PhaseGate::PhaseGate(int phase)
 {
 }
 
-bool Gate::exists(const std::string &gateName)
+bool Gate::exists(const std::string &gateName) noexcept
 {
     return isReservedName(gateName) || PhaseGate::is(gateName);
 }
 
-const Gate *Gate::byName(const std::string &gateName)
+const Gate Gate::byName(const std::string &gateName)
 {
-    static const Gate X = Gate("x", 1);
-    static const Gate H = Gate("h", 1);
-    static const Gate CX = Gate("cx", 2);
-    static const Gate S = Gate("s", 2);
     if (PhaseGate::is(gateName))
     {
-        return new PhaseGate(gateName);
+        return PhaseGate(gateName);
     }
-    else if (gateName == X.name)
+    else if (gateName == "x" || gateName == "h")
     {
-        return &X;
+        return Gate(gateName, 1);
     }
-    else if (gateName == H.name)
+    else if (gateName == "s" || gateName == "cx")
     {
-        return &H;
-    }
-    else if (gateName == CX.name)
-    {
-        return &CX;
-    }
-    else if (gateName == S.name)
-    {
-        return &S;
+        return Gate(gateName, 2);
     }
     throw VariableError("Undefined gate " + gateName);
 }
@@ -131,7 +119,7 @@ std::string gateToString(const std::string &name)
 {
     if (Gate::exists(name))
     {
-        return Gate::byName(name)->toString();
+        return Gate::byName(name).toString();
     }
     throw VariableError("Undefined gate: " + name);
 }
