@@ -11,7 +11,7 @@
 class Gate {
 public:
     static bool exists(const std::string& gateName);
-    static const Gate* byName(const std::string& gateName);
+    [[nodiscard]] static const Gate byName(const std::string &gateName);
     void applyTo(const std::vector<varname>& qubitsNames) const;
     virtual void applyTo(const std::vector<qubit>& qubits) const;
 
