@@ -69,17 +69,17 @@ public:
 
     /// @brief Clone the diagram
     /// @return A new diagram with the same structure
-    Diagram *clone();
+    Diagram *clone() const;
 
     /// @brief Add @p d to be a left child with amplitude @p x
     /// @param d The child
     /// @param x The amplitude
-    void lefto(Diagram *d, Interval x = absi::one);
+    void lefto(Diagram *d, const Interval& x = absi::one);
 
     /// @brief Add @p d to be a right child with amplitude @p x
     /// @param d The child
     /// @param x The amplitude
-    void righto(Diagram *d, Interval x = absi::one);
+    void righto(Diagram *d, const Interval& x = absi::one);
 
     /// @brief The number of intervals contained in the evaluation
     /// @return 2 ^ @p height
@@ -99,12 +99,6 @@ public:
 
     ~Diagram();
 
-    void markParentsAsToBeUpdated();
-
-
-    /// @brief Is the data stored at node-level up-to-date
-    bool isUpToDate = false;
-
     const size_t height;
 
     /// @brief Left children
@@ -117,13 +111,18 @@ protected:
     /// @brief Populate the diagram with random values
     void populate(const size_t totalHeight = 0);
 
+    /// @brief Is the data stored at node-level up-to-date
+    bool isUpToDate = false;
+
+    void markParentsAsToBeUpdated() const;
+
     /// @brief The enclosure value if `isUpToDate` is true
     Interval cachedEnclosure;
 
     /** @brief The parents of the node
      * @details This is used to propagate changes in the children to the parents. righto and lefto
      * should update the parents of the children.
-    */
+     */
     std::vector<Diagram *> parents;
 
     /// @brief Forget a child

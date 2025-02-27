@@ -101,11 +101,11 @@ Evaluation Diagram::evaluate()
     return arr;
 }
 
-Diagram *Diagram::clone()
+Diagram *Diagram::clone() const
 {
     if (height == 0)
     {
-        return this;
+        return leaf;
     }
     auto d = new Diagram(height);
     for (branch b : left)
@@ -124,7 +124,7 @@ std::vector<branch> Diagram::childrenOfSide(Side s) const
     return s == Side::right ? left : right;
 }
 
-void Diagram::lefto(Diagram *d, absi::Interval x)
+void Diagram::lefto(Diagram *d, const absi::Interval& x)
 {
     if (x == absi::zero)
     {
@@ -135,7 +135,7 @@ void Diagram::lefto(Diagram *d, absi::Interval x)
     d->parents.push_back(this);
 }
 
-void Diagram::righto(Diagram *d, absi::Interval x)
+void Diagram::righto(Diagram *d, const absi::Interval& x)
 {
     if (x == absi::zero)
     {
@@ -188,7 +188,7 @@ void Diagram::replaceNodesAtHeight(const size_t h, Diagram *f1, Diagram *f2, Dia
 
 // TODO: Implement this function in O(n log n), not in O(n^2)
 template <typename T>
-static std::vector<T> mergeVectorsWithoutDuplicates(std::vector<T> a, std::vector<T> b)
+static std::vector<T> mergeVectorsWithoutDuplicates(const std::vector<T> a, const std::vector<T> b)
 {
     std::vector<T> result;
     for (T d : a)
@@ -216,7 +216,7 @@ absi::Interval Diagram::enclosure()
     return cachedEnclosure;
 }
 
-void Diagram::markParentsAsToBeUpdated()
+void Diagram::markParentsAsToBeUpdated() const
 {
     for (auto i : parents)
     {
