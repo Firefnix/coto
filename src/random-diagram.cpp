@@ -30,13 +30,13 @@ void Diagram::populate(const size_t totalHeight)
     {
         auto *d = new Diagram(height - 1);
         d->populate(totalHeight ? totalHeight - 1 : 0);
-        lefto(d, absi::Interval::real(amplRng(rng)));
+        lefto(d, amplRng(rng));
     }
     for (size_t i = 0; i < childrenNumberRng(rng); i++)
     {
         auto *d = new Diagram(height - 1);
         d->populate(totalHeight ? totalHeight - 1 : 0);
-        righto(d, absi::Interval::real(amplRng(rng)));
+        righto(d, amplRng(rng));
     }
 }
 

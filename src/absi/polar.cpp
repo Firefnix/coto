@@ -8,7 +8,7 @@ using namespace polar;
 
 static real argument(const ampl::Amplitude &z);
 
-PositiveInterval::PositiveInterval(real a, real b) : min(a), max(b)
+PositiveInterval::PositiveInterval(const real a, const real b) : min(a), max(b)
 {
     if (a < 0 || b < 0)
     {
@@ -20,7 +20,7 @@ PositiveInterval::PositiveInterval(real a, real b) : min(a), max(b)
     }
 }
 
-PositiveInterval::PositiveInterval(real a) : min(a), max(a) {}
+PositiveInterval::PositiveInterval(const real a) : min(a), max(a) {}
 
 PositiveInterval PositiveInterval::operator+(PositiveInterval &other) const
 {
@@ -107,15 +107,10 @@ Interval::Interval(PositiveInterval mod, AngleInterval arg) : mod(mod), arg(arg)
 
 polar::Interval::Interval() : mod(PositiveInterval(0.)), arg(AngleInterval(0.)) {};
 
-polar::Interval::Interval(polar::real value) : mod(PositiveInterval(std::abs(value))),
+polar::Interval::Interval(const polar::real value) : mod(PositiveInterval(std::abs(value))),
                                                arg(AngleInterval(value < 0. ? 1. : 0.)) {}
 
-polar::Interval::Interval(ampl::Amplitude z) : mod(PositiveInterval(std::abs(z))), arg(argument(z)) {}
-
-Interval polar::Interval::real(polar::real value)
-{
-    return Interval::singleton(value);
-}
+polar::Interval::Interval(const ampl::Amplitude z) : mod(PositiveInterval(std::abs(z))), arg(argument(z)) {}
 
 static real argument(const ampl::Amplitude &z)
 {
@@ -128,21 +123,6 @@ static real argument(const ampl::Amplitude &z)
         return z.imag() >= 0 ? .5 : 1.5;
     }
     return std::arg(z) / std::numbers::pi;
-}
-
-Interval polar::Interval::singleton(ampl::Amplitude z)
-{
-    auto modulus = std::abs(z);
-    auto arg = argument(z);
-    if (modulus < 0)
-    {
-        throw std::range_error("Negative modulus in a polar interval");
-    }
-    if (arg < 0 || arg > 2)
-    {
-        throw std::range_error("Bad argument in polar interval: " + std::to_string(arg));
-    }
-    return Interval(PositiveInterval(modulus), AngleInterval(arg));
 }
 
 Interval polar::Interval::exp2iPiOver(int n)

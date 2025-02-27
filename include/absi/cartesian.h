@@ -8,7 +8,7 @@
 
 namespace cartesian
 {
-    typedef double real;
+    using ampl::real;
 
     typedef std::tuple<ampl::real, ampl::real> real_interval;
 
@@ -18,11 +18,14 @@ namespace cartesian
         /// @brief The singleton of 0.
         Interval();
 
-        static Interval real(const ampl::real value);
+        /// @brief A single point interval.
+        /// @param value The real number.
+
+        Interval(const ampl::real value);
 
         /// @brief A single point interval.
         /// @param z The complex point.
-        static Interval singleton(ampl::Amplitude z);
+        Interval(ampl::Amplitude z);
 
         Interval(const real_interval re, const real_interval im);
 
@@ -95,6 +98,6 @@ namespace cartesian
         ampl::Amplitude topRight; /// The top-right complex point of the interval.
     };
 
-    inline cartesian::Interval zero = Interval::singleton(ampl::zero);
-    inline cartesian::Interval one = Interval::singleton(ampl::one);
+    const cartesian::Interval zero = ampl::zero;
+    const cartesian::Interval one = ampl::one;
 }

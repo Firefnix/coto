@@ -14,15 +14,9 @@ Interval::Interval(real_interval re, real_interval im) :
     bottomLeft{std::min(std::get<0>(re), std::get<1>(re)), std::min(std::get<0>(im), std::get<1>(im))},
     topRight{std::max(std::get<0>(re), std::get<1>(re)), std::max(std::get<0>(im), std::get<1>(im))} {};
 
-Interval Interval::real(const ampl::real value)
-{
-    return Interval::singleton(value);
-}
+Interval::Interval(const ampl::real value) : bottomLeft{value}, topRight{value} {};
 
-Interval Interval::singleton(ampl::Amplitude z)
-{
-    return Interval(z, z);
-}
+Interval::Interval(const ampl::Amplitude z) : bottomLeft{z}, topRight{z} {};
 
 bool Interval::operator==(const Interval &other) const
 {

@@ -4,7 +4,7 @@
 
 namespace polar
 {
-    typedef double real;
+    using ampl::real;
 
     class Interval;
 
@@ -13,9 +13,9 @@ namespace polar
         friend class Interval;
 
     public:
-        PositiveInterval(real a, real b);
+        PositiveInterval(const real a, const real b);
 
-        PositiveInterval(real a);
+        PositiveInterval(const real a);
 
         PositiveInterval operator+(PositiveInterval &other) const;
 
@@ -68,16 +68,12 @@ namespace polar
         Interval();
 
         /// @brief The singleton of a real number.
-        Interval(real value);
+        Interval(const real value);
 
         /// @brief The singleton of an amplitude.
-        Interval(ampl::Amplitude z);
+        Interval(const ampl::Amplitude z);
 
         Interval(PositiveInterval mod, AngleInterval arg);
-
-        static Interval singleton(ampl::Amplitude z);
-
-        static Interval real(real value);
 
         static Interval exp2iPiOver(int n);
 
@@ -108,7 +104,7 @@ namespace polar
         AngleInterval arg;
     };
 
-    inline Interval zero = Interval();
+    const Interval zero = 0.;
 
-    inline Interval one = Interval::real(1.);
+    const Interval one = 1.;
 }

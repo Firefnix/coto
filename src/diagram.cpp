@@ -52,11 +52,11 @@ Diagram *newHeight1Diagram(const ampl::ConcreteState &state)
     auto r = new Diagram(1);
     if (state[0] != ampl::zero)
     {
-        r->lefto(leaf, Interval::singleton(state[0]));
+        r->lefto(leaf, state[0]);
     }
     if (state[1] != ampl::zero)
     {
-        r->righto(leaf, Interval::singleton(state[1]));
+        r->righto(leaf, state[1]);
     }
     return r;
 }
@@ -66,7 +66,7 @@ Evaluation Diagram::evaluate()
     if (height == 0)
     {
         auto ev = Evaluation(0);
-        ev[0] = Interval::singleton(ampl::one);
+        ev[0] = absi::one;
         return ev;
     }
     Evaluation arr(height); // to be returned
