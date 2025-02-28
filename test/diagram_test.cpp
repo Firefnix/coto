@@ -3,6 +3,7 @@
 #include <amplitude.h>
 
 using absi::Interval;
+using namespace diagram;
 
 class DiagramTest : public testing::Test
 {

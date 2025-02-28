@@ -4,6 +4,7 @@
 #include <algorithm>
 
 using std::size_t;
+using namespace diagram;
 
 Diagram *leaf = new Diagram(0);
 
@@ -253,7 +254,7 @@ Diagram::~Diagram()
     }
 }
 
-absi::Interval calculateEnclosure(Diagram &d)
+absi::Interval diagram::calculateEnclosure(Diagram &d)
 {
     if (d.height == 0)
     {

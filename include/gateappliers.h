@@ -10,6 +10,7 @@
 namespace gateappliers
 {
     using GateMatrix = PowMatrix<absi::Interval>;
+    using diagram::Diagram;
 
     void applyX(Diagram *d, qubit q);
 

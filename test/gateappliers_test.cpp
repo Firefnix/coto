@@ -1,6 +1,8 @@
 #include <gtest/gtest.h>
 #include <gateappliers.h>
 
+using diagram::Diagram;
+
 const size_t MAX_QUBITS = 8;
 
 size_t flipNthBit(const size_t n, const size_t index)
@@ -19,7 +21,7 @@ TEST(GateAppliersTest, X)
             {
                 base[i] = i;
             }
-            Evaluation result(numberOfQubits);
+            diagram::Evaluation result(numberOfQubits);
             for (auto i = 0; i < result.size(); i++)
             {
                 result[flipNthBit(numberOfQubits - qubitToApplyXOn - 1, i)] = i;
@@ -53,7 +55,7 @@ TEST(GateAppliersTest, phase)
             {
                 base[i] = i;
             }
-            Evaluation expected(numberOfQubits);
+            diagram::Evaluation expected(numberOfQubits);
             for (auto i = 0; i < expected.size(); i++)
             {
                 expected[i] = !(i & (1 << (numberOfQubits - qubitToApplyPhaseOn - 1)))

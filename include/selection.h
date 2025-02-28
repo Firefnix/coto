@@ -6,6 +6,7 @@
 #include <diagram.h>
 
 namespace selection {
+    using diagram::Diagram;
       /**
      * @brief Enumeration of strategies for choosing mergees.
      */

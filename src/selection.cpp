@@ -2,6 +2,8 @@
 #include <algorithm>
 #include <selection.h>
 
+using diagram::Diagram;
+
 void getRandomMergees(std::vector<Diagram *> candidates, selection::mergees *m)
 {
     std::random_device rd;

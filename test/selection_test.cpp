@@ -1,6 +1,8 @@
 #include <gtest/gtest.h>
 #include <selection.h>
 
+using diagram::Diagram;
+
 static bool areMergeesSame(struct selection::mergees &m1, struct selection::mergees &m2);
 
 class SelectionTest : public testing::Test

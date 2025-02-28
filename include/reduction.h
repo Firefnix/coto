@@ -10,6 +10,8 @@
  */
 namespace reduction
 {
+    using diagram::Diagram;
+
     /**
      * @brief Cut dead branches from a diagram.
      *

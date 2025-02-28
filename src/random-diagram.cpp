@@ -1,6 +1,7 @@
 #include "diagram.h"
 #include <random>
 
+using namespace diagram;
 using engine = std::mt19937;
 
 static size_t maxChildrenNumber(size_t height, size_t totalHeight);

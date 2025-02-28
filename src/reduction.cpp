@@ -3,6 +3,8 @@
 #include <set>
 #include <algorithm>
 
+using diagram::Diagram, diagram::branch, diagram::branches;
+
 static void forceMergeAtHeight(Diagram d, const size_t h, selection::MergeesChoiceStrategy strategy);
 
 static absi::Interval childAmplitude(branches brs, Diagram *possible_child);
