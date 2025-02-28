@@ -7,7 +7,7 @@ var searchData=
   ['operator_2b_4',['operator+',['../classcartesian_1_1Interval.html#a198965e72550a4a677f489e6faa2e84e',1,'cartesian::Interval']]],
   ['operator_2d_5',['operator-',['../classcartesian_1_1Interval.html#a7f265f20b444ec3a2de2a3ad1799d3b7',1,'cartesian::Interval']]],
   ['operator_3d_3d_6',['operator==',['../classcartesian_1_1Interval.html#a34de69da3d771c6ae2325feb88c4705e',1,'cartesian::Interval']]],
-  ['operator_5b_5d_7',['operator[]',['../classPowArray.html#ac63978298fce989c37e9a0aab800e990',1,'PowArray']]],
+  ['operator_5b_5d_7',['operator[]',['../classampl_1_1PowArray.html#a7afa933b1a20e793c5fc5e7695e8a4d8',1,'ampl::PowArray']]],
   ['operator_5e_8',['operator^',['../classcartesian_1_1Interval.html#a14180123222b158cf5c0dbfbca9897f6',1,'cartesian::Interval']]],
   ['operator_7c_9',['operator|',['../classcartesian_1_1Interval.html#abdbab3817bf63d997ce2ea205905b6b5',1,'cartesian::Interval']]]
 ];

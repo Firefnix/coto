@@ -1,7 +1,14 @@
 var annotated_dup =
 [
+    [ "ampl", "namespaceampl.html", [
+      [ "PowArray", "classampl_1_1PowArray.html", "classampl_1_1PowArray" ]
+    ] ],
     [ "cartesian", "namespacecartesian.html", [
       [ "Interval", "classcartesian_1_1Interval.html", "classcartesian_1_1Interval" ]
+    ] ],
+    [ "diagram", "namespacediagram.html", [
+      [ "branch", "structdiagram_1_1branch.html", "structdiagram_1_1branch" ],
+      [ "Diagram", "classdiagram_1_1Diagram.html", "classdiagram_1_1Diagram" ]
     ] ],
     [ "polar", null, [
       [ "AngleInterval", "classpolar_1_1AngleInterval.html", "classpolar_1_1AngleInterval" ],
@@ -11,13 +18,10 @@ var annotated_dup =
     [ "selection", null, [
       [ "mergees", "structselection_1_1mergees.html", null ]
     ] ],
-    [ "branch", "structbranch.html", "structbranch" ],
-    [ "Diagram", "classDiagram.html", "classDiagram" ],
     [ "FileError", "classFileError.html", null ],
     [ "Gate", "classGate.html", "classGate" ],
     [ "ParsingError", "classParsingError.html", null ],
     [ "PhaseGate", "classPhaseGate.html", null ],
-    [ "PowArray", "classPowArray.html", "classPowArray" ],
     [ "PowMatrix", "classPowMatrix.html", "classPowMatrix" ],
     [ "SizeError", "classSizeError.html", null ],
     [ "Statement", "classStatement.html", null ],

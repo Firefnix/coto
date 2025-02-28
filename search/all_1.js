@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['begin_0',['begin',['../classPowArray.html#a8db94f34fdd66b59f366a8ea48351614',1,'PowArray::begin()'],['../classPowArray.html#a3916435bb7717d151512d9ce590dd803',1,'PowArray::begin() const']]],
-  ['branch_1',['branch',['../structbranch.html',1,'']]],
+  ['begin_0',['begin',['../classampl_1_1PowArray.html#acd869bd5d9792821b19cf95df7ccd423',1,'ampl::PowArray::begin()'],['../classampl_1_1PowArray.html#a335f858910e4db830e9b19e7810ad887',1,'ampl::PowArray::begin() const']]],
+  ['branch_1',['branch',['../structdiagram_1_1branch.html',1,'diagram']]],
   ['building_2',['Building',['../index.html#autotoc_md1',1,'']]]
 ];

@@ -102,52 +102,56 @@ $(document).ready(function(){initNavTree('powarray_8h_source.html',''); initResi
 <div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#include &lt;memory&gt;</span></div>
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="foldopen" id="foldopen00005" data-start="{" data-end="};">
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno"><a class="line" href="classPowArray.html">    5</a></span><span class="keyword">class </span><a class="code hl_class" href="classPowArray.html">PowArray</a></div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span>{</div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="keyword">private</span>:</div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>    <span class="keywordtype">size_t</span> height_;</div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span> </div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>    <span class="keywordtype">size_t</span> size_;</div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span> </div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>    std::unique_ptr&lt;T[]&gt; data_;</div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="keyword">public</span>:</div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno"><a class="line" href="classPowArray.html#aa3e8434dc8b585cbc9d6306bc392990c">   19</a></span>    <span class="keyword">explicit</span> <a class="code hl_function" href="classPowArray.html#aa3e8434dc8b585cbc9d6306bc392990c">PowArray</a>(<span class="keywordtype">size_t</span> n);</div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span> </div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>    <span class="keyword">explicit</span> <a class="code hl_class" href="classPowArray.html">PowArray</a>(<span class="keywordtype">size_t</span> n, <span class="keyword">const</span> T *data);</div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceampl.html">ampl</a></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span>{</div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="foldopen" id="foldopen00007" data-start="{" data-end="};">
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno"><a class="line" href="classampl_1_1PowArray.html">    7</a></span>    <span class="keyword">class </span><a class="code hl_class" href="classampl_1_1PowArray.html">PowArray</a></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span>    {</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>    <span class="keyword">private</span>:</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>        <span class="keywordtype">size_t</span> height_;</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>        <span class="keywordtype">size_t</span> size_;</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>        std::unique_ptr&lt;T[]&gt; data_;</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno"><a class="line" href="classampl_1_1PowArray.html#ad8c0767eb6ba2babb267f6afbb83da70">   21</a></span>        <span class="keyword">explicit</span> <a class="code hl_function" href="classampl_1_1PowArray.html#ad8c0767eb6ba2babb267f6afbb83da70">PowArray</a>(<span class="keywordtype">size_t</span> n);</div>
 <div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span> </div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno"><a class="line" href="classPowArray.html#ac63978298fce989c37e9a0aab800e990">   24</a></span>    T &amp;<a class="code hl_function" href="classPowArray.html#ac63978298fce989c37e9a0aab800e990">operator[]</a>(<span class="keywordtype">size_t</span> index);</div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span> </div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    <span class="keyword">const</span> T &amp;<a class="code hl_function" href="classPowArray.html#ac63978298fce989c37e9a0aab800e990">operator[]</a>(<span class="keywordtype">size_t</span> index) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>        <span class="keyword">explicit</span> <a class="code hl_class" href="classampl_1_1PowArray.html">PowArray</a>(<span class="keywordtype">size_t</span> n, <span class="keyword">const</span> T *data);</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno"><a class="line" href="classampl_1_1PowArray.html#a7afa933b1a20e793c5fc5e7695e8a4d8">   26</a></span>        T &amp;<a class="code hl_function" href="classampl_1_1PowArray.html#a7afa933b1a20e793c5fc5e7695e8a4d8">operator[]</a>(<span class="keywordtype">size_t</span> index);</div>
 <div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno"><a class="line" href="classPowArray.html#a1819a8698f9c994bcd48b946f19516b4">   29</a></span>    <span class="keywordtype">size_t</span> <a class="code hl_function" href="classPowArray.html#a1819a8698f9c994bcd48b946f19516b4">height</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span> </div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno"><a class="line" href="classPowArray.html#a9d9740106db8fc593b81c10f85b0a5a5">   32</a></span>    <span class="keywordtype">size_t</span> <a class="code hl_function" href="classPowArray.html#a9d9740106db8fc593b81c10f85b0a5a5">size</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno"><a class="line" href="classPowArray.html#a8db94f34fdd66b59f366a8ea48351614">   35</a></span>    T *<a class="code hl_function" href="classPowArray.html#a8db94f34fdd66b59f366a8ea48351614">begin</a>();</div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno"><a class="line" href="classPowArray.html#a3916435bb7717d151512d9ce590dd803">   38</a></span>    <span class="keyword">const</span> T *<a class="code hl_function" href="classPowArray.html#a3916435bb7717d151512d9ce590dd803">begin</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span> </div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno"><a class="line" href="classPowArray.html#a42e34c8e0fc79b0029e2509952a833bb">   41</a></span>    T *<a class="code hl_function" href="classPowArray.html#a42e34c8e0fc79b0029e2509952a833bb">end</a>();</div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno"><a class="line" href="classPowArray.html#a3d4ec6f52574cb78d608e798ea19ecd9">   44</a></span>    <span class="keyword">const</span> T *<a class="code hl_function" href="classPowArray.html#a3d4ec6f52574cb78d608e798ea19ecd9">end</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    <a class="code hl_class" href="classPowArray.html">PowArray&lt;T&gt;</a> firstHalf() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>        <span class="keyword">const</span> T &amp;<a class="code hl_function" href="classampl_1_1PowArray.html#a7afa933b1a20e793c5fc5e7695e8a4d8">operator[]</a>(<span class="keywordtype">size_t</span> index) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> </div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno"><a class="line" href="classampl_1_1PowArray.html#a83b22e10bdeaff711555955d2facc8d3">   31</a></span>        <span class="keywordtype">size_t</span> <a class="code hl_function" href="classampl_1_1PowArray.html#a83b22e10bdeaff711555955d2facc8d3">height</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span> </div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno"><a class="line" href="classampl_1_1PowArray.html#ae2bc17aadacf0f922d45b46dadc4a28d">   34</a></span>        <span class="keywordtype">size_t</span> <a class="code hl_function" href="classampl_1_1PowArray.html#ae2bc17aadacf0f922d45b46dadc4a28d">size</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span> </div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno"><a class="line" href="classampl_1_1PowArray.html#acd869bd5d9792821b19cf95df7ccd423">   37</a></span>        T *<a class="code hl_function" href="classampl_1_1PowArray.html#acd869bd5d9792821b19cf95df7ccd423">begin</a>();</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno"><a class="line" href="classampl_1_1PowArray.html#a335f858910e4db830e9b19e7810ad887">   40</a></span>        <span class="keyword">const</span> T *<a class="code hl_function" href="classampl_1_1PowArray.html#a335f858910e4db830e9b19e7810ad887">begin</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno"><a class="line" href="classampl_1_1PowArray.html#ababfb9548ce1314d6fb650597156c21a">   43</a></span>        T *<a class="code hl_function" href="classampl_1_1PowArray.html#ababfb9548ce1314d6fb650597156c21a">end</a>();</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span> </div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno"><a class="line" href="classampl_1_1PowArray.html#a8579a91950561cd9652eb6e8d7278d0c">   46</a></span>        <span class="keyword">const</span> T *<a class="code hl_function" href="classampl_1_1PowArray.html#a8579a91950561cd9652eb6e8d7278d0c">end</a>() <span class="keyword">const</span>;</div>
 <div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span> </div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    <a class="code hl_class" href="classPowArray.html">PowArray&lt;T&gt;</a> secondHalf() <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>};</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>        <a class="code hl_class" href="classampl_1_1PowArray.html">PowArray&lt;T&gt;</a> firstHalf() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span> </div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>        <a class="code hl_class" href="classampl_1_1PowArray.html">PowArray&lt;T&gt;</a> secondHalf() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    };</div>
 </div>
-<div class="ttc" id="aclassPowArray_html"><div class="ttname"><a href="classPowArray.html">PowArray</a></div><div class="ttdef"><b>Definition</b> powarray.h:6</div></div>
-<div class="ttc" id="aclassPowArray_html_a1819a8698f9c994bcd48b946f19516b4"><div class="ttname"><a href="classPowArray.html#a1819a8698f9c994bcd48b946f19516b4">PowArray::height</a></div><div class="ttdeci">size_t height() const</div><div class="ttdoc">Get height of the array.</div></div>
-<div class="ttc" id="aclassPowArray_html_a3916435bb7717d151512d9ce590dd803"><div class="ttname"><a href="classPowArray.html#a3916435bb7717d151512d9ce590dd803">PowArray::begin</a></div><div class="ttdeci">const T * begin() const</div><div class="ttdoc">Get pointer to the beginning of the array.</div></div>
-<div class="ttc" id="aclassPowArray_html_a3d4ec6f52574cb78d608e798ea19ecd9"><div class="ttname"><a href="classPowArray.html#a3d4ec6f52574cb78d608e798ea19ecd9">PowArray::end</a></div><div class="ttdeci">const T * end() const</div><div class="ttdoc">Get pointer to one past the end of the array.</div></div>
-<div class="ttc" id="aclassPowArray_html_a42e34c8e0fc79b0029e2509952a833bb"><div class="ttname"><a href="classPowArray.html#a42e34c8e0fc79b0029e2509952a833bb">PowArray::end</a></div><div class="ttdeci">T * end()</div><div class="ttdoc">Get pointer to one past the end of the array.</div></div>
-<div class="ttc" id="aclassPowArray_html_a8db94f34fdd66b59f366a8ea48351614"><div class="ttname"><a href="classPowArray.html#a8db94f34fdd66b59f366a8ea48351614">PowArray::begin</a></div><div class="ttdeci">T * begin()</div><div class="ttdoc">Get pointer to the beginning of the array.</div></div>
-<div class="ttc" id="aclassPowArray_html_a9d9740106db8fc593b81c10f85b0a5a5"><div class="ttname"><a href="classPowArray.html#a9d9740106db8fc593b81c10f85b0a5a5">PowArray::size</a></div><div class="ttdeci">size_t size() const</div><div class="ttdoc">Get size of the array.</div></div>
-<div class="ttc" id="aclassPowArray_html_aa3e8434dc8b585cbc9d6306bc392990c"><div class="ttname"><a href="classPowArray.html#aa3e8434dc8b585cbc9d6306bc392990c">PowArray::PowArray</a></div><div class="ttdeci">PowArray(size_t n)</div><div class="ttdoc">Constructor: initializes the array with size 2^n.</div></div>
-<div class="ttc" id="aclassPowArray_html_ac63978298fce989c37e9a0aab800e990"><div class="ttname"><a href="classPowArray.html#ac63978298fce989c37e9a0aab800e990">PowArray::operator[]</a></div><div class="ttdeci">T &amp; operator[](size_t index)</div><div class="ttdoc">Access element.</div></div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>}</div>
+<div class="ttc" id="aclassampl_1_1PowArray_html"><div class="ttname"><a href="classampl_1_1PowArray.html">ampl::PowArray</a></div><div class="ttdef"><b>Definition</b> powarray.h:8</div></div>
+<div class="ttc" id="aclassampl_1_1PowArray_html_a335f858910e4db830e9b19e7810ad887"><div class="ttname"><a href="classampl_1_1PowArray.html#a335f858910e4db830e9b19e7810ad887">ampl::PowArray::begin</a></div><div class="ttdeci">const T * begin() const</div><div class="ttdoc">Get pointer to the beginning of the array.</div></div>
+<div class="ttc" id="aclassampl_1_1PowArray_html_a7afa933b1a20e793c5fc5e7695e8a4d8"><div class="ttname"><a href="classampl_1_1PowArray.html#a7afa933b1a20e793c5fc5e7695e8a4d8">ampl::PowArray::operator[]</a></div><div class="ttdeci">T &amp; operator[](size_t index)</div><div class="ttdoc">Access element.</div></div>
+<div class="ttc" id="aclassampl_1_1PowArray_html_a83b22e10bdeaff711555955d2facc8d3"><div class="ttname"><a href="classampl_1_1PowArray.html#a83b22e10bdeaff711555955d2facc8d3">ampl::PowArray::height</a></div><div class="ttdeci">size_t height() const</div><div class="ttdoc">Get height of the array.</div></div>
+<div class="ttc" id="aclassampl_1_1PowArray_html_a8579a91950561cd9652eb6e8d7278d0c"><div class="ttname"><a href="classampl_1_1PowArray.html#a8579a91950561cd9652eb6e8d7278d0c">ampl::PowArray::end</a></div><div class="ttdeci">const T * end() const</div><div class="ttdoc">Get pointer to one past the end of the array.</div></div>
+<div class="ttc" id="aclassampl_1_1PowArray_html_ababfb9548ce1314d6fb650597156c21a"><div class="ttname"><a href="classampl_1_1PowArray.html#ababfb9548ce1314d6fb650597156c21a">ampl::PowArray::end</a></div><div class="ttdeci">T * end()</div><div class="ttdoc">Get pointer to one past the end of the array.</div></div>
+<div class="ttc" id="aclassampl_1_1PowArray_html_acd869bd5d9792821b19cf95df7ccd423"><div class="ttname"><a href="classampl_1_1PowArray.html#acd869bd5d9792821b19cf95df7ccd423">ampl::PowArray::begin</a></div><div class="ttdeci">T * begin()</div><div class="ttdoc">Get pointer to the beginning of the array.</div></div>
+<div class="ttc" id="aclassampl_1_1PowArray_html_ad8c0767eb6ba2babb267f6afbb83da70"><div class="ttname"><a href="classampl_1_1PowArray.html#ad8c0767eb6ba2babb267f6afbb83da70">ampl::PowArray::PowArray</a></div><div class="ttdeci">PowArray(size_t n)</div><div class="ttdoc">Constructor: initializes the array with size 2^n.</div></div>
+<div class="ttc" id="aclassampl_1_1PowArray_html_ae2bc17aadacf0f922d45b46dadc4a28d"><div class="ttname"><a href="classampl_1_1PowArray.html#ae2bc17aadacf0f922d45b46dadc4a28d">ampl::PowArray::size</a></div><div class="ttdeci">size_t size() const</div><div class="ttdoc">Get size of the array.</div></div>
+<div class="ttc" id="anamespaceampl_html"><div class="ttname"><a href="namespaceampl.html">ampl</a></div><div class="ttdoc">Handles everything related to complex numbers.</div><div class="ttdef"><b>Definition</b> amplitude.h:10</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

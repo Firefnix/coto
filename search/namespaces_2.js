@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['reduction_0',['reduction',['../namespacereduction.html',1,'']]]
+  ['diagram_0',['diagram',['../namespacediagram.html',1,'']]]
 ];

@@ -1,6 +1,8 @@
 var classcartesian_1_1Interval =
 [
     [ "Interval", "classcartesian_1_1Interval.html#af56f56ffa41ad3e84d07231e8717fa28", null ],
+    [ "Interval", "classcartesian_1_1Interval.html#a2f620a6ca7253eb609babd2dfe1e63bc", null ],
+    [ "Interval", "classcartesian_1_1Interval.html#a49809ee44a53d9b46816f2199a15aa59", null ],
     [ "Interval", "classcartesian_1_1Interval.html#a8c75ee2d95ce0bc270f67a68ddac2977", null ],
     [ "Interval", "classcartesian_1_1Interval.html#aa5893b49a57e185619d8270d8d8d1c57", null ],
     [ "contains", "classcartesian_1_1Interval.html#a2b00f04fcd5b7f7c837b3a797c5c2761", null ],
