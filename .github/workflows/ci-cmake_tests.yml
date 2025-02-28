@@ -25,7 +25,7 @@ jobs:
       run: cmake -S $GITHUB_WORKSPACE -B ${{github.workspace}}/build -GNinja
 
     - name: Build
-      working-directory: ${{github.workspace}}/build
+      working-directory: ${{github.workspace}}
       run: cmake --build build
 
     - name: Test
