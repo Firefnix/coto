@@ -19,33 +19,27 @@ include_directories(include/)
 
 enable_testing()
 
-set(absi_libs cartesian polar amplitude)
-
-set(sources
-    ${src_files}
-    ${header_files}
-    ${test_files}
-    )
-
-# PowArray library
-add_library(powarray src/powarray.cpp src/powmatrix.cpp src/absi/polar.cpp src/absi/cartesian.cpp)
-
 # Amplitude test
 add_library(amplitude src/amplitude.cpp)
 add_executable(amplitude_test test/amplitude_test.cpp)
 target_link_libraries(amplitude_test amplitude powarray GTest::gtest_main)
 
-# ABStract Interpretation (ABSI) tests
-# Encompasses cartesian intervals test and polar intervals tests
 add_library(cartesian src/absi/cartesian.cpp)
 target_link_libraries(cartesian amplitude)
 add_library(polar src/absi/polar.cpp)
+target_link_libraries(polar amplitude)
+
+# PowArray library
+add_library(powarray src/powarray.cpp src/powmatrix.cpp)
+target_link_libraries(powarray cartesian polar)
 
 add_library(absi INTERFACE)
-target_link_libraries(absi INTERFACE amplitude cartesian polar powarray)
+target_link_libraries(absi INTERFACE powarray)
 
-add_executable(absi_test test/absi_test.cpp)
-target_link_libraries(absi_test absi GTest::gtest_main)
+# ABStract Interpretation (ABSI) tests
+# Encompasses cartesian intervals test and polar intervals tests
+add_executable(absi_test test/absi_test.cpp src/powarray.cpp)
+target_link_libraries(absi_test powarray GTest::gtest_main)
 
 # Diagram test
 add_library(diagram STATIC src/diagram.cpp src/random-diagram.cpp)
