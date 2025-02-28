@@ -1,6 +1,8 @@
 #include <gtest/gtest.h>
 #include <selection.h>
 
+using diagram::Diagram;
+
 static bool areMergeesSame(struct selection::mergees &m1, struct selection::mergees &m2);
 
 class SelectionTest : public testing::Test
@@ -17,7 +19,7 @@ TEST_F(SelectionTest, Random)
     eig0->lefto(leaf);
     eig1->righto(leaf);
     dgm->lefto(eig0);
-    dgm->righto(eig1, absi::Interval::real(2.));
+    dgm->righto(eig1, 2.);
     EXPECT_EQ(dgm->countNodesAtHeight(1), 2);
 
     struct selection::mergees expectedMergees

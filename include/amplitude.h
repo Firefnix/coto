@@ -25,13 +25,13 @@ namespace ampl
      */
     typedef std::complex<real> Amplitude;
 
-    using ConcreteState = PowArray<Amplitude>;
+    using ConcreteState = ampl::PowArray<Amplitude>;
 
     /** @brief Randomize a state
      *
      * Randomizes an already-allocated state (cheaper than returning by value)
      */
-    void randomizeState(ConcreteState &state);
+    void randomizeState(ampl::ConcreteState &state);
 
     /// @brief String representation of the Amplitude
     std::string to_string(const ampl::Amplitude a);

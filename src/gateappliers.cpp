@@ -1,5 +1,7 @@
 #include <gateappliers.h>
 
+using diagram::Diagram;
+
 static void assertQubitIsValid(Diagram *d, qubit q)
 {
     if (d->height < q)
@@ -110,9 +112,9 @@ static void apply1QubitGateOnQubit0(Diagram *diagram, const gateappliers::GateMa
     }
 }
 
-static branches cloneBranches(const branches &brs)
+static diagram::branches cloneBranches(const diagram::branches &brs)
 {
-    branches cloned;
+    diagram::branches cloned;
     for (const auto &g : brs)
     {
         cloned.push_back({.x = g.x, .d = g.d->clone()});

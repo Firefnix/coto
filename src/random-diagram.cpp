@@ -1,6 +1,7 @@
 #include "diagram.h"
 #include <random>
 
+using namespace diagram;
 using engine = std::mt19937;
 
 static size_t maxChildrenNumber(size_t height, size_t totalHeight);
@@ -30,13 +31,13 @@ void Diagram::populate(const size_t totalHeight)
     {
         auto *d = new Diagram(height - 1);
         d->populate(totalHeight ? totalHeight - 1 : 0);
-        lefto(d, absi::Interval::real(amplRng(rng)));
+        lefto(d, amplRng(rng));
     }
     for (size_t i = 0; i < childrenNumberRng(rng); i++)
     {
         auto *d = new Diagram(height - 1);
         d->populate(totalHeight ? totalHeight - 1 : 0);
-        righto(d, absi::Interval::real(amplRng(rng)));
+        righto(d, amplRng(rng));
     }
 }
 

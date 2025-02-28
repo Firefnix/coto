@@ -4,7 +4,7 @@
 class CartesianTest : public testing::Test
 {
 public:
-    cartesian::Interval a = cartesian::Interval::singleton(ampl::one);
+    cartesian::Interval a = cartesian::Interval(ampl::one);
     cartesian::Interval b = cartesian::Interval(ampl::zero, ampl::one + ampl::i);
 };
 
@@ -33,7 +33,7 @@ TEST_F(CartesianTest, Equal)
 TEST_F(CartesianTest, Join)
 {
     auto j = cartesian::zero
-    | cartesian::Interval::singleton(ampl::i + ampl::one);
+    | cartesian::Interval(ampl::i + ampl::one);
     EXPECT_EQ(j, b);
 }
 
@@ -71,17 +71,17 @@ TEST_F(PolarTest, Operations)
 
 TEST_F(PolarTest, multiply)
 {
-    auto one = polar::Interval::real(1.);
-    auto minus = polar::Interval::real(-1.);
+    auto one = polar::Interval(1.);
+    auto minus = polar::Interval(-1.);
     EXPECT_EQ(one * minus, minus);
     EXPECT_EQ(minus, one * minus);
 }
 
 TEST_F(PolarTest, Add)
 {
-    auto mthree = polar::Interval::real(-3.);
-    auto sum = polar::Interval::real(2.) + mthree;
-    auto ref = polar::Interval::real(2. + (-3.));
+    auto mthree = polar::Interval(-3.);
+    auto sum = polar::Interval(2.) + mthree;
+    auto ref = polar::Interval(2. + (-3.));
     EXPECT_EQ(sum, ref) << sum.to_string() << " vs " << ref.to_string();
 }
 
@@ -94,8 +94,8 @@ TEST_F(PolarTest, Norm)
 TEST_F(PolarTest, exp2iPiOver)
 {
     auto m = polar::Interval::exp2iPiOver(2);
-    auto mref = polar::Interval::real(-1.);
+    auto mref = polar::Interval(-1.);
     auto i = polar::Interval::exp2iPiOver(4);
     EXPECT_EQ(m, mref);
-    EXPECT_EQ(i, polar::Interval::singleton(ampl::i));
+    EXPECT_EQ(i, polar::Interval(ampl::i));
 }

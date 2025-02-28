@@ -1,0 +1,227 @@
+@startuml Class diagram
+
+' The "Raw" interface in a namespace refers to the functions and
+' variables (most notably, constants) that are not related to any
+' class or enum.
+
+namespace ampl {
+    class real
+    class Amplitude
+
+    interface Raw {
+        + random() : Amplitude
+        + randomizeState(ConcreteState)
+        + to_string(Amplitude) : string
+
+        + zero_real : real
+        + one_real : real
+        + zero : Amplitude
+        + one : Amplitude
+        + sqrt2 : Amplitude
+        + invSqrt2 : Amplitude
+        + i : Amplitude
+    }
+
+    class PowArray<T>
+    class ConcreteState
+
+    ConcreteState -|> PowArray
+}
+
+namespace absi {
+    namespace polar {
+        class PositiveInterval
+        Interval *- PositiveInterval
+        Interval *- AngleInterval
+
+        class Interval {
+            + {static} Interval()
+            + {static} Interval(const real)
+            + {static} Interval(const Amplitude)
+            + {static} Interval(PositiveInterval, AngleInterval)
+            + {static} exp2iPiOver(int)
+
+            + operator+(const Interval&) const
+            + operator+(const Interval&) const
+            + operator|(const Interval&) const
+
+            + to_string(bool) : string
+
+            # is_real() : bool const
+            # to_real() : real
+            # mod : PositiveInterval
+            # arg : AngleInterval
+        }
+
+        class AngleInterval
+
+        interface Raw {
+            + zero : Interval
+            + one : Interval
+        }
+
+        Interval -- Raw
+    }
+
+    namespace cartesian {
+        class real_interval
+
+        class Interval {
+            + {static} Interval()
+            + {static} Interval(const real)
+            + {static} Interval(const Amplitude)
+            + {static} Interval(const real_interval, const real_interval)
+            + {static} Interval(const Amplitude, const Amplitude)
+            + {static} Interval(real, real, real, real)
+
+            + operator==(const Interval&) const
+            + operator-(const Interval&) const
+            + operator|(const Interval&) const
+            + operator+(const Interval&) const
+            + operator+(const real&) const
+            + operator*(const Interval&) const
+            + operator^(const Interval&) const
+
+            + contains(Amplitude) : bool const
+            + to_string() const
+            + norm() : real const
+
+            - reals() : real_interval const
+            - imaginaries() : real_interval const
+
+            # bottomLeft : Amplitude
+            # topRight : Amplitude
+        }
+
+        real_interval <- Interval
+        interface Raw {
+            zero : Interval
+            one : Interval
+        }
+
+        Interval -- Raw
+    }
+}
+
+ampl <-- absi
+
+namespace diagram {
+    enum Side {
+        left
+        right
+    }
+    Side --> Diagram
+
+    struct branch {
+        x : Interval
+        d : Diagram *
+        + operator<(const branch&) const
+    }
+
+    class branches
+    branch --o branches
+
+    class Evaluation
+
+    ampl::PowArray <|- Evaluation
+
+    class Diagram {
+        + {static} Diagram(const size_t)
+        + {static} fromStateVector(const ConcreteState &)
+        + {static} eig0(const size_t)
+        + {static} random(size_t)
+
+        + childrenOfSide(Side) : vector<branch>
+        + evaluate() : Evaluation
+        + clone() : Diagram*
+        + lefto(Diagram*, Interval*)
+        + righto(Diagram*, Interval*)
+        + size() : size_t const
+
+        + countNodesAtHeight(size_t) : size_t const
+        + getNodePointersAtHeight(size_t) : size_t const
+        + replaceNodesAtHeight(const size_t, Diagram*,
+            Diagram*, Diagram *)
+
+        - populate(size_t)
+        + enclosure() : Interval
+        - markParentsAsToBeUpdated() const
+        - forgetChild(Diagram *)
+
+        + height : size_t
+        + left : branches
+        + right : branches
+        - parents : vector<Diagram *>
+        - isUpToDate : bool
+    }
+}
+
+namespace gateappliers {
+    interface Raw {
+        + applyX(Diagram*, qubit)
+        + applyH(Diagram*, qubit)
+        + applyS(Diagram*, qubit, qubit)
+        + applyCX(Diagram*, qubit, qubit)
+        + applyPhase(Diagram*, qubit, int)
+        + applyGateMatrix(Diagram*, qubit, int)
+    }
+
+    class GateMatrix
+
+    ampl::PowMatrix <|- GateMatrix
+}
+
+diagram <-- gateappliers
+
+namespace selection {
+    enum MergeesChoiceStrategy
+    {
+        RANDOM
+        MAX_AMPLITUDE
+        MIN_AMPLITUDE
+        MAX_NODES
+        MIN_NODES
+    }
+
+    struct mergees {
+        Diagram* a
+        Diagram* b
+    }
+    mergees *- diagram::Diagram
+
+    interface Raw {
+        + getMergeesAtHeight(const size_t, Diagram&,
+        MergeesChoiceStrategy) : mergees
+    }
+
+    MergeesChoiceStrategy <- Raw
+}
+
+namespace reduction {
+    interface Raw {
+        + cutDeadBranches(Diagram*)
+        + maxNodesLevel(Diagram *, array<size_t>, MergeesChoiceStrategy)
+        + getAmplitude(Diagram&, Diagram&) : Amplitude
+        + forceMerge(Diagram&, Diagram&) : Diagram
+    }
+
+    selection::MergeesChoiceStrategy <- Raw
+    ampl::Amplitude <- Raw
+}
+
+diagram <-- reduction
+
+namespace qasm {
+    interface Raw {
+        + exec(const string&)
+        + exec(istream&)
+        + fexec(const string&)
+
+        + eval(const string&) : string
+    }
+}
+
+diagram <-- qasm
+gateappliers <-- qasm
+
+@enduml

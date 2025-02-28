@@ -4,7 +4,7 @@
 
 namespace polar
 {
-    typedef double real;
+    using ampl::real;
 
     class Interval;
 
@@ -13,17 +13,17 @@ namespace polar
         friend class Interval;
 
     public:
-        PositiveInterval(real a, real b);
+        PositiveInterval(const real a, const real b);
 
-        PositiveInterval(real a);
+        PositiveInterval(const real a);
 
-        PositiveInterval operator+(PositiveInterval &other) const;
+        PositiveInterval operator+(const PositiveInterval &other) const;
 
-        PositiveInterval operator*(PositiveInterval &other) const;
+        PositiveInterval operator*(const PositiveInterval &other) const;
 
-        PositiveInterval operator|(PositiveInterval &other) const;
+        PositiveInterval operator|(const PositiveInterval &other) const;
 
-        bool operator==(const PositiveInterval &other) const;
+        [[nodiscard]] bool operator==(const PositiveInterval &other) const;
 
     protected:
         real min;
@@ -41,11 +41,11 @@ namespace polar
 
         static AngleInterval min_max(real a, real b);
 
-        AngleInterval operator+(AngleInterval &other) const;
+        AngleInterval operator+(const AngleInterval &other) const;
 
-        AngleInterval operator*(AngleInterval &other) const;
+        AngleInterval operator*(const AngleInterval &other) const;
 
-        AngleInterval operator|(AngleInterval &other) const;
+        AngleInterval operator|(const AngleInterval &other) const;
 
         bool operator==(const AngleInterval &other) const;
 
@@ -68,26 +68,22 @@ namespace polar
         Interval();
 
         /// @brief The singleton of a real number.
-        Interval(real value);
+        Interval(const real value);
 
         /// @brief The singleton of an amplitude.
-        Interval(ampl::Amplitude z);
+        Interval(const ampl::Amplitude z);
 
         Interval(PositiveInterval mod, AngleInterval arg);
 
-        static Interval singleton(ampl::Amplitude z);
-
-        static Interval real(real value);
-
         static Interval exp2iPiOver(int n);
 
-        Interval operator+(Interval &other) const;
+        Interval operator+(const Interval &other) const;
 
-        Interval operator*(Interval &other) const;
+        Interval operator*(const Interval &other) const;
 
-        Interval operator|(Interval &other) const;
+        Interval operator|(const Interval &other) const;
 
-        bool operator==(const Interval &other) const;
+        [[nodiscard]] bool operator==(const Interval &other) const;
 
         std::string to_string(bool strict = false) const;
 
@@ -99,7 +95,7 @@ namespace polar
          *
          * @return true if the number is real, false otherwise.
          */
-        bool is_real() const;
+        [[nodiscard]] bool is_real() const noexcept;
 
         polar::real to_real() const;
 
@@ -108,7 +104,7 @@ namespace polar
         AngleInterval arg;
     };
 
-    inline Interval zero = Interval();
+    const Interval zero = 0.;
 
-    inline Interval one = Interval::real(1.);
+    const Interval one = 1.;
 }

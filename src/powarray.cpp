@@ -1,4 +1,6 @@
-#include "powarray.h"
+#include <powarray.h>
+
+using ampl::PowArray;
 
 template <typename T>
 PowArray<T>::PowArray(size_t n)
@@ -109,5 +111,5 @@ PowArray<T> PowArray<T>::secondHalf() const
 #include "amplitude.h"
 #include "absi.h"
 
-template class PowArray<ampl::Amplitude>;
-template class PowArray<absi::Interval>;
+template class ampl::PowArray<ampl::Amplitude>;
+template class ampl::PowArray<absi::Interval>;

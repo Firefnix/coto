@@ -2,6 +2,9 @@
 #include <diagram.h>
 #include <amplitude.h>
 
+using absi::Interval;
+using namespace diagram;
+
 class DiagramTest : public testing::Test
 {
 public:
@@ -21,7 +24,7 @@ TEST_F(DiagramTest, testStateVector)
         auto evaluatedState = diagram->evaluate();
         for (auto i = 0; i < state.size(); i++)
         {
-            EXPECT_EQ(evaluatedState[i], Interval::singleton(state[i]))
+            EXPECT_EQ(evaluatedState[i], state[i])
                 << "Failed at index " << i << " against " << evaluatedState[i].to_string();
         }
     }
@@ -31,10 +34,10 @@ TEST_F(DiagramTest, testEvaluate)
 {
     eig0->lefto(leaf);
     dgm->lefto(eig0);
-    dgm->righto(eig0, absi::Interval::real(2.));
-    absi::Interval a = leaf->evaluate()[0];
-    absi::Interval b = eig0->evaluate()[0];
-    absi::Interval c = eig0->evaluate()[1];
+    dgm->righto(eig0, 2.);
+    Interval a = leaf->evaluate()[0];
+    Interval b = eig0->evaluate()[0];
+    Interval c = eig0->evaluate()[1];
     EXPECT_EQ(absi::one, a);
     EXPECT_EQ(absi::one, b) << b.to_string();
     EXPECT_EQ(absi::zero, c);
@@ -63,7 +66,7 @@ TEST_F(DiagramTest, testEig0)
 
 TEST_F(DiagramTest, testConstruction)
 {
-    auto two = absi::Interval::real(2.);
+    auto two = Interval(2.);
     eig0->lefto(leaf);
     dgm->lefto(eig0);
     dgm->righto(eig0, two);
@@ -86,7 +89,7 @@ TEST_F(DiagramTest, testClone)
     {
         EXPECT_EQ(dgmEval[i], cloneEval[i]) << "Evaluations not initially equal at index " << i;
     }
-    clone->left[0].x = absi::Interval::real(2.);
+    clone->left[0].x = Interval(2.);
     dgmEval = dgm->evaluate();
     cloneEval = clone->evaluate();
     EXPECT_NE(dgmEval[0], cloneEval[0]);
@@ -98,9 +101,9 @@ TEST_F(DiagramTest, testClone)
 
 TEST_F(DiagramTest, testAdditiveness)
 {
-    auto two = absi::Interval::real(2.);
-    auto minus_three = absi::Interval::real(-3.);
-    auto minus_one = absi::Interval::real(2. + (-3.));
+    auto two = Interval(2.);
+    auto minus_three = Interval(-3.);
+    auto minus_one = Interval(2. + (-3.));
     eig0->lefto(leaf, two);
     eig0->lefto(leaf, minus_three);
     auto vec = eig0->evaluate();

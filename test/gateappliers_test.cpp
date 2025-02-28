@@ -1,6 +1,8 @@
 #include <gtest/gtest.h>
 #include <gateappliers.h>
 
+using diagram::Diagram;
+
 const size_t MAX_QUBITS = 8;
 
 size_t flipNthBit(const size_t n, const size_t index)
@@ -14,15 +16,15 @@ TEST(GateAppliersTest, X)
     {
         for (auto qubitToApplyXOn = 0; qubitToApplyXOn < numberOfQubits; qubitToApplyXOn++)
         {
-            PowArray<ampl::Amplitude> base(numberOfQubits);
+            ampl::ConcreteState base(numberOfQubits);
             for (auto i = 0; i < base.size(); i++)
             {
                 base[i] = i;
             }
-            Evaluation result(numberOfQubits);
+            diagram::Evaluation result(numberOfQubits);
             for (auto i = 0; i < result.size(); i++)
             {
-                result[flipNthBit(numberOfQubits - qubitToApplyXOn - 1, i)] = Interval::real(i);
+                result[flipNthBit(numberOfQubits - qubitToApplyXOn - 1, i)] = i;
             }
 
             auto d = Diagram::fromStateVector(base);
@@ -53,11 +55,11 @@ TEST(GateAppliersTest, phase)
             {
                 base[i] = i;
             }
-            Evaluation expected(numberOfQubits);
+            diagram::Evaluation expected(numberOfQubits);
             for (auto i = 0; i < expected.size(); i++)
             {
                 expected[i] = !(i & (1 << (numberOfQubits - qubitToApplyPhaseOn - 1)))
-                                  ? absi::Interval::real(i)
+                                  ? absi::Interval(i)
                                   : polar::Interval(polar::PositiveInterval(i), polar::AngleInterval(2. / phaseDenominator, 0));
                 std::cout << expected[i].to_string() << std::endl;
             }
@@ -88,8 +90,8 @@ TEST(GateAppliersTest, gateMatrixIdentity)
         for (auto qubitToApplyIdentityOn = 0; qubitToApplyIdentityOn < numberOfQubits; qubitToApplyIdentityOn++)
         {
             gateappliers::GateMatrix id(1);
-            id(0, 0) = Interval::real(1);
-            id(1, 1) = Interval::real(1);
+            id(0, 0) = 1;
+            id(1, 1) = 1;
 
             ampl::ConcreteState base(numberOfQubits);
             for (auto i = 0; i < base.size(); i++)
@@ -103,7 +105,7 @@ TEST(GateAppliersTest, gateMatrixIdentity)
             auto ev = d->evaluate();
             for (auto i = 0; i < base.size(); i++)
             {
-                EXPECT_EQ(ev[i], Interval::singleton(base[i]))
+                EXPECT_EQ(ev[i], base[i])
                     << "Failed appplying identity on qubit 0"
                     << " at index " << i
                     << " got " << ev[i].to_string()
@@ -126,10 +128,10 @@ TEST(GateAppliersTest, gateMatrixHadamardOnQubit0)
     gateappliers::applyGateMatrix(d, 0, gate);
 
     auto ev = d->evaluate();
-    EXPECT_EQ(ev[0], Interval::real(4)) << ev[0].to_string() << " != 4";
-    EXPECT_EQ(ev[1], Interval::real(6)) << ev[1].to_string() << " != 6";
-    EXPECT_EQ(ev[2], Interval::real(-2)) << ev[2].to_string() << " != -2";
-    EXPECT_EQ(ev[3], Interval::real(-2)) << ev[3].to_string() << " != -2";
+    EXPECT_EQ(ev[0], 4) << ev[0].to_string() << " != 4";
+    EXPECT_EQ(ev[1], 6) << ev[1].to_string() << " != 6";
+    EXPECT_EQ(ev[2], -2) << ev[2].to_string() << " != -2";
+    EXPECT_EQ(ev[3], -2) << ev[3].to_string() << " != -2";
 }
 
 TEST(GateAppliersTest, gateMatrixHadamardOnQubit1)
@@ -150,7 +152,7 @@ TEST(GateAppliersTest, gateMatrixHadamardOnQubit1)
     ampl::Amplitude expected[8] = {4, 6, -2, -2, 12, 14, -2, -2};
     for (auto i = 0; i < 8; i++)
     {
-        EXPECT_EQ(computed[i], Interval::singleton(expected[i]))
+        EXPECT_EQ(computed[i], expected[i])
             << "Failed applying H on qubit 1 at index " << i
             << ", computed " << computed[i].to_string()
             << ", expected " << expected[i];
