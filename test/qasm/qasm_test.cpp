@@ -51,7 +51,7 @@ TEST(QasmTest, qubits)
     EXPECT_EQ(eval("b"), "qubit: 1");
 }
 
-TEST(QasmTest, commonGates)
+TEST(QasmTest, common_gates)
 {
     EXPECT_EQ(eval("x"), "gate: x[1]");
     EXPECT_EQ(eval("h"), "gate: h[1]");
@@ -59,7 +59,7 @@ TEST(QasmTest, commonGates)
     EXPECT_EQ(eval("s"), "gate: s[2]");
 }
 
-TEST(QasmTest, phaseGate)
+TEST(QasmTest, phase_gate)
 {
     EXPECT_EQ(eval("p(pi/4)"), "gate: p(pi/4)[1]");
     exec("qubit q;");
@@ -68,7 +68,7 @@ TEST(QasmTest, phaseGate)
     EXPECT_NO_THROW(exec("@run;"));
 }
 
-TEST(QasmTest, applyGate)
+TEST(QasmTest, apply_gate)
 {
     exec("qubit a;");
     EXPECT_NO_THROW(exec("x a;"));

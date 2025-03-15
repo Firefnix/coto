@@ -4,7 +4,7 @@
 
 namespace polar
 {
-    using ampl::real;
+    using ampl::Real;
 
     class Interval;
 
@@ -13,21 +13,21 @@ namespace polar
         friend class Interval;
 
     public:
-        PositiveInterval(const real a, const real b);
+        PositiveInterval(const Real a, const Real b);
 
-        PositiveInterval(const real a);
+        PositiveInterval(const Real a);
 
-        PositiveInterval operator+(const PositiveInterval &other) const;
+        [[nodiscard]] PositiveInterval operator+(const PositiveInterval &other) const;
 
-        PositiveInterval operator*(const PositiveInterval &other) const;
+        [[nodiscard]] PositiveInterval operator*(const PositiveInterval &other) const;
 
-        PositiveInterval operator|(const PositiveInterval &other) const;
+        [[nodiscard]] PositiveInterval operator|(const PositiveInterval &other) const;
 
         [[nodiscard]] bool operator==(const PositiveInterval &other) const;
 
     protected:
-        real min;
-        real max;
+        Real min;
+        Real max;
     };
 
     class AngleInterval
@@ -35,30 +35,30 @@ namespace polar
         friend class Interval;
 
     public:
-        AngleInterval(real min, real delta);
+        AngleInterval(Real min, Real delta);
 
-        AngleInterval(real a);
+        AngleInterval(Real a);
 
-        static AngleInterval min_max(real a, real b);
+        static AngleInterval min_max(Real a, Real b) noexcept;
 
-        AngleInterval operator+(const AngleInterval &other) const;
+        [[nodiscard]] AngleInterval operator+(const AngleInterval &other) const noexcept;
 
-        AngleInterval operator*(const AngleInterval &other) const;
+        [[nodiscard]] AngleInterval operator*(const AngleInterval &other) const noexcept;
 
-        AngleInterval operator|(const AngleInterval &other) const;
+        [[nodiscard]] AngleInterval operator|(const AngleInterval &other) const noexcept;
 
-        bool operator==(const AngleInterval &other) const;
+        [[nodiscard]] bool operator==(const AngleInterval &other) const noexcept;
 
     protected:
         /// @brief The minimal value of the interval
         /// `0 < @ref min < 2` is expressed in radians to limit
-        real min;
+        Real min;
 
         /// @brief The wideness/uncertainty of the interval
         /// Values in the interval are between @ref min and @ref min + @ref delta
         /// Moreover, 0 <= @ref delta <= 2
-        real delta;
-        void set_remainder();
+        Real delta;
+        void set_remainder() noexcept;
     };
 
     class Interval
@@ -68,26 +68,26 @@ namespace polar
         Interval();
 
         /// @brief The singleton of a real number.
-        Interval(const real value);
+        Interval(const Real value);
 
         /// @brief The singleton of an amplitude.
         Interval(const ampl::Amplitude z);
 
         Interval(PositiveInterval mod, AngleInterval arg);
 
-        static Interval exp2iPiOver(int n);
+        [[nodiscard]] static Interval exp_2ipi_over(int n);
 
-        Interval operator+(const Interval &other) const;
+        [[nodiscard]] Interval operator+(const Interval &other) const;
 
-        Interval operator*(const Interval &other) const;
+        [[nodiscard]] Interval operator*(const Interval &other) const noexcept;
 
-        Interval operator|(const Interval &other) const;
+        [[nodiscard]] Interval operator|(const Interval &other) const noexcept;
 
-        [[nodiscard]] bool operator==(const Interval &other) const;
+        [[nodiscard]] bool operator==(const Interval &other) const noexcept;
 
-        std::string to_string(bool strict = false) const;
+        std::string to_string(bool strict = false) const noexcept;
 
-        polar::real norm();
+        polar::Real norm();
 
     protected:
         /**
@@ -97,7 +97,7 @@ namespace polar
          */
         [[nodiscard]] bool is_real() const noexcept;
 
-        polar::real to_real() const;
+        [[nodiscard]] polar::Real to_real() const;
 
         PositiveInterval mod;
 

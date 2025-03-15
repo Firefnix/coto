@@ -18,7 +18,7 @@ namespace reduction
      * @param d The quantum diagram we want to reduce.
      * @return Nothing, the reduction is performed in-place.
      */
-    void cutDeadBranches(Diagram *d);
+    void cut_dead_branches(Diagram *d);
 
     /**
      * @brief Reduces the number of nodes at each level of the QDD so that level i
@@ -32,12 +32,7 @@ namespace reduction
      * @return Nothing, the reduction is performed in-place.
      */
     template <std::size_t height>
-    void maxNodesLevel(Diagram d, std::array<size_t, height> maxNodes, selection::MergeesChoiceStrategy strategy);
-
-    /**
-     * @brief
-     */
-    ampl::Amplitude getAmpliude(Diagram &d, Diagram &possible_child);
+    void max_nodes_level(Diagram d, std::array<size_t, height> maxNodes, selection::MergeesChoiceStrategy strategy);
 
     /**
      * @brief Forces the merge of two diagrams.
@@ -48,6 +43,5 @@ namespace reduction
      * @param b The second diagram to be merged.
      * @return The merged diagram.
      */
-    Diagram forceMerge(Diagram &a, Diagram &b);
-
+    Diagram force_merge(Diagram &a, Diagram &b);
 };

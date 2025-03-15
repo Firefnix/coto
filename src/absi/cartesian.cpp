@@ -6,47 +6,45 @@
 using namespace cartesian;
 
 /// @brief Minimum and maximum of xy for x in [xn, xx] and y in [yn, yx]
-static cartesian::real_interval minMaxOfProduct(const real_interval x, const real_interval y);
+static cartesian::RealInterval min_max_of_product(const RealInterval x, const RealInterval y);
 
-Interval::Interval() : bottomLeft{0.}, topRight{0.} {};
+Interval::Interval() : bottom_left{0.}, top_right{0.} {};
 
-Interval::Interval(real_interval re, real_interval im) :
-    bottomLeft{std::min(std::get<0>(re), std::get<1>(re)), std::min(std::get<0>(im), std::get<1>(im))},
-    topRight{std::max(std::get<0>(re), std::get<1>(re)), std::max(std::get<0>(im), std::get<1>(im))} {};
+Interval::Interval(RealInterval re, RealInterval im) : bottom_left{std::min(std::get<0>(re), std::get<1>(re)), std::min(std::get<0>(im), std::get<1>(im))},
+                                                       top_right{std::max(std::get<0>(re), std::get<1>(re)), std::max(std::get<0>(im), std::get<1>(im))} {};
 
-Interval::Interval(const ampl::real value) : bottomLeft{value}, topRight{value} {};
+Interval::Interval(const ampl::Real value) : bottom_left{value}, top_right{value} {};
 
-Interval::Interval(const ampl::Amplitude z) : bottomLeft{z}, topRight{z} {};
+Interval::Interval(const ampl::Amplitude z) : bottom_left{z}, top_right{z} {};
 
 bool Interval::operator==(const Interval &other) const
 {
-    return (bottomLeft == other.bottomLeft) && (topRight == other.topRight);
+    return (bottom_left == other.bottom_left) && (top_right == other.top_right);
 }
-
 
 Interval Interval::operator-() const
 {
-    return Interval(ampl::Amplitude(-topRight.real(), -topRight.imag()),
-                    ampl::Amplitude(-bottomLeft.real(), -bottomLeft.imag()));
+    return Interval(ampl::Amplitude(-top_right.real(), -top_right.imag()),
+                    ampl::Amplitude(-bottom_left.real(), -bottom_left.imag()));
 }
 
 Interval Interval::operator|(const Interval &other) const
 {
-    return {ampl::Amplitude(std::min(bottomLeft.real(), other.bottomLeft.real()), std::min(bottomLeft.imag(), other.bottomLeft.imag())),
-            ampl::Amplitude(std::max(topRight.real(), other.topRight.real()), std::max(topRight.imag(), other.topRight.imag()))};
+    return {ampl::Amplitude(std::min(bottom_left.real(), other.bottom_left.real()), std::min(bottom_left.imag(), other.bottom_left.imag())),
+            ampl::Amplitude(std::max(top_right.real(), other.top_right.real()), std::max(top_right.imag(), other.top_right.imag()))};
 }
 
 Interval Interval::operator+(const Interval &other) const
 {
-    return {ampl::Amplitude(bottomLeft.real() + other.bottomLeft.real(), bottomLeft.imag() + other.bottomLeft.imag()),
-            ampl::Amplitude(topRight.real() + other.topRight.real(), topRight.imag() + other.topRight.imag())};
+    return {ampl::Amplitude(bottom_left.real() + other.bottom_left.real(), bottom_left.imag() + other.bottom_left.imag()),
+            ampl::Amplitude(top_right.real() + other.top_right.real(), top_right.imag() + other.top_right.imag())};
 }
 
-Interval Interval::operator*(const ampl::real &other) const
+Interval Interval::operator*(const ampl::Real &other) const
 {
     if (other >= ampl::zero_real)
     {
-        return Interval(bottomLeft * other, topRight * other);
+        return Interval(bottom_left * other, top_right * other);
     }
     return -(*this * (-other));
 }
@@ -54,40 +52,39 @@ Interval Interval::operator*(const ampl::real &other) const
 Interval Interval::operator*(const Interval &other) const
 {
     return Interval(
-        minMaxOfProduct(reals(), other.reals()),
-        minMaxOfProduct(imaginaries(), other.imaginaries())
-    );
+        min_max_of_product(reals(), other.reals()),
+        min_max_of_product(imaginaries(), other.imaginaries()));
 }
 
-ampl::real Interval::operator^(const Interval &other) const
+ampl::Real Interval::operator^(const Interval &other) const
 {
-    ampl::real total = (*this | other).norm();
+    ampl::Real total = (*this | other).norm();
     return (total * 2) - norm() - other.norm();
 }
 
 bool Interval::contains(ampl::Amplitude z) const
 {
-    return (bottomLeft.real() <= z.real()) &&
-           (z.real() <= topRight.real()) &&
-           (bottomLeft.imag() <= z.imag()) &&
-           (z.imag() <= topRight.imag());
+    return (bottom_left.real() <= z.real()) &&
+           (z.real() <= top_right.real()) &&
+           (bottom_left.imag() <= z.imag()) &&
+           (z.imag() <= top_right.imag());
 }
 
-ampl::real Interval::norm() const
+ampl::Real Interval::norm() const noexcept
 {
-    return abs(topRight - bottomLeft);
+    return abs(top_right - bottom_left);
 }
 
-std::string Interval::to_string() const
+std::string Interval::to_string() const noexcept
 {
-    return "[" + ampl::to_string(bottomLeft) + ", " + ampl::to_string(topRight) + "]";
+    return "[" + ampl::to_string(bottom_left) + ", " + ampl::to_string(top_right) + "]";
 }
 
-static real_interval minMaxOfProduct(const real_interval x, const real_interval y)
+static RealInterval min_max_of_product(const RealInterval x, const RealInterval y)
 {
-    ampl::real x1 = std::get<0>(x), x2 = std::get<1>(x), y1 = std::get<0>(y), y2 = std::get<1>(y);
-    ampl::real values[4] = {x1 * y1, x1 * y2, x2 * y1, x2 * y2};
-    ampl::real rmin = values[0], rmax = values[0];
+    ampl::Real x1 = std::get<0>(x), x2 = std::get<1>(x), y1 = std::get<0>(y), y2 = std::get<1>(y);
+    ampl::Real values[4] = {x1 * y1, x1 * y2, x2 * y1, x2 * y2};
+    ampl::Real rmin = values[0], rmax = values[0];
     for (int i = 1; i < 4; i++)
     {
         if (values[i] < rmin)
@@ -102,12 +99,12 @@ static real_interval minMaxOfProduct(const real_interval x, const real_interval 
     return std::make_tuple(rmin, rmax);
 }
 
-real_interval Interval::reals() const
+RealInterval Interval::reals() const noexcept
 {
-    return std::make_tuple(bottomLeft.real(), topRight.real());
+    return std::make_tuple(bottom_left.real(), top_right.real());
 }
 
-real_interval Interval::imaginaries() const
+RealInterval Interval::imaginaries() const noexcept
 {
-    return std::make_tuple(bottomLeft.imag(), topRight.imag());
+    return std::make_tuple(bottom_left.imag(), top_right.imag());
 }

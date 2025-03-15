@@ -18,14 +18,14 @@ void qasm::exec(std::istream &stream)
     execute(stream);
 }
 
-void qasm::fexec(const std::string &filePath)
+void qasm::fexec(const std::string &file_path)
 {
-    if (!std::filesystem::exists(filePath))
+    if (!std::filesystem::exists(file_path))
     {
-        std::string fp = filePath + ".qasm";
+        std::string fp = file_path + ".qasm";
         if (std::filesystem::exists(fp))
         {
-            auto f = openFile(fp);
+            auto f = open_file(fp);
             exec(f);
             f.close();
             return;
@@ -33,7 +33,7 @@ void qasm::fexec(const std::string &filePath)
     }
     try
     {
-        auto f = openFile(filePath);
+        auto f = open_file(file_path);
         exec(f);
         f.close();
     }
@@ -45,16 +45,16 @@ void qasm::fexec(const std::string &filePath)
 
 std::string qasm::eval(const std::string &identifier)
 {
-    if (isOnlyEmptyCharacters(identifier))
+    if (is_only_empty_characters(identifier))
     {
         return "";
     }
     try
     {
-        return gateToString(identifier);
+        return gate_to_string_from_name(identifier);
     }
     catch (const VariableError &e)
     {
-        return varToString(identifier);
+        return var_to_string(identifier);
     }
 }

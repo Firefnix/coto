@@ -7,13 +7,15 @@
 #include <vector>
 #include <fstream>
 
-struct statementString {
-    std::string content;
+using std::string;
+
+struct StatementString {
+    string content;
     char delimiter;
 };
 
-std::ifstream openFile(const std::string& filePath);
+std::ifstream open_file(const string& file_path);
 
-std::vector<struct statementString> getStatementStrings(std::istream& stream);
+std::vector<struct StatementString> parse_statements_strings(std::istream& stream);
 
-bool isOnlyEmptyCharacters(const std::string& str);
+bool is_only_empty_characters(const string& str) noexcept;

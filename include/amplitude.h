@@ -9,13 +9,13 @@
 namespace ampl
 {
     /// @brief A class used to compute on real numbers
-    typedef double real;
+    typedef double Real;
 
     /// @brief A real value of zero
-    const real zero_real = 0.;
+    const Real zero_real = 0.;
 
     /// @brief A real value of zero
-    const real one_real = 1.;
+    const Real one_real = 1.;
 
     /** @brief A general-purpose complex amplitude
      *
@@ -23,7 +23,7 @@ namespace ampl
      * in any case it implements the classical complex arithmetic
      * operations. Uses profusiously the `real` type.
      */
-    typedef std::complex<real> Amplitude;
+    typedef std::complex<Real> Amplitude;
 
     using ConcreteState = ampl::PowArray<Amplitude>;
 
@@ -31,7 +31,7 @@ namespace ampl
      *
      * Randomizes an already-allocated state (cheaper than returning by value)
      */
-    void randomizeState(ampl::ConcreteState &state);
+    void randomize_state(ampl::ConcreteState &state);
 
     /// @brief String representation of the Amplitude
     std::string to_string(const ampl::Amplitude a);
@@ -53,7 +53,7 @@ namespace ampl
     const Amplitude sqrt2{std::sqrt(2), 0.};
 
     /// @brief The complex number, one over the square root of two
-    const Amplitude invSqrt2{std::sqrt(1. / 2), 0.};
+    const Amplitude inv_sqrt2{std::sqrt(1. / 2), 0.};
 
     /// @brief The imaginary number i
     const Amplitude i{0., 1.};

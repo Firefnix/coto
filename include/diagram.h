@@ -23,15 +23,15 @@ namespace diagram
      */
     enum Side
     {
-        left,
-        right
+        Left,
+        Right
     };
 
     class Diagram;
 
     /// @brief A incoming branch (in diagrams, an arrow)
     /// @tparam height The height of the diagram the branch points to.
-    struct branch
+    struct Branch
     {
         /// @brief Abstract weight on the branch
         absi::Interval x;
@@ -39,13 +39,13 @@ namespace diagram
         /// @brief (Link to) the destination node
         Diagram *d;
 
-        bool operator<(const branch &b) const
+        bool operator<(const Branch &b) const
         {
             return d < b.d;
         }
     };
 
-    using branches = std::vector<branch>;
+    using Branches = std::vector<Branch>;
 
     using Evaluation = ampl::PowArray<Interval>;
 
@@ -57,7 +57,7 @@ namespace diagram
         /// @brief Create an empty diagram with no children
         Diagram(const size_t height);
 
-        static Diagram *fromStateVector(const ampl::ConcreteState &state);
+        static Diagram *from_state_vector(const ampl::ConcreteState &state);
 
         static Diagram *eig0(const size_t height);
 
@@ -70,7 +70,7 @@ namespace diagram
         static Diagram random(const size_t height);
 
         /// @brief Children of side @p s
-        std::vector<branch> childrenOfSide(Side s) const;
+        Branches *children_of_side(Side s);
 
         /// @brief Evaluate the diagram
         /// @return A mathematical vector (here a std::vector) of 2^n intervals
@@ -95,13 +95,13 @@ namespace diagram
         constexpr size_t size() const;
 
         /// @brief The number of nodes at a given height
-        size_t countNodesAtHeight(size_t h);
+        size_t count_nodes_at_height(size_t h);
 
         /// @brief Get all nodes at a given height
-        std::vector<Diagram *> getNodePointersAtHeight(const size_t h);
+        std::vector<Diagram *> get_node_pointers_at_height(const size_t h);
 
         /// @brief Replace nodes @p f1 and @p f2 by @p r at a given height
-        void replaceNodesAtHeight(const size_t h, Diagram *f1, Diagram *f2, Diagram *r);
+        void replace_nodes_at_height(const size_t h, Diagram *f1, Diagram *f2, Diagram *r);
 
         /// @brief An interval that contains all the intervals of the evaluation.
         Interval enclosure();
@@ -111,22 +111,22 @@ namespace diagram
         const size_t height;
 
         /// @brief Left children
-        branches left;
+        Branches left;
 
         /// @brief Right children
-        branches right;
+        Branches right;
 
     protected:
         /// @brief Populate the diagram with random values
-        void populate(const size_t totalHeight = 0);
+        void populate(const size_t total_height = 0);
 
         /// @brief Is the data stored at node-level up-to-date
-        bool isUpToDate = false;
+        bool is_up_to_date = false;
 
-        void markParentsAsToBeUpdated() const;
+        void mark_parents_as_to_be_updated() const;
 
-        /// @brief The enclosure value if `isUpToDate` is true
-        Interval cachedEnclosure;
+        /// @brief The enclosure value if `is_up_to_date` is true
+        Interval cached_enclosure;
 
         /** @brief The parents of the node
          * @details This is used to propagate changes in the children to the parents. righto and lefto
@@ -135,10 +135,8 @@ namespace diagram
         std::vector<Diagram *> parents;
 
         /// @brief Forget a child
-        void forgetChild(Diagram *d) noexcept;
+        void forget_child(Diagram *d) noexcept;
     };
-
-    Interval calculateEnclosure(Diagram &d);
 
     const size_t CHILDREN_NUMBER_AMBITION = 5;
 }

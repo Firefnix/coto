@@ -1,26 +1,26 @@
 #include <qasm/error.h>
 
-ParsingError::ParsingError(const std::string &message)
+ParsingError::ParsingError(const string &message)
     : std::runtime_error(message)
 {
 }
 
-FileError::FileError(const std::string &message) : ParsingError(message)
+FileError::FileError(const string &message) : ParsingError(message)
 {
 }
 
-SyntaxError::SyntaxError(const std::string &message) : ParsingError(message)
+SyntaxError::SyntaxError(const string &message) : ParsingError(message)
 {
 }
 
-VersionError::VersionError(const std::string &message) : ParsingError(message)
+VersionError::VersionError(const string &message) : ParsingError(message)
 {
 }
 
-VariableError::VariableError(const std::string &message) : ParsingError(message)
+VariableError::VariableError(const string &message) : ParsingError(message)
 {
 }
 
-SizeError::SizeError(const std::string &message) : ParsingError(message)
+SizeError::SizeError(const string &message) : ParsingError(message)
 {
 }

@@ -12,20 +12,20 @@ class Gate
 {
 public:
     [[nodiscard]] static bool exists(const std::string &gateName) noexcept;
-    [[nodiscard]] static const Gate byName(const std::string &gateName);
-    void applyTo(const std::vector<varname> &qubitsNames) const;
-    virtual void applyTo(const std::vector<qubit> &qubits) const;
+    [[nodiscard]] static const Gate from_name(const std::string &gateName);
+    void apply_to(const std::vector<varname> &qubits_names) const;
+    virtual void apply_to(const std::vector<qubit> &qubits) const;
 
     /// @brief The number of qubits of the gate
     std::size_t size() const noexcept;
 
-    std::string toString() const noexcept;
+    std::string to_string() const noexcept;
 
     const std::string name;
 
 protected:
     Gate(const std::string &name, const std::size_t size);
-    const std::size_t gateSize;
+    const std::size_t gate_size;
 };
 
 /// @brief A phase gate
@@ -41,4 +41,4 @@ protected:
     PhaseGate(int phase);
 };
 
-std::string gateToString(const std::string &name);
+std::string gate_to_string_from_name(const std::string &name);

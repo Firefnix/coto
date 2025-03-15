@@ -12,15 +12,15 @@ namespace gateappliers
     using GateMatrix = PowMatrix<absi::Interval>;
     using diagram::Diagram;
 
-    void applyX(Diagram *d, qubit q);
+    void apply_x(Diagram *d, qubit q);
 
-    void applyH(Diagram *d, qubit q);
+    void apply_h(Diagram *d, qubit q);
 
-    void applyS(Diagram *d, qubit a, qubit b);
+    void apply_s(Diagram *d, qubit a, qubit b);
 
-    void applyCX(Diagram *d, qubit a, qubit b);
+    void apply_cx(Diagram *d, qubit a, qubit b);
 
-    void applyPhase(Diagram *d, qubit q, int phaseDenominator);
+    void apply_phase(Diagram *d, qubit q, int phaseDenominator);
 
-    void applyGateMatrix(Diagram *d, qubit q, const GateMatrix &m);
+    void apply_gate_matrix(Diagram *d, qubit q, const GateMatrix &m);
 }

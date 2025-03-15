@@ -61,7 +61,7 @@ T PowMatrix<T>::value() const
 }
 
 template <typename T>
-PowMatrix<T> PowMatrix<T>::topLeft() const
+PowMatrix<T> PowMatrix<T>::top_left() const
 {
     auto part = PowMatrix(height() - 1);
     for (size_t i = 0; i < part.size(); i++)
@@ -75,7 +75,7 @@ PowMatrix<T> PowMatrix<T>::topLeft() const
 }
 
 template <typename T>
-PowMatrix<T> PowMatrix<T>::topRight() const
+PowMatrix<T> PowMatrix<T>::top_right() const
 {
     auto part = PowMatrix(height() - 1);
     for (size_t i = 0; i < part.size(); i++)
@@ -89,7 +89,7 @@ PowMatrix<T> PowMatrix<T>::topRight() const
 }
 
 template <typename T>
-PowMatrix<T> PowMatrix<T>::bottomLeft() const
+PowMatrix<T> PowMatrix<T>::bottom_left() const
 {
     auto part = PowMatrix(height() - 1);
     for (size_t i = 0; i < part.size(); i++)
@@ -103,7 +103,7 @@ PowMatrix<T> PowMatrix<T>::bottomLeft() const
 }
 
 template <typename T>
-PowMatrix<T> PowMatrix<T>::bottomRight() const
+PowMatrix<T> PowMatrix<T>::bottom_right() const
 {
     auto part = PowMatrix(height() - 1);
     for (size_t i = 0; i < part.size(); i++)

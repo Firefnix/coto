@@ -51,43 +51,43 @@ const T &PowArray<T>::operator[](size_t index) const
 }
 
 template <typename T>
-size_t PowArray<T>::height() const
+size_t PowArray<T>::height() const noexcept
 {
     return height_;
 }
 
 template <typename T>
-size_t PowArray<T>::size() const
+size_t PowArray<T>::size() const noexcept
 {
     return size_;
 }
 
 template <typename T>
-T *PowArray<T>::begin()
+T *PowArray<T>::begin() noexcept
 {
     return data_.get();
 }
 
 template <typename T>
-const T *PowArray<T>::begin() const
+const T *PowArray<T>::begin() const noexcept
 {
     return data_.get();
 }
 
 template <typename T>
-T *PowArray<T>::end()
+T *PowArray<T>::end() noexcept
 {
     return data_.get() + size_;
 }
 
 template <typename T>
-const T *PowArray<T>::end() const
+const T *PowArray<T>::end() const noexcept
 {
     return data_.get() + size_;
 }
 
 template <typename T>
-PowArray<T> PowArray<T>::firstHalf() const
+PowArray<T> PowArray<T>::first_half() const
 {
     auto half = PowArray(height_ - 1);
     for (size_t i = 0; i < half.size(); i++)
@@ -98,7 +98,7 @@ PowArray<T> PowArray<T>::firstHalf() const
 }
 
 template <typename T>
-PowArray<T> PowArray<T>::secondHalf() const
+PowArray<T> PowArray<T>::second_half() const
 {
     auto half = PowArray(height_ - 1);
     for (size_t i = 0; i < half.size(); i++)

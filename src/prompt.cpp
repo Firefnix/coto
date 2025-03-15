@@ -2,17 +2,17 @@
 #include <qasm.h>
 
 /// @brief Main loop for the interpreter (interative mode)
-void interpreterMainLoop();
+void interpreter_main_loop();
 
-void printPrompt();
-void printResult(const std::string &result);
+void print_prompt();
+void print_result(const std::string &result);
 
 /// @brief Process a line of input
 /// @param line The line to process
 /// @return true if we should quit the program, else false
-bool processLine(const std::string &line);
+bool process_line(const std::string &line);
 
-bool isQuitLine(const std::string &line);
+bool is_quit_line(const std::string &line);
 
 int main(int argc, char *argv[])
 {
@@ -22,32 +22,32 @@ int main(int argc, char *argv[])
     }
     else
     {
-        interpreterMainLoop();
+        interpreter_main_loop();
     }
     return 0;
 }
 
-void interpreterMainLoop()
+void interpreter_main_loop()
 {
     std::cout << "Coto QASM Interpreter" << std::endl;
-    printPrompt();
+    print_prompt();
     for (std::string line; std::getline(std::cin, line);)
     {
-        if (processLine(line))
+        if (process_line(line))
         {
             break;
         }
-        printPrompt();
+        print_prompt();
     }
 }
 
-void printPrompt()
+void print_prompt()
 {
     std::cout << "| " << std::flush;
     ;
 }
 
-void printResult(const std::string &result)
+void print_result(const std::string &result)
 {
     if (result != "")
     {
@@ -55,9 +55,9 @@ void printResult(const std::string &result)
     }
 }
 
-bool processLine(const std::string &line)
+bool process_line(const std::string &line)
 {
-    if (isQuitLine(line))
+    if (is_quit_line(line))
     {
         return true;
     }
@@ -79,7 +79,7 @@ bool processLine(const std::string &line)
         {
             return true;
         }
-        printResult(qasm::eval(line));
+        print_result(qasm::eval(line));
     }
     catch (const std::runtime_error &e)
     {
@@ -88,7 +88,7 @@ bool processLine(const std::string &line)
     return false;
 }
 
-bool isQuitLine(const std::string &line)
+bool is_quit_line(const std::string &line)
 {
     const std::string cleaned = line.substr(0, line.find(";"));
     return cleaned == "quit" || cleaned == "exit";
