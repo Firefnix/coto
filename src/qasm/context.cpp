@@ -13,9 +13,9 @@ struct action
 const struct action NO_ACTION = {nullptr, 0};
 const struct action CLEAR_ACTION = {nullptr, 1};
 
-static diagram::Diagram *mainDiagram = nullptr;
+static diagram::Diagram *main_diagram = nullptr;
 
-static qubit updateQubit(bool addOne)
+static qubit update_qubit(bool addOne)
 {
     static qubit count = 0;
     if (addOne)
@@ -25,12 +25,12 @@ static qubit updateQubit(bool addOne)
     return count ? count - 1 : count;
 }
 
-qubit addQubit()
+qubit add_qubit()
 {
-    return updateQubit(true);
+    return update_qubit(true);
 }
 
-std::vector<struct action> *updateAction(struct action a)
+std::vector<struct action> *update_action(struct action a)
 {
     static std::vector<struct action> actions;
     if (a.gate == nullptr)
@@ -45,73 +45,73 @@ std::vector<struct action> *updateAction(struct action a)
     return &actions;
 }
 
-void applyGate(const Gate *gate, const std::vector<qubit> &qubits)
+void apply_gate(const Gate *gate, const std::vector<qubit> &qubits)
 {
-    updateAction({gate, qubits[0]});
+    update_action({gate, qubits[0]});
 }
 
-void createDiagram(bool implicit)
+void create_diagram(bool implicit)
 {
-    if (mainDiagram != nullptr)
+    if (main_diagram != nullptr)
     {
-        delete mainDiagram;
+        delete main_diagram;
         std::cout << "(Deleted the previous diagram)" << std::endl;
     }
     if (implicit)
         std::cout << "(Built the diagram)" << std::endl;
-    mainDiagram = diagram::Diagram::eig0(updateQubit(false) + 1);
+    main_diagram = diagram::Diagram::eig0(update_qubit(false) + 1);
 }
 
 void simulate()
 {
-    if (mainDiagram == nullptr)
+    if (main_diagram == nullptr)
     {
-        createDiagram(true);
+        create_diagram(true);
     }
-    for (struct action a : *updateAction(NO_ACTION))
+    for (struct action a : *update_action(NO_ACTION))
     {
         if (a.gate->name == "x")
         {
-            gateappliers::applyX(mainDiagram, a.q);
+            gateappliers::apply_x(main_diagram, a.q);
         }
         else if (a.gate->name == "h")
         {
-            gateappliers::applyH(mainDiagram, a.q);
+            gateappliers::apply_h(main_diagram, a.q);
         }
         else if (a.gate->name == "s")
         {
-            gateappliers::applyS(mainDiagram, a.q, a.q + 1);
+            gateappliers::apply_s(main_diagram, a.q, a.q + 1);
         }
         else if (a.gate->name == "cx")
         {
-            gateappliers::applyCX(mainDiagram, a.q, a.q + 1);
+            gateappliers::apply_cx(main_diagram, a.q, a.q + 1);
         }
         else if (a.gate->name[0] == 'p')
         {
             int phase = dynamic_cast<const PhaseGate *>(a.gate)->phase;
-            gateappliers::applyPhase(mainDiagram, a.q, phase);
+            gateappliers::apply_phase(main_diagram, a.q, phase);
         }
         else
         {
             std::cout << "Unimplemented gate application in context handling: " << a.gate->name << std::endl;
         }
     }
-    updateAction(CLEAR_ACTION);
+    update_action(CLEAR_ACTION);
 }
 
-void printListOfActions()
+void print_list_of_actions()
 {
-    for (struct action a : *updateAction(NO_ACTION))
+    for (struct action a : *update_action(NO_ACTION))
     {
         std::cout << "~ " << a.gate->name << " " << a.q << std::endl;
     }
 }
 
-void printEvaluation()
+void print_evaluation()
 {
-    if (mainDiagram == nullptr)
-        createDiagram(true);
-    diagram::Evaluation eval = mainDiagram->evaluate();
+    if (main_diagram == nullptr)
+        create_diagram(true);
+    diagram::Evaluation eval = main_diagram->evaluate();
     std::cout << "\n";
     for (auto &amp : eval)
     {
@@ -120,7 +120,7 @@ void printEvaluation()
     std::cout << std::endl;
 }
 
-static void registerNodes(diagram::Diagram *d, std::set<diagram::Diagram *> &seen)
+static void register_nodes(diagram::Diagram *d, std::set<diagram::Diagram *> &seen)
 {
     seen.insert(d);
     for (auto &b : d->left)
@@ -128,7 +128,7 @@ static void registerNodes(diagram::Diagram *d, std::set<diagram::Diagram *> &see
         if (seen.find(b.d) == seen.end())
         {
             seen.insert(b.d);
-            registerNodes(b.d, seen);
+            register_nodes(b.d, seen);
         }
     }
     for (auto &b : d->right)
@@ -136,48 +136,48 @@ static void registerNodes(diagram::Diagram *d, std::set<diagram::Diagram *> &see
         if (seen.find(b.d) == seen.end())
         {
             seen.insert(b.d);
-            registerNodes(b.d, seen);
+            register_nodes(b.d, seen);
         }
     }
 }
 
-static size_t getBranchCount(diagram::Diagram *d)
+static size_t get_branch_count(diagram::Diagram *d)
 {
     size_t count = 0;
     for (auto &b : d->left)
     {
-        count += getBranchCount(b.d);
+        count += get_branch_count(b.d);
         count++;
     }
     for (auto &b : d->right)
     {
-        count += getBranchCount(b.d);
+        count += get_branch_count(b.d);
         count++;
     }
     return count;
 }
 
-void printDiagramDescription()
+void print_diagram_description()
 {
-    if (mainDiagram == nullptr)
+    if (main_diagram == nullptr)
     {
         std::cout << "(null)" << std::endl;
         return;
     }
     std::set<diagram::Diagram *> seen;
-    registerNodes(mainDiagram, seen);
-    std::cout << "~ height " << mainDiagram->height << std::endl;
+    register_nodes(main_diagram, seen);
+    std::cout << "~ height " << main_diagram->height << std::endl;
     std::cout << "~ nodes " << seen.size() << std::endl;
-    std::cout << "~ branches " << getBranchCount(mainDiagram) << std::endl;
+    std::cout << "~ branches " << get_branch_count(main_diagram) << std::endl;
 }
 
-void freeDiagram()
+void free_diagram()
 {
-    delete mainDiagram;
-    mainDiagram = nullptr;
+    delete main_diagram;
+    main_diagram = nullptr;
 }
 
-void printRunStatementsHelp()
+void print_run_statements_help()
 {
     std::cout << "Available run statements:\n"
               << "  @build, @inst, @instantiate - create a new diagram\n"

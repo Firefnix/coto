@@ -19,14 +19,14 @@ ampl::Amplitude ampl::random()
     Amplitude a;
     do
     {
-        real r = static_cast<real>(rand()) / static_cast<real>(RAND_MAX);
-        real i = static_cast<real>(rand()) / static_cast<real>(RAND_MAX);
+        Real r = static_cast<Real>(rand()) / static_cast<Real>(RAND_MAX);
+        Real i = static_cast<Real>(rand()) / static_cast<Real>(RAND_MAX);
         a = ampl::Amplitude(r, i);
     } while (abs(a) > 1);
     return a;
 }
 
-void ampl::randomizeState(ConcreteState &state)
+void ampl::randomize_state(ConcreteState &state)
 {
     for (auto i = 0; i < state.size(); i++)
     {

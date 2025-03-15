@@ -44,11 +44,11 @@ public:
         return size_;
     }
 
-    PowMatrix<T> topLeft() const;
+    PowMatrix<T> top_left() const;
 
-    PowMatrix<T> topRight() const;
+    PowMatrix<T> top_right() const;
 
-    PowMatrix<T> bottomLeft() const;
+    PowMatrix<T> bottom_left() const;
 
-    PowMatrix<T> bottomRight() const;
+    PowMatrix<T> bottom_right() const;
 };

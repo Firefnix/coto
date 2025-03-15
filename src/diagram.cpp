@@ -8,12 +8,12 @@ using namespace diagram;
 
 Diagram *leaf = new Diagram(0);
 
-static Diagram *newHeight1Diagram(const ampl::ConcreteState &state);
+static Diagram *new_height_1_diagram(const ampl::ConcreteState &state);
 
 template <typename T>
-static std::vector<T> mergeVectorsWithoutDuplicates(std::vector<T> a, std::vector<T> b);
+static std::vector<T> merge_vectors_without_duplicates(std::vector<T> a, std::vector<T> b);
 
-static absi::Interval enclosure_side(Side s, const Diagram &d);
+static absi::Interval enclosure_side(Side s, Diagram &d);
 
 Diagram::Diagram(const size_t height) : height(height)
 {
@@ -30,7 +30,7 @@ Diagram *Diagram::eig0(const size_t height)
     return d;
 }
 
-Diagram *Diagram::fromStateVector(const ampl::ConcreteState &state)
+Diagram *Diagram::from_state_vector(const ampl::ConcreteState &state)
 {
     if (state.height() == 0)
     {
@@ -38,17 +38,17 @@ Diagram *Diagram::fromStateVector(const ampl::ConcreteState &state)
     }
     if (state.height() == 1)
     {
-        return newHeight1Diagram(state);
+        return new_height_1_diagram(state);
     }
-    auto left = Diagram::fromStateVector(state.firstHalf());
-    auto right = Diagram::fromStateVector(state.secondHalf());
+    auto left = Diagram::from_state_vector(state.first_half());
+    auto right = Diagram::from_state_vector(state.second_half());
     auto r = new Diagram(state.height());
     r->lefto(left);
     r->righto(right);
     return r;
 }
 
-Diagram *newHeight1Diagram(const ampl::ConcreteState &state)
+Diagram *new_height_1_diagram(const ampl::ConcreteState &state)
 {
     auto r = new Diagram(1);
     if (state[0] != ampl::zero)
@@ -79,7 +79,7 @@ Evaluation Diagram::evaluate()
         right_array[i] = absi::zero;
         tmp[i] = absi::zero;
     }
-    for (struct branch l : left)
+    for (const auto &l : left)
     {
         tmp = l.d->evaluate();
         for (size_t i = 0; i < left_array.size(); i++)
@@ -87,7 +87,7 @@ Evaluation Diagram::evaluate()
             left_array[i] = l.x * tmp[i] + left_array[i];
         }
     }
-    for (struct branch r : right)
+    for (const auto &r : right)
     {
         tmp = r.d->evaluate();
         for (size_t i = 0; i < left_array.size(); i++)
@@ -109,41 +109,41 @@ Diagram *Diagram::clone() const
         return leaf;
     }
     auto d = new Diagram(height);
-    for (branch b : left)
+    for (const auto &b : left)
     {
         d->lefto(b.d->clone(), b.x);
     }
-    for (branch b : right)
+    for (const auto &b : right)
     {
         d->righto(b.d->clone(), b.x);
     }
     return d;
 }
 
-std::vector<branch> Diagram::childrenOfSide(Side s) const
+Branches *Diagram::children_of_side(Side s)
 {
-    return s == Side::right ? left : right;
+    return s == Side::Right ? &left : &right;
 }
 
-void Diagram::lefto(Diagram *d, const absi::Interval& x)
+void Diagram::lefto(Diagram *d, const absi::Interval &x)
 {
     if (x == absi::zero)
     {
         return;
     }
-    left.push_back(branch{.x = x, .d = d});
-    isUpToDate = false;
+    left.push_back(Branch{.x = x, .d = d});
+    is_up_to_date = false;
     d->parents.push_back(this);
 }
 
-void Diagram::righto(Diagram *d, const absi::Interval& x)
+void Diagram::righto(Diagram *d, const absi::Interval &x)
 {
     if (x == absi::zero)
     {
         return;
     }
-    right.push_back(branch{.x = x, .d = d});
-    isUpToDate = false;
+    right.push_back(Branch{.x = x, .d = d});
+    is_up_to_date = false;
     d->parents.push_back(this);
 }
 
@@ -152,14 +152,13 @@ constexpr size_t Diagram::size() const
     return pwrtwo(height);
 }
 
-size_t Diagram::countNodesAtHeight(size_t h)
+size_t Diagram::count_nodes_at_height(size_t h)
 {
-    auto pointers = getNodePointersAtHeight(h);
-    return pointers.size();
+    return get_node_pointers_at_height(h).size();
 }
 
 // TODO: Implement this function in-place, not by copying vectors
-std::vector<Diagram *> Diagram::getNodePointersAtHeight(const size_t h)
+std::vector<Diagram *> Diagram::get_node_pointers_at_height(const size_t h)
 {
     std::vector<Diagram *> nodes;
     if (h > height)
@@ -171,25 +170,25 @@ std::vector<Diagram *> Diagram::getNodePointersAtHeight(const size_t h)
         nodes.push_back(this);
         return nodes;
     }
-    for (branch b : left)
+    for (Branch b : left)
     {
-        nodes = mergeVectorsWithoutDuplicates(nodes, b.d->getNodePointersAtHeight(h));
+        nodes = merge_vectors_without_duplicates(nodes, b.d->get_node_pointers_at_height(h));
     }
-    for (branch b : right)
+    for (Branch b : right)
     {
-        nodes = mergeVectorsWithoutDuplicates(nodes, b.d->getNodePointersAtHeight(h));
+        nodes = merge_vectors_without_duplicates(nodes, b.d->get_node_pointers_at_height(h));
     }
     return nodes;
 }
 
-void Diagram::replaceNodesAtHeight(const size_t h, Diagram *f1, Diagram *f2, Diagram *r)
+void Diagram::replace_nodes_at_height(const size_t h, Diagram *f1, Diagram *f2, Diagram *r)
 {
     throw std::runtime_error("Not implemented");
 }
 
 // TODO: Implement this function in O(n log n), not in O(n^2)
 template <typename T>
-static std::vector<T> mergeVectorsWithoutDuplicates(const std::vector<T> a, const std::vector<T> b)
+static std::vector<T> merge_vectors_without_duplicates(const std::vector<T> a, const std::vector<T> b)
 {
     std::vector<T> result;
     for (T d : a)
@@ -206,69 +205,69 @@ static std::vector<T> mergeVectorsWithoutDuplicates(const std::vector<T> a, cons
     return result;
 }
 
-absi::Interval Diagram::enclosure()
+absi::Interval calculate_enclosure(Diagram &d)
 {
-    if (!isUpToDate)
+    if (d.height == 0)
     {
-        cachedEnclosure = calculateEnclosure(*this);
-        markParentsAsToBeUpdated();
-        isUpToDate = true;
+        return absi::one;
     }
-    return cachedEnclosure;
+    absi::Interval l = enclosure_side(Side::Left, d);
+    absi::Interval r = enclosure_side(Side::Right, d);
+    return l | r;
 }
 
-void Diagram::markParentsAsToBeUpdated() const
+absi::Interval Diagram::enclosure()
+{
+    if (!is_up_to_date)
+    {
+        cached_enclosure = calculate_enclosure(*this);
+        mark_parents_as_to_be_updated();
+        is_up_to_date = true;
+    }
+    return cached_enclosure;
+}
+
+void Diagram::mark_parents_as_to_be_updated() const
 {
     for (auto i : parents)
     {
-        i->isUpToDate = false;
-        i->markParentsAsToBeUpdated();
+        i->is_up_to_date = false;
+        i->mark_parents_as_to_be_updated();
     }
 }
 
-void Diagram::forgetChild(Diagram *d) noexcept
+void Diagram::forget_child(Diagram *d) noexcept
 {
-    right.erase(std::remove_if(right.begin(), right.end(), [d](branch b)
+    right.erase(std::remove_if(right.begin(), right.end(), [d](Branch b)
                                { return b.d == d; }),
                 right.end());
-    left.erase(std::remove_if(left.begin(), left.end(), [d](branch b)
+    left.erase(std::remove_if(left.begin(), left.end(), [d](Branch b)
                               { return b.d == d; }),
                left.end());
 }
 
 Diagram::~Diagram()
 {
-    for (branch b : left)
+    for (Branch b : left)
     {
         delete b.d;
     }
-    for (branch b : right)
+    for (Branch b : right)
     {
         delete b.d;
     }
     for (Diagram *p : parents)
     {
-        p->isUpToDate = false;
-        p->markParentsAsToBeUpdated();
-        p->forgetChild(this);
+        p->is_up_to_date = false;
+        p->mark_parents_as_to_be_updated();
+        p->forget_child(this);
     }
 }
 
-absi::Interval diagram::calculateEnclosure(Diagram &d)
-{
-    if (d.height == 0)
-    {
-        return absi::one;
-    }
-    absi::Interval l = enclosure_side(Side::left, d);
-    absi::Interval r = enclosure_side(Side::right, d);
-    return l | r;
-}
-
-static absi::Interval enclosure_side(Side s, const Diagram &d)
+static absi::Interval enclosure_side(Side s, Diagram &d)
 {
     absi::Interval rho = absi::zero;
-    for (branch b : d.childrenOfSide(s))
+    for (Branch b : *d.children_of_side(s))
     {
         absi::Interval i = b.x;
         auto j = b.d->enclosure();

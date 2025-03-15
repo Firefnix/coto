@@ -23,10 +23,15 @@ namespace selection {
      * @brief Struct containing two Diagram pointers.
      * @tparam h The height of the Diagrams.
      */
-    struct mergees
+    struct Mergees
     {
         Diagram* a;
         Diagram* b;
+
+        bool operator==(const Mergees& m) const noexcept
+        {
+            return (a == m.a && b == m.b) || (a == m.b && b == m.a);
+        }
     };
 
     /**
@@ -36,7 +41,7 @@ namespace selection {
      * @tparam h The height at which to get the mergees.
      * @param d The Diagram.
      * @param strategy The strategy to use for choosing the mergees.
-     * @return struct mergees<h> The mergees.
+     * @return struct Mergees<h> The Mergees.
      */
-    mergees getMergeesAtHeight(const size_t h, Diagram& d, MergeesChoiceStrategy strategy);
+    Mergees get_mergees_at_height(const size_t h, Diagram& d, MergeesChoiceStrategy strategy);
 };

@@ -6,7 +6,9 @@
 #include <string>
 #include <set>
 
-typedef std::string varname;
+using std::string;
+
+typedef string varname;
 
 typedef bool bit;
 
@@ -18,20 +20,21 @@ typedef unsigned qubit;
  * @tparam T The type of the variable's value.
  */
 template <class T>
-struct var {
-    varname typeName;      /**< The name of the variable's type. */
-    varname name;          /**< The name of the variable. */
-    bool isConst;          /**< Indicates if the variable is constant. */
-    bool isAssignedTo;     /**< Indicates if the variable has been assigned a value. */
-    T value;               /**< The value of the variable. */
+struct Var
+{
+    varname type_name;    /**< The name of the variable's type. */
+    varname name;        /**< The name of the variable. */
+    bool is_const;       /**< Indicates if the variable is constant. */
+    bool is_assigned_to; /**< Indicates if the variable has been assigned a value. */
+    T value;             /**< The value of the variable. */
 };
 
-bool isReservedName(const varname& name) noexcept;
+bool is_name_reserved(const varname &name) noexcept;
 
-std::string varToString(const varname& name);
+std::string var_to_string(const varname &name);
 
-void defineVar(const std::string& typeName, const varname& name, bool isConst = false);
+void define_var(const string &type_name, const varname &name, bool is_const = false);
 
-void assignVar(const varname& name, const std::string& value);
+void assign_var(const varname &name, const string &value);
 
-qubit getQubit(const varname& name);
+qubit get_qubit(const varname &name);

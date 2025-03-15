@@ -11,7 +11,7 @@ namespace qasm
 
     void exec(std::istream& stream);
 
-    void fexec(const std::string& filePath);
+    void fexec(const std::string& file_path);
 
     std::string eval(const std::string& identifier);
 }

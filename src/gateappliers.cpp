@@ -2,7 +2,7 @@
 
 using diagram::Diagram;
 
-static void assertQubitIsValid(Diagram *d, qubit q)
+static void assert_qubit_is_valid(Diagram *d, qubit q)
 {
     if (d->height < q)
     {
@@ -10,9 +10,9 @@ static void assertQubitIsValid(Diagram *d, qubit q)
     }
 }
 
-void gateappliers::applyX(Diagram *d, qubit q)
+void gateappliers::apply_x(Diagram *d, qubit q)
 {
-    assertQubitIsValid(d, q);
+    assert_qubit_is_valid(d, q);
     if (q == 0)
     {
         std::swap(d->left, d->right);
@@ -20,82 +20,82 @@ void gateappliers::applyX(Diagram *d, qubit q)
     }
     for (auto &g : d->left)
     {
-        applyX(g.d, q - 1);
+        apply_x(g.d, q - 1);
     }
     for (auto &g : d->right)
     {
-        applyX(g.d, q - 1);
+        apply_x(g.d, q - 1);
     }
 }
 
-void gateappliers::applyH(Diagram *d, qubit q)
+void gateappliers::apply_h(Diagram *d, qubit q)
 {
-    static const absi::Interval hCoefficients[] = {
-        ampl::invSqrt2, ampl::invSqrt2,
-        ampl::invSqrt2, -ampl::invSqrt2};
-    static const gateappliers::GateMatrix hGate(1, hCoefficients);
-    assertQubitIsValid(d, q);
-    applyGateMatrix(d, q, hGate);
+    static const absi::Interval coeffs[] = {
+        ampl::inv_sqrt2, ampl::inv_sqrt2,
+        ampl::inv_sqrt2, -ampl::inv_sqrt2};
+    static const gateappliers::GateMatrix gm(1, coeffs);
+    assert_qubit_is_valid(d, q);
+    apply_gate_matrix(d, q, gm);
 }
 
-void gateappliers::applyS(Diagram *d, qubit a, qubit b)
+void gateappliers::apply_s(Diagram *d, qubit a, qubit b)
 {
-    static const absi::Interval sCoefficients[] = {
+    static const absi::Interval coeffs[] = {
         1, 0, 0, 0,
         0, 0, 1, 0,
         0, 1, 0, 0,
         0, 0, 0, 1};
-    static const gateappliers::GateMatrix sGate(2, sCoefficients);
-    assertQubitIsValid(d, a);
-    assertQubitIsValid(d, b);
+    static const gateappliers::GateMatrix gm(2, coeffs);
+    assert_qubit_is_valid(d, a);
+    assert_qubit_is_valid(d, b);
 
     if (b != a + 1)
     {
         throw std::runtime_error("Gate applying on non-contiguous qubit is not implemented yet");
     }
-    applyGateMatrix(d, a, sGate);
+    apply_gate_matrix(d, a, gm);
 }
 
-void gateappliers::applyCX(Diagram *d, qubit a, qubit b)
+void gateappliers::apply_cx(Diagram *d, qubit a, qubit b)
 {
-    static const absi::Interval cxCoefficients[] = {
+    static const absi::Interval coeffs[] = {
         1, 0, 0, 0,
         0, 1, 0, 0,
         0, 0, 0, 1,
         0, 0, 1, 0};
-    static const gateappliers::GateMatrix cxGate(2, cxCoefficients);
-    assertQubitIsValid(d, a);
-    assertQubitIsValid(d, b);
+    static const gateappliers::GateMatrix gm(2, coeffs);
+    assert_qubit_is_valid(d, a);
+    assert_qubit_is_valid(d, b);
     if (b != a + 1)
     {
         throw std::runtime_error("Gate applying on non-contiguous qubits is not implemented yet");
     }
-    applyGateMatrix(d, a, cxGate);
+    apply_gate_matrix(d, a, gm);
 }
 
-void gateappliers::applyPhase(Diagram *d, qubit q, int phaseDenominator)
+void gateappliers::apply_phase(Diagram *d, qubit q, int phaseDenominator)
 {
-    assertQubitIsValid(d, q);
-    const auto phaseShift = absi::Interval::exp2iPiOver(phaseDenominator);
-    for (auto &d : d->getNodePointersAtHeight(d->height - q))
+    assert_qubit_is_valid(d, q);
+    const auto phase_shift = absi::Interval::exp_2ipi_over(phaseDenominator);
+    for (auto &d : d->get_node_pointers_at_height(d->height - q))
     {
         for (auto &g : d->right)
         {
-            g.x = phaseShift * g.x;
+            g.x = phase_shift * g.x;
         }
     }
 }
 
-static void apply1QubitGateOnQubit0(Diagram *diagram, const gateappliers::GateMatrix &matrix)
+static void apply_single_qubit_gate_on_first_qubit(Diagram *diagram, const gateappliers::GateMatrix &matrix)
 {
     if (matrix.height() != 1)
     {
         throw std::runtime_error("Invalid matrix height: " + std::to_string(matrix.height()));
     }
-    auto m00 = matrix.topLeft().value();
-    auto m01 = matrix.topRight().value();
-    auto m10 = matrix.bottomLeft().value();
-    auto m11 = matrix.bottomRight().value();
+    auto m00 = matrix.top_left().value();
+    auto m01 = matrix.top_right().value();
+    auto m10 = matrix.bottom_left().value();
+    auto m11 = matrix.bottom_right().value();
     auto baseLeft = diagram->left;
     for (auto &g : diagram->left)
     {
@@ -112,9 +112,9 @@ static void apply1QubitGateOnQubit0(Diagram *diagram, const gateappliers::GateMa
     }
 }
 
-static diagram::branches cloneBranches(const diagram::branches &brs)
+static diagram::Branches clone_branches(const diagram::Branches &brs)
 {
-    diagram::branches cloned;
+    diagram::Branches cloned;
     for (const auto &g : brs)
     {
         cloned.push_back({.x = g.x, .d = g.d->clone()});
@@ -122,51 +122,51 @@ static diagram::branches cloneBranches(const diagram::branches &brs)
     return cloned;
 }
 
-static void applyGateOnFirstQubits(Diagram *diagram, const gateappliers::GateMatrix &matrix)
+static void apply_gate_on_first_qubits(Diagram *diagram, const gateappliers::GateMatrix &matrix)
 {
     if (matrix.height() == 1)
     {
-        apply1QubitGateOnQubit0(diagram, matrix);
+        apply_single_qubit_gate_on_first_qubit(diagram, matrix);
         return;
     }
 
-    auto m00 = matrix.topLeft();
-    auto m01 = matrix.topRight();
-    auto m10 = matrix.bottomLeft();
-    auto m11 = matrix.bottomRight();
-    auto clonedLeft = cloneBranches(diagram->left);
+    auto m00 = matrix.top_left();
+    auto m01 = matrix.top_right();
+    auto m10 = matrix.bottom_left();
+    auto m11 = matrix.bottom_right();
+    auto clonedLeft = clone_branches(diagram->left);
     for (auto &g : diagram->left)
     {
-        applyGateOnFirstQubits(g.d, m00);
+        apply_gate_on_first_qubits(g.d, m00);
     }
     for (auto &d : diagram->right)
     {
         auto clone = d.d->clone();
-        applyGateOnFirstQubits(clone, m01);
+        apply_gate_on_first_qubits(clone, m01);
         diagram->lefto(clone, d.x);
 
-        applyGateOnFirstQubits(d.d, m11);
+        apply_gate_on_first_qubits(d.d, m11);
     }
     for (auto &g : clonedLeft)
     {
         auto clone = g.d->clone();
-        applyGateOnFirstQubits(clone, m10);
+        apply_gate_on_first_qubits(clone, m10);
         diagram->righto(clone, g.x);
     }
 }
 
-void gateappliers::applyGateMatrix(Diagram *diagram, qubit q, const GateMatrix &matrix)
+void gateappliers::apply_gate_matrix(Diagram *diagram, qubit q, const GateMatrix &matrix)
 {
-    assertQubitIsValid(diagram, q);
+    assert_qubit_is_valid(diagram, q);
     const auto k = diagram->height - q; // 0 <= k < d->height
 
     if (q == 0)
     {
-        applyGateOnFirstQubits(diagram, matrix);
+        apply_gate_on_first_qubits(diagram, matrix);
         return;
     }
-    for (auto &g : diagram->getNodePointersAtHeight(k))
+    for (auto &g : diagram->get_node_pointers_at_height(k))
     {
-        applyGateOnFirstQubits(g, matrix);
+        apply_gate_on_first_qubits(g, matrix);
     }
 }

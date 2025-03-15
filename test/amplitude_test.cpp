@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include <amplitude.h>
 
-TEST(AmplitudeTest, TestPowLog2)
+TEST(AmplitudeTest, pow2)
 {
     EXPECT_EQ(pow2(0), 1);
     EXPECT_EQ(pow2(5), 32);
@@ -24,12 +24,12 @@ TEST(AmplitudeTest, random)
     }
 }
 
-TEST(AmplitudeTest, randomizeState)
+TEST(AmplitudeTest, randomize_state)
 {
     ampl::ConcreteState state(6);
     EXPECT_EQ(state.size(), 1 << 6);
     EXPECT_EQ(state[0], state[1]);
-    EXPECT_NO_THROW(ampl::randomizeState(state));
+    EXPECT_NO_THROW(ampl::randomize_state(state));
     for (auto i = 0; i < state.size(); i++) {
         for (auto j = 0; j < i; j++) {
             EXPECT_NE(state[i], state[j]);

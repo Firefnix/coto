@@ -8,9 +8,9 @@
 #include <qasm/gate.h>
 #include <qasm/context.h>
 
-bool isValidIdentifier(std::string identifier)
+bool is_valid_identifier(string identifier)
 {
-    bool isFirstChar = true;
+    bool is_first_char = true;
     for (char c : identifier)
     {
         if (c < 'A' || c > 'z')
@@ -19,13 +19,13 @@ bool isValidIdentifier(std::string identifier)
             {
                 continue;
             }
-            if (!isFirstChar && c > '0' && c < '9')
+            if (!is_first_char && c > '0' && c < '9')
             {
                 continue;
             }
             return false;
         }
-        isFirstChar = false;
+        is_first_char = false;
     }
     return true;
 }
@@ -33,20 +33,20 @@ bool isValidIdentifier(std::string identifier)
 class DefinitionStatement : public Statement
 {
 public:
-    static bool is(const std::string &content)
+    static bool is(const string &content)
     {
         return std::ranges::count(content, ' ') == 1;
     }
 
-    DefinitionStatement(std::string content)
-        : typeName(content.substr(0, content.find(' '))),
+    DefinitionStatement(string content)
+        : type_name(content.substr(0, content.find(' '))),
           name(content.substr(content.find(' ') + 1))
     {
-        if (!isValidIdentifier(typeName))
+        if (!is_valid_identifier(type_name))
         {
             throw SyntaxError("Invalid type name identifier in definition statement");
         }
-        if (!isValidIdentifier(name))
+        if (!is_valid_identifier(name))
         {
             throw SyntaxError("Invalid name identifier in definition statement");
         }
@@ -54,42 +54,42 @@ public:
 
     void execute() const override
     {
-        defineVar(typeName, name, false);
+        define_var(type_name, name, false);
     }
 
-    const std::string typeName;
-    const std::string name;
+    const string type_name;
+    const string name;
 };
 
 class AssignmentStatement : public Statement
 {
 public:
-    static bool is(const std::string &content)
+    static bool is(const string &content)
     {
         return std::ranges::count(content, '=') == 1;
     }
 
-    AssignmentStatement(const std::string &content)
+    AssignmentStatement(const string &content)
     {
         auto eqPos = content.find('=');
         auto beforeEqual = content.substr(0, eqPos);
         auto spacePos = beforeEqual.find(' ');
-        if (spacePos != std::string::npos)
+        if (spacePos != string::npos)
         {
-            if (!isValidIdentifier(beforeEqual.substr(0, spacePos)))
+            if (!is_valid_identifier(beforeEqual.substr(0, spacePos)))
             {
                 throw SyntaxError("Invalid type identifier in assignment statement");
             }
-            if (!isValidIdentifier(beforeEqual.substr(spacePos + 1)))
+            if (!is_valid_identifier(beforeEqual.substr(spacePos + 1)))
             {
                 throw SyntaxError("Invalid identifier in assignment statement");
             }
-            typeName = beforeEqual.substr(0, spacePos);
+            type_name = beforeEqual.substr(0, spacePos);
             name = beforeEqual.substr(spacePos + 1);
             value = content.substr(eqPos + 1);
             return;
         }
-        if (!isValidIdentifier(beforeEqual))
+        if (!is_valid_identifier(beforeEqual))
         {
             throw SyntaxError("Invalid identifier in assignment statement");
         }
@@ -99,62 +99,62 @@ public:
 
     void execute() const override
     {
-        if (typeName.has_value())
+        if (type_name.has_value())
         {
-            defineVar(typeName.value(), name);
+            define_var(type_name.value(), name);
         }
-        assignVar(name, value);
+        assign_var(name, value);
     };
 
-    std::optional<std::string> typeName;
-    std::string name;
-    std::string value;
+    std::optional<string> type_name;
+    string name;
+    string value;
 };
 
 class GateApplyStatement : public Statement
 {
 public:
-    GateApplyStatement(std::string gateName, std::vector<std::string> qubitsNames) : gateName(gateName), qubitsNames(qubitsNames) {}
+    GateApplyStatement(string gateName, std::vector<string> qubits_names) : gateName(gateName), qubits_names(qubits_names) {}
 
-    static bool is(const std::string &content)
+    static bool is(const string &content)
     {
         return std::ranges::count(content, ' ') >= 1 && Gate::exists(content.substr(0, content.find(' ')));
     }
 
-    GateApplyStatement(const std::string &content)
+    GateApplyStatement(const string &content)
     {
-        auto firstSpacePos = content.find(' ');
-        auto qubitsStr = content.substr(firstSpacePos + 1);
-        gateName = content.substr(0, firstSpacePos);
-        qubitsNames.reserve(std::ranges::count(qubitsStr, ' ') + 1);
+        auto first_space_pos = content.find(' ');
+        auto qubits_str = content.substr(first_space_pos + 1);
+        gateName = content.substr(0, first_space_pos);
+        qubits_names.reserve(std::ranges::count(qubits_str, ' ') + 1);
 
-        while (qubitsStr.size() > 0)
+        while (qubits_str.size() > 0)
         {
-            auto commaPos = qubitsStr.find(' ');
-            if (commaPos == std::string::npos)
+            auto comma_pos = qubits_str.find(' ');
+            if (comma_pos == string::npos)
             {
-                qubitsNames.push_back(qubitsStr);
+                qubits_names.push_back(qubits_str);
                 break;
             }
-            qubitsNames.push_back(qubitsStr.substr(0, commaPos));
-            qubitsStr = qubitsStr.substr(commaPos + 1);
+            qubits_names.push_back(qubits_str.substr(0, comma_pos));
+            qubits_str = qubits_str.substr(comma_pos + 1);
         }
     }
 
     void execute() const override
     {
-        auto gate = Gate::byName(gateName);
-        gate.applyTo(qubitsNames);
+        auto gate = Gate::from_name(gateName);
+        gate.apply_to(qubits_names);
     };
 
-    std::string gateName;
-    std::vector<std::string> qubitsNames;
+    string gateName;
+    std::vector<string> qubits_names;
 };
 
 class VersionStatement : public Statement
 {
 public:
-    VersionStatement(const std::string &content) : version(content.length() > 9 ? content.substr(9) : "")
+    VersionStatement(const string &content) : version(content.length() > 9 ? content.substr(9) : "")
     {
         if (version != "3" && version != "3.0")
         {
@@ -162,22 +162,22 @@ public:
         }
     }
 
-    static bool is(const std::string &content)
+    static bool is(const string &content)
     {
         return content.starts_with("OPENQASM ");
     }
 
     void execute() const override {};
 
-    const std::string version;
+    const string version;
 };
 
 class IncludeStatement : public Statement
 {
 public:
-    IncludeStatement(const std::string &content) : filePath(content.substr(9, content.size() - 1)) {};
+    IncludeStatement(const string &content) : file_path(content.substr(9, content.size() - 1)) {};
 
-    static bool is(const std::string &content)
+    static bool is(const string &content)
     {
         return content.starts_with("include \"");
     }
@@ -185,44 +185,44 @@ public:
     void execute() const override {};
 
 private:
-    const std::string filePath;
+    const string file_path;
 };
 
 class ForBeginStatement : public Statement
 {
 public:
-    ForBeginStatement(const std::string &content) : content(content) {};
+    ForBeginStatement(const string &content) : content(content) {};
 
     void execute() const override {};
 
-    const std::string content;
+    const string content;
 };
 
 class ForEndStatement : public Statement
 {
 public:
-    ForEndStatement(const std::string &content) : content(content) {};
+    ForEndStatement(const string &content) : content(content) {};
 
     void execute() const override {};
 
-    const std::string content;
+    const string content;
 };
 
 class RunStatement : public Statement
 {
 public:
-    RunStatement(const std::string &content) : content(content) {};
+    RunStatement(const string &content) : content(content) {};
 
-    static bool is(const std::string &content)
+    static bool is(const string &content)
     {
-        return content.starts_with("@") && isValidIdentifier(content.substr(1));
+        return content.starts_with("@") && is_valid_identifier(content.substr(1));
     }
 
     void execute() const override
     {
         if (content == "@build" || content == "@inst" || content == "@instantiate")
         {
-            createDiagram();
+            create_diagram();
         }
         else if (content == "@run" || content == "@sim" || content == "@simulate")
         {
@@ -230,19 +230,19 @@ public:
         }
         else if (content == "@list" || content == "@actions")
         {
-            printListOfActions();
+            print_list_of_actions();
         }
         else if (content == "@display" || content == "@evaluate" || content == "@eval")
         {
-            printEvaluation();
+            print_evaluation();
         }
         else if (content == "@describe" || content == "@desc")
         {
-            printDiagramDescription();
+            print_diagram_description();
         }
         else if (content == "@help" || content == "@man" || content == "@manual")
         {
-            printRunStatementsHelp();
+            print_run_statements_help();
         }
         else
         {
@@ -250,11 +250,11 @@ public:
         }
     };
 
-    const std::string content;
+    const string content;
 };
 
 std::unique_ptr<Statement>
-Statement::parse(const struct statementString &ss)
+Statement::parse(const struct StatementString &ss)
 {
     if (ss.delimiter == ';')
     {
@@ -294,24 +294,24 @@ Statement::parse(const struct statementString &ss)
     throw SyntaxError("Invalid statement delimiter");
 }
 
-std::vector<std::unique_ptr<Statement>> parseStatements(const std::vector<statementString> &stmtsStrings)
+std::vector<std::unique_ptr<Statement>> parse_statements(const std::vector<StatementString> &statementStrings)
 {
     std::vector<std::unique_ptr<Statement>> stmts;
-    for (statementString ss : stmtsStrings)
+    for (StatementString ss : statementStrings)
     {
         stmts.push_back(Statement::parse(ss));
     }
     return stmts;
 }
 
-std::vector<std::unique_ptr<Statement>> getStatements(std::istream &stream)
+std::vector<std::unique_ptr<Statement>> parse_statements(std::istream &stream)
 {
-    auto stmtsStrings = getStatementStrings(stream);
-    return parseStatements(stmtsStrings);
+    auto statementStrings = parse_statements_strings(stream);
+    return parse_statements(statementStrings);
 }
 
-std::vector<std::unique_ptr<Statement>> getStatements(const std::string &content)
+std::vector<std::unique_ptr<Statement>> parse_statements(const string &content)
 {
     std::istringstream stream(content);
-    return getStatements(stream);
+    return parse_statements(stream);
 }

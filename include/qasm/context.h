@@ -6,20 +6,20 @@
 #include <qasm/gate.h>
 #include <diagram.h>
 
-qubit addQubit();
+qubit add_qubit();
 
-void applyGate(const Gate* gate, const std::vector<qubit>& qubits);
+void apply_gate(const Gate* gate, const std::vector<qubit>& qubits);
 
-void createDiagram(bool implicit = false);
+void create_diagram(bool implicit = false);
 
 void simulate();
 
-void printListOfActions();
+void print_list_of_actions();
 
-void printEvaluation();
+void print_evaluation();
 
-void printDiagramDescription();
+void print_diagram_description();
 
-void freeDiagram();
+void free_diagram();
 
-void printRunStatementsHelp();
+void print_run_statements_help();

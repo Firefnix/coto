@@ -11,11 +11,11 @@
 
 class Statement {
 public:
-    static std::unique_ptr<Statement> parse(const struct statementString &content);
+    static std::unique_ptr<Statement> parse(const struct StatementString &content);
     virtual ~Statement() = default;
     virtual void execute() const = 0;
 };
 
-std::vector<std::unique_ptr<Statement>> getStatements(std::istream& stream);
+std::vector<std::unique_ptr<Statement>> parse_statements(std::istream& stream);
 
-std::vector<std::unique_ptr<Statement>> getStatements(const std::string& content);
+std::vector<std::unique_ptr<Statement>> parse_statements(const string& content);

@@ -4,7 +4,7 @@
 
 using diagram::Diagram;
 
-void getRandomMergees(std::vector<Diagram *> candidates, selection::mergees *m)
+void get_random_mergees(std::vector<Diagram *> candidates, selection::Mergees *m)
 {
     std::random_device rd;
     std::mt19937 g(rd());
@@ -13,59 +13,59 @@ void getRandomMergees(std::vector<Diagram *> candidates, selection::mergees *m)
     m->b = candidates[1];
 }
 
-void getMergeesWithMaxAmplitude(std::vector<Diagram *> candidates, selection::mergees *m)
+void get_mergees_with_max_amplitude(std::vector<Diagram *> candidates, selection::Mergees *m)
 {
     throw std::runtime_error("Not implemented");
 }
 
-void getMergeesWithMinAmplitude(std::vector<Diagram *> candidates, selection::mergees *m)
+void get_mergees_with_min_amplitude(std::vector<Diagram *> candidates, selection::Mergees *m)
 {
     throw std::runtime_error("Not implemented");
 }
 
-void getMergeesWithMaxNodes(std::vector<Diagram *> candidates, selection::mergees *m)
+void get_mergees_with_max_nodes(std::vector<Diagram *> candidates, selection::Mergees *m)
 {
     throw std::runtime_error("Not implemented");
 }
 
-void getMergeesWithMinNodes(std::vector<Diagram *> candidates, selection::mergees *m)
+void get_mergees_with_min_nodes(std::vector<Diagram *> candidates, selection::Mergees *m)
 {
     throw std::runtime_error("Not implemented");
 }
 
-selection::mergees selection::getMergeesAtHeight(const size_t h, Diagram &d, MergeesChoiceStrategy strategy)
+selection::Mergees selection::get_mergees_at_height(const size_t h, Diagram &d, MergeesChoiceStrategy strategy)
 {
     if (h == 0)
     {
         throw std::invalid_argument("0-height diagrams have no mergees");
     }
-    struct mergees result;
-    std::vector<Diagram *> candidates = d.getNodePointersAtHeight(h);
+    struct Mergees result;
+    std::vector<Diagram *> candidates = d.get_node_pointers_at_height(h);
     switch (strategy)
     {
     case RANDOM:
     {
-        getRandomMergees(candidates, &result);
+        get_random_mergees(candidates, &result);
         break;
     }
     case MAX_AMPLITUDE:
     {
-        getMergeesWithMaxAmplitude(candidates, &result);
+        get_mergees_with_max_amplitude(candidates, &result);
         break;
     }
     case MIN_AMPLITUDE:
     {
-        getMergeesWithMinAmplitude(candidates, &result);
+        get_mergees_with_min_amplitude(candidates, &result);
         break;
     }
     case MAX_NODES:
     {
-        getMergeesWithMaxNodes(candidates, &result);
+        get_mergees_with_max_nodes(candidates, &result);
         break;
     }
     case MIN_NODES:
     {
-        getMergeesWithMinNodes(candidates, &result);
+        get_mergees_with_min_nodes(candidates, &result);
         break;
     }
     }

@@ -2,12 +2,12 @@
 
 void execute(const std::string &content)
 {
-    execute(getStatements(content));
+    execute(parse_statements(content));
 }
 
 void execute(std::istream &stream)
 {
-    execute(getStatements(stream));
+    execute(parse_statements(stream));
 }
 
 void execute(const std::vector<std::unique_ptr<Statement>> &statements)
