@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['forcemerge_0',['forceMerge',['../namespacereduction.html#a3b7663ec477ed5748fb3aab82c49d8a5',1,'reduction']]],
-  ['forgetchild_1',['forgetChild',['../classdiagram_1_1Diagram.html#aad41f62fbae55c059a104be694fd0430',1,'diagram::Diagram']]]
+  ['force_5fmerge_0',['force_merge',['../namespacereduction.html#a8306363579b13d3db4a7933dcdd6e85a',1,'reduction']]],
+  ['forget_5fchild_1',['forget_child',['../classdiagram_1_1Diagram.html#a3b9f93629b237012cb9f3985164c002a',1,'diagram::Diagram']]]
 ];

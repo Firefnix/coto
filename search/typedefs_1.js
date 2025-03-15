@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['real_0',['real',['../namespaceampl.html#aa4b2067c000ecd1de65d10451519a0e4',1,'ampl']]]
+  ['real_0',['Real',['../namespaceampl.html#a39432721f2873136f1231b7ef052a522',1,'ampl']]]
 ];

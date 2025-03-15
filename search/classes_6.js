@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['mergees_0',['mergees',['../structselection_1_1mergees.html',1,'selection']]]
+  ['mergees_0',['Mergees',['../structselection_1_1Mergees.html',1,'selection']]]
 ];

@@ -7,7 +7,7 @@ var annotated_dup =
       [ "Interval", "classcartesian_1_1Interval.html", "classcartesian_1_1Interval" ]
     ] ],
     [ "diagram", "namespacediagram.html", [
-      [ "branch", "structdiagram_1_1branch.html", "structdiagram_1_1branch" ],
+      [ "Branch", "structdiagram_1_1Branch.html", "structdiagram_1_1Branch" ],
       [ "Diagram", "classdiagram_1_1Diagram.html", "classdiagram_1_1Diagram" ]
     ] ],
     [ "polar", null, [
@@ -16,7 +16,7 @@ var annotated_dup =
       [ "PositiveInterval", "classpolar_1_1PositiveInterval.html", null ]
     ] ],
     [ "selection", null, [
-      [ "mergees", "structselection_1_1mergees.html", null ]
+      [ "Mergees", "structselection_1_1Mergees.html", null ]
     ] ],
     [ "FileError", "classFileError.html", null ],
     [ "Gate", "classGate.html", "classGate" ],
@@ -25,9 +25,9 @@ var annotated_dup =
     [ "PowMatrix", "classPowMatrix.html", "classPowMatrix" ],
     [ "SizeError", "classSizeError.html", null ],
     [ "Statement", "classStatement.html", null ],
-    [ "statementString", "structstatementString.html", null ],
+    [ "StatementString", "structStatementString.html", null ],
     [ "SyntaxError", "classSyntaxError.html", null ],
-    [ "var", "structvar.html", "structvar" ],
+    [ "Var", "structVar.html", "structVar" ],
     [ "VariableError", "classVariableError.html", null ],
     [ "VersionError", "classVersionError.html", null ]
 ];

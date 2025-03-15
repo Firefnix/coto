@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['maxnodeslevel_0',['maxNodesLevel',['../namespacereduction.html#adbc46d4571ba8698ef879d5dd2b7be6e',1,'reduction']]]
+  ['max_5fnodes_5flevel_0',['max_nodes_level',['../namespacereduction.html#a14a595436a8741c8c7ff92cca2a79239',1,'reduction']]]
 ];

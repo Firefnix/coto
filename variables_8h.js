@@ -1,4 +1,4 @@
 var variables_8h =
 [
-    [ "var< T >", "structvar.html", "structvar" ]
+    [ "Var< T >", "structVar.html", "structVar" ]
 ];

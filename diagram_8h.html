@@ -98,7 +98,6 @@ $(document).ready(function(){initNavTree('diagram_8h.html',''); initResizable();
 <a href="#define-members">Macros</a> &#124;
 <a href="#typedef-members">Typedefs</a> &#124;
 <a href="#enum-members">Enumerations</a> &#124;
-<a href="#func-members">Functions</a> &#124;
 <a href="#var-members">Variables</a>  </div>
   <div class="headertitle"><div class="title">diagram.h File Reference</div></div>
 </div><!--header-->
@@ -161,8 +160,8 @@ This graph shows which files directly or indirectly include this file:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structdiagram_1_1branch.html">diagram::branch</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A incoming branch (in diagrams, an arrow)  <a href="structdiagram_1_1branch.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structdiagram_1_1Branch.html">diagram::Branch</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A incoming branch (in diagrams, an arrow)  <a href="structdiagram_1_1Branch.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdiagram_1_1Diagram.html">diagram::Diagram</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A general-purpose abstract-interpreted additive diagram.  <a href="classdiagram_1_1Diagram.html#details">More...</a><br /></td></tr>
@@ -182,26 +181,20 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
 Typedefs</h2></td></tr>
-<tr class="memitem:aa59253f12e490422b2affd1989e57b39" id="r_aa59253f12e490422b2affd1989e57b39"><td class="memItemLeft" align="right" valign="top"><a id="aa59253f12e490422b2affd1989e57b39" name="aa59253f12e490422b2affd1989e57b39"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><b>diagram::branches</b> = std::vector&lt; <a class="el" href="structdiagram_1_1branch.html">branch</a> &gt;</td></tr>
-<tr class="separator:aa59253f12e490422b2affd1989e57b39"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a87db0be7196c481faa9fe126933d185f" id="r_a87db0be7196c481faa9fe126933d185f"><td class="memItemLeft" align="right" valign="top"><a id="a87db0be7196c481faa9fe126933d185f" name="a87db0be7196c481faa9fe126933d185f"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>diagram::Branches</b> = std::vector&lt; <a class="el" href="structdiagram_1_1Branch.html">Branch</a> &gt;</td></tr>
+<tr class="separator:a87db0be7196c481faa9fe126933d185f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a78a4db33a444cf6fb751eab032b7a50c" id="r_a78a4db33a444cf6fb751eab032b7a50c"><td class="memItemLeft" align="right" valign="top"><a id="a78a4db33a444cf6fb751eab032b7a50c" name="a78a4db33a444cf6fb751eab032b7a50c"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><b>diagram::Evaluation</b> = <a class="el" href="classampl_1_1PowArray.html">ampl::PowArray</a>&lt; <a class="el" href="classpolar_1_1Interval.html">Interval</a> &gt;</td></tr>
 <tr class="separator:a78a4db33a444cf6fb751eab032b7a50c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
 Enumerations</h2></td></tr>
-<tr class="memitem:a71d1699d5fba4fddea1e93f6093c4dc0" id="r_a71d1699d5fba4fddea1e93f6093c4dc0"><td class="memItemLeft" align="right" valign="top"><a id="a71d1699d5fba4fddea1e93f6093c4dc0" name="a71d1699d5fba4fddea1e93f6093c4dc0"></a>enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacediagram.html#a71d1699d5fba4fddea1e93f6093c4dc0">diagram::Side</a> { <b>left</b>
-, <b>right</b>
+<tr class="memitem:a71d1699d5fba4fddea1e93f6093c4dc0" id="r_a71d1699d5fba4fddea1e93f6093c4dc0"><td class="memItemLeft" align="right" valign="top"><a id="a71d1699d5fba4fddea1e93f6093c4dc0" name="a71d1699d5fba4fddea1e93f6093c4dc0"></a>enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacediagram.html#a71d1699d5fba4fddea1e93f6093c4dc0">diagram::Side</a> { <b>Left</b>
+, <b>Right</b>
  }</td></tr>
 <tr class="memdesc:a71d1699d5fba4fddea1e93f6093c4dc0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enumeration of sides of a diagram. <br /></td></tr>
 <tr class="separator:a71d1699d5fba4fddea1e93f6093c4dc0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:a1b17d404dd16a9923b47f357267e4659" id="r_a1b17d404dd16a9923b47f357267e4659"><td class="memItemLeft" align="right" valign="top"><a id="a1b17d404dd16a9923b47f357267e4659" name="a1b17d404dd16a9923b47f357267e4659"></a>
-<a class="el" href="classpolar_1_1Interval.html">Interval</a>&#160;</td><td class="memItemRight" valign="bottom"><b>diagram::calculateEnclosure</b> (<a class="el" href="classdiagram_1_1Diagram.html">Diagram</a> &amp;d)</td></tr>
-<tr class="separator:a1b17d404dd16a9923b47f357267e4659"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>

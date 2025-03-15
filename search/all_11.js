@@ -1,6 +1,6 @@
 var searchData=
 [
   ['to_5fstring_0',['to_string',['../namespaceampl.html#ad8308fd980b9bcbc3df1d71e48b66f8d',1,'ampl']]],
-  ['topright_1',['topRight',['../classcartesian_1_1Interval.html#aa9aea9d9a198a3b06f2f44fa44aa04ab',1,'cartesian::Interval']]],
-  ['typename_2',['typeName',['../structvar.html#aeefdc0c295a50e28e40219307956370d',1,'var']]]
+  ['top_5fright_1',['top_right',['../classcartesian_1_1Interval.html#aa2078272bbe0f8bf350474f5996e8139',1,'cartesian::Interval']]],
+  ['type_5fname_2',['type_name',['../structVar.html#a093017c90454fcf36fb61e0f0ab581d4',1,'Var']]]
 ];

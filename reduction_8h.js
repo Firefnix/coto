@@ -1,6 +1,6 @@
 var reduction_8h =
 [
-    [ "cutDeadBranches", "reduction_8h.html#add9ed6efeb061cb78a9c0cc32692a5b9", null ],
-    [ "forceMerge", "reduction_8h.html#a3b7663ec477ed5748fb3aab82c49d8a5", null ],
-    [ "maxNodesLevel", "reduction_8h.html#adbc46d4571ba8698ef879d5dd2b7be6e", null ]
+    [ "cut_dead_branches", "reduction_8h.html#a0dc351ed24c429cbe0f8f381bc742994", null ],
+    [ "force_merge", "reduction_8h.html#a8306363579b13d3db4a7933dcdd6e85a", null ],
+    [ "max_nodes_level", "reduction_8h.html#a14a595436a8741c8c7ff92cca2a79239", null ]
 ];

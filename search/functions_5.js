@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['getmergeesatheight_0',['getMergeesAtHeight',['../selection_8h.html#a7b194740c3b5036999fcb7e527b1365a',1,'selection']]],
-  ['getnodepointersatheight_1',['getNodePointersAtHeight',['../classdiagram_1_1Diagram.html#ae798af917b3d3e5aebcacaf570ba8467',1,'diagram::Diagram']]]
+  ['get_5fmergees_5fat_5fheight_0',['get_mergees_at_height',['../selection_8h.html#ac2615959ee0ecc72cc900621b0acd12a',1,'selection']]],
+  ['get_5fnode_5fpointers_5fat_5fheight_1',['get_node_pointers_at_height',['../classdiagram_1_1Diagram.html#a6b662050b9f7f63088f463f8872c7b0e',1,'diagram::Diagram']]]
 ];

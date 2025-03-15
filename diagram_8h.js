@@ -1,9 +1,9 @@
 var diagram_8h =
 [
-    [ "diagram::branch", "structdiagram_1_1branch.html", "structdiagram_1_1branch" ],
+    [ "diagram::Branch", "structdiagram_1_1Branch.html", "structdiagram_1_1Branch" ],
     [ "diagram::Diagram", "classdiagram_1_1Diagram.html", "classdiagram_1_1Diagram" ],
     [ "Side", "diagram_8h.html#a71d1699d5fba4fddea1e93f6093c4dc0", [
-      [ "left", "diagram_8h.html#a71d1699d5fba4fddea1e93f6093c4dc0a9d785f0131918d2b7b975fdc8c743ff0", null ],
-      [ "right", "diagram_8h.html#a71d1699d5fba4fddea1e93f6093c4dc0a6197f01059641bb95edff476a2923782", null ]
+      [ "Left", "diagram_8h.html#a71d1699d5fba4fddea1e93f6093c4dc0a00aedd4ac781bbda73c3bb7b03ac3065", null ],
+      [ "Right", "diagram_8h.html#a71d1699d5fba4fddea1e93f6093c4dc0a278c75b1c1f8b31aa871082f4882e7f8", null ]
     ] ]
 ];

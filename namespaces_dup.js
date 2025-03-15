@@ -4,8 +4,8 @@ var namespaces_dup =
     [ "cartesian", "namespacecartesian.html", "namespacecartesian" ],
     [ "diagram", "namespacediagram.html", "namespacediagram" ],
     [ "reduction", "namespacereduction.html", [
-      [ "cutDeadBranches", "namespacereduction.html#add9ed6efeb061cb78a9c0cc32692a5b9", null ],
-      [ "forceMerge", "namespacereduction.html#a3b7663ec477ed5748fb3aab82c49d8a5", null ],
-      [ "maxNodesLevel", "namespacereduction.html#adbc46d4571ba8698ef879d5dd2b7be6e", null ]
+      [ "cut_dead_branches", "namespacereduction.html#a0dc351ed24c429cbe0f8f381bc742994", null ],
+      [ "force_merge", "namespacereduction.html#a8306363579b13d3db4a7933dcdd6e85a", null ],
+      [ "max_nodes_level", "namespacereduction.html#a14a595436a8741c8c7ff92cca2a79239", null ]
     ] ]
 ];
